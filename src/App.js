@@ -50,20 +50,17 @@ function App() {
   }
 
   function handleKeyPress(e) {
-    if (e.code === 'Space') {
+    const key = e.code
+    if (key === 'Space') {
       toggleSide()
     }
-    if (e.code === 'ArrowLeft') {
-      handleIndex(-1)
+    if (key === 'ArrowLeft' || key === 'ArrowRight') {
+      let index = key === 'ArrowLeft' ? -1 : 1
+      handleIndex(index)
     }
-    if (e.code === 'ArrowRight') {
-      handleIndex(1)
-    }
-    if (e.code === 'ArrowUp') {
-      handleDeckChange(-1)
-    }
-    if (e.code === 'ArrowDown') {
-      handleDeckChange(1)
+    if (key === 'ArrowUp' || key === 'ArrowDown') {
+      let index = key === 'ArrowUp' ? -1 : 1
+      handleDeckChange(index)
     }
   }
 
