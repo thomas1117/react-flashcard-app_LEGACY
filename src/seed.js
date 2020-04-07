@@ -57,7 +57,7 @@ export default [
             `,
             'variable declaration'
             ),
-            new JSCard(`## if/else/elseif statements`,
+            new JSCard(`## if/else/else if statements`,
             `
                 if (anyTrueCondition) {
                     // execute this code...
@@ -68,6 +68,102 @@ export default [
                 }
             `,
             'If/else/else if'
+            ),
+            new JSCard(`## arithmetic operators`,
+            `
+                /*
+                    (+, -, /, *, %, ++, ...)
+                */
+                // modulus % (division remainder)
+                let y = 5
+                let x = y % 2 // 1 is the remainer so x is now 1
+
+                x++ // 3 (same as saying x = x + 1)
+                y-- // 4 (same as saying y = y - 1)
+            `,
+            'arithmetic operators'
+            ),
+            new JSCard(`## assignment operators`,
+            `
+                /*
+                    (=, +=, -=, ...)
+                */
+                let y = 5
+                y = y + 1 (y is now 6)
+                let x = 10
+                x += 5 (x is now 15)
+            `,
+            'assignment operators'
+            ),
+            new JSCard(`## comparison operators`,
+            `
+                /*
+                    (==, ===)
+
+                    == // equal to
+                    === // 	equal value and equal type
+                    != // not equal to
+                */
+                let x = 5
+                x === "5" // false
+                x == 5 // true
+                let num = 10
+                let moreThan = num > 5 // true
+                x !== 1 // true
+                
+            `,
+            'comparison operators'
+            ),
+            new JSCard(`## logical operators`,
+            `
+                /*
+                    && (and)
+                    || (or)
+                    !  (not)
+
+                    Logical operators are used to determine the logic between variables or values.
+                    You can combine these just fine and use as many as you want
+                */
+                let x = 5
+                let y = 10
+
+                (x > 5 && y == 10) // false
+                (x == 5 && y === 10) // true
+                (x == 5 || y === false) // true
+                (!false) // true
+            `,
+            'logical operators'
+            ),
+            new JSCard(
+                `## falsey values`,
+                `
+                    /*
+                        null, undefined, '', false, 0
+                        are all the "falsey" values
+                        everything else is true
+                    */
+                   let x = ''
+                   x == true // false
+                   x == false // true
+                   let y = null
+                   y === null // true
+                   y == false // true
+                   !y // true
+                   !0 // true
+                `,
+                `falsey values`
+            ),
+            new JSCard(`## string operators`,
+            `
+                /*
+                    The + operator, and the += operator can also be used to concatenate (add) strings.
+                */
+                let text = 'hello'
+                text = text + ' world' // (text is now 'hello world')
+                let bar = 'hello'
+                bar += ' there!' // (bar is now 'hello there!')
+            `,
+            'string operators'
             ),
             new JSCard(`## for loop`,
             `
@@ -82,6 +178,21 @@ export default [
                 }
             `,
             'for loops'
+            ),
+            new JSCard(`## for loops continued`,
+            `
+                // you can do all the stuff above with for loops...
+                let str = ''
+                let arr = []
+                for(let i = 0; i < 10; i++) {
+                    str += 'x'
+                    arr.push(i)
+                }
+
+                // str is now 'xxxxxxxxxx'
+                // arr is now [0,1,2,3,4,5,6,7,8,9]
+            `,
+            'for loops continued'
             ),
             new JSCard(`## function`,
             `
@@ -106,6 +217,35 @@ export default [
         'Basics',
         [
             new JSCard(
+                `## what is a statement?`,
+                `
+                /* 
+                    A statement can set a variable equal to a value. 
+                    A statement can also be a function call, i.e. document. ... 
+                    Statements define what the script will do and how it will be done. */
+                    var x = 5
+                    foo()
+                `,
+                `statements`
+            ),
+            new JSCard(
+                `## what are primitive values?`,
+                `
+                /* 
+                    In JavaScript there are 6 primitive types: 
+                    undefined
+                    null
+                    boolean
+                    string
+                    symbol
+                    and number . Everything else is an object.
+                */
+                let str = 'hello'
+                let bln = true // or false
+                `,
+                `primitive values`
+            ),
+            new JSCard(
                 `## What is the difference between var, let, and const?`,
                 `
                 // var declarations are globally scoped or function scoped
@@ -120,6 +260,33 @@ export default [
                     // indent test
             `,
             'var let & const'
+            ),
+            new JSCard(
+                `## arrays`,
+                `
+                    // The Array object is used to store multiple values in a single variable:
+                    // Array indexes are zero-based: The first element in the array is 0, the second is 1, and so on.
+                    let arr = [1,2,3]
+                `,
+                `arrays`
+            ),
+            new JSCard(
+                `## objects`,
+                `
+                    // objects are key value pairs (key being a number or string)
+                    // you can access the key with dot notation => .
+                    // also you can use brakcets with a string inside
+                    let obj = {
+                        key: 'value',
+                        list: [1,2,3],
+                        name: 'John'
+                    }
+                    let keyStr = 'name'
+                    o.key // 'value'
+                    o['list'] // [1,2,3]
+                    o[keyStr] // 'John'
+                `,
+                `objects`
             ),
             
         ]
