@@ -1,24 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Card from './Card';
+import cardData from './seed';
 
 function App() {
+  const [cards, setCards] = useState(cardData[0].cards)
+  function handleClick(index) {
+    let newCards = [...cards].map((item, i) => {
+      if (i === index) {
+        item.side = item.side === 'front' ? 'back' : 'front'
+      }
+      return item
+    })
+    setCards(newCards)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {cards.map((card, index) => {
+        return (
+          <Card
+            key={index}
+            onClick={() => handleClick(index)} 
+            front={card.front} 
+            back={card.back} 
+            side={card.side} 
+            language={card.language} 
+          />
+        )
+      })}
     </div>
   );
 }
