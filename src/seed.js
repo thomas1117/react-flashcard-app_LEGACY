@@ -1,12 +1,39 @@
+function makeId() {
+    let id = 0
+    return () => id++
+}
+let id = makeId()
+
+class JSCard {
+    constructor(front, back) {
+        this.id = id()
+        this.front = front
+        this.back = back
+        this.language = 'js'
+        this.side = 'front'
+    }
+}
+
+function normalize(str) {
+    // let strArr = str.split('\n');
+    // strArr = strArr.filter(x => x.length !== 0)
+    // const smallestSpace = strArr.reduce((a, b) => {
+    //     console.log(a.search(/^\s*/), b)
+    //     return a
+    // }, '')
+    // console.log('s =>', smallestSpace)
+    // const trim = strArr.join('\n')
+    // console.log(strArr)
+    return str
+}
+
 export default [
     {
         title: 'Basics',
         cards: [
-            {
-                id: 1,
-                front: `## What is the difference between var, let, and const?`,
-                language: 'js',
-                back: `
+            new JSCard(
+`## What is the difference between var, let, and const?`,
+normalize(`
 // var declarations are globally scoped or function scoped
 // var variables can be updated and re-declared within its scope;
 var x = 1
@@ -16,14 +43,10 @@ let y = 2
 // const variables can neither be updated nor re-declared
 const name = 'mark'
 name = 'a' // would throw an ERROR
-                `,
-                side: 'front'
-            },
-            {   
-                id: 2,
-                front: `## How are if/else/elseif statements written out?`,
-                language: 'js',
-                back: `
+    // indent test`)
+),
+            new JSCard(`## How are if/else/elseif statements written out?`,
+                `
 if (anyTrueCondition) {
 
 } else if (someOtherTrueCondition) {
@@ -31,9 +54,7 @@ if (anyTrueCondition) {
 } else {
     // do this thing if other conditions are not true
 }
-                `,
-                side: 'front'
-            }
+                `)
         ]
     },
     {

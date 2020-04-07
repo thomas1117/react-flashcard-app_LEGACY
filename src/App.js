@@ -33,6 +33,7 @@ function App() {
   }
   return (
     <div className="App">
+      <button className="Card-button Card-cycle-button"><span>Cycle deck</span> &#8634;</button>
       <div className="Card-container">
         <DeckNav active={currentDeck.title} decks={cardData} selectDeck={selectDeck} />
         {/* <h2 className="Card-container-title">{currentDeck.title}</h2> */}
