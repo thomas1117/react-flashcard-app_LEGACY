@@ -1,13 +1,34 @@
 .Card {
-  height: 30%;
+  min-height: 30%;
   width: 60%;
   background: #fff;
+  position: relative;
   border-radius: 2px;
   -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
 }
 
-.Card-front {
+.Card-front, .Card-back {
   padding: 2rem;
+}
+
+.Card-button {
+  border: none;
+  outline: none;
+  padding: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.Card-button-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.Card-button-advance {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

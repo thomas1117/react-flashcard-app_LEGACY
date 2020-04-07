@@ -5,31 +5,32 @@ import Card from './Card';
 import cardData from './seed';
 
 function App() {
-  const [cards, setCards] = useState(cardData[0].cards)
-  function handleClick(index) {
-    let newCards = [...cards].map((item, i) => {
-      if (i === index) {
-        item.side = item.side === 'front' ? 'back' : 'front'
-      }
-      return item
-    })
-    setCards(newCards)
+  const [cardIndex, setIndex] = useState(0)
+  const [deckIndex, setDeckIndex] = useState(0)
+  const [currentCard, setCard] = useState(cardData[deckIndex].cards[cardIndex])
+  function toggleSide() {
+    let item = {...currentCard}
+    item.side = item.side === 'front' ? 'back' : 'front'
+    setCard(item)
   }
-
+  function handleIndex(index) {
+    if (index >= 0) {
+      setIndex(index)
+      setCard(cardData[deckIndex].cards[index])
+    }
+  }
   return (
     <div className="App">
-      {cards.map((card, index) => {
-        return (
-          <Card
-            key={index}
-            onClick={() => handleClick(index)} 
-            front={card.front} 
-            back={card.back} 
-            side={card.side} 
-            language={card.language} 
-          />
-        )
-      })}
+      <Card
+        key={currentCard.id}
+        onClick={() => toggleSide()} 
+        advance={() => handleIndex(cardIndex + 1)}
+        goBack={() => handleIndex(cardIndex - 1)}
+        front={currentCard.front} 
+        back={currentCard.back} 
+        side={currentCard.side} 
+        language={currentCard.language} 
+      />
     </div>
   );
 }
