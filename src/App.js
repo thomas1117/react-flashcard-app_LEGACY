@@ -7,30 +7,35 @@ import cardData from './seed';
 function App() {
   const [cardIndex, setIndex] = useState(0)
   const [deckIndex, setDeckIndex] = useState(0)
-  const [currentCard, setCard] = useState(cardData[deckIndex].cards[cardIndex])
+  const [currentDeck, setDeck] = useState(cardData[deckIndex])
+  const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
   function toggleSide() {
     let item = {...currentCard}
     item.side = item.side === 'front' ? 'back' : 'front'
     setCard(item)
   }
   function handleIndex(index) {
-    if (index >= 0 && index < cardData[deckIndex].cards.length) {
+    if (index >= 0 && index < currentDeck.cards.length) {
       setIndex(index)
-      setCard(cardData[deckIndex].cards[index])
+      setCard(currentDeck.cards[index])
     }
   }
   return (
     <div className="App">
-      <Card
-        key={currentCard.id}
-        onClick={() => toggleSide()} 
-        advance={() => handleIndex(cardIndex + 1)}
-        goBack={() => handleIndex(cardIndex - 1)}
-        front={currentCard.front} 
-        back={currentCard.back} 
-        side={currentCard.side} 
-        language={currentCard.language} 
-      />
+      <div className="Card-container">
+        {/* <h2 className="Card-container-title">{currentDeck.title}</h2> */}
+        <Card
+          key={currentCard.id}
+          number={cardIndex + 1}
+          onClick={() => toggleSide()} 
+          advance={() => handleIndex(cardIndex + 1)}
+          goBack={() => handleIndex(cardIndex - 1)}
+          front={currentCard.front} 
+          back={currentCard.back} 
+          side={currentCard.side} 
+          language={currentCard.language} 
+        />
+      </div>
     </div>
   );
 }

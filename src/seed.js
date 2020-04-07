@@ -1,5 +1,6 @@
 export default [
     {
+        title: 'Basics',
         cards: [
             {
                 id: 1,

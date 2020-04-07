@@ -1,6 +1,17 @@
-.Card {
-  min-height: 30%;
+.Card-container {
   width: 60%;
+}
+
+.Card-container-title {
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+
+.Card {
+  cursor: pointer;
+  min-height: 30%;
+  width: 100%;
   background: #fff;
   position: relative;
   border-radius: 2px;
@@ -11,6 +22,20 @@
 
 .Card-front, .Card-back {
   padding: 2rem;
+}
+
+.Card-number {
+  position: absolute;
+  font-size: .8rem;
+  top: .5rem;
+  right: 1rem;
+  background: #ddd;
+  height: 22px;
+  width: 22px;
+  line-height: 22px;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .Card-button {

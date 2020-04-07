@@ -9,6 +9,8 @@ export default function Card(props) {
     }
     return (
     <div className="Card" onClick={props.onClick}>
+        <span className="Card-number">{props.number}</span>
+
         {
             props.side === 'front' ?
             <div className="Card-front"><ReactMarkdown source={props.front} /></div> :
