@@ -47,6 +47,62 @@ function normalize(str) {
 
 export default [
     new Deck(
+        'Syntax',
+        [
+            new JSCard(`## variable declaration`,
+            `
+                var x = 1
+                let y = 'a'
+                const b = [1,2,3]
+            `,
+            'variable declaration'
+            ),
+            new JSCard(`## if/else/elseif statements`,
+            `
+                if (anyTrueCondition) {
+                    // execute this code...
+                } else if (someOtherTrueCondition) {
+                    // execute this code...
+                } else {
+                    // do this thing if other conditions are not true
+                }
+            `,
+            'If/else/else if'
+            ),
+            new JSCard(`## for loop`,
+            `
+                /*
+                    for loops consist of 3 parts
+                    1. variable initialization: let i = 0
+                    2. a comparison: i < 10 (once false the for loop stops)
+                    3. a change in value: i++ (same as saying i = i + 1)
+                */
+                for(let i = 0; i < 10; i++) {
+                    // i gives me 0 through 9
+                }
+            `,
+            'for loops'
+            ),
+            new JSCard(`## function`,
+            `
+                /*
+                    for loops consist of 3 parts
+                    1. variable initialization: let i = 0
+                    2. a comparison: i < 10 (once false the for loop stops)
+                    3. a change in value: i++ (same as saying i = i + 1)
+                */
+                function functionName(param1, param2) {
+                    // param1 is the first value passed in (1)
+                    // param2 is the second value passed in ([1,2,3])
+                }
+
+                functionName(1, [1,2,3]) 
+            `,
+            'functions'
+            ),
+        ]
+    ),
+    new Deck(
         'Basics',
         [
             new JSCard(
@@ -65,18 +121,7 @@ export default [
             `,
             'var let & const'
             ),
-            new JSCard(`## How are if/else/elseif statements written out?`,
-            `
-                if (anyTrueCondition) {
-                    // execute this code...
-                } else if (someOtherTrueCondition) {
-                    // execute this code...
-                } else {
-                    // do this thing if other conditions are not true
-                }
-            `,
-            'If/else/else if'
-            ),
+            
         ]
     ),
     new Deck(
