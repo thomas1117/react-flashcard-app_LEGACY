@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { themeProvider, ThemeProvider } from './ThemeContext';
 import './App.css';
 import Card from './Card';
+import Page from './Page';
 import cardData from './seed';
 import DeckNav from './DeckNav';
 
@@ -10,8 +12,9 @@ function App() {
   const [cardGroup, setCardGroup] = useState(cardData)
   const [currentDeck, setDeck] = useState(cardGroup[deckIndex])
   const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
-  const [timerRunning, setTimerCycle] = useState(false);
-  const [start, setStart] = useState(true);
+  const [timerRunning, setTimerCycle] = useState(false)
+  const [start, setStart] = useState(true)
+  const [defaultTheme, setTheme] = useState('light-mode')
 
   function handleToggleSide(cb) {
     setCard(currentCard => {
@@ -59,6 +62,12 @@ function App() {
       let index = key === 'ArrowUp' ? -1 : 1
       handleDeckChange(index)
     }
+  }
+
+  function toggleTheme() {
+    setTheme(v => {
+      return v === 'dark-mode' ? 'light-mode' : 'dark-mode'
+    })
   }
 
   useEffect(() => {
@@ -115,7 +124,12 @@ function App() {
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [])
   return (
-    <div className="App">
+    <ThemeProvider value={defaultTheme}>
+    <Page>
+      <label class="theme-toggler switch">
+        <input type="checkbox" onChange={toggleTheme} />
+        <span class="slider round"></span>
+      </label>
       <button className="Card-button Card-cycle-button" onClick={() => setTimerCycle(true)}><span>Cycle deck</span> &#8634;</button>
       <div className="Dash">
         <div>
@@ -145,8 +159,9 @@ function App() {
             />
           </div>
         </div>
-        </div>
       </div>
+    </Page>
+  </ThemeProvider>
   );
 }
 
