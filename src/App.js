@@ -23,20 +23,28 @@ function App() {
   }
 
   function handleIndex(num) {
-    let index = cardIndex + num
-    let indexInArray = index >= 0 && index < currentDeck.cards.length
-    setActiveCard(indexInArray ? index : 0)
+    setActiveCard(currIndex => {
+      let index = currIndex + num
+      let indexInArray = index >= 0 && index < currentDeck.cards.length
+      return indexInArray ? index : 0
+    })
   }
 
   function handleDeckChange(num) {
-    let index = deckIndex + num
-    let indexInArray = index >= 0 && index < cardData.length
-    if (indexInArray) {
-      changeDeck(_ => index)
-    }
-    if (index === -1) {
-      changeDeck(0)
-    }
+    changeDeck((i) => {
+      const offset = i + num
+      let index = 0
+      if (offset < 0) {
+        index = 0
+      }
+      if (offset > 0 && offset >= cardData.length) {
+        index = offset - 1
+      }
+      if (offset > 0 && offset < cardData.length) {
+        index = offset
+      }
+      return index
+    })
   }
 
   function selectDeck(index) {
@@ -60,7 +68,7 @@ function App() {
     }
     if (key === 'ArrowUp' || key === 'ArrowDown') {
       let index = key === 'ArrowUp' ? -1 : 1
-      handleDeckChange(deckIndex + index)
+      handleDeckChange(index)
     }
   }
 
