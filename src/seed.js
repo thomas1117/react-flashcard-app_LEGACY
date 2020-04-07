@@ -196,18 +196,21 @@ export default [
             ),
             new JSCard(`## function`,
             `
-                /*
-                    for loops consist of 3 parts
-                    1. variable initialization: let i = 0
-                    2. a comparison: i < 10 (once false the for loop stops)
-                    3. a change in value: i++ (same as saying i = i + 1)
-                */
                 function functionName(param1, param2) {
                     // param1 is the first value passed in (1)
                     // param2 is the second value passed in ([1,2,3])
                 }
 
-                functionName(1, [1,2,3]) 
+                function doubleNumbersArr(arr) {
+                    let newArr = []
+                    for (let i = 0; i < arr.length; i++) {
+                        newArr.push(arr[i] * 2)
+                    }
+                    return newArr
+                }
+
+                functionName(1, [1,2,3]) // undefined (since no return)
+                doubleNumbersArr([1,2,3]) // [2,4,6]
             `,
             'functions'
             ),
@@ -288,6 +291,29 @@ export default [
                 `,
                 `objects`
             ),
+            new JSCard(
+                `## Methods`,
+                `
+                    /*
+                    JavaScript methods are actions (functions) that can be performed on objects.
+                    ----
+                    Primitive values, like "John Doe", cannot have properties
+                    or methods (because they are not objects).
+
+                    But with JavaScript, methods and properties are also available to primitive 
+                    values, because JavaScript treats primitive values as objects when executing 
+                    methods and properties.
+                    */
+
+                    'hello'.toUpperCase() // 'HELLO'
+                    let name = 'mark'
+                    let arr = [1,2,3]
+                    name.includes('m') // true
+                    name.includes('W') // false
+                    arr.map(x => x * 2) // [2,4,6]
+                `,
+                `methods`
+            )
             
         ]
     ),

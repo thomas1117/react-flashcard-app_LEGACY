@@ -4,7 +4,7 @@ export default function DeckNav(props) {
     return (
         <nav className="Nav">
             <div className="Nav-children">
-                <h2 className="Nav-title">Decks</h2>
+                {/* <h2 className="Nav-title">Decks</h2> */}
                 <ul className="Nav-deck">
                     {props.decks.map((deck, index) => {
                         return (

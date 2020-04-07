@@ -56,11 +56,11 @@ function App() {
     }
     if (key === 'ArrowLeft' || key === 'ArrowRight') {
       let index = key === 'ArrowLeft' ? -1 : 1
-      handleIndex(index)
+      handleIndex(cardIndex + index)
     }
     if (key === 'ArrowUp' || key === 'ArrowDown') {
       let index = key === 'ArrowUp' ? -1 : 1
-      handleDeckChange(index)
+      handleDeckChange(deckIndex + index)
     }
   }
 
