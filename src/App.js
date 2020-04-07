@@ -7,7 +7,8 @@ import DeckNav from './DeckNav';
 function App() {
   const [cardIndex, setActiveCardByIndex] = useState(0)
   const [deckIndex, changeDeck] = useState(0)
-  const [currentDeck, setDeck] = useState(cardData[deckIndex])
+  const [cardGroup, setCardGroup] = useState(cardData)
+  const [currentDeck, setDeck] = useState(cardGroup[deckIndex])
   const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
   const [timerRunning, setTimerCycle] = useState(false);
   const [start, setStart] = useState(true);
@@ -78,15 +79,15 @@ function App() {
     let index = 0
     if (offset < 0) {
       index = 0
-    } else if (offset > 0 && offset >= cardData.length) {
+    } else if (offset > 0 && offset >= cardGroup.length) {
       index = offset - 1
-    } else if (offset > 0 && offset < cardData.length) {
+    } else if (offset > 0 && offset < cardGroup.length) {
       index = offset
     }
-    setDeck(cardData[index])
+    setDeck(cardGroup[index])
     setActiveCardByIndex(0)
     changeDeck(index)
-  }, [deckIndex])
+  }, [deckIndex, cardGroup])
 
   useEffect(() => {
     let interval = null;
@@ -121,7 +122,7 @@ function App() {
           <DeckNav 
             currentId={currentCard.id}
             active={currentDeck.title}
-            decks={cardData}
+            decks={cardGroup}
             selectCard={selectCard}
             selectDeck={selectDeck} />
         </div>
