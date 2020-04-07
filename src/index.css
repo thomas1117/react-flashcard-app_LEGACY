@@ -64,8 +64,15 @@
   border-bottom: 1px solid #313639;
 }
 
-.Nav-deck-item p {
+.Nav-deck-item-inner {
   padding-bottom: 1rem;
+  font-size: 1rem;
+  align-items: center;
+}
+
+.Nav-deck-item-inner-icon {
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .App.dark-mode .Nav-deck-item p.active {
@@ -214,7 +221,7 @@
 
 .Card-actions-app {
   position: relative;
-  top: -4rem;
+  top: -5rem;
 }
 
 

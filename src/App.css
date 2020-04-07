@@ -22,3 +22,11 @@ body {
   justify-content: center;
   height: 100%;
 } */
+
+.d-flex {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}

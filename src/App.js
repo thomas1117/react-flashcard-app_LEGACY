@@ -13,6 +13,7 @@ function App() {
   const [currentDeck, setDeck] = useState(cardGroup[deckIndex])
   const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
   const [timerRunning, setTimerCycle] = useState(false)
+  const [timeCycle, setTime] = useState(3000)
   const [start, setStart] = useState(true)
   const [activeTheme, setTheme] = useState(getTheme())
 
@@ -77,6 +78,14 @@ function App() {
     }
   }
 
+  function cycleDeck(index) {
+    changeDeck(() => {
+      setTimerCycle(true)
+      console.log(index)
+      return index
+    })
+  }
+
   useEffect(() => {
     let limit = currentDeck.cards.length - 1
     if (cardIndex >= 0 && cardIndex <= limit) {
@@ -119,12 +128,12 @@ function App() {
             setStart(false)
           }
         })
-      }, 1000);
+      }, timeCycle);
     } else if (!timerRunning) {
       clearInterval(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, start, currentDeck])
+  }, [timerRunning, start, currentDeck, timeCycle])
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -133,17 +142,18 @@ function App() {
   return (
     <ThemeProvider value={activeTheme}>
     <Page>
-      <label class="theme-toggler switch">
+      <label className="theme-toggler switch">
         <input type="checkbox" onChange={toggleTheme} checked={activeTheme === 'dark-mode'}/>
-        <span class="slider round"></span>
+        <span className="slider round"></span>
       </label>
-      <button className="Card-button Card-cycle-button" onClick={() => setTimerCycle(true)}><span>Cycle deck</span> &#8634;</button>
+      {/* <button className="Card-button Card-cycle-button" onClick={() => cycleDeck(currentDeck)}><span>Cycle deck</span> &#8634;</button> */}
       <div className="Dash">
         <div>
           <DeckNav 
             currentId={currentCard.id}
             active={currentDeck.title}
             decks={cardGroup}
+            cycleDeck={cycleDeck}
             selectCard={selectCard}
             selectDeck={selectDeck} />
         </div>
