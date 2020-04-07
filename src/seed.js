@@ -88,7 +88,8 @@ export default [
                     function add(a, b) {
                         return a + b
                     }
-                `
+                `,
+                'add()'
             ),
             new JSCard(
                 `## Write a function capitalize which takes a string and makes it uppercase`,
@@ -96,7 +97,8 @@ export default [
                     function capitalize(str) {
                         return str.toUpperCase()
                     }
-                `
+                `,
+                'capitalize()'
             )
         ]
     ),
