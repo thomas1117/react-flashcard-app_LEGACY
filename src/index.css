@@ -1,3 +1,20 @@
+.Nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.Nav ul {
+  display: flex;
+  list-style: none;
+  padding-top: 2rem;
+}
+
+.Nav li {
+  margin-left: 4rem;
+}
+
 .Card-container {
   width: 60%;
 }

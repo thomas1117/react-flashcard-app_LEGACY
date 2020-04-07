@@ -37,6 +37,7 @@ if (anyTrueCondition) {
         ]
     },
     {
+        title: 'Functions',
         cards: [
             {
                 front: `## Write a function add which takes two inputs and adds them together`,

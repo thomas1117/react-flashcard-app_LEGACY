@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Card from './Card';
 import cardData from './seed';
+import DeckNav from './DeckNav';
 
 function App() {
   const [cardIndex, setIndex] = useState(0)
@@ -18,11 +19,21 @@ function App() {
     if (index >= 0 && index < currentDeck.cards.length) {
       setIndex(index)
       setCard(currentDeck.cards[index])
+    } else {
+      // always reset to 0...
+      setIndex(0)
     }
+  }
+  function selectDeck(index) {
+    setDeckIndex(index)
+    setDeck(cardData[index])
+    setIndex(0)
+    setCard(currentDeck.cards[0])
   }
   return (
     <div className="App">
       <div className="Card-container">
+        <DeckNav decks={cardData} selectDeck={selectDeck} />
         {/* <h2 className="Card-container-title">{currentDeck.title}</h2> */}
         <Card
           key={currentCard.id}
