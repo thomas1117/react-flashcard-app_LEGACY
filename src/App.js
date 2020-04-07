@@ -81,9 +81,12 @@ function App() {
   function cycleDeck(index) {
     changeDeck(() => {
       setTimerCycle(true)
-      console.log(index)
       return index
     })
+  }
+
+  function pauseCycleDeck(index) {
+    setTimerCycle(false)
   }
 
   useEffect(() => {
@@ -153,7 +156,9 @@ function App() {
             currentId={currentCard.id}
             active={currentDeck.title}
             decks={cardGroup}
+            playing={timerRunning}
             cycleDeck={cycleDeck}
+            pauseCycleDeck={pauseCycleDeck}
             selectCard={selectCard}
             selectDeck={selectDeck} />
         </div>
