@@ -55,6 +55,14 @@
   border-bottom: 1px solid #313639;
 }
 
+.Nav-deck-item p {
+  padding-bottom: 1rem;
+}
+
+.App.dark-mode .Nav-deck-item p.active {
+  border-bottom: 1px solid #DEDEDE;
+}
+
 .Nav-deck-sub li {
   font-size: 1rem;
   margin-left: 1rem;
