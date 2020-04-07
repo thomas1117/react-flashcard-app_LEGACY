@@ -63,6 +63,7 @@ function App() {
 
   function handleKeyPress(e) {
     const key = e.code
+    e.preventDefault()
     if (key === 'Space') {
       handleToggleSide()
     }
