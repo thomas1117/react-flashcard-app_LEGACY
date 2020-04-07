@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="App">
       <div className="Card-container">
-        <DeckNav decks={cardData} selectDeck={selectDeck} />
+        <DeckNav active={currentDeck.title} decks={cardData} selectDeck={selectDeck} />
         {/* <h2 className="Card-container-title">{currentDeck.title}</h2> */}
         <Card
           key={currentCard.id}

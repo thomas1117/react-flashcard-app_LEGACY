@@ -5,7 +5,7 @@ export default function DeckNav(props) {
         <nav className="Nav">
             <ul>
                 {props.decks.map((deck, index) => {
-                    return <li onClick={() => props.selectDeck(index)}>{deck.title}</li>
+                    return <li className={props.active === deck.title ? 'active' : ''} onClick={() => props.selectDeck(index)}>{deck.title}</li>
                 })}
             </ul>
         </nav>
