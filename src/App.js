@@ -14,7 +14,19 @@ function App() {
   const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
   const [timerRunning, setTimerCycle] = useState(false)
   const [start, setStart] = useState(true)
-  const [defaultTheme, setTheme] = useState('light-mode')
+  const [activeTheme, setTheme] = useState(getTheme())
+
+  function getTheme() {
+    return localStorage.getItem('theme') || 'light-mode'
+  }
+
+  function toggleTheme() {
+    setTheme(v => {
+      const newTheme = v === 'dark-mode' ? 'light-mode' : 'dark-mode'
+      localStorage.setItem('theme', newTheme)
+      return newTheme
+    })
+  }
 
   function handleToggleSide(cb) {
     setCard(currentCard => {
@@ -62,12 +74,6 @@ function App() {
       let index = key === 'ArrowUp' ? -1 : 1
       handleDeckChange(index)
     }
-  }
-
-  function toggleTheme() {
-    setTheme(v => {
-      return v === 'dark-mode' ? 'light-mode' : 'dark-mode'
-    })
   }
 
   useEffect(() => {
@@ -124,10 +130,10 @@ function App() {
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [])
   return (
-    <ThemeProvider value={defaultTheme}>
+    <ThemeProvider value={activeTheme}>
     <Page>
       <label class="theme-toggler switch">
-        <input type="checkbox" onChange={toggleTheme} />
+        <input type="checkbox" onChange={toggleTheme} checked={activeTheme === 'dark-mode'}/>
         <span class="slider round"></span>
       </label>
       <button className="Card-button Card-cycle-button" onClick={() => setTimerCycle(true)}><span>Cycle deck</span> &#8634;</button>
