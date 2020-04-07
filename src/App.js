@@ -159,10 +159,13 @@ function App() {
         </div>
         <div className="Card-container">
           <div className="Card-container-inner">
-            <div className="Card-actions-app">
+            {
+              !timerRunning &&
+              <div className="Card-actions-app">
                 <button className="Card-button Card-button-back" onClick={() => handleCardIndexChange(-1)}>&#x2190;</button>
                 <button className="Card-button Card-button-advance" onClick={() => handleCardIndexChange(1)}>&#x2192;</button>
-            </div>
+              </div>
+            }
             <Card
               key={currentCard.id}
               number={cardIndex + 1}
@@ -171,7 +174,8 @@ function App() {
               goBack={() => handleCardIndexChange(-1)}
               front={currentCard.front} 
               back={currentCard.back} 
-              side={currentCard.side} 
+              side={currentCard.side}
+              showArrows={!timerRunning}
               language={currentCard.language} 
             />
           </div>

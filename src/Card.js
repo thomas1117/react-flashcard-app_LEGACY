@@ -13,10 +13,13 @@ export default function Card(props) {
             <div className={"Card-front " + (props.side !== 'back' ? 'visible' : '')}><ReactMarkdown source={props.front} /></div>
             
             <div className={"Card-back " + (props.side !== 'front' ? 'visible' : '')}>
-                <div className="Card-actions">
-                    <button className="Card-button Card-button-back" onClick={e => handle(e, props.goBack)}>&#x2190;</button>
-                    <button className="Card-button Card-button-advance" onClick={e => handle(e, props.advance)}>&#x2192;</button>
-                </div>
+                {
+                    props.showArrows &&
+                    <div className="Card-actions">
+                        <button className="Card-button Card-button-back" onClick={e => handle(e, props.goBack)}>&#x2190;</button>
+                        <button className="Card-button Card-button-advance" onClick={e => handle(e, props.advance)}>&#x2192;</button>
+                    </div>
+                }
 
                 {props.language !== 'md' ? 
                 <CodeBlock language={props.language} value={props.back} /> : 
