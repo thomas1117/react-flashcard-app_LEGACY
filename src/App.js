@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { themeProvider, ThemeProvider } from './ThemeContext';
-import './App.css';
 import Card from './Card';
 import Page from './Page';
 import cardData from './seed';

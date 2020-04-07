@@ -1,0 +1,128 @@
+.Card {
+    cursor: pointer;
+    min-height: 30%;
+    width: 100%;
+    color: var(--off-dark);
+    position: relative;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+  }
+  
+  .App.dark-mode .Card {
+    color: var(--off-white);
+    background: rgb(29, 31, 33);
+  }
+  
+  .App.dark-mode .Card-button {
+    z-index: 2;
+    color: var(--off-white);
+    background: rgb(29, 31, 33);
+    border: 1px solid #000;
+  }
+
+  /*
+  TODO: should probably compute the height of the card and then decide the height to show
+  based on both the front and the back elements
+*/
+.Card-front {
+    position: absolute;
+    visibility: hidden;
+    width: 100%;
+  }
+  
+  .Card-front.visible {
+    visibility: visible;
+  }
+  
+  .Card-back {
+    visibility: hidden;
+  }
+  
+  .Card-back.visible {
+    visibility: visible;
+  }
+  
+  
+  .Card-front, .Card-back {
+    padding: 2rem;
+  }
+  
+  .Card-number {
+    position: absolute;
+    font-size: .8rem;
+    top: .5rem;
+    right: 1rem;
+    background: #ddd;
+    height: 22px;
+    width: 22px;
+    line-height: 22px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .Card-container {
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .Card-container-inner {
+    position: relative;
+    width: 80%;
+  }
+  
+  .Card-container-title {
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+  
+  .App.dark-mode .Card-number {
+    background: inherit;
+    border: 1px solid #fff;
+  }
+  
+  .Card-cycle-button {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    top: 4rem;
+    right: 3rem;
+  }
+  
+  .Card-cycle-button span {
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .Card-button {
+    border: none;
+    outline: none;
+    padding: .5rem;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+  
+  .Card-button-back {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .Card-button-advance {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  .Card-actions-app {
+    position: relative;
+    top: -5rem;
+  }

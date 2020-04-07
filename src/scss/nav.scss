@@ -1,0 +1,78 @@
+.Nav {
+    height: 100%;
+    /* display: flex; */
+    align-items: center;
+    position: relative;
+    width: 300px;
+    padding: 2rem;
+    color: var(--off-dark);
+    border-right: 1px solid var(--off-dark);
+    overflow-y: auto;
+  }
+  
+  .App.dark-mode .Nav {
+    border-right: 1px solid #000;
+  }
+  
+  .Nav-children {
+    flex-grow: 1;
+  }
+  
+  .Nav-title {
+     /* position: absolute; */
+     /* top: 2rem; */
+  }
+
+  .Nav-deck {
+    /* display: flex; */
+    list-style: none;
+    padding-top: 2rem;
+  }
+  
+  .Nav-deck-sub {
+    padding-top: 1rem;
+    list-style: none;
+  }
+  
+  .Nav-deck li {
+    padding-bottom: .25rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .Nav-deck-item .active {
+    font-weight: bold;
+    border-bottom: 1px solid #313639;
+  }
+  
+  .Nav-deck-item-inner {
+    padding-bottom: 1rem;
+    font-size: 1rem;
+    align-items: center;
+  }
+  
+  .Nav-deck-item-inner-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  
+  .App.dark-mode .Nav-deck-item p.active {
+    border-bottom: 1px solid var(--off-white)
+  }
+  
+  .Nav-deck-sub li {
+    font-size: 1rem;
+    margin-left: 1rem;
+    padding-bottom: 0;
+    margin-bottom: .5rem;
+  }
+  
+  .Nav-deck-sub li.active {
+    color: #00b7ff;
+    border-bottom: none;
+  }
+
+  .App.dark-mode li {
+    color: var(--off-white);
+  }
