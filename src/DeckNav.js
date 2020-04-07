@@ -14,7 +14,7 @@ export default function DeckNav(props) {
                         const active = props.active === deck.title ? 'active' : ''
                         return (
                         <li className="Nav-deck-item" key={index} onClick={() => props.selectDeck(index)}>
-                            <p className={active + 'Nav-deck-item-inner d-flex space-between'}>
+                            <p className={active + ' Nav-deck-item-inner d-flex space-between'}>
                                 <span>{deck.title}</span>
                                 <span className="Nav-deck-item-inner-icon" onClick={(e) => selectCycleDeck(e, index)}>&#8634;</span>
                             </p>
