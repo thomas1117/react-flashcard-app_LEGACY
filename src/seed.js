@@ -4,13 +4,26 @@ function makeId() {
 }
 let id = makeId()
 
-class JSCard {
+class Card {
     constructor(front, back) {
         this.id = id()
         this.front = normalize(front)
         this.back = normalize(back)
-        this.language = 'js'
         this.side = 'front'
+    }
+}
+
+class Deck {
+    constructor(title, cards) {
+        this.title = title
+        this.cards = cards;
+    }
+}
+
+class JSCard extends Card {
+    constructor(front, back) {
+        super(front, back)
+        this.language = 'js'
     }
 }
 
@@ -32,22 +45,22 @@ function normalize(str) {
 }
 
 export default [
-    {
-        title: 'Basics',
-        cards: [
+    new Deck(
+        'Basics',
+        [
             new JSCard(
-            `## What is the difference between var, let, and const?`,
-            `
-            // var declarations are globally scoped or function scoped
-            // var variables can be updated and re-declared within its scope;
-            var x = 1
-            // let and const are block scoped
-            // let variables can be updated but not re-declared
-            let y = 2
-            // const variables can neither be updated nor re-declared
-            const name = 'mark'
-            name = 'a' // would throw an ERROR
-                // indent test
+                `## What is the difference between var, let, and const?`,
+                `
+                // var declarations are globally scoped or function scoped
+                // var variables can be updated and re-declared within its scope;
+                var x = 1
+                // let and const are block scoped
+                // let variables can be updated but not re-declared
+                let y = 2
+                // const variables can neither be updated nor re-declared
+                const name = 'mark'
+                name = 'a' // would throw an ERROR
+                    // indent test
             `
             ),
             new JSCard(`## How are if/else/elseif statements written out?`,
@@ -61,10 +74,10 @@ export default [
                 }
             `)
         ]
-    },
-    {
-        title: 'Functions',
-        cards: [
+    ),
+    new Deck(
+        'Functions',
+        [
             new JSCard(
                 `## Write a function add which takes two inputs and adds them together`,
                 `
@@ -82,5 +95,5 @@ export default [
                 `
             )
         ]
-    }
+    ),
 ]
