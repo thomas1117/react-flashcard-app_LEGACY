@@ -22,19 +22,24 @@ function App() {
     } else {
       // always reset to 0...
       setIndex(0)
+      setCard(currentDeck.cards[0])
     }
   }
   function selectDeck(index) {
     setDeckIndex(index)
     setDeck(cardData[index])
+    setCard(cardData[index].cards[0])
     setIndex(0)
-    setCard(currentDeck.cards[0])
   }
   return (
     <div className="App">
       <div className="Card-container">
         <DeckNav active={currentDeck.title} decks={cardData} selectDeck={selectDeck} />
         {/* <h2 className="Card-container-title">{currentDeck.title}</h2> */}
+        <div className="Card-actions-app">
+            <button className="Card-button Card-button-back" onClick={() => handleIndex(cardIndex - 1)}>&#x2190;</button>
+            <button className="Card-button Card-button-advance" onClick={() => handleIndex(cardIndex + 1)}>&#x2192;</button>
+        </div>
         <Card
           key={currentCard.id}
           number={cardIndex + 1}

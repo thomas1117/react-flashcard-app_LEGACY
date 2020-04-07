@@ -80,3 +80,8 @@
   right: 0;
   top: 0;
 }
+
+.Card-actions-app {
+  position: relative;
+  top: -4rem;
+}

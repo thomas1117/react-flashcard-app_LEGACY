@@ -43,8 +43,18 @@ if (anyTrueCondition) {
                 front: `## Write a function add which takes two inputs and adds them together`,
                 language: 'js',
                 back: `
-                function sum(a, b) {
+                function add(a, b) {
                     return a + b
+                }
+                `,
+                side: 'front'
+            },
+            {
+                front: `## Write a function capitalize which takes a string and makes it uppercase`,
+                language: 'js',
+                back: `
+                function capitalize(str) {
+                    return str.toUpperCase()
                 }
                 `,
                 side: 'front'
