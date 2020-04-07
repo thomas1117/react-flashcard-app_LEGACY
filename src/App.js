@@ -28,6 +28,17 @@ function App() {
     setActiveCard(indexInArray ? index : 0)
   }
 
+  function handleDeckChange(num) {
+    let index = deckIndex + num
+    let indexInArray = index >= 0 && index < cardData.length
+    if (indexInArray) {
+      changeDeck(_ => index)
+    }
+    if (index === -1) {
+      changeDeck(0)
+    }
+  }
+
   function selectDeck(index) {
     setTimerCycle(false)
     changeDeck(index)
@@ -47,6 +58,12 @@ function App() {
     }
     if (e.code === 'ArrowRight') {
       handleIndex(1)
+    }
+    if (e.code === 'ArrowUp') {
+      handleDeckChange(-1)
+    }
+    if (e.code === 'ArrowDown') {
+      handleDeckChange(1)
     }
   }
 
