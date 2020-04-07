@@ -33,8 +33,9 @@ class Card {
 
 export class Deck {
     constructor(title, cards) {
+        this.id = id()
         this.title = title
-        this.cards = cards;
+        this.cards = cards
     }
 }
 
