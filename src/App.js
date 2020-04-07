@@ -14,7 +14,7 @@ function App() {
     setCard(item)
   }
   function handleIndex(index) {
-    if (index >= 0) {
+    if (index >= 0 && index < cardData[deckIndex].cards.length) {
       setIndex(index)
       setCard(cardData[deckIndex].cards[index])
     }
