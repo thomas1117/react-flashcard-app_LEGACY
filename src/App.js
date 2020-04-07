@@ -65,7 +65,7 @@ function App() {
   }
 
   useEffect(() => {
-    setCard(currentDeck.cards[cardIndex])
+    setCard(x => currentDeck.cards[cardIndex])
   }, [cardIndex])
 
   useEffect(() => {
@@ -81,10 +81,9 @@ function App() {
             let withinBounds = c + 1 < currentDeck.cards.length
             if (withinBounds) {
               return c + 1
-            } else {
-              cb()
-              return 0
             }
+            cb()
+            return 0
           })
         }
     })
@@ -95,7 +94,8 @@ function App() {
     if (timerRunning) {
       interval = setInterval(() => {
         possiblyAdvance(start, () => {
-          setActiveCard(0)
+          // for some reason I had to set this manually...
+          setCard(currentDeck.cards[0])
           setTimerCycle(false)
         })
         setStart(false)

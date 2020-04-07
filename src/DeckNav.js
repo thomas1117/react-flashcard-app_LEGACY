@@ -13,7 +13,7 @@ export default function DeckNav(props) {
                             <div>
                                 <ul className="Nav-deck-sub">
                                     {deck.cards.map((card, index) => {
-                                        return <li onClick={() => props.selectCard(index)} className={card.id === props.currentId ? 'active' : ''}>{ card.meta }</li>
+                                        return <li key={index} onClick={() => props.selectCard(index)} className={card.id === props.currentId ? 'active' : ''}>{ card.meta }</li>
                                     })}
                                 </ul>
                             </div>
