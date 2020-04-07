@@ -22,23 +22,17 @@ function App() {
     })
   }
 
-  function handleCardIndexChange(num) {
-    setActiveCardByIndex(currIndex => currIndex + num)
+  function handleCardIndexChange(num, limit, cb) {
+    setActiveCardByIndex(currIndex => {
+      if (currIndex + num === limit) {
+        cb()
+      }
+      return currIndex + num
+    })
   }
 
   function handleDeckChange(num) {
-    changeDeck((i) => {
-      const offset = i + num
-      let index = 0
-      if (offset < 0) {
-        index = 0
-      } else if (offset > 0 && offset >= cardData.length) {
-        index = offset - 1
-      } else if (offset > 0 && offset < cardData.length) {
-        index = offset
-      }
-      return index
-    })
+    changeDeck(i => i + num)
   }
 
   function selectDeck(index) {
@@ -80,42 +74,40 @@ function App() {
   }, [cardIndex, currentDeck])
 
   useEffect(() => {
-    setDeck(cardData[deckIndex])
-    setCard(cardData[deckIndex].cards[0])
+    const offset = deckIndex
+    let index = 0
+    if (offset < 0) {
+      index = 0
+    } else if (offset > 0 && offset >= cardData.length) {
+      index = offset - 1
+    } else if (offset > 0 && offset < cardData.length) {
+      index = offset
+    }
+    setDeck(cardData[index])
     setActiveCardByIndex(0)
+    changeDeck(index)
   }, [deckIndex])
-
-  function possiblyAdvance(start, cb) {
-    handleToggleSide(item => {
-        if (item.side === 'front') {
-          setActiveCardByIndex(c => {
-            let withinBounds = c + 1 < currentDeck.cards.length
-            if (withinBounds) {
-              return c + 1
-            }
-            cb()
-            return 0
-          })
-        }
-    })
-  }
 
   useEffect(() => {
     let interval = null;
     if (timerRunning) {
       interval = setInterval(() => {
-        possiblyAdvance(start, () => {
-          // for some reason I had to set this manually...
-          setCard(currentDeck.cards[0])
-          setTimerCycle(false)
+        handleToggleSide(v => {
+          if (v.side === 'front' && !start) {
+            handleCardIndexChange(1, currentDeck.cards.length, () => {
+              setTimerCycle(false)
+              setActiveCardByIndex(0)
+            })
+          } else {
+            setStart(false)
+          }
         })
-        setStart(false)
-      }, 3000);
+      }, 1000);
     } else if (!timerRunning) {
-      clearInterval(interval);
+      clearInterval(interval)
     }
-    return () => clearInterval(interval);
-  }, [timerRunning, start]);
+    return () => clearInterval(interval)
+  }, [timerRunning, start, currentDeck])
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
