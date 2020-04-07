@@ -5,14 +5,14 @@ import cardData from './seed';
 import DeckNav from './DeckNav';
 
 function App() {
-  const [cardIndex, setActiveCard] = useState(0)
+  const [cardIndex, setActiveCardByIndex] = useState(0)
   const [deckIndex, changeDeck] = useState(0)
   const [currentDeck, setDeck] = useState(cardData[deckIndex])
   const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
   const [timerRunning, setTimerCycle] = useState(false);
   const [start, setStart] = useState(true);
 
-  function toggleSide(cb) {
+  function handleToggleSide(cb) {
     setCard(currentCard => {
       let item = {...currentCard, side: currentCard.side === 'front' ? 'back' : 'front'}
       if (cb) {
@@ -22,12 +22,8 @@ function App() {
     })
   }
 
-  function handleIndex(num) {
-    setActiveCard(currIndex => {
-      let index = currIndex + num
-      let indexInArray = index >= 0 && index < currentDeck.cards.length
-      return indexInArray ? index : 0
-    })
+  function handleCardIndexChange(num) {
+    setActiveCardByIndex(currIndex => currIndex + num)
   }
 
   function handleDeckChange(num) {
@@ -36,11 +32,9 @@ function App() {
       let index = 0
       if (offset < 0) {
         index = 0
-      }
-      if (offset > 0 && offset >= cardData.length) {
+      } else if (offset > 0 && offset >= cardData.length) {
         index = offset - 1
-      }
-      if (offset > 0 && offset < cardData.length) {
+      } else if (offset > 0 && offset < cardData.length) {
         index = offset
       }
       return index
@@ -54,17 +48,17 @@ function App() {
 
   function selectCard(index) {
     setTimerCycle(false)
-    setActiveCard(index)
+    setActiveCardByIndex(index)
   }
 
   function handleKeyPress(e) {
     const key = e.code
     if (key === 'Space') {
-      toggleSide()
+      handleToggleSide()
     }
     if (key === 'ArrowLeft' || key === 'ArrowRight') {
       let index = key === 'ArrowLeft' ? -1 : 1
-      handleIndex(cardIndex + index)
+      handleCardIndexChange(index)
     }
     if (key === 'ArrowUp' || key === 'ArrowDown') {
       let index = key === 'ArrowUp' ? -1 : 1
@@ -73,19 +67,28 @@ function App() {
   }
 
   useEffect(() => {
-    setCard(x => currentDeck.cards[cardIndex])
-  }, [cardIndex])
+    let limit = currentDeck.cards.length - 1
+    if (cardIndex >= 0 && cardIndex <= limit) {
+      setCard(x => currentDeck.cards[cardIndex])
+    }
+    if (cardIndex <= 0) {
+      setActiveCardByIndex(0)
+    }
+    if (cardIndex >= limit) {
+      setActiveCardByIndex(limit)
+    }
+  }, [cardIndex, currentDeck])
 
   useEffect(() => {
     setDeck(cardData[deckIndex])
     setCard(cardData[deckIndex].cards[0])
-    setActiveCard(0)
+    setActiveCardByIndex(0)
   }, [deckIndex])
 
   function possiblyAdvance(start, cb) {
-    toggleSide(item => {
+    handleToggleSide(item => {
         if (item.side === 'front') {
-          setActiveCard(c => {
+          setActiveCardByIndex(c => {
             let withinBounds = c + 1 < currentDeck.cards.length
             if (withinBounds) {
               return c + 1
@@ -133,15 +136,15 @@ function App() {
         <div className="Card-container">
           <div className="Card-container-inner">
             <div className="Card-actions-app">
-                <button className="Card-button Card-button-back" onClick={() => handleIndex(-1)}>&#x2190;</button>
-                <button className="Card-button Card-button-advance" onClick={() => handleIndex(1)}>&#x2192;</button>
+                <button className="Card-button Card-button-back" onClick={() => handleCardIndexChange(-1)}>&#x2190;</button>
+                <button className="Card-button Card-button-advance" onClick={() => handleCardIndexChange(1)}>&#x2192;</button>
             </div>
             <Card
               key={currentCard.id}
               number={cardIndex + 1}
-              onClick={() => toggleSide()} 
-              advance={() => handleIndex(cardIndex + 1)}
-              goBack={() => handleIndex(cardIndex - 1)}
+              onClick={() => handleToggleSide()} 
+              advance={() => handleCardIndexChange(1)}
+              goBack={() => handleCardIndexChange(-1)}
               front={currentCard.front} 
               back={currentCard.back} 
               side={currentCard.side} 
