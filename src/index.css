@@ -1,28 +1,63 @@
+.App {
+  height: 100%;
+}
+
 .Nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 300px;
+  padding: 2rem;
+  color: #313639;
+  border-right: 1px solid #aabbc3;
+}
+
+.Nav-children {
+  margin-top: -5rem;
+  flex-grow: 1;
+}
+
+.Nav-title {
+   position: absolute;
+   top: 2rem;
+}
+
+.Dash {
+  display: flex;
+  height: 100%;
 }
 
 .Nav ul {
-  display: flex;
+  /* display: flex; */
   list-style: none;
   padding-top: 2rem;
 }
 
 .Nav li {
-  margin-left: 4rem;
   padding-bottom: .25rem;
+  margin-bottom: 1rem;
+  width: 100%;
   cursor: pointer;
 }
 
 .Nav li.active {
-  border-bottom: 2px solid #000;
+  font-weight: bold;
+  border-bottom: 1px solid #313639;
 }
 
 .Card-container {
-  width: 60%;
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.Card-container-inner {
+  position: relative;
+  width: 80%;
 }
 
 .Card-container-title {
@@ -35,6 +70,7 @@
   cursor: pointer;
   min-height: 30%;
   width: 100%;
+  color: #313639;
   background: #fff;
   position: relative;
   border-radius: 2px;
