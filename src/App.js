@@ -8,7 +8,7 @@ import DeckNav from './DeckNav';
 
 function App() {
   const [cardIndex, setActiveCardByIndex] = useState(0)
-  const [deckIndex, changeDeck] = useState(0)
+  const [deckIndex, setActiveDeckByIndex] = useState(0)
   const [cardGroup, setCardGroup] = useState(cardData)
   const [currentDeck, setDeck] = useState(cardGroup[deckIndex])
   const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
@@ -49,12 +49,12 @@ function App() {
   }
 
   function handleDeckChange(num) {
-    changeDeck(i => i + num)
+    setActiveDeckByIndex(i => i + num)
   }
 
   function selectDeck(index) {
     setTimerCycle(false)
-    changeDeck(index)
+    setActiveDeckByIndex(index)
   }
 
   function selectCard(index) {
@@ -79,7 +79,7 @@ function App() {
   }
 
   function cycleDeck(index) {
-    changeDeck(() => {
+    setActiveDeckByIndex(() => {
       setTimerCycle(true)
       return index
     })
@@ -114,7 +114,7 @@ function App() {
     }
     setDeck(cardGroup[index])
     setActiveCardByIndex(0)
-    changeDeck(index)
+    setActiveDeckByIndex(index)
   }, [deckIndex, cardGroup])
 
   useEffect(() => {
@@ -151,7 +151,7 @@ function App() {
       </label>
       {/* <button className="Card-button Card-cycle-button" onClick={() => cycleDeck(currentDeck)}><span>Cycle deck</span> &#8634;</button> */}
       <div className="Dash">
-        <div>
+        <div className="Dash-Nav-container">
           <DeckNav 
             currentId={currentCard.id}
             active={currentDeck.title}

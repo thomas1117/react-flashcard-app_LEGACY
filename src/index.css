@@ -21,6 +21,7 @@
   padding: 2rem;
   color: var(--off-dark);
   border-right: 1px solid var(--off-dark);
+  overflow-y: auto;
 }
 
 .App.dark-mode .Nav {
@@ -39,6 +40,12 @@
 .Dash {
   display: flex;
   height: 100%;
+}
+
+@media(max-width: 768px) {
+  .Dash-Nav-container {
+    display: none;
+  }
 }
 
 .Nav-deck {
@@ -94,6 +101,7 @@
 .Card-container {
   flex-grow: 1;
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
