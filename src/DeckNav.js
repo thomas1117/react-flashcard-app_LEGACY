@@ -5,9 +5,20 @@ export default function DeckNav(props) {
         <nav className="Nav">
             <div className="Nav-children">
                 <h2 className="Nav-title">Decks</h2>
-                <ul>
+                <ul className="Nav-deck">
                     {props.decks.map((deck, index) => {
-                        return <li key={index} className={props.active === deck.title ? 'active' : ''} onClick={() => props.selectDeck(index)}>{deck.title}</li>
+                        return (
+                        <li className="Nav-deck-item" key={index} onClick={() => props.selectDeck(index)}>
+                            <p className={props.active === deck.title ? 'active' : ''}>{deck.title}</p>
+                            <div>
+                                <ul className="Nav-deck-sub">
+                                    {deck.cards.map((card, index) => {
+                                        return <li onClick={() => props.selectCard(index)} className={card.id === props.currentId ? 'active' : ''}>{ card.meta }</li>
+                                    })}
+                                </ul>
+                            </div>
+                        </li>
+                        )
                     })}
                 </ul>
             </div>

@@ -28,22 +28,39 @@
   height: 100%;
 }
 
-.Nav ul {
+.Nav-deck {
   /* display: flex; */
   list-style: none;
   padding-top: 2rem;
 }
 
-.Nav li {
+.Nav-deck-sub {
+  padding-top: 1rem;
+  list-style: none;
+}
+
+.Nav-deck li {
   padding-bottom: .25rem;
   margin-bottom: 1rem;
   width: 100%;
   cursor: pointer;
 }
 
-.Nav li.active {
+.Nav-deck-item .active {
   font-weight: bold;
   border-bottom: 1px solid #313639;
+}
+
+.Nav-deck-sub li {
+  font-size: 1rem;
+  margin-left: 1rem;
+  padding-bottom: 0;
+  margin-bottom: .5rem;
+}
+
+.Nav-deck-sub li.active {
+  color: #00b7ff;
+  border-bottom: none;
 }
 
 .Card-container {
@@ -122,6 +139,7 @@
 
 .Card-cycle-button {
   position: fixed;
+  z-index: 1;
   top: 3rem;
   right: 3rem;
 }

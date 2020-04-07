@@ -5,11 +5,12 @@ function makeId() {
 let id = makeId()
 
 class Card {
-    constructor(front, back) {
+    constructor(front, back, meta) {
         this.id = id()
         this.front = normalize(front)
         this.back = normalize(back)
         this.side = 'front'
+        this.meta = meta
     }
 }
 
@@ -21,8 +22,8 @@ class Deck {
 }
 
 class JSCard extends Card {
-    constructor(front, back) {
-        super(front, back)
+    constructor(front, back, meta) {
+        super(front, back, meta)
         this.language = 'js'
     }
 }
@@ -61,7 +62,8 @@ export default [
                 const name = 'mark'
                 name = 'a' // would throw an ERROR
                     // indent test
-            `
+            `,
+            'var let & const'
             ),
             new JSCard(`## How are if/else/elseif statements written out?`,
             `
@@ -72,7 +74,9 @@ export default [
                 } else {
                     // do this thing if other conditions are not true
                 }
-            `)
+            `,
+            'If/else/else if'
+            ),
         ]
     ),
     new Deck(
