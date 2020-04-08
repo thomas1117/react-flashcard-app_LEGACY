@@ -1,6 +1,7 @@
 .Card {
     cursor: pointer;
-    min-height: 30%;
+    height: 400px;
+    overflow-y: scroll;
     width: 100%;
     color: var(--off-dark);
     position: relative;
@@ -9,17 +10,19 @@
     -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
   }
+
+  .Card-deck {
+    position: absolute;
+    left: 2rem;
+    top: 1rem;
+    font-weight: bold;
+    font-style: italic;
+    font-size: .825rem;
+  }
   
   .App.dark-mode .Card {
     color: var(--off-white);
     background: rgb(29, 31, 33);
-  }
-  
-  .App.dark-mode .Card-button {
-    z-index: 2;
-    color: var(--off-white);
-    background: rgb(29, 31, 33);
-    border: 1px solid #000;
   }
 
   /*
@@ -46,7 +49,7 @@
   
   
   .Card-front, .Card-back {
-    padding: 2rem;
+    padding: 3rem 2rem 2rem 2rem;
   }
   
   .Card-number {
@@ -105,24 +108,44 @@
   .Card-button {
     border: none;
     outline: none;
-    padding: .5rem;
-    font-size: 2rem;
+    padding: 1rem .25rem;
+    margin: .5rem;
+    font-size: 1rem;
     cursor: pointer;
   }
   
   .Card-button-back {
     position: absolute;
     left: 0;
-    top: 0;
+    top: 50%;
+    transform: translate(0, -50%);
   }
   
   .Card-button-advance {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+
+  .App.dark-mode .Card-button {
+    z-index: 2;
+    color: var(--off-white);
+    background: rgb(29, 31, 33);
+    border: 1px solid #fff;
+    border-radius: 5px;
+  }
+
+  .App.dark-mode .Card-button:hover {
+    background-color: var(--off-white);
+    color: var(--off-dark);
+    border: 1px solid var(--off-white);
   }
   
-  .Card-actions-app {
-    position: relative;
-    top: -5rem;
+  .Card-actions {
+    display: none;
+  }
+
+  .Card:hover .Card-actions {
+    display: block;
   }

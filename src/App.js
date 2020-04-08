@@ -4,6 +4,7 @@ import Card from './Card';
 import Page from './Page';
 import cardData from './seed';
 import DeckNav from './DeckNav';
+import Switch from './components/ui/Switch';
 
 function App() {
   const [cardIndex, setActiveCardByIndex] = useState(0)
@@ -144,11 +145,11 @@ function App() {
   return (
     <ThemeProvider value={activeTheme}>
     <Page>
-      <label className="theme-toggler switch">
-        <input type="checkbox" onChange={toggleTheme} checked={activeTheme === 'dark-mode'}/>
-        <span className="slider round"></span>
-      </label>
-      {/* <button className="Card-button Card-cycle-button" onClick={() => cycleDeck(currentDeck)}><span>Cycle deck</span> &#8634;</button> */}
+      <Switch
+        activeTheme={activeTheme}
+        onChange={toggleTheme} 
+        checked={activeTheme === 'dark-mode'} />
+      
       <div className="Dash">
         <div className="Dash-Nav-container">
           <DeckNav 
@@ -163,15 +164,16 @@ function App() {
         </div>
         <div className="Card-container">
           <div className="Card-container-inner">
-            {
+            {/* {
               !timerRunning &&
               <div className="Card-actions-app">
                 <button className="Card-button Card-button-back" onClick={() => handleCardIndexChange(-1)}>&#x2190;</button>
                 <button className="Card-button Card-button-advance" onClick={() => handleCardIndexChange(1)}>&#x2192;</button>
               </div>
-            }
+            } */}
             <Card
               key={currentCard.id}
+              deck={currentDeck.title}
               number={cardIndex + 1}
               onClick={() => handleToggleSide()} 
               advance={() => handleCardIndexChange(1)}
