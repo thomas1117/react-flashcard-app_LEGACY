@@ -113,6 +113,10 @@
     font-size: 1rem;
     cursor: pointer;
   }
+
+  .Card-button:disabled {
+    cursor: not-allowed;
+  }
   
   .Card-button-back {
     position: absolute;

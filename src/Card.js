@@ -10,8 +10,14 @@ export default function Card(props) {
     return (
     <div className="Card" onClick={props.onClick}>
         <div className="Card-actions">
-            <button className="Card-button Card-button-back" onClick={e => handle(e, props.goBack)}>&#x2190;</button>
-            <button className="Card-button Card-button-advance" onClick={e => handle(e, props.advance)}>&#x2192;</button>
+            <button 
+                disabled={props.leftDisabled}
+                className="Card-button Card-button-back"
+                onClick={e => handle(e, props.goBack)}>&#x2190;</button>
+            <button 
+                disabled={props.rightDisabled}
+                className="Card-button Card-button-advance"
+                onClick={e => handle(e, props.advance)}>&#x2192;</button>
         </div>
         <span className="Card-deck">{props.deck}</span>
         <span className="Card-number">{props.number}</span>

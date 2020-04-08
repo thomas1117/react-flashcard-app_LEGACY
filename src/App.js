@@ -172,6 +172,8 @@ function App() {
               </div>
             } */}
             <Card
+              leftDisabled={cardIndex === 0}
+              rightDisabled={cardIndex === currentDeck.cards.length - 1}
               key={currentCard.id}
               deck={currentDeck.title}
               number={cardIndex + 1}
