@@ -19,7 +19,7 @@ export default function Card(props) {
                 className="Card-button Card-button-advance"
                 onClick={e => handle(e, props.advance)}>&#x2192;</button>
         </div>
-        <span className="Card-deck">{props.deck}</span>
+        <span className="Card-deck">{props.deck} | {props.side === 'back' && props.meta}</span>
         <span className="Card-number">{props.number}</span>
             <div className={"Card-front " + (props.side !== 'back' ? 'visible' : '')}><ReactMarkdown source={props.front} /></div>
             

@@ -180,6 +180,7 @@ function App() {
               onClick={() => handleToggleSide()} 
               advance={() => handleCardIndexChange(1)}
               goBack={() => handleCardIndexChange(-1)}
+              meta={currentCard.meta}
               front={currentCard.front} 
               back={currentCard.back} 
               side={currentCard.side}
