@@ -25,6 +25,10 @@
                 "back": "/*\n    (=, +=, -=, ...)\n*/\nlet y = 5\ny = y + 1 (y is now 6)\nlet x = 10\nx += 5 (x is now 15)\n",
                 "meta": "assignment operators",
                 "language": "js"
+            },
+            {
+                "front": "",
+                "back": ""
             }
         ]
     }
