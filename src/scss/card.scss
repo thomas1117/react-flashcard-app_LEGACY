@@ -1,7 +1,7 @@
 .Card {
     cursor: pointer;
     height: 400px;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 100%;
     color: var(--off-dark);
     position: relative;

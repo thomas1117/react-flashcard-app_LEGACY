@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { themeProvider, ThemeProvider } from './ThemeContext';
 import Card from './Card';
 import Page from './Page';
-import cardData from './seed';
+// import cardData from './seed/js/seed';
+import cardData from './seed/js/dynamic-seed';
 import DeckNav from './DeckNav';
 import Switch from './components/ui/Switch';
+
+console.log(cardData)
 
 function App() {
   const [cardIndex, setActiveCardByIndex] = useState(0)

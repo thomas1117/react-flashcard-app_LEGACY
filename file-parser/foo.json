@@ -1,0 +1,1 @@
+[{"title":"basics","cards":[{"front":"'## variable declaration'","back":"`    var x = 1    let y = 'a'    const b = [1,2,3]`","meta":"'variable declaration'","language":"'js'"},{"front":"'## new card'","back":"`    var x = 2    let y = 'a'    const b = [1,2,3]`","meta":"'variable declaration'","language":"'js'"}]}]

@@ -21,12 +21,13 @@ function normalize(str) {
     return filteredCollection.join('\n')
 }
 
-class Card {
-    constructor(front, back, meta) {
+export class Card {
+    constructor(front, back, meta, language) {
         this.id = id()
         this.front = normalize(front)
         this.back = normalize(back)
         this.side = 'front'
+        this.language = language
         this.meta = meta
     }
 }

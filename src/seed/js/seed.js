@@ -1,4 +1,4 @@
-import { Deck, JSCard } from './models'
+import { Deck, JSCard } from '../../models'
 
 export default [
     new Deck(

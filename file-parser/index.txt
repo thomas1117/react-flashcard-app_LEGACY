@@ -1,0 +1,37 @@
+START DECK
+TITLE
+basics
+START CARDS
+
+-
+FRONT
+'## variable declaration'
+BACK
+`
+    var x = 1
+    let y = 'a'
+    const b = [1,2,3]
+`
+META
+'variable declaration'
+LANGUAGE
+'js'
+-
+
+-
+FRONT
+'## new card'
+BACK
+`
+    var x = 2
+    let y = 'a'
+    const b = [1,2,3]
+`
+META
+'variable declaration'
+LANGUAGE
+'js'
+-
+
+END CARDS
+END DECK
