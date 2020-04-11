@@ -72,8 +72,144 @@ js
 -
 
 -
-FRONT BACK META LANGUAGE
+FRONT
+## comparison operators
+BACK
+/*
+    (==, ===)
+
+    == // equal to
+    === // 	equal value and equal type
+    != // not equal to
+*/
+let x = 5
+x === "5" // false
+x == 5 // true
+let num = 10
+let moreThan = num > 5 // true
+x !== 1 // true
+let y = 5
+y = y + 1 (y is now 6)
+let x = 10
+x += 5 (x is now 15)
+META
+comparison operators
+LANGUAGE
+js
 -
+
+-
+FRONT
+## logical operators
+BACK
+/*
+    && (and)
+    || (or)
+    !  (not)
+
+    Logical operators are used to determine the logic between variables or values.
+    You can combine these just fine and use as many as you want
+*/
+let x = 5
+let y = 10
+
+(x > 5 && y == 10) // false
+(x == 5 && y === 10) // true
+(x == 5 || y === false) // true
+(!false) // true
+META
+logical operators
+LANGUAGE
+js
+-
+
+-
+FRONT
+## falsey values
+BACK
+/*
+    null, undefined, '', false, 0
+    are all the "falsey" values
+    everything else is true
+*/
+let x = ''
+x == true // false
+x == false // true
+let y = null
+y === null // true
+y == false // true
+!y // true
+!0 // true
+META
+falsey values
+LANGUAGE
+js
+-
+
+-
+FRONT
+## for loop
+BACK
+/*
+    for loops consist of 3 parts
+    1. variable initialization: let i = 0
+    2. a comparison: i < 10 (once false the for loop stops)
+    3. a change in value: i++ (same as saying i = i + 1)
+*/
+for(let i = 0; i < 10; i++) {
+    // i gives me 0 through 9
+}
+META
+for loops
+LANGUAGE
+js
+-
+
+-
+FRONT
+## for loops continued
+BACK
+// you can do all the stuff above with for loops...
+let str = ''
+let arr = []
+for(let i = 0; i < 10; i++) {
+    str += 'x'
+    arr.push(i)
+}
+
+// str is now 'xxxxxxxxxx'
+// arr is now [0,1,2,3,4,5,6,7,8,9]
+META
+for loops continued
+LANGUAGE
+js
+-
+
+-
+FRONT
+## function
+BACK
+function functionName(param1, param2) {
+    // param1 is the first value passed in (1)
+    // param2 is the second value passed in ([1,2,3])
+}
+
+function doubleNumbersArr(arr) {
+    let newArr = []
+    for (let i = 0; i < arr.length; i++) {
+        newArr.push(arr[i] * 2)
+    }
+    return newArr
+}
+
+functionName(1, [1,2,3]) // undefined (since no return)
+doubleNumbersArr([1,2,3]) // [2,4,6]
+META
+function
+LANGUAGE
+js
+-
+
 
 END CARDS
 END DECK
