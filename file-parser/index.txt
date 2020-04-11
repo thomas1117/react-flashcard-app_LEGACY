@@ -1,36 +1,78 @@
 START DECK
 TITLE
-basics
+Syntax
 START CARDS
 
 -
 FRONT
-'## variable declaration'
+## variable declaration
 BACK
-`
     var x = 1
     let y = 'a'
     const b = [1,2,3]
-`
+
 META
-'variable declaration'
+variable declaration
 LANGUAGE
-'js'
+js
 -
 
 -
 FRONT
-'## new card'
+## if/else/else if statements
 BACK
-`
-    var x = 2
-    let y = 'a'
-    const b = [1,2,3]
-`
+    if (anyTrueCondition) {
+        // execute this code...
+    } else if (someOtherTrueCondition) {
+        // execute this code...
+    } else {
+        // do this thing if other conditions are not true
+    }
+
 META
-'variable declaration'
+If/else/else if
 LANGUAGE
-'js'
+js
+-
+
+-
+FRONT
+## arithmetic operators
+BACK
+/*
+    (+, -, /, *, %, ++, ...)
+*/
+// modulus % (division remainder)
+let y = 5
+let x = y % 2 // 1 is the remainer so x is now 1
+
+x++ // 3 (same as saying x = x + 1)
+y-- // 4 (same as saying y = y - 1)
+META
+arithmetic operators
+LANGUAGE
+js
+-
+
+-
+FRONT
+## assignment operators
+BACK
+/*
+    (=, +=, -=, ...)
+*/
+let y = 5
+y = y + 1 (y is now 6)
+let x = 10
+x += 5 (x is now 15)
+META
+assignment operators
+LANGUAGE
+js
+-
+
+-
+FRONT BACK META LANGUAGE
 -
 
 END CARDS

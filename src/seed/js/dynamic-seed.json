@@ -1,18 +1,30 @@
 [
     {
-        "title": "basics",
+        "title": "Syntax",
         "cards": [
             {
-                "front": "'## variable declaration'\n",
-                "back": "`\n    var x = 1\n    let y = 'a'\n    const b = [1,2,3]\n`\n",
-                "meta": "'variable declaration'",
-                "language": "'js'"
+                "front": "## variable declaration\n",
+                "back": "    var x = 1\n    let y = 'a'\n    const b = [1,2,3]\n\n",
+                "meta": "variable declaration",
+                "language": "js"
             },
             {
-                "front": "'## new card'\n",
-                "back": "`\n    var x = 2\n    let y = 'a'\n    const b = [1,2,3]\n`\n",
-                "meta": "'variable declaration'",
-                "language": "'js'"
+                "front": "## if/else/else if statements\n",
+                "back": "    if (anyTrueCondition) {\n        // execute this code...\n    } else if (someOtherTrueCondition) {\n        // execute this code...\n    } else {\n        // do this thing if other conditions are not true\n    }\n\n",
+                "meta": "If/else/else if",
+                "language": "js"
+            },
+            {
+                "front": "## arithmetic operators\n",
+                "back": "/*\n    (+, -, /, *, %, ++, ...)\n*/\n// modulus % (division remainder)\nlet y = 5\nlet x = y % 2 // 1 is the remainer so x is now 1\n\nx++ // 3 (same as saying x = x + 1)\ny-- // 4 (same as saying y = y - 1)\n",
+                "meta": "arithmetic operators",
+                "language": "js"
+            },
+            {
+                "front": "## assignment operators\n",
+                "back": "/*\n    (=, +=, -=, ...)\n*/\nlet y = 5\ny = y + 1 (y is now 6)\nlet x = 10\nx += 5 (x is now 15)\n",
+                "meta": "assignment operators",
+                "language": "js"
             }
         ]
     }

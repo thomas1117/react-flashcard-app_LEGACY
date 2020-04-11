@@ -4,6 +4,15 @@ const util = require('util')
 const deckCommands = ['START DECK', 'TITLE', 'START CARDS', 'END CARDS', 'END DECK']
 const cardCommands = ['FRONT', 'BACK', 'META', 'LANGUAGE']
 
+/*
+    Card Schema:
+
+    FRONT
+    BACK
+    META
+    LANGUAGE (default = js)
+*/
+
 let deckManager = {
     manageDeckStart: function (item) {
         if (item === 'START DECK') {
@@ -87,7 +96,8 @@ let deckManager = {
                 continue
             }
             if (item !== 'LANGUAGE' && this.lastCommand === 'LANGUAGE') {
-                currentCard.language = item
+                // default to js if none is provided
+                currentCard.language = item || 'js'
                 this.lastCommand = 'LANGUAGE_END'
                 continue
             }
@@ -97,9 +107,9 @@ let deckManager = {
                 this.lastCommand = 'START CARDS'
             }
         }
-        console.log(util.inspect(this.decks, false, null, true /* enable colors */))
+        // console.log(util.inspect(this.decks, false, null, true /* enable colors */))
         const deckToStore = JSON.stringify(this.decks, null, 4)
-        // fs.writeFileSync('../src/seed/js/dynamic-seed.json', deckToStore)
+        fs.writeFileSync('../src/seed/js/dynamic-seed.json', deckToStore)
     },
     lines: [],
     decks: [],
