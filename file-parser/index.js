@@ -69,7 +69,7 @@ let deckManager = {
                     this.lastCommand = 'BACK'
                     continue
                 }
-                currentCard.front = currentCard.front + item
+                currentCard.front = currentCard.front + item + '\n'
             }
     
             if (this.lastCommand === 'BACK') {
@@ -77,7 +77,7 @@ let deckManager = {
                     this.lastCommand = 'META'
                     continue
                 }
-                currentCard.back = currentCard.back + item
+                currentCard.back = currentCard.back + item + '\n'
                 continue
             }
     
@@ -97,7 +97,9 @@ let deckManager = {
                 this.lastCommand = 'START CARDS'
             }
         }
-        fs.writeFileSync('../src/seed/js/dynamic-seed.json', JSON.stringify(this.decks))
+        console.log(util.inspect(this.decks, false, null, true /* enable colors */))
+        const deckToStore = JSON.stringify(this.decks, null, 4)
+        // fs.writeFileSync('../src/seed/js/dynamic-seed.json', deckToStore)
     },
     lines: [],
     decks: [],

@@ -1,1 +1,19 @@
-[{"title":"basics","cards":[{"front":"'## variable declaration'","back":"`    var x = 1    let y = 'a'    const b = [1,2,3]`","meta":"'variable declaration'","language":"'js'"},{"front":"'## new card'","back":"`    var x = 2    let y = 'a'    const b = [1,2,3]`","meta":"'variable declaration'","language":"'js'"}]}]
+[
+    {
+        "title": "basics",
+        "cards": [
+            {
+                "front": "'## variable declaration'\n",
+                "back": "`\n    var x = 1\n    let y = 'a'\n    const b = [1,2,3]\n`\n",
+                "meta": "'variable declaration'",
+                "language": "'js'"
+            },
+            {
+                "front": "'## new card'\n",
+                "back": "`\n    var x = 2\n    let y = 'a'\n    const b = [1,2,3]\n`\n",
+                "meta": "'variable declaration'",
+                "language": "'js'"
+            }
+        ]
+    }
+]
