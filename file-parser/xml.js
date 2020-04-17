@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-
-const parseXMLToString = require('xml2js').parseString
+const xmlParser = require('xml2js')
+const parseXMLToString = xmlParser.parseString
 
 const SEED_PATH = path.join(__dirname, '../src/seed/js/dynamic-seed.json')
 const XML_PATH = path.join(__dirname, './deck.xml')
@@ -50,9 +50,13 @@ function storeToJSONSeed(decks) {
   fs.writeFileSync(SEED_PATH, deckToStore)
 }
 
+function validate() {
+  
+}
+
 fs.readFile(XML_PATH, 'utf8', (err, contents) => {
     const parsed = escapeInvalidXML(contents)
-    parseXMLToString(parsed, {/* config */}, function (err, result) {
+    parseXMLToString(parsed, {}, function (err, result) {
       if (err) {
         throw new Error(`INVALID XML: ${err}`)
       }
@@ -60,3 +64,11 @@ fs.readFile(XML_PATH, 'utf8', (err, contents) => {
       storeToJSONSeed(decks)
     })
 })
+
+function JSONToXML() {
+  fs.readFile(SEED_PATH, 'utf8', (err, contents) => {
+    const builder = new x.Builder()
+    const xml = builder.buildObject(JSON.parse(contents))
+    console.log(xml)
+  })
+}
