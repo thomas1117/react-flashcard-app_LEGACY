@@ -52,7 +52,7 @@ function storeToJSONSeed(decks) {
 
 fs.readFile(XML_PATH, 'utf8', (err, contents) => {
     const parsed = escapeInvalidXML(contents)
-    parseXMLToString(parsed, function (err, result) {
+    parseXMLToString(parsed, {/* config */}, function (err, result) {
       if (err) {
         throw new Error(`INVALID XML: ${err}`)
       }
