@@ -4,6 +4,7 @@ const path = require('path')
 const parseXMLToString = require('xml2js').parseString
 
 const SEED_PATH = path.join(__dirname, '../src/seed/js/dynamic-seed.json')
+const XML_PATH = path.join(__dirname, './deck.xml')
 
 function safelyEncodeXML(m) {
   return encodeURIComponent(m)
@@ -49,7 +50,7 @@ function storeToJSONSeed(decks) {
   fs.writeFileSync(SEED_PATH, deckToStore)
 }
 
-fs.readFile(path.join(__dirname, './deck.xml'), 'utf8', (err, contents) => {
+fs.readFile(XML_PATH, 'utf8', (err, contents) => {
     const parsed = escapeInvalidXML(contents)
     parseXMLToString(parsed, function (err, result) {
       if (err) {
