@@ -4,69 +4,81 @@
         "language": "js",
         "cards": [
             {
-                "front": "\n        ## variable declaration\n        ",
-                "back": "\n        var x = 1\n        let y = 'a'\n        const b = [1,2,3]\n        ",
+                "front": "\n            ## variable declaration\n            ",
+                "back": "\n            var x = 1\n            let y = 'a'\n            const b = [1,2,3]\n            ",
                 "meta": "variable declaration",
                 "language": "js"
             },
             {
-                "front": "\n        ## if/else/else if statements\n        ",
-                "back": "\n            if (anyTrueCondition) {\n                // execute this code...\n            } else if (someOtherTrueCondition) {\n                // execute this code...\n            } else {\n                // do this thing if other conditions are not true\n            }\n        ",
+                "front": "\n            ## if/else/else if statements\n            ",
+                "back": "\n                if (anyTrueCondition) {\n                    // execute this code...\n                } else if (someOtherTrueCondition) {\n                    // execute this code...\n                } else {\n                    // do this thing if other conditions are not true\n                }\n            ",
                 "meta": "if/else/else if statements",
                 "language": "js"
             },
             {
-                "front": "\n        ## arithmetic operators\n        ",
-                "back": "\n        /*\n            (+, -, /, *, %, ++, ...)\n        */\n        // modulus % (division remainder)\n        let y = 5\n        let x = y % 2 // 1 is the remainer so x is now 1\n\n        x++ // 3 (same as saying x = x + 1)\n        y-- // 4 (same as saying y = y - 1)\n        ",
-                "meta": "\n        arithmetic operators\n        ",
+                "front": "\n            ## arithmetic operators\n            ",
+                "back": "\n            /*\n                (+, -, /, *, %, ++, ...)\n            */\n            // modulus % (division remainder)\n            let y = 5\n            let x = y % 2 // 1 is the remainer so x is now 1\n\n            x++ // 3 (same as saying x = x + 1)\n            y-- // 4 (same as saying y = y - 1)\n            ",
+                "meta": "\n            arithmetic operators\n            ",
                 "language": "js"
             },
             {
-                "front": "\n        ## assignment operators\n        ",
-                "back": "\n        /*\n        (=, +=, -=, ...)\n        */\n        let y = 5\n        y = y + 1 (y is now 6)\n        let x = 10\n        x += 5 (x is now 15)\n        ",
-                "meta": "\n            assignment operators\n        ",
+                "front": "\n            ## assignment operators\n            ",
+                "back": "\n            /*\n            (=, +=, -=, ...)\n            */\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
+                "meta": "\n                assignment operators\n            ",
                 "language": "js"
             },
             {
-                "front": "\n        ## comparison operators\n        ",
-                "back": "\n        /*\n            (==, ===)\n\n            == // equal to\n            === // \tequal value and equal type\n            != // not equal to\n        */\n        let x = 5\n        x === \"5\" // false\n        x == 5 // true\n        let num = 10\n        let moreThan = num > 5 // true\n        x !== 1 // true\n        let y = 5\n        y = y + 1 (y is now 6)\n        let x = 10\n        x += 5 (x is now 15)\n        ",
-                "meta": "\n        comparison operators\n        ",
+                "front": "\n            ## comparison operators\n            ",
+                "back": "\n            /*\n                (==, ===)\n\n                == // equal to\n                === // \tequal value and equal type\n                != // not equal to\n            */\n            let x = 5\n            x === \"5\" // false\n            x == 5 // true\n            let num = 10\n            let moreThan = num > 5 // true\n            x !== 1 // true\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
+                "meta": "\n            comparison operators\n            ",
                 "language": "js"
             },
             {
-                "front": "\n        ## function\n        ",
-                "back": "\n        function functionName(param1, param2) {\n            // param1 is the first value passed in (1)\n            // param2 is the second value passed in ([1,2,3])\n        }\n\n        function doubleNumbersArr(arr) {\n            let newArr = []\n            for (let i = 0; i < arr.length; i++) {\n                newArr.push(arr[i])\n            }\n            return newArr\n        }\n\n        functionName(1, [1,2,3]) // undefined (since no return)\n        doubleNumbersArr([1,2,3]) // [2,4,6]\n        ",
-                "meta": "\n        function\n        ",
+                "front": "\n            ## function\n            ",
+                "back": "\n            function functionName(param1, param2) {\n                // param1 is the first value passed in (1)\n                // param2 is the second value passed in ([1,2,3])\n            }\n\n            function doubleNumbersArr(arr) {\n                let newArr = []\n                for (let i = 0; i < arr.length; i++) {\n                    newArr.push(arr[i])\n                }\n                return newArr\n            }\n\n            functionName(1, [1,2,3]) // undefined (since no return)\n            doubleNumbersArr([1,2,3]) // [2,4,6]\n            ",
+                "meta": "\n            function\n            ",
                 "language": "js"
             },
             {
                 "front": "## comparison operators",
-                "back": "\n        /*\n        (==, ===)\n\n        == // equal to\n        === // \tequal value and equal type\n        != // not equal to\n        */\n        let x = 5\n        x === \"5\" // false\n        x == 5 // true\n        let num = 10\n        let moreThan = num > 5 // true\n        x !== 1 // true\n        let y = 5\n        y = y + 1 (y is now 6)\n        let x = 10\n        x += 5 (x is now 15)\n        ",
-                "meta": "\n            comparison operators\n        ",
+                "back": "\n            /*\n            (==, ===)\n\n            == // equal to\n            === // \tequal value and equal type\n            != // not equal to\n            */\n            let x = 5\n            x === \"5\" // false\n            x == 5 // true\n            let num = 10\n            let moreThan = num > 5 // true\n            x !== 1 // true\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
+                "meta": "\n                comparison operators\n            ",
                 "language": "js"
             },
             {
-                "front": "\n        ## logical operators\n        ",
-                "back": "\n        /*\n        && (and)\n        || (or)\n        !  (not)\n\n        Logical operators are used to determine the logic between variables or values.\n        You can combine these just fine and use as many as you want\n        */\n        let x = 5\n        let y = 10\n\n        (x > 5 && y == 10) // false\n        (x == 5 && y === 10) // true\n        (x == 5 || y === false) // true\n        (!false) // true\n        ",
-                "meta": "\n            logical operators\n        ",
+                "front": "\n            ## logical operators\n            ",
+                "back": "\n            /*\n            && (and)\n            || (or)\n            !  (not)\n\n            Logical operators are used to determine the logic between variables or values.\n            You can combine these just fine and use as many as you want\n            */\n            let x = 5\n            let y = 10\n\n            (x > 5 && y == 10) // false\n            (x == 5 && y === 10) // true\n            (x == 5 || y === false) // true\n            (!false) // true\n            ",
+                "meta": "\n                logical operators\n            ",
                 "language": "js"
             },
             {
-                "front": "\n        ## falsey values\n        ",
-                "back": "\n        /*\n            null, undefined, '', false, 0\n            are all the \"falsey\" values\n            everything else is true\n        */\n        let x = ''\n        x == true // false\n        x == false // true\n        let y = null\n        y === null // true\n        y == false // true\n        !y // true\n        !0 // true\n        ",
-                "meta": "\n            falsey values\n        ",
+                "front": "\n            ## falsey values\n            ",
+                "back": "\n            /*\n                null, undefined, '', false, 0\n                are all the \"falsey\" values\n                everything else is true\n            */\n            let x = ''\n            x == true // false\n            x == false // true\n            let y = null\n            y === null // true\n            y == false // true\n            !y // true\n            !0 // true\n            ",
+                "meta": "\n                falsey values\n            ",
                 "language": "js"
             },
             {
-                "front": "\n        ## for loop\n        ",
-                "back": "\n        /*\n            for loops consist of 3 parts\n            1. variable initialization: let i = 0\n            2. a comparison: i < 10 (once false the for loop stops)\n            3. a change in value: i++ (same as saying i = i + 1)\n        */\n        for(let i = 0; i < 10; i++) {\n            // i gives me 0 through 9\n        }\n        ",
-                "meta": "\n        for loops\n        ",
+                "front": "\n            ## for loop\n            ",
+                "back": "\n            /*\n                for loops consist of 3 parts\n                1. variable initialization: let i = 0\n                2. a comparison: i < 10 (once false the for loop stops)\n                3. a change in value: i++ (same as saying i = i + 1)\n            */\n            for(let i = 0; i < 10; i++) {\n                // i gives me 0 through 9\n            }\n            ",
+                "meta": "\n            for loops\n            ",
                 "language": "js"
             },
             {
-                "front": "\n        ## for loops continued\n        ",
-                "back": "\n        // you can do all the stuff above with for loops...\n        let str = ''\n        let arr = []\n        for(let i = 0; i < 10; i++) {\n            str += 'x'\n            arr.push(i)\n        }\n\n        // str is now 'xxxxxxxxxx'\n        // arr is now [0,1,2,3,4,5,6,7,8,9]\n        ",
+                "front": "\n            ## for loops continued\n            ",
+                "back": "\n            // you can do all the stuff above with for loops...\n            let str = ''\n            let arr = []\n            for(let i = 0; i < 10; i++) {\n                str += 'x'\n                arr.push(i)\n            }\n\n            // str is now 'xxxxxxxxxx'\n            // arr is now [0,1,2,3,4,5,6,7,8,9]\n            ",
                 "meta": "for loops continued",
+                "language": "js"
+            }
+        ]
+    },
+    {
+        "title": "Basics",
+        "language": "js",
+        "cards": [
+            {
+                "front": "## what is a statement?",
+                "back": "\n                /* \n                A statement can set a variable equal to a value. \n                A statement can also be a function call, i.e. document. ... \n                Statements define what the script will do and how it will be done. */\n                var x = 5\n                foo()\n            ",
+                "meta": "statements",
                 "language": "js"
             }
         ]
