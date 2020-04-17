@@ -213,3 +213,65 @@ js
 
 END CARDS
 END DECK
+
+
+START DECK
+Basics
+TITLE
+Syntax
+START CARDS
+-
+FRONT
+## what is a statement?
+BACK
+/* 
+A statement can set a variable equal to a value. 
+A statement can also be a function call, i.e. document. ... 
+Statements define what the script will do and how it will be done. */
+var x = 5
+foo()
+META
+statements
+LANGUAGE
+js
+-
+
+-
+FRONT
+## what are primitive values?
+BACK
+/* 
+    In JavaScript there are 6 primitive types: 
+    undefined
+    null
+    boolean
+    string
+    symbol
+    and number . Everything else is an object.
+*/
+let str = 'hello'
+let bln = true // or false
+LANGUAGE
+primitive values
+-
+-
+FRONT
+## What is the difference between var, let, and const?
+BACK
+// var declarations are globally scoped or function scoped
+// var variables can be updated and re-declared within its scope;
+var x = 1
+// let and const are block scoped
+// let variables can be updated but not re-declared
+let y = 2
+// const variables can neither be updated nor re-declared
+const name = 'mark'
+name = 'a' // would throw an ERROR
+    // indent test
+META
+var let & const
+LANGUAGE
+js
+-
+END CARDS
+END DECK

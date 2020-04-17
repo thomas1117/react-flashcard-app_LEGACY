@@ -1,0 +1,117 @@
+<deck title="Syntax" language="js">
+    <card>
+        <front>
+        ## variable declaration
+        </front>
+        <back>
+        var x = 1
+        let y = 'a'
+        const b = [1,2,3]
+        </back>
+        <meta>variable declaration</meta>
+    </card>
+    <card>
+        <front>
+        ## if/else/else if statements
+        </front>
+        <back>
+            if (anyTrueCondition) {
+                // execute this code...
+            } else if (someOtherTrueCondition) {
+                // execute this code...
+            } else {
+                // do this thing if other conditions are not true
+            }
+        </back>
+        <meta>if/else/else if statements</meta>
+    </card>
+
+    <card>
+        <front>
+        ## arithmetic operators
+        </front>
+        <back>
+        /*
+            (+, -, /, *, %, ++, ...)
+        */
+        // modulus % (division remainder)
+        let y = 5
+        let x = y % 2 // 1 is the remainer so x is now 1
+
+        x++ // 3 (same as saying x = x + 1)
+        y-- // 4 (same as saying y = y - 1)
+        </back>
+        <meta>
+        arithmetic operators
+        </meta>
+    </card>
+    <card>
+        <front>
+        ## assignment operators
+        </front>
+        <back>
+        /*
+        (=, +=, -=, ...)
+        */
+        let y = 5
+        y = y + 1 (y is now 6)
+        let x = 10
+        x += 5 (x is now 15)
+        </back>
+        <meta>
+            assignment operators
+        </meta>
+    </card>
+    <card>
+        <front>
+        ## comparison operators
+        </front>
+        <back>
+        /*
+            (==, ===)
+
+            == // equal to
+            === // 	equal value and equal type
+            != // not equal to
+        */
+        let x = 5
+        x === "5" // false
+        x == 5 // true
+        let num = 10
+        let moreThan = num > 5 // true
+        x !== 1 // true
+        let y = 5
+        y = y + 1 (y is now 6)
+        let x = 10
+        x += 5 (x is now 15)
+        </back>
+        <meta>
+        comparison operators
+        </meta>
+    </card>
+    <card>
+        <front>
+        ## function
+        </front>
+        <back>
+        function functionName(param1, param2) {
+            // param1 is the first value passed in (1)
+            // param2 is the second value passed in ([1,2,3])
+        }
+
+        function doubleNumbersArr(arr) {
+            let newArr = []
+            for (let i = 0; i < arr.length; i++) {
+                newArr.push(arr[i])
+            }
+            return newArr
+        }
+
+        functionName(1, [1,2,3]) // undefined (since no return)
+        doubleNumbersArr([1,2,3]) // [2,4,6]
+        </back>
+        <meta>
+        function
+        </meta>
+    </card>
+</deck>

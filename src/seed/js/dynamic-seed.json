@@ -1,65 +1,42 @@
 [
     {
         "title": "Syntax",
+        "language": "js",
         "cards": [
             {
-                "front": "## variable declaration\n",
-                "back": "    var x = 1\n    let y = 'a'\n    const b = [1,2,3]\n\n",
+                "front": "\n        ## variable declaration\n        ",
+                "back": "\n        var x = 1\n        let y = 'a'\n        const b = [1,2,3]\n        ",
                 "meta": "variable declaration",
                 "language": "js"
             },
             {
-                "front": "## if/else/else if statements\n",
-                "back": "    if (anyTrueCondition) {\n        // execute this code...\n    } else if (someOtherTrueCondition) {\n        // execute this code...\n    } else {\n        // do this thing if other conditions are not true\n    }\n\n",
-                "meta": "If/else/else if",
+                "front": "\n        ## if/else/else if statements\n        ",
+                "back": "\n            if (anyTrueCondition) {\n                // execute this code...\n            } else if (someOtherTrueCondition) {\n                // execute this code...\n            } else {\n                // do this thing if other conditions are not true\n            }\n        ",
+                "meta": "if/else/else if statements",
                 "language": "js"
             },
             {
-                "front": "## arithmetic operators\n",
-                "back": "/*\n    (+, -, /, *, %, ++, ...)\n*/\n// modulus % (division remainder)\nlet y = 5\nlet x = y % 2 // 1 is the remainer so x is now 1\n\nx++ // 3 (same as saying x = x + 1)\ny-- // 4 (same as saying y = y - 1)\n",
-                "meta": "arithmetic operators",
+                "front": "\n        ## arithmetic operators\n        ",
+                "back": "\n        /*\n            (+, -, /, *, %, ++, ...)\n        */\n        // modulus % (division remainder)\n        let y = 5\n        let x = y % 2 // 1 is the remainer so x is now 1\n\n        x++ // 3 (same as saying x = x + 1)\n        y-- // 4 (same as saying y = y - 1)\n        ",
+                "meta": "\n        arithmetic operators\n        ",
                 "language": "js"
             },
             {
-                "front": "## assignment operators\n",
-                "back": "/*\n    (=, +=, -=, ...)\n*/\nlet y = 5\ny = y + 1 (y is now 6)\nlet x = 10\nx += 5 (x is now 15)\n",
-                "meta": "assignment operators",
+                "front": "\n        ## assignment operators\n        ",
+                "back": "\n        /*\n        (=, +=, -=, ...)\n        */\n        let y = 5\n        y = y + 1 (y is now 6)\n        let x = 10\n        x += 5 (x is now 15)\n        ",
+                "meta": "\n            assignment operators\n        ",
                 "language": "js"
             },
             {
-                "front": "## comparison operators\n",
-                "back": "/*\n    (==, ===)\n\n    == // equal to\n    === // \tequal value and equal type\n    != // not equal to\n*/\nlet x = 5\nx === \"5\" // false\nx == 5 // true\nlet num = 10\nlet moreThan = num > 5 // true\nx !== 1 // true\nlet y = 5\ny = y + 1 (y is now 6)\nlet x = 10\nx += 5 (x is now 15)\n",
-                "meta": "comparison operators",
+                "front": "\n        ## comparison operators\n        ",
+                "back": "\n        /*\n            (==, ===)\n\n            == // equal to\n            === // \tequal value and equal type\n            != // not equal to\n        */\n        let x = 5\n        x === \"5\" // false\n        x == 5 // true\n        let num = 10\n        let moreThan = num > 5 // true\n        x !== 1 // true\n        let y = 5\n        y = y + 1 (y is now 6)\n        let x = 10\n        x += 5 (x is now 15)\n        ",
+                "meta": "\n        comparison operators\n        ",
                 "language": "js"
             },
             {
-                "front": "## logical operators\n",
-                "back": "/*\n    && (and)\n    || (or)\n    !  (not)\n\n    Logical operators are used to determine the logic between variables or values.\n    You can combine these just fine and use as many as you want\n*/\nlet x = 5\nlet y = 10\n\n(x > 5 && y == 10) // false\n(x == 5 && y === 10) // true\n(x == 5 || y === false) // true\n(!false) // true\n",
-                "meta": "logical operators",
-                "language": "js"
-            },
-            {
-                "front": "## falsey values\n",
-                "back": "/*\n    null, undefined, '', false, 0\n    are all the \"falsey\" values\n    everything else is true\n*/\nlet x = ''\nx == true // false\nx == false // true\nlet y = null\ny === null // true\ny == false // true\n!y // true\n!0 // true\n",
-                "meta": "falsey values",
-                "language": "js"
-            },
-            {
-                "front": "## for loop\n",
-                "back": "/*\n    for loops consist of 3 parts\n    1. variable initialization: let i = 0\n    2. a comparison: i < 10 (once false the for loop stops)\n    3. a change in value: i++ (same as saying i = i + 1)\n*/\nfor(let i = 0; i < 10; i++) {\n    // i gives me 0 through 9\n}\n",
-                "meta": "for loops",
-                "language": "js"
-            },
-            {
-                "front": "## for loops continued\n",
-                "back": "// you can do all the stuff above with for loops...\nlet str = ''\nlet arr = []\nfor(let i = 0; i < 10; i++) {\n    str += 'x'\n    arr.push(i)\n}\n\n// str is now 'xxxxxxxxxx'\n// arr is now [0,1,2,3,4,5,6,7,8,9]\n",
-                "meta": "for loops continued",
-                "language": "js"
-            },
-            {
-                "front": "## function\n",
-                "back": "function functionName(param1, param2) {\n    // param1 is the first value passed in (1)\n    // param2 is the second value passed in ([1,2,3])\n}\n\nfunction doubleNumbersArr(arr) {\n    let newArr = []\n    for (let i = 0; i < arr.length; i++) {\n        newArr.push(arr[i] * 2)\n    }\n    return newArr\n}\n\nfunctionName(1, [1,2,3]) // undefined (since no return)\ndoubleNumbersArr([1,2,3]) // [2,4,6]\n",
-                "meta": "function",
+                "front": "\n        ## function\n        ",
+                "back": "\n        function functionName(param1, param2) {\n            // param1 is the first value passed in (1)\n            // param2 is the second value passed in ([1,2,3])\n        }\n\n        function doubleNumbersArr(arr) {\n            let newArr = []\n            for (let i = 0; i < arr.length; i++) {\n                newArr.push(arr[i])\n            }\n            return newArr\n        }\n\n        functionName(1, [1,2,3]) // undefined (since no return)\n        doubleNumbersArr([1,2,3]) // [2,4,6]\n        ",
+                "meta": "\n        function\n        ",
                 "language": "js"
             }
         ]

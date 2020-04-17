@@ -11,7 +11,8 @@
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",
     "react-scripts": "3.4.1",
-    "react-syntax-highlighter": "^12.2.1"
+    "react-syntax-highlighter": "^12.2.1",
+    "xml2js": "^0.4.23"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,7 +22,7 @@
     "deploy-surge": "npm run deploy && npm run rename && cd build && surge",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "seed": "node file-parser/index.js"
+    "seed": "node file-parser/xml.js"
   },
   "eslintConfig": {
     "extends": "react-app"
