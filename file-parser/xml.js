@@ -52,6 +52,9 @@ function storeToJSONSeed(decks) {
 fs.readFile(path.join(__dirname, './deck.xml'), 'utf8', (err, contents) => {
     const parsed = escapeInvalidXML(contents)
     parseXMLToString(parsed, function (err, result) {
+      if (err) {
+        throw new Error(`INVALID XML: ${err}`)
+      }
       const decks = buildDeckFromXMLRoot(result.decks.deck)
       storeToJSONSeed(decks)
     })
