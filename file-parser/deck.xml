@@ -234,14 +234,46 @@
         <card>
             <front>## what is a statement?</front>
             <back>
-                /* 
-                A statement can set a variable equal to a value. 
-                A statement can also be a function call, i.e. document. ... 
-                Statements define what the script will do and how it will be done. */
-                var x = 5
-                foo()
+            /* 
+            A statement can set a variable equal to a value. 
+            A statement can also be a function call, i.e. document. ... 
+            Statements define what the script will do and how it will be done. */
+            var x = 5
+            foo()
             </back>
             <meta>statements</meta>
+        </card>
+        <card>
+            <front>## what are primitive values?</front>
+            <back>
+            /* 
+                In JavaScript there are 6 primitive types: 
+                undefined
+                null
+                boolean
+                string
+                symbol
+                and number . Everything else is an object.
+            */
+            let str = 'hello'
+            let bln = true // or false
+            </back>
+            <meta>primitive values</meta>
+        </card>
+        <card>
+            <front>## What is the difference between var, let, and const?</front>
+            <back>
+            // var declarations are globally scoped or function scoped
+            // var variables can be updated and re-declared within its scope;
+            var x = 1
+            // let and const are block scoped
+            // let variables can be updated but not re-declared
+            let y = 2
+            // const variables can neither be updated nor re-declared
+            const name = 'mark'
+            name = 'a' // would throw an ERROR
+            </back>
+            <meta>var let & const</meta>
         </card>
     </deck>
 </decks>

@@ -77,8 +77,20 @@
         "cards": [
             {
                 "front": "## what is a statement?",
-                "back": "\n                /* \n                A statement can set a variable equal to a value. \n                A statement can also be a function call, i.e. document. ... \n                Statements define what the script will do and how it will be done. */\n                var x = 5\n                foo()\n            ",
+                "back": "\n            /* \n            A statement can set a variable equal to a value. \n            A statement can also be a function call, i.e. document. ... \n            Statements define what the script will do and how it will be done. */\n            var x = 5\n            foo()\n            ",
                 "meta": "statements",
+                "language": "js"
+            },
+            {
+                "front": "## what are primitive values?",
+                "back": "\n            /* \n                In JavaScript there are 6 primitive types: \n                undefined\n                null\n                boolean\n                string\n                symbol\n                and number . Everything else is an object.\n            */\n            let str = 'hello'\n            let bln = true // or false\n            ",
+                "meta": "primitive values",
+                "language": "js"
+            },
+            {
+                "front": "## What is the difference between var, let, and const?",
+                "back": "\n            // var declarations are globally scoped or function scoped\n            // var variables can be updated and re-declared within its scope;\n            var x = 1\n            // let and const are block scoped\n            // let variables can be updated but not re-declared\n            let y = 2\n            // const variables can neither be updated nor re-declared\n            const name = 'mark'\n            name = 'a' // would throw an ERROR\n            ",
+                "meta": "var let & const",
                 "language": "js"
             }
         ]

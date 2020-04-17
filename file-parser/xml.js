@@ -18,7 +18,9 @@ function escapeInvalidXML(text) {
     const parsed = String(text).replace(regex, safelyEncodeXML)
     const regex2 = /(?<=\<front\>)[\s\S]*?(?=\<\/front\>)/g
     const parsed2 = String(parsed).replace(regex2, safelyEncodeXML)
-    return parsed2
+    const regex3 = /(?<=\<meta\>)[\s\S]*?(?=\<\/meta\>)/g
+    const parsed3 = String(parsed).replace(regex3, safelyEncodeXML)
+    return parsed3
 }
 
 function buildDeckFromXMLRoot(deckRoot) {
@@ -33,7 +35,7 @@ function buildDeckFromXMLRoot(deckRoot) {
           return {
               front: decodeXML(item.front.join('')),
               back: decodeXML(item.back.join('')),
-              meta: item.meta.join(''),
+              meta: decodeXML(item.meta.join('')),
               language: item.language || language
           }
       })
