@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { themeProvider, ThemeProvider } from './ThemeContext';
+import { themeProvider, ThemeProvider } from '../ThemeContext';
 import Card from './Card';
 import Page from './Page';
 // import cardData from './seed/js/seed';
-import cardData from './seed/js/dynamic-seed';
+import cardData from '../seed/js/dynamic-seed';
 import DeckNav from './DeckNav';
-import Switch from './components/ui/Switch';
+import Switch from './ui/Switch';
+import Settings from './Settings';
 
 console.log(cardData)
 
@@ -152,6 +153,8 @@ function App() {
         activeTheme={activeTheme}
         onChange={toggleTheme} 
         checked={activeTheme === 'dark-mode'} />
+      
+      <Settings />
       
       <div className="Dash">
         <div className="Dash-Nav-container">
