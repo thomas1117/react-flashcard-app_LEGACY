@@ -159,7 +159,7 @@ function App() {
       </div>
       <div className="Dash-Nav-mobile">
         <ul className="Dash-Nav-mobile-left">
-          {cardGroup.map((deck, index) => <li className="Dash-Nav-mobile-link" onClick={() => selectDeck(index)}>{deck.title}</li>)}
+          {cardGroup.map((deck, index) => <li className={`Dash-Nav-mobile-link ` + (index === deckIndex ? 'active' : '')} onClick={() => selectDeck(index)}>{deck.title}</li>)}
         </ul>
         <SettingsNav onChange={toggleTheme} activeTheme={activeTheme} updateSettings={updateSettings} />
       </div>

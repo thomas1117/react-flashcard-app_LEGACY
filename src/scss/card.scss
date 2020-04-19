@@ -155,9 +155,18 @@
     color: var(--off-dark);
     border: 1px solid var(--off-white);
   }
+
+  .App.dark-mode .Card-button {
+    @media(max-width: 768px) {
+      border: none;
+    }
+  }
   
   .Card-actions {
     display: none;
+    @media(max-width: 768px) {
+      display: block;
+    }
   }
 
   .Card:hover .Card-actions {

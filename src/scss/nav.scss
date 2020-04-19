@@ -103,6 +103,9 @@
   .Dash-Nav-mobile .Dash-Nav-mobile-link {
     margin-right: 4rem;
     cursor: pointer;
+    &.active {
+      border-bottom: 1px solid #fff;
+    }
   }
 
   .Dash-Nav-settings {
