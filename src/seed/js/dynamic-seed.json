@@ -83,7 +83,7 @@
             },
             {
                 "front": "## what are primitive values?",
-                "back": "\n            /* \n                In JavaScript there are 6 primitive types: \n                undefined\n                null\n                boolean\n                string\n                symbol\n                and number . Everything else is an object.\n            */\n            let str = 'hello'\n            let bln = true // or false\n            ",
+                "back": "\n            /* \n                In JavaScript there are 6 primitive types: \n                undefined null boolean string number symbol\n                \n                Everything else is an object.\n            */\n            let str = 'hello'\n            let bln = true // or false\n            ",
                 "meta": "primitive values",
                 "language": "js"
             },
@@ -91,6 +91,78 @@
                 "front": "## What is the difference between var, let, and const?",
                 "back": "\n            // var declarations are globally scoped or function scoped\n            // var variables can be updated and re-declared within its scope;\n            var x = 1\n            // let and const are block scoped\n            // let variables can be updated but not re-declared\n            let y = 2\n            // const variables can neither be updated nor re-declared\n            const name = 'mark'\n            name = 'a' // would throw an ERROR\n            ",
                 "meta": "var let & const",
+                "language": "js"
+            },
+            {
+                "front": "## var let const continued",
+                "back": "\n            for (let i = 0; i < 10; i++) {\n                console.log(i) // is defined in block\n            }\n            i // i is not defined outside of the block\n            ",
+                "meta": "var let & const continued",
+                "language": "js"
+            },
+            {
+                "front": "\n        ## objects\n        ",
+                "back": "\n        // objects\n        let person = {age: 4, first: 'John'}\n        // objects can be accessed with dot\n        // or bracket notation\n        let prop = 'age'\n        person.age // 4\n        person[prop] // 4\n        ",
+                "meta": "\n        objects\n        ",
+                "language": "js"
+            },
+            {
+                "front": "\n        ## methods\n        ",
+                "back": "\n        // methods\n        let person = {\n            first: 'Henry',\n            last: 'Henryson',\n            // methods are functions on objects\n            getName: function () {\n                return this.first + ' ' this.last\n            },\n            // I'm a method shorthand!\n            greet() {\n                return `Hi, I'm ${this.getName()}`\n            }\n        }\n        person.getName() // Henry Henryson\n        person.greet() // Hi, I'm Henry Henryson\n        // some methods on Object constructor prototype\n        person.hasOwnProperty(prop) // true\n        person.hasOwnProperty('name') // false\n        ",
+                "meta": "\n        methods\n        ",
+                "language": "js"
+            },
+            {
+                "front": "\n        ## array methods\n        ",
+                "back": "\n        // array methods\n        const nums = [1,2,3]\n        // map: transforms each item in array based on return\n        const multiply = nums.map(item => item * 2) // [2,4,6]\n        // filter: if condition is true keep item else dont\n        const filtered = nums.filter(i => i % 2 === 0) // [2]\n        // reduce: reduces an array to a single value\n        const reduced = nums.reduce((a,b) => a + b) // 6\n        const found = nums.find(item => item === 3) // 3\n        ",
+                "meta": "\n        array methods\n        ",
+                "language": "js"
+            },
+            {
+                "front": "\n        ## functions\n        ",
+                "back": "\n        // functions take values and can do \"things\"\n        // a function will return undefined if nothing is returned\n        function add(a, b) {\n            return a + b\n        }\n        add(1, 2) // 3\n        add(add(1, 2), 2) // 5\n        ",
+                "meta": "\n        \n        ",
+                "language": "js"
+            },
+            {
+                "front": "\n        ## string methods\n        ",
+                "back": "\n        // string methods work because the js engine wraps a String\n        // constructor function around the primitive\n        let str = 'hello'\n        str.charAt(0) // 'h'\n        str.toUpperCase() // HELLO\n        str.indexOf(0) // 'h'\n        str.includes('h') // true\n        ",
+                "meta": "\n        string methods\n        ",
+                "language": "js"
+            },
+            {
+                "front": "\n        ## function closures\n        ",
+                "back": "\n        function makeId() {\n            let count = 1\n            // inner function still has access to parent function scope (IE count...)\n            return () => count++\n        }\n        let id = makeId() // fn()\n        let newId = id() // 1\n        id() // 2\n        id() // 3\n        ",
+                "meta": "\n        function closures\n        ",
+                "language": "js"
+            },
+            {
+                "front": "\n        ## for loops with objects\n        ",
+                "back": "\n        let obj = {name: 'John', age: 6, ssn: 'n/a'}\n        // go over an object and grab keys\n        for (let key in obj) {\n            console.log(key) // name // age // etc...\n        }\n        ",
+                "meta": "\n        for loops with objects\n        ",
+                "language": "js"
+            },
+            {
+                "front": "\n        for loops with arrays\n        ",
+                "back": "\n        // go over an array and grab item in array\n        const arr = [1,2,3]\n        for (let item of arr) {\n            console.log(item) // 1 // 2 // 3\n        }\n        for (let i = 0; i < arr.length; i++) {\n            console.log(arr[i]) // 1 // 2 // 3\n        }\n        ",
+                "meta": "\n        for loops with arrays\n        ",
+                "language": "js"
+            }
+        ]
+    },
+    {
+        "title": "es6 and beyond",
+        "language": "js",
+        "cards": [
+            {
+                "front": "\n            ## destructuring assignment\n            ",
+                "back": "\n            /* The destructuring assignment syntax is a JavaScript expression\n            that makes it possible to unpack values from arrays, or properties \n            from objects, into distinct variables. */\n            ",
+                "meta": "\n            destructuring assignment\n            ",
+                "language": "js"
+            },
+            {
+                "front": "\n            ## arrays and destructuring\n            ",
+                "back": "\n            const arr = [1,2,3]\n            const [one, two, three] = arr\n            one // 1\n            two // 2\n            three // 3\n            ",
+                "meta": "\n            arrays and destructuring\n            ",
                 "language": "js"
             }
         ]

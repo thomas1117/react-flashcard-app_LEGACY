@@ -248,12 +248,9 @@
             <back>
             /* 
                 In JavaScript there are 6 primitive types: 
-                undefined
-                null
-                boolean
-                string
-                symbol
-                and number . Everything else is an object.
+                undefined null boolean string number symbol
+                
+                Everything else is an object.
             */
             let str = 'hello'
             let bln = true // or false
@@ -274,6 +271,198 @@
             name = 'a' // would throw an ERROR
             </back>
             <meta>var let & const</meta>
+        </card>
+        <card>
+            <front>## var let const continued</front>
+            <back>
+            for (let i = 0; i < 10; i++) {
+                console.log(i) // is defined in block
+            }
+            i // i is not defined outside of the block
+            </back>
+            <meta>var let & const continued</meta>
+        </card>
+        <card>
+        <front>
+        ## objects
+        </front>
+        <back>
+        // objects
+        let person = {age: 4, first: 'John'}
+        // objects can be accessed with dot
+        // or bracket notation
+        let prop = 'age'
+        person.age // 4
+        person[prop] // 4
+        </back>
+        <meta>
+        objects
+        </meta>
+        </card>
+        <card>
+        <front>
+        ## methods
+        </front>
+        <back>
+        // methods
+        let person = {
+            first: 'Henry',
+            last: 'Henryson',
+            // methods are functions on objects
+            getName: function () {
+                return this.first + ' ' this.last
+            },
+            // I'm a method shorthand!
+            greet() {
+                return `Hi, I'm ${this.getName()}`
+            }
+        }
+        person.getName() // Henry Henryson
+        person.greet() // Hi, I'm Henry Henryson
+        // some methods on Object constructor prototype
+        person.hasOwnProperty(prop) // true
+        person.hasOwnProperty('name') // false
+        </back>
+        <meta>
+        methods
+        </meta>
+        </card>
+        <card>
+        <front>
+        ## array methods
+        </front>
+        <back>
+        // array methods
+        const nums = [1,2,3]
+        // map: transforms each item in array based on return
+        const multiply = nums.map(item => item * 2) // [2,4,6]
+        // filter: if condition is true keep item else dont
+        const filtered = nums.filter(i => i % 2 === 0) // [2]
+        // reduce: reduces an array to a single value
+        const reduced = nums.reduce((a,b) => a + b) // 6
+        const found = nums.find(item => item === 3) // 3
+        </back>
+        <meta>
+        array methods
+        </meta>
+        </card>
+        <card>
+        <front>
+        ## functions
+        </front>
+        <back>
+        // functions take values and can do "things"
+        // a function will return undefined if nothing is returned
+        function add(a, b) {
+            return a + b
+        }
+        add(1, 2) // 3
+        add(add(1, 2), 2) // 5
+        </back>
+        <meta>
+        
+        </meta>
+        </card>
+        <card>
+        <front>
+        ## string methods
+        </front>
+        <back>
+        // string methods work because the js engine wraps a String
+        // constructor function around the primitive
+        let str = 'hello'
+        str.charAt(0) // 'h'
+        str.toUpperCase() // HELLO
+        str.indexOf(0) // 'h'
+        str.includes('h') // true
+        </back>
+        <meta>
+        string methods
+        </meta>
+        </card>
+        <card>
+        <front>
+        ## function closures
+        </front>
+        <back>
+        function makeId() {
+            let count = 1
+            // inner function still has access to parent function scope (IE count...)
+            return () => count++
+        }
+        let id = makeId() // fn()
+        let newId = id() // 1
+        id() // 2
+        id() // 3
+        </back>
+        <meta>
+        function closures
+        </meta>
+        </card>
+        <card>
+        <front>
+        ## for loops with objects
+        </front>
+        <back>
+        let obj = {name: 'John', age: 6, ssn: 'n/a'}
+        // go over an object and grab keys
+        for (let key in obj) {
+            console.log(key) // name // age // etc...
+        }
+        </back>
+        <meta>
+        for loops with objects
+        </meta>
+        </card>
+
+        <card>
+        <front>
+        for loops with arrays
+        </front>
+        <back>
+        // go over an array and grab item in array
+        const arr = [1,2,3]
+        for (let item of arr) {
+            console.log(item) // 1 // 2 // 3
+        }
+        for (let i = 0; i < arr.length; i++) {
+            console.log(arr[i]) // 1 // 2 // 3
+        }
+        </back>
+        <meta>
+        for loops with arrays
+        </meta>
+        </card>
+    </deck>
+    <deck title="es6 and beyond" language="js">
+        <card>
+            <front>
+            ## destructuring assignment
+            </front>
+            <back>
+            /* The destructuring assignment syntax is a JavaScript expression
+            that makes it possible to unpack values from arrays, or properties 
+            from objects, into distinct variables. */
+            </back>
+            <meta>
+            destructuring assignment
+            </meta>
+        </card>
+
+        <card>
+            <front>
+            ## arrays and destructuring
+            </front>
+            <back>
+            const arr = [1,2,3]
+            const [one, two, three] = arr
+            one // 1
+            two // 2
+            three // 3
+            </back>
+            <meta>
+            arrays and destructuring
+            </meta>
         </card>
     </deck>
 </decks>

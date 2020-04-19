@@ -50,13 +50,15 @@ function storeToJSONSeed(decks) {
   fs.writeFileSync(SEED_PATH, deckToStore)
 }
 
-function validate() {
-  
+function validate(xpath, currentValue, newValue) {
+  // can check xpath to validate structure...
+  // /decks/deck/card/front
+  return newValue
 }
 
 fs.readFile(XML_PATH, 'utf8', (err, contents) => {
     const parsed = escapeInvalidXML(contents)
-    parseXMLToString(parsed, {}, function (err, result) {
+    parseXMLToString(parsed, {validator: validate}, function (err, result) {
       if (err) {
         throw new Error(`INVALID XML: ${err}`)
       }
