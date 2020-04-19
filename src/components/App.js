@@ -18,12 +18,20 @@ function App() {
   const [currentDeck, setDeck] = useState(cardGroup[deckIndex])
   const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
   const [timerRunning, setTimerCycle] = useState(false)
-  const [timeCycle, setTime] = useState(3000)
+  const [front, setFront] = useState(true)
+  const [timeCycleFront, setTimeFront] = useState(getTimeCycle().frontTime)
+  const [timeCycleBack, setTimeBack] = useState(getTimeCycle().backTime)
+  const [currentCycle, setCurrentCycle] = useState(getTimeCycle().frontTime)
   const [start, setStart] = useState(true)
   const [activeTheme, setTheme] = useState(getTheme())
 
   function getTheme() {
     return localStorage.getItem('theme') || 'light-mode'
+  }
+
+  function getTimeCycle() {
+    const t = localStorage.getItem('time')
+    return t ? JSON.parse(t) : {frontTime: 3, backTime: 1}
   }
 
   function toggleTheme() {
@@ -69,7 +77,7 @@ function App() {
 
   function handleKeyPress(e) {
     const key = e.code
-    e.preventDefault()
+    // e.preventDefault()
     if (key === 'Space') {
       handleToggleSide()
     }
@@ -95,7 +103,9 @@ function App() {
   }
 
   function updateSettings(settings) {
-    console.log(settings)
+    setTimeFront(settings.front)
+    setTimeBack(settings.back)
+    localStorage.setItem('time', JSON.stringify(settings))
   }
 
   useEffect(() => {
@@ -129,6 +139,28 @@ function App() {
   useEffect(() => {
     let interval = null;
     if (timerRunning) {
+      // setTimeout(() => {
+      //   setFront(v => !v)
+      //   handleCardIndexChange(1, currentDeck.cards.length, () => {
+      //     setFront(false)
+      //   })
+      //   setCurrentCycle(() => front ? timeCycleFront : timeCycleBack)
+      // }, currentCycle * 1000)
+      //   handleToggleSide(v => {
+      //     if (v.side === 'front') {
+      //       setFront(false)
+      //       handleCardIndexChange(1, currentDeck.cards.length, () => {
+      //         setTimerCycle(false)
+      //         setActiveCardByIndex(0)
+      //         setFront(true)
+      //       })
+      //     } else {
+      //       handleCardIndexChange(1)
+      //       setFront(true)
+      //     }
+      //     setCurrentCycle(() => v.side === 'front' ? timeCycleFront : timeCycleBack)
+      //   })
+      // }, currentCycle * 1000)
       interval = setInterval(() => {
         handleToggleSide(v => {
           if (v.side === 'front' && !start) {
@@ -140,12 +172,12 @@ function App() {
             setStart(false)
           }
         })
-      }, timeCycle);
+      }, timeCycleFront * 1000);
     } else if (!timerRunning) {
       clearInterval(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, start, currentDeck, timeCycle])
+  }, [timerRunning, start, currentDeck, front, currentCycle])
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -155,13 +187,23 @@ function App() {
     <ThemeProvider value={activeTheme}>
     <Page>
       <div class="Dash-nav-desktop">  
-        <SettingsNav onChange={toggleTheme} activeTheme={activeTheme} updateSettings={updateSettings} />
+        <SettingsNav 
+          frontTime={timeCycleFront}
+          backTime={timeCycleBack}
+          onChange={toggleTheme}
+          activeTheme={activeTheme}
+          updateSettings={updateSettings} />
       </div>
       <div className="Dash-Nav-mobile">
         <ul className="Dash-Nav-mobile-left">
           {cardGroup.map((deck, index) => <li className={`Dash-Nav-mobile-link ` + (index === deckIndex ? 'active' : '')} onClick={() => selectDeck(index)}>{deck.title}</li>)}
         </ul>
-        <SettingsNav onChange={toggleTheme} activeTheme={activeTheme} updateSettings={updateSettings} />
+        <SettingsNav
+          frontTime={timeCycleFront}
+          backTime={timeCycleBack}
+          onChange={toggleTheme}
+          activeTheme={activeTheme}
+          updateSettings={updateSettings} />
       </div>
       
       <div className="Dash">

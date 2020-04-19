@@ -2,19 +2,18 @@ import React, { useState } from 'react'
 
 export default function Settings(props) {
     const [visible, setVisible] = useState(false)
-    const [frontTime,setFrontTime] = useState(3)
-    const [backTime, setBackTime] = useState(3)
+    const [frontTime,setFrontTime] = useState(props.frontTime)
+    const [backTime, setBackTime] = useState(props.backTime)
     const handleSubmit = (e) => {
         e.preventDefault()
         props.updateSettings({frontTime, backTime})
         setVisible(false)
     }
     const handleFront = (e) => {
-        console.log(e)
-        setFrontTime(e.target.value)
+        setFrontTime(Number(e.target.value))
     }
     const handleBack = (e) => {
-        setBackTime(e.target.value)
+        setBackTime(Number(e.target.value))
     }
     return <div>
         {
@@ -34,6 +33,7 @@ export default function Settings(props) {
                         <label htmlFor="Front">Front time (seconds)</label>
                         <input 
                             id="front"
+                            type="text"
                             className="Settings-front-time Settings-time"
                             value={frontTime}
                             onChange={handleFront}
@@ -43,6 +43,7 @@ export default function Settings(props) {
                         <label htmlFor="Back">Back time (seconds)</label>
                         <input 
                             id="back"
+                            type="text"
                             className="Settings-back-time Settings-time"
                             value={backTime}
                             onChange={handleBack}
