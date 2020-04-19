@@ -1,6 +1,15 @@
 .Dash {
     display: flex;
     height: 100%;
+    @media(max-width: 768px) {
+      max-height: 60%;
+    }
+  }
+
+  .Dash-nav-desktop {
+    @media(max-width: 768px) {
+      display: none;
+    }
   }
   
   @media(max-width: 768px) {

@@ -7,6 +7,7 @@ import cardData from '../seed/js/dynamic-seed';
 import DeckNav from './DeckNav';
 import Switch from './ui/Switch';
 import Settings from './Settings';
+import SettingsNav from './SettingsNav';
 
 console.log(cardData)
 
@@ -93,6 +94,10 @@ function App() {
     setTimerCycle(false)
   }
 
+  function updateSettings(settings) {
+    console.log(settings)
+  }
+
   useEffect(() => {
     let limit = currentDeck.cards.length - 1
     if (cardIndex >= 0 && cardIndex <= limit) {
@@ -149,12 +154,15 @@ function App() {
   return (
     <ThemeProvider value={activeTheme}>
     <Page>
-      <Switch
-        activeTheme={activeTheme}
-        onChange={toggleTheme} 
-        checked={activeTheme === 'dark-mode'} />
-      
-      <Settings />
+      <div class="Dash-nav-desktop">  
+        <SettingsNav onChange={toggleTheme} activeTheme={activeTheme} updateSettings={updateSettings} />
+      </div>
+      <div className="Dash-Nav-mobile">
+        <ul className="Dash-Nav-mobile-left">
+          {cardGroup.map((deck, index) => <li className="Dash-Nav-mobile-link" onClick={() => selectDeck(index)}>{deck.title}</li>)}
+        </ul>
+        <SettingsNav onChange={toggleTheme} activeTheme={activeTheme} updateSettings={updateSettings} />
+      </div>
       
       <div className="Dash">
         <div className="Dash-Nav-container">

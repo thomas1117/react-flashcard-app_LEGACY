@@ -19,7 +19,7 @@ class CodeBlock extends PureComponent {
       <SyntaxHighlighter 
         language={language}
         style={atomDark}
-        customStyle={{height: '100%', margin: 0, borderRadius: 0}}>
+        customStyle={{height: '100%', margin: 0, borderRadius: 0, whiteSpace: 'normal'}}>
         {value}
       </SyntaxHighlighter>
     );

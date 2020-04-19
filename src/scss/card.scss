@@ -11,6 +11,12 @@
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
   }
 
+  @media(max-width: 768px) {
+    .token {
+      white-space: normal;
+    }
+  }
+
   .Card-deck {
     position: absolute;
     left: 2rem;
@@ -80,6 +86,9 @@
   .Card-container-inner {
     position: relative;
     width: 80%;
+    @media(max-width: 768px) {
+      width: 95%;
+    }
   }
   
   .Card-container-title {

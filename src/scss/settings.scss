@@ -1,0 +1,104 @@
+.SettingsNav {
+    position: relative;
+}
+
+.SettingsNav ul {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.SettingsNav li {
+    list-style: none;
+}
+
+.Settings-submit {
+    background: transparent;
+    color: #fff;
+    padding: 1rem;
+}
+
+.Settings-time-container {
+    width: 20%;
+    min-width: 300px;
+    margin: 0 auto;
+
+    & label {
+        position: absolute;
+        right: 0;
+        bottom: .5rem;
+        font-size: .75rem;
+    }
+
+    & fieldset {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+}
+
+.Settings-submit-container {
+    position: relative;
+    text-align: right;
+}
+
+.Settings-submit:hover {
+    background: #fff;
+    color:var(--off-dark);
+}
+
+.Settings-time {
+    border: none;
+    outline: none;
+    color: #fff;
+    border-bottom: 1px solid #d7d7d7;
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    position: relative;
+    background: transparent;
+
+    &:focus {
+        color: #fff;
+        border-bottom: 1px solid #1b88bb;
+    }
+
+    ::placeholder {
+        color: #d7d7d7;
+    }
+}
+
+.Settings-time-container {
+    top: 6rem;
+    position: relative;
+}
+
+.Settings-toggle {
+    position: absolute;
+    right: .5rem;
+    top: 0;
+    z-index: 3;
+    font-size: 3rem;
+    color: #fff;
+    background: none;
+    outline: none;
+    border: none;
+
+    &-overlay {
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: var(--off-dark);
+        position: fixed;
+        z-index: 2;
+    }
+}
+
+.theme-toggler {
+    z-index: 1;
+    right: 3rem;
+    top: 1rem;
+
+    @media screen and (max-width: 768px) {
+        top: 0rem;
+    }
+  }
