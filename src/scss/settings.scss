@@ -1,25 +1,71 @@
-.SettingsNav {
-    position: relative;
-    z-index: 1;
-}
-
-.SettingsNav-toggle {
-    @media screen and (max-width: 768px) {
-        display: none;
+$setting-input-focus: #1b88bb;
+.App.light-mode .Dash-Nav-desktop {
+    .Settings-toggle {
+        color: var(--off-dark)
     }
 }
 
-.SettingsNav .theme-toggler {
-    margin-right: 1rem;
+.App.dark-mode {
+    .Settings-toggle {
+        &-overlay {
+            background-color: var(--dark);
+        }
+    }
 }
 
-.SettingsNav ul {
-    display: flex;
-    justify-content: flex-end;
+.App.light-mode {
+    .Settings-toggle {
+        &-overlay {
+            background-color: #fff;
+            color: var(--off-dark);
+        }
+    }
+
+    .Settings-toggle-close {
+        color: var(--off-dark);
+    }
+
+    .Settings-time {
+        border-color: var(--off-dark);
+        color: var(--off-dark);
+
+        &:focus {
+            color: var(--off-dark);
+            border-color: $setting-input-focus;
+        }
+    }
+
+    .Settings-submit {
+        color: var(--off-dark); 
+        border-color: var(--off-dark);
+    }
 }
 
-.SettingsNav li {
-    list-style: none;
+.SettingsNav {
+    position: relative;
+    z-index: 1;
+
+    &-toggle {
+        @media screen and (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .theme-toggler {
+        margin-right: 1rem;
+    }   
+    
+    ul {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.Settings-Switch {
+    display: none;
+    @media screen and (max-width: 768px) {
+        display: block;
+    }
 }
 
 .Settings-submit {
@@ -33,7 +79,7 @@
     min-width: 300px;
     margin: 0 auto;
 
-    & label {
+    &-label {
         position: absolute;
         right: 0;
         bottom: .5rem;
@@ -56,39 +102,6 @@
     color:var(--off-dark);
 }
 
-.App.light-mode .Dash-nav-desktop {
-    .Settings-toggle {
-        color: var(--off-dark)
-    }
-}
-
-.App.light-mode {
-    .Settings-toggle {
-        &-overlay {
-            background-color: #fff;
-            color: var(--off-dark);
-        }
-    }
-
-    .Settings-toggle-close {
-        color: var(--off-dark);
-    }
-
-    .Settings-time {
-        border-color: var(--off-dark);
-        color: var(--off-dark);
-
-        &:focus {
-            color: var(--off-dark);
-        }
-    }
-
-    .Settings-submit {
-        color: var(--off-dark); 
-        border-color: var(--off-dark);
-    }
-}
-
 .Settings-time {
     border: none;
     outline: none;
@@ -102,7 +115,7 @@
 
     &:focus {
         color: #fff;
-        border-bottom: 1px solid #1b88bb;
+        border-bottom: 1px solid $setting-input-focus;
     }
 
     ::placeholder {
@@ -113,14 +126,6 @@
 .Settings-time-container {
     top: 6rem;
     position: relative;
-}
-
-.App.dark-mode {
-    .Settings-toggle {
-        &-overlay {
-            background-color: var(--dark);
-        }
-    }
 }
 
 .Settings-toggle {

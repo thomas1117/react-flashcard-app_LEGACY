@@ -1,16 +1,21 @@
+.App.dark-mode .Dash {
+  background: #1d1f21;
+}
+
+.App.dark-mode {
+  .Dash-Nav-mobile {
+    color: var(--off-white);
+  }
+}
+
 .Dash {
   display: flex;
   height: 100%;
   @media(max-width: 768px) {
     height: auto;
   }
-}
 
-.App.dark-mode .Dash {
-  background: #1d1f21;
-}
-
-  .Dash-Nav-desktop {
+  &-Nav-desktop {
     position: absolute;
     padding: 1rem;
     width: 100%;
@@ -18,14 +23,8 @@
       display: none;
     }
   }
-  
-  @media(max-width: 768px) {
-    .Dash-Nav-container {
-      display: none;
-    }
-  }
 
-  .Dash-Nav-mobile {
+  &-Nav-mobile {
     display: none;
     z-index: 999;
     white-space: nowrap;
@@ -37,30 +36,45 @@
     @media screen and (max-width: 768px) {
       display: flex;
     }
-  }
 
-  .Dash-Nav-mobile .Dash-Nav-mobile-left {
-    display: flex;
-    width: 80%;
-    overflow-x: auto;
-  }
+    &-left {
+      display: flex;
+      width: 80%;
+      overflow-x: auto;
+      z-index: 2;
+    }
 
-  .Dash-Nav-mobile .Dash-Nav-mobile-link {
-    margin-right: 1rem;
-    cursor: pointer;
-    &.active {
-      border-bottom: 1px solid #fff;
+    &-link {
+      margin-right: 1rem;
+      cursor: pointer;
+      &.active {
+        border-bottom: 1px solid #fff;
+      }
     }
   }
 
-  .App .Dash-Nav-mobile .Settings-toggle {
-    color: #fff;
+  @media(max-width: 768px) {
+    &-Nav-container {
+      display: none;
+    }
   }
 
-  .Dash-Nav-settings {
+  &-Card-container {
+    flex-grow: 1;
+    height: 100%;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
   }
-
-  .Dash-Nav-mobile-link {
-    
+  
+  &-Card-container-inner {
+    position: relative;
+    width: 80%;
+    @media(max-width: 768px) {
+      width: 95%;
+      padding-top: 2rem;
+    }
   }
+}

@@ -1,15 +1,43 @@
-.Card {
-    cursor: pointer;
-    height: 400px;
-    overflow-y: auto;
-    width: 100%;
-    color: var(--off-dark);
-    position: relative;
-    border-radius: 2px;
-    -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+.App.dark-mode .Card {
+  color: var(--off-white);
+  background: #222425; // rgb(29, 31, 33);
+}
+
+.App.dark-mode .Card-number {
+  background: inherit;
+  border: 1px solid #fff;
+}
+
+.App.dark-mode .Card-button {
+  color: var(--off-white);
+  background: rgb(29, 31, 33);
+  border: 1px solid #fff;
+  border-radius: 5px;
+}
+
+.App.dark-mode .Card-button:hover {
+  background-color: var(--off-white);
+  color: var(--off-dark);
+  border: 1px solid var(--off-white);
+}
+
+.App.dark-mode .Card-button {
+  @media(max-width: 768px) {
+    border: none;
   }
+}
+
+.Card {
+  cursor: pointer;
+  height: 400px;
+  overflow-y: auto;
+  width: 100%;
+  color: var(--off-dark);
+  position: relative;
+  border-radius: 2px;
+  -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
 
   @media(max-width: 768px) {
     .token {
@@ -17,49 +45,35 @@
     }
   }
 
-  .Card-deck {
-    position: absolute;
-    left: 2rem;
-    top: 1rem;
-    font-weight: bold;
-    font-style: italic;
-    font-size: .825rem;
-  }
-  
-  .App.dark-mode .Card {
-    color: var(--off-white);
-    background: #222425; // rgb(29, 31, 33);
-  }
-
-  /*
+    /*
   TODO: should probably compute the height of the card and then decide the height to show
   based on both the front and the back elements
-*/
-.Card-front {
+  */
+  &-front {
     position: absolute;
     visibility: hidden;
     width: 100%;
   }
-  
-  .Card-front.visible {
+
+  &-front.visible {
     visibility: visible;
   }
-  
-  .Card-back {
+
+  &-back {
     visibility: hidden;
     height: 100%;
   }
-  
-  .Card-back.visible {
+
+  &-back.visible {
     visibility: visible;
   }
-  
-  
-  .Card-front, .Card-back {
+
+
+  &-front, &-back {
     padding: 3rem 2rem 2rem 2rem;
   }
-  
-  .Card-number {
+
+  &-number {
     position: absolute;
     font-size: .8rem;
     top: .5rem;
@@ -73,50 +87,12 @@
     vertical-align: middle;
   }
 
-  .Card-container {
-    flex-grow: 1;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  
-  .Card-container-inner {
-    position: relative;
-    width: 80%;
-    @media(max-width: 768px) {
-      width: 95%;
-      padding-top: 2rem;
-    }
-  }
-  
-  .Card-container-title {
+  &-container-title {
     text-align: center;
     padding-bottom: 1rem;
   }
-  
-  .App.dark-mode .Card-number {
-    background: inherit;
-    border: 1px solid #fff;
-  }
-  
-  .Card-cycle-button {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    z-index: 1;
-    top: 4rem;
-    right: 3rem;
-  }
-  
-  .Card-cycle-button span {
-    font-size: 1rem;
-    margin-right: 1rem;
-  }
-  
-  .Card-button {
+
+  &-button {
     border: none;
     outline: none;
     padding: 1rem .25rem;
@@ -124,51 +100,42 @@
     font-size: 1rem;
     cursor: pointer;
   }
-
-  .Card-button:disabled {
+  
+  &-button:disabled {
     cursor: not-allowed;
   }
   
-  .Card-button-back {
+  &-button-back {
     position: absolute;
     left: 0;
     top: 50%;
     transform: translate(0, -50%);
   }
   
-  .Card-button-advance {
+  &-button-advance {
     position: absolute;
     right: 0;
     top: 50%;
     transform: translate(0, -50%);
   }
 
-  .App.dark-mode .Card-button {
-    color: var(--off-white);
-    background: rgb(29, 31, 33);
-    border: 1px solid #fff;
-    border-radius: 5px;
-  }
-
-  .App.dark-mode .Card-button:hover {
-    background-color: var(--off-white);
-    color: var(--off-dark);
-    border: 1px solid var(--off-white);
-  }
-
-  .App.dark-mode .Card-button {
-    @media(max-width: 768px) {
-      border: none;
-    }
-  }
-  
-  .Card-actions {
+  &-actions {
     display: none;
     @media(max-width: 768px) {
       display: block;
     }
   }
-
-  .Card:hover .Card-actions {
+  
+  &:hover &-actions {
     display: block;
   }
+
+  &-deck {
+    position: absolute;
+    left: 2rem;
+    top: 1rem;
+    font-weight: bold;
+    font-style: italic;
+    font-size: .825rem;
+  }
+}

@@ -4,6 +4,7 @@ import Card from './Card';
 import Page from './Page';
 import DeckNav from './DeckNav';
 import SettingsNav from './SettingsNav';
+import Switch from './ui/Switch'
 import { connect } from 'react-redux';
 import { 
   initDeck,
@@ -133,8 +134,8 @@ function App(props) {
               selectCard={selectCard}
               selectDeck={selectDeck} />
           </div>
-          <div className="Card-container">
-            <div className="Card-container-inner">
+          <div className="Dash-Card-container">
+            <div className="Dash-Card-container-inner">
               <Card
                 leftDisabled={activeCardIndex === 0}
                 rightDisabled={activeCardIndex === currentDeck.cards.length - 1}

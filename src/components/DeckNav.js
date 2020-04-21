@@ -1,13 +1,14 @@
 import React from 'react';
 
 export default function DeckNav(props) {
-    function selectCycleDeck(e, index) {
+    function selectCycleDeck(e, deckIndex) {
         e.stopPropagation()
-        return props.cycleDeck(index)
+        props.selectDeck(deckIndex)
+        return props.cycleDeck(deckIndex)
     }
-    function pauseCycleDeck(e, index) {
+    function pauseCycleDeck(e, deckIndex) {
         e.stopPropagation()
-        return props.pauseCycleDeck(index)
+        return props.pauseCycleDeck(deckIndex)
     }
     function handleCardSelection(e, cardIndex, deckIndex) {
         e.stopPropagation()
@@ -29,7 +30,7 @@ export default function DeckNav(props) {
                                 <span>{deck.title}</span>
                                 {
                                     isPlaying && isActive ?
-                                    <span onClick={(e) => pauseCycleDeck(e, deckIndex)}>&#9611; &#9611;</span> :
+                                    <span onClick={(e) => pauseCycleDeck(e, deckIndex)} className="Nav-deck-pause">&#9611;&#9611;</span> :
                                     <span 
                                     className="Nav-deck-item-inner-icon"
                                     onClick={(e) => selectCycleDeck(e, deckIndex)}>
