@@ -2,6 +2,12 @@
   background: #1d1f21;
 }
 
+.App.dark-mode {
+  .Dash-Nav-mobile {
+    color: var(--off-white);
+  }
+}
+
 .Dash {
   display: flex;
   height: 100%;
@@ -31,14 +37,11 @@
       display: flex;
     }
 
-    .Settings-toggle {
-      color: #fff;
-    }
-
     &-left {
       display: flex;
       width: 80%;
       overflow-x: auto;
+      z-index: 2;
     }
 
     &-link {

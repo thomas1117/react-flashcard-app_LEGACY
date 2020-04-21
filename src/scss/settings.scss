@@ -1,64 +1,14 @@
-.SettingsNav {
-    position: relative;
-    z-index: 1;
-}
-
-.SettingsNav-toggle {
-    @media screen and (max-width: 768px) {
-        display: none;
-    }
-}
-
-.SettingsNav .theme-toggler {
-    margin-right: 1rem;
-}
-
-.SettingsNav ul {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.SettingsNav li {
-    list-style: none;
-}
-
-.Settings-submit {
-    background: transparent;
-    color: #fff;
-    padding: 1rem;
-}
-
-.Settings-time-container {
-    width: 20%;
-    min-width: 300px;
-    margin: 0 auto;
-
-    & label {
-        position: absolute;
-        right: 0;
-        bottom: .5rem;
-        font-size: .75rem;
-    }
-
-    & fieldset {
-        position: relative;
-        margin-bottom: 2rem;
-    }
-}
-
-.Settings-submit-container {
-    position: relative;
-    text-align: right;
-}
-
-.Settings-submit:hover {
-    background: #fff;
-    color:var(--off-dark);
-}
-
-.App.light-mode .Dash-nav-desktop {
+.App.light-mode .Dash-Nav-desktop {
     .Settings-toggle {
         color: var(--off-dark)
+    }
+}
+
+.App.dark-mode {
+    .Settings-toggle {
+        &-overlay {
+            background-color: var(--dark);
+        }
     }
 }
 
@@ -89,6 +39,60 @@
     }
 }
 
+.SettingsNav {
+    position: relative;
+    z-index: 1;
+
+    &-toggle {
+        @media screen and (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .theme-toggler {
+        margin-right: 1rem;
+    }   
+    
+    ul {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.Settings-submit {
+    background: transparent;
+    color: #fff;
+    padding: 1rem;
+}
+
+.Settings-time-container {
+    width: 20%;
+    min-width: 300px;
+    margin: 0 auto;
+
+    &-label {
+        position: absolute;
+        right: 0;
+        bottom: .5rem;
+        font-size: .75rem;
+    }
+
+    & fieldset {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+}
+
+.Settings-submit-container {
+    position: relative;
+    text-align: right;
+}
+
+.Settings-submit:hover {
+    background: #fff;
+    color:var(--off-dark);
+}
+
 .Settings-time {
     border: none;
     outline: none;
@@ -113,14 +117,6 @@
 .Settings-time-container {
     top: 6rem;
     position: relative;
-}
-
-.App.dark-mode {
-    .Settings-toggle {
-        &-overlay {
-            background-color: var(--dark);
-        }
-    }
 }
 
 .Settings-toggle {

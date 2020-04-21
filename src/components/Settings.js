@@ -33,18 +33,10 @@ export default function Settings(props) {
             onClick={() => setVisible(v => !v)}>&#9881;</button>
         }
         <div className="Settings-toggle-overlay" style={{visibility: visible ? 'visible' : 'hidden'}}>
-            {
-            visible &&
-            <Switch 
-                onChange={props.onChange}
-                activeTheme={props.activeTheme}
-                checked={props.activeTheme === 'dark-mode'}
-            />
-            }
             <form onSubmit={handleSubmit}>
                 <div className="Settings-time-container">
                     <fieldset>
-                        <label htmlFor="Front">Front time (seconds)</label>
+                        <label className="Settings-time-container-label" htmlFor="Front">Front time (seconds)</label>
                         <input 
                             id="front"
                             type="text"
@@ -54,7 +46,7 @@ export default function Settings(props) {
                             placeholder="Front card time" />
                     </fieldset>
                     <fieldset>
-                        <label htmlFor="Back">Back time (seconds)</label>
+                        <label className="Settings-time-container-label" htmlFor="Back">Back time (seconds)</label>
                         <input 
                             id="back"
                             type="text"
@@ -62,6 +54,13 @@ export default function Settings(props) {
                             value={backTime}
                             onChange={handleBack}
                             placeholder="Back card time" />
+                    </fieldset>
+                    <fieldset>
+                        <Switch 
+                            onChange={props.onChange}
+                            activeTheme={props.activeTheme}
+                            checked={props.activeTheme === 'dark-mode'}
+                        />
                     </fieldset>
                     <fieldset>
                         <div className="Settings-submit-container">

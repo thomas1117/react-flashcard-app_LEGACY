@@ -4,6 +4,7 @@ import Card from './Card';
 import Page from './Page';
 import DeckNav from './DeckNav';
 import SettingsNav from './SettingsNav';
+import Switch from './ui/Switch'
 import { connect } from 'react-redux';
 import { 
   initDeck,
