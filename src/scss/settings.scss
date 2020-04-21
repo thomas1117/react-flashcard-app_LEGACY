@@ -1,3 +1,4 @@
+$setting-input-focus: #1b88bb;
 .App.light-mode .Dash-Nav-desktop {
     .Settings-toggle {
         color: var(--off-dark)
@@ -30,6 +31,7 @@
 
         &:focus {
             color: var(--off-dark);
+            border-color: $setting-input-focus;
         }
     }
 
@@ -56,6 +58,13 @@
     ul {
         display: flex;
         justify-content: flex-end;
+    }
+}
+
+.Settings-Switch {
+    display: none;
+    @media screen and (max-width: 768px) {
+        display: block;
     }
 }
 
@@ -106,7 +115,7 @@
 
     &:focus {
         color: #fff;
-        border-bottom: 1px solid #1b88bb;
+        border-bottom: 1px solid $setting-input-focus;
     }
 
     ::placeholder {

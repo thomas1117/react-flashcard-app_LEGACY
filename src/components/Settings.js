@@ -5,6 +5,8 @@ export default function Settings(props) {
     const [visible, setVisible] = useState(false)
     const [frontTime,setFrontTime] = useState(props.frontTime)
     const [backTime, setBackTime] = useState(props.backTime)
+    const [activeTheme] = useState(props.activeTheme)
+    console.log(activeTheme)
     const handleSubmit = (e) => {
         e.preventDefault()
         props.updateSettings({frontTime, backTime})
@@ -14,12 +16,20 @@ export default function Settings(props) {
         setVisible(v => !v)
         setFrontTime(props.frontTime)
         setBackTime(props.backTime)
+        // TODO come back to fix this theming issue on refresh
+        // probably just place in state....
+        if (props.activeTheme !== activeTheme) {
+            props.onChange()
+        }
     }
     const handleFront = (e) => {
         setFrontTime(Number(e.target.value))
     }
     const handleBack = (e) => {
         setBackTime(Number(e.target.value))
+    }
+    const handleDark = (data) => {
+        props.onChange(data)
     }
     return <div>
         {
@@ -55,9 +65,9 @@ export default function Settings(props) {
                             onChange={handleBack}
                             placeholder="Back card time" />
                     </fieldset>
-                    <fieldset>
+                    <fieldset className="Settings-Switch">
                         <Switch 
-                            onChange={props.onChange}
+                            onChange={handleDark}
                             activeTheme={props.activeTheme}
                             checked={props.activeTheme === 'dark-mode'}
                         />
