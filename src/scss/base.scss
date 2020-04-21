@@ -23,10 +23,11 @@
   :root {
     --off-white: #d3d3d3;
     --off-dark: #313639;
+    --dark: #1d1f21;
   }
 
   .App.dark-mode {
-    background: #1d1f21;
+    background: var(--dark);
   }
 
 fieldset {

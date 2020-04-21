@@ -4,3 +4,11 @@
 @import "card.scss";
 @import "dash.scss";
 @import "settings.scss";
+
+.App.light-mode {
+    color: var(--off-dark);
+}
+
+.App.dark-mode {
+    color: var(--off-white);
+}

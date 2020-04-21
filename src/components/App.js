@@ -97,7 +97,7 @@ function App(props) {
   return (
     <ThemeProvider value={activeTheme}>
     <Page loaded={!loading}>
-        <div class="Dash-nav-desktop">  
+        <div class="Dash-Nav-desktop">  
           <SettingsNav 
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
