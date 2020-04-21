@@ -9,6 +9,7 @@ const topicState = {
     timerRunning: false,
     timeCycleFront: 3000,
     timeCycleBack: 3000,
+    activeTheme: localStorage.getItem('theme') || 'light-mode',
     // currentCycle: 3000,
 
 }
@@ -28,6 +29,7 @@ export function topic(state = topicState, action) {
                 currentDeck: state.cardGroup[action.index],
                 activeDeckIndex: action.index,
                 activeCardIndex: 0,
+                currentCard: state.cardGroup[action.index].cards[0],
             }
         case 'SELECT_CARD':
             return {
@@ -37,10 +39,22 @@ export function topic(state = topicState, action) {
             }
         case 'FLIP_CARD':
             const card = state.currentCard
-            console.log('flip')
             return {
                 ...state,
                 currentCard: {...card, side: card.side === 'front' ? 'back' : 'front'},
+            }
+        case 'TOGGLE_THEME':
+            return {
+                ...state,
+                activeTheme: state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
+            }
+        case 'FORWARD_BACKWARD':
+            const newIndex = state.activeCardIndex + action.diff
+            return {
+                ...state,
+                activeCardIndex: newIndex,
+                currentCard: state.currentDeck.cards[newIndex]
+
             }
         default:
             return state

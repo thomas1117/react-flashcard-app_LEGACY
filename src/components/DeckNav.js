@@ -9,6 +9,10 @@ export default function DeckNav(props) {
         e.stopPropagation()
         return props.pauseCycleDeck(index)
     }
+    function handleCardSelection(e, index) {
+        e.stopPropagation()
+        props.selectCard(index)
+    }
     return (
         <nav className="Nav">
             <div className="Nav-children">
@@ -35,7 +39,7 @@ export default function DeckNav(props) {
                             <div>
                                 <ul className="Nav-deck-sub">
                                     {deck.cards.map((card, index) => {
-                                        return <li key={index} onClick={() => props.selectCard(index)} className={card.id === props.currentId ? 'active' : ''}>{ card.meta }</li>
+                                        return <li key={index} onClick={(e) => handleCardSelection(e, index)} className={card.id === props.currentId ? 'active' : ''}>{ card.meta }</li>
                                     })}
                                 </ul>
                             </div>

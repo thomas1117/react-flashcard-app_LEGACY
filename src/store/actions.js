@@ -4,6 +4,14 @@ const INIT_DECK = 'INIT_DECK'
 const SELECT_DECK = 'SELECT_DECK'
 const SELECT_CARD = 'SELECT_CARD'
 const FLIP_CARD = 'FLIP_CARD'
+const TOGGLE_THEME = 'TOGGLE_THEME'
+const FORWARD_BACKWARD = 'FORWARD_BACKWARD'
+
+export function toggleTheme() {
+    return {
+        type: TOGGLE_THEME,
+    }
+}
 
 export function initDeck() {
     return {
@@ -57,13 +65,11 @@ export function handleToggleSide() {
 // })
 }
 
-export function handleCardIndexChange(num, limit, cb) {
-// setActiveCardByIndex(currIndex => {
-//     if (currIndex + num === limit) {
-//     cb()
-//     }
-//     return currIndex + num
-// })
+export function handleCardIndexChange(diff) {
+    return {
+        type: FORWARD_BACKWARD,
+        diff
+    }
 }
 
 // const [cardIndex, setActiveCardByIndex] = useState(0)

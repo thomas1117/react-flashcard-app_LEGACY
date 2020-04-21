@@ -18,22 +18,12 @@ import {
   selectCard,
   cardIndex,
   handleToggleSide,
+  toggleTheme,
   handleCardIndexChange,
 } from '../store/actions'
 
 function App(props) {
   const [loading, setLoading] = useState(true)
-  function getTheme() {
-    return localStorage.getItem('theme') || 'light-mode'
-    }
-  const [activeTheme, setTheme] = useState(getTheme())
-  function toggleTheme() {
-    setTheme(v => {
-        const newTheme = v === 'dark-mode' ? 'light-mode' : 'dark-mode'
-        localStorage.setItem('theme', newTheme)
-        return newTheme
-    })
-    }
   useEffect(() => {
     props.initDeck()
     setLoading(false)
@@ -41,13 +31,14 @@ function App(props) {
   const topic = props.topic
   const  { 
     activeDeckIndex,
+    activeCardIndex,
     currentDeck,
     currentCard,
     cardGroup,
     timerRunning,
     timeCycleBack,
     timeCycleFront,
-    cardIndex
+    activeTheme
   } = topic
   return (
     <ThemeProvider value={activeTheme}>
@@ -60,7 +51,7 @@ function App(props) {
           <SettingsNav 
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
-            onChange={toggleTheme}
+            onChange={props.toggleTheme}
             activeTheme={activeTheme}
             updateSettings={updateSettings} />
         </div>
@@ -75,7 +66,7 @@ function App(props) {
           <SettingsNav
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
-            onChange={toggleTheme}
+            onChange={props.toggleTheme}
             activeTheme={activeTheme}
             updateSettings={updateSettings} />
         </div>
@@ -95,14 +86,14 @@ function App(props) {
           <div className="Card-container">
             <div className="Card-container-inner">
               <Card
-                leftDisabled={cardIndex === 0}
-                rightDisabled={cardIndex === currentDeck.cards.length - 1}
+                leftDisabled={activeCardIndex === 0}
+                rightDisabled={activeCardIndex === currentDeck.cards.length - 1}
                 key={currentCard.id}
                 deck={currentDeck.title}
-                number={cardIndex + 1}
+                number={activeCardIndex + 1}
                 onClick={props.handleToggleSide} 
-                advance={() => handleCardIndexChange(1)}
-                goBack={() => handleCardIndexChange(-1)}
+                advance={() => props.handleCardIndexChange(1)}
+                goBack={() => props.handleCardIndexChange(-1)}
                 meta={currentCard.meta}
                 front={currentCard.front} 
                 back={currentCard.back} 
@@ -131,6 +122,8 @@ function mapDispatchToProps(dispatch) {
     selectCard: (index) => dispatch(selectCard(index)),
     cycleDeck: () => dispatch(cycleDeck()),
     handleToggleSide: () => dispatch(handleToggleSide()),
+    toggleTheme: () => dispatch(toggleTheme()),
+    handleCardIndexChange: (diff) => dispatch(handleCardIndexChange(diff)),
   }
 }
 
