@@ -7,9 +7,30 @@ const topicState = {
     currentDeck: {cards: []},
     currentCard: {},
     timerRunning: false,
+}
+
+const settingsState = {
     timeCycleFront: 3,
     timeCycleBack: 5,
-    activeTheme: localStorage.getItem('theme') || 'light-mode',
+    activeTheme: 'light-mode',
+}
+
+export function settings(state = settingsState, action) {
+    switch(action.type) {
+        case 'UPDATE_SETTINGS':
+            return {
+                ...state,
+                timeCycleFront: action.settings.frontTime,
+                timeCycleBack: action.settings.backTime,
+            }
+        case 'TOGGLE_THEME':
+        return {
+            ...state,
+            activeTheme: state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
+        }
+        default:
+            return state
+    }
 }
 
 export function topic(state = topicState, action) {
@@ -43,11 +64,6 @@ export function topic(state = topicState, action) {
                 ...state,
                 currentCard: {...card, side: card.side === 'front' ? 'back' : 'front'},
             }
-        case 'TOGGLE_THEME':
-            return {
-                ...state,
-                activeTheme: state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
-            }
         case 'FORWARD_BACKWARD':
             const newIndex = state.activeCardIndex + action.diff
             return {
@@ -65,12 +81,6 @@ export function topic(state = topicState, action) {
             return {
                 ...state,
                 timerRunning: false,
-            }
-        case 'UPDATE_SETTINGS':
-            return {
-                ...state,
-                timeCycleFront: action.settings.frontTime,
-                timeCycleBack: action.settings.backTime,
             }
         default:
             return state

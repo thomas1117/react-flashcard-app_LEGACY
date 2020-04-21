@@ -46,6 +46,12 @@
     color:var(--off-dark);
 }
 
+.App.light-mode {
+    .Settings-toggle {
+        color: var(--off-dark)
+    }
+}
+
 .Settings-time {
     border: none;
     outline: none;

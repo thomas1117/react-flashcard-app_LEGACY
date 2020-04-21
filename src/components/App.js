@@ -20,7 +20,7 @@ import {
 
 function App(props) {
   const [loading, setLoading] = useState(true)
-  const topic = props.topic
+  const { topic, settings } = props
   const  { 
     activeDeckIndex,
     activeCardIndex,
@@ -28,10 +28,12 @@ function App(props) {
     currentCard,
     cardGroup,
     timerRunning,
+  } = topic
+  const {
     timeCycleBack,
     timeCycleFront,
     activeTheme
-  } = topic
+  } = settings
   useEffect(() => {
     let interval = null
     if (timerRunning) {
@@ -148,6 +150,7 @@ function App(props) {
 function mapStateToProps(state) {
   return {
     topic: state.topic,
+    settings: state.settings,
   }
 }
 
