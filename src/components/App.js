@@ -133,8 +133,8 @@ function App(props) {
               selectCard={selectCard}
               selectDeck={selectDeck} />
           </div>
-          <div className="Card-container">
-            <div className="Card-container-inner">
+          <div className="Dash-Card-container">
+            <div className="Dash-Card-container-inner">
               <Card
                 leftDisabled={activeCardIndex === 0}
                 rightDisabled={activeCardIndex === currentDeck.cards.length - 1}

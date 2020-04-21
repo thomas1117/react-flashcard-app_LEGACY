@@ -1,34 +1,39 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  #root {
-    height: 100%;
-  }
-  
-  html, body {
-    height: 100%;
-  }
-  
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  .App {
-    height: 100%;
-  }
-  
-  :root {
-    --off-white: #d3d3d3;
-    --off-dark: #313639;
-    --dark: #1d1f21;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  .App.dark-mode {
-    background: var(--dark);
-  }
+:root {
+  --off-white: #d3d3d3;
+  --off-dark: #313639;
+  --dark: #1d1f21;
+  --active-link: #00b7ff;
+}
+
+#root {
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  height: 100%;
+}
+
+.App.dark-mode {
+  background: var(--dark);
+}
+
+.App.light-mode {
+  background: #fff;
+}
 
 fieldset {
   border: none;
