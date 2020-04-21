@@ -21,7 +21,18 @@ import {
 
 function App(props) {
   const [loading, setLoading] = useState(true)
-  const { topic, settings } = props
+  const { 
+    topic,
+    settings,
+    handleToggleSide,
+    pauseCycleDeck,
+    selectCard,
+    toggleTheme,
+    handleCardIndexChange,
+    handleDeckIndexChange,
+    cycleDeck,
+    selectDeck,
+  } = props
   const  { 
     activeDeckIndex,
     activeCardIndex,
@@ -33,22 +44,23 @@ function App(props) {
   const {
     timeCycleBack,
     timeCycleFront,
-    activeTheme
+    activeTheme,
+    updateSettings
   } = settings
   useEffect(() => {
     let interval = null
     if (timerRunning) {
       interval = setTimeout(() => {
         if (currentCard.side === 'front') {
-          props.handleToggleSide()
+          handleToggleSide()
         } else {
           if (activeCardIndex >= currentDeck.cards.length - 1) {
             clearInterval(interval)
-            props.pauseCycleDeck()
-            props.selectCard(0)
+            pauseCycleDeck()
+            selectCard(0)
             return
           }
-          props.handleCardIndexChange(1)
+          handleCardIndexChange(1)
         }
       }, (currentCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
     } else {
@@ -61,20 +73,23 @@ function App(props) {
     setLoading(false)
   }, [])
   function handleKeyPress(e) {
-    const key = e.code
-    // e.preventDefault()
-    if (key === 'Space') {
-        props.handleToggleSide()
-    }
-    if (key === 'ArrowLeft' || key === 'ArrowRight') {
-        let index = key === 'ArrowLeft' ? -1 : 1
-        props.handleCardIndexChange(index)
-    }
-    if (key === 'ArrowUp' || key === 'ArrowDown') {
-        let index = key === 'ArrowUp' ? -1 : 1
-        props.handleDeckIndexChange(index)
-    }
-    }
+      if (timerRunning) {
+        return
+      }
+      const key = e.code
+      // e.preventDefault()
+      if (key === 'Space') {
+          handleToggleSide()
+      }
+      if (key === 'ArrowLeft' || key === 'ArrowRight') {
+          let index = key === 'ArrowLeft' ? -1 : 1
+          handleCardIndexChange(index)
+      }
+      if (key === 'ArrowUp' || key === 'ArrowDown') {
+          let index = key === 'ArrowUp' ? -1 : 1
+          handleDeckIndexChange(index)
+      }
+  }
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
@@ -86,9 +101,9 @@ function App(props) {
           <SettingsNav 
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
-            onChange={props.toggleTheme}
+            onChange={toggleTheme}
             activeTheme={activeTheme}
-            updateSettings={props.updateSettings} />
+            updateSettings={updateSettings} />
         </div>
         <div className="Dash-Nav-mobile">
           <ul className="Dash-Nav-mobile-left">
@@ -101,9 +116,9 @@ function App(props) {
           <SettingsNav
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
-            onChange={props.toggleTheme}
+            onChange={toggleTheme}
             activeTheme={activeTheme}
-            updateSettings={props.updateSettings} />
+            updateSettings={updateSettings} />
         </div>
         
         <div className="Dash">
@@ -113,10 +128,10 @@ function App(props) {
               active={currentDeck.title}
               decks={cardGroup}
               playing={timerRunning}
-              cycleDeck={props.cycleDeck}
-              pauseCycleDeck={props.pauseCycleDeck}
-              selectCard={props.selectCard}
-              selectDeck={props.selectDeck} />
+              cycleDeck={cycleDeck}
+              pauseCycleDeck={pauseCycleDeck}
+              selectCard={selectCard}
+              selectDeck={selectDeck} />
           </div>
           <div className="Card-container">
             <div className="Card-container-inner">
@@ -126,9 +141,9 @@ function App(props) {
                 key={currentCard.id}
                 deck={currentDeck.title}
                 number={activeCardIndex + 1}
-                onClick={props.handleToggleSide} 
-                advance={() => props.handleCardIndexChange(1)}
-                goBack={() => props.handleCardIndexChange(-1)}
+                onClick={handleToggleSide} 
+                advance={() => handleCardIndexChange(1)}
+                goBack={() => handleCardIndexChange(-1)}
                 meta={currentCard.meta}
                 front={currentCard.front} 
                 back={currentCard.back} 

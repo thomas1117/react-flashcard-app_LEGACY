@@ -73,7 +73,6 @@ export function topic(state = topicState, action) {
                 ...state,
                 activeCardIndex: newIndex,
                 currentCard: state.currentDeck.cards[newIndex],
-                timerRunning: false,
             }
         case 'FORWARD_BACKWARD_DECK': {
             const deckToTry = state.activeDeckIndex + action.diff
