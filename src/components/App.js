@@ -161,6 +161,7 @@ function mapDispatchToProps(dispatch) {
     handleToggleSide: () => dispatch(handleToggleSide()),
     toggleTheme: () => dispatch(toggleTheme()),
     handleCardIndexChange: (diff) => dispatch(handleCardIndexChange(diff)),
+    updateSettings: (settings) => dispatch(updateSettings(settings))
   }
 }
 

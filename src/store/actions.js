@@ -8,6 +8,7 @@ const TOGGLE_THEME = 'TOGGLE_THEME'
 const FORWARD_BACKWARD = 'FORWARD_BACKWARD'
 const START_DECK_CYCLE = 'START_DECK_CYCLE'
 const STOP_DECK_CYCLE = 'STOP_DECK_CYCLE'
+const UPDATE_SETTINGS = 'UPDATE_SETTINGS'
 
 export function toggleTheme() {
     return {
@@ -33,11 +34,16 @@ export function selectCard(index) {
         type: SELECT_CARD,
         index,
     }
-    // setTimerCycle(false)
-    // setActiveCardByIndex(index)
 }
 
 export function updateSettings(settings) {
+    return {
+        type: UPDATE_SETTINGS,
+        settings: {
+            front: settings.front,
+            back: settings.back
+        }
+    }
 // setTimeFront(settings.front)
 // setTimeBack(settings.back)
 // localStorage.setItem('time', JSON.stringify(settings))

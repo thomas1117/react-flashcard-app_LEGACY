@@ -8,7 +8,7 @@ const topicState = {
     currentCard: {},
     timerRunning: false,
     timeCycleFront: 3000,
-    timeCycleBack: 3000,
+    timeCycleBack: 5000,
     activeTheme: localStorage.getItem('theme') || 'light-mode',
     // currentCycle: 3000,
 
@@ -30,12 +30,14 @@ export function topic(state = topicState, action) {
                 activeDeckIndex: action.index,
                 activeCardIndex: 0,
                 currentCard: state.cardGroup[action.index].cards[0],
+                timerRunning: false,
             }
         case 'SELECT_CARD':
             return {
                 ...state,
                 currentCard: state.currentDeck.cards[action.index],
                 activeCardIndex: action.index,
+                timerRunning: false,
             }
         case 'FLIP_CARD':
             const card = state.currentCard
@@ -65,6 +67,12 @@ export function topic(state = topicState, action) {
             return {
                 ...state,
                 timerRunning: false,
+            }
+        case 'UPDATE_SETTINGS':
+            return {
+                ...state,
+                timeCycleFront: action.settings.front,
+                timeCycleBack: action.settings.back,
             }
         default:
             return state
