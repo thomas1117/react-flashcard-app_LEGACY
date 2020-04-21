@@ -79,39 +79,3 @@
   .App.dark-mode li {
     color: var(--off-white);
   }
-
-  .Dash-Nav-mobile {
-    display: none;
-    z-index: 999;
-    white-space: nowrap;
-    background: #1d1f21;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--off-white);
-    padding: 1rem 0rem 2rem 1rem;
-    @media screen and (max-width: 768px) {
-      display: flex;
-    }
-  }
-
-  .Dash-Nav-mobile .Dash-Nav-mobile-left {
-    display: flex;
-    width: 80%;
-    overflow-x: auto;
-  }
-
-  .Dash-Nav-mobile .Dash-Nav-mobile-link {
-    margin-right: 4rem;
-    cursor: pointer;
-    &.active {
-      border-bottom: 1px solid #fff;
-    }
-  }
-
-  .Dash-Nav-settings {
-    width: 100%;
-  }
-
-  .Dash-Nav-mobile-link {
-    
-  }

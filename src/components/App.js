@@ -2,253 +2,183 @@ import React, { useState, useEffect } from 'react';
 import { themeProvider, ThemeProvider } from '../ThemeContext';
 import Card from './Card';
 import Page from './Page';
-// import cardData from './seed/js/seed';
-import cardData from '../seed/js/dynamic-seed';
 import DeckNav from './DeckNav';
-import Switch from './ui/Switch';
-import Settings from './Settings';
 import SettingsNav from './SettingsNav';
+import { connect } from 'react-redux';
+import { 
+  initDeck,
+  selectDeck,
+  updateSettings,
+  cycleDeck,
+  pauseCycleDeck,
+  selectCard,
+  cardIndex,
+  handleToggleSide,
+  toggleTheme,
+  handleCardIndexChange,
+  handleDeckIndexChange,
+} from '../store/actions'
 
-console.log(cardData)
-
-function App() {
-  const [cardIndex, setActiveCardByIndex] = useState(0)
-  const [deckIndex, setActiveDeckByIndex] = useState(0)
-  const [cardGroup, setCardGroup] = useState(cardData)
-  const [currentDeck, setDeck] = useState(cardGroup[deckIndex])
-  const [currentCard, setCard] = useState(currentDeck.cards[cardIndex])
-  const [timerRunning, setTimerCycle] = useState(false)
-  const [front, setFront] = useState(true)
-  const [timeCycleFront, setTimeFront] = useState(getTimeCycle().frontTime)
-  const [timeCycleBack, setTimeBack] = useState(getTimeCycle().backTime)
-  const [currentCycle, setCurrentCycle] = useState(getTimeCycle().frontTime)
-  const [start, setStart] = useState(true)
-  const [activeTheme, setTheme] = useState(getTheme())
-
-  function getTheme() {
-    return localStorage.getItem('theme') || 'light-mode'
-  }
-
-  function getTimeCycle() {
-    const t = localStorage.getItem('time')
-    return t ? JSON.parse(t) : {frontTime: 3, backTime: 1}
-  }
-
-  function toggleTheme() {
-    setTheme(v => {
-      const newTheme = v === 'dark-mode' ? 'light-mode' : 'dark-mode'
-      localStorage.setItem('theme', newTheme)
-      return newTheme
-    })
-  }
-
-  function handleToggleSide(cb) {
-    setCard(currentCard => {
-      let item = {...currentCard, side: currentCard.side === 'front' ? 'back' : 'front'}
-      if (cb) {
-        cb(item)
-      }
-      return item
-    })
-  }
-
-  function handleCardIndexChange(num, limit, cb) {
-    setActiveCardByIndex(currIndex => {
-      if (currIndex + num === limit) {
-        cb()
-      }
-      return currIndex + num
-    })
-  }
-
-  function handleDeckChange(num) {
-    setActiveDeckByIndex(i => i + num)
-  }
-
-  function selectDeck(index) {
-    setTimerCycle(false)
-    setActiveDeckByIndex(index)
-  }
-
-  function selectCard(index) {
-    setTimerCycle(false)
-    setActiveCardByIndex(index)
-  }
-
-  function handleKeyPress(e) {
-    const key = e.code
-    // e.preventDefault()
-    if (key === 'Space') {
-      handleToggleSide()
-    }
-    if (key === 'ArrowLeft' || key === 'ArrowRight') {
-      let index = key === 'ArrowLeft' ? -1 : 1
-      handleCardIndexChange(index)
-    }
-    if (key === 'ArrowUp' || key === 'ArrowDown') {
-      let index = key === 'ArrowUp' ? -1 : 1
-      handleDeckChange(index)
-    }
-  }
-
-  function cycleDeck(index) {
-    setActiveDeckByIndex(() => {
-      setTimerCycle(true)
-      return index
-    })
-  }
-
-  function pauseCycleDeck(index) {
-    setTimerCycle(false)
-  }
-
-  function updateSettings(settings) {
-    setTimeFront(settings.front)
-    setTimeBack(settings.back)
-    localStorage.setItem('time', JSON.stringify(settings))
-  }
-
+function App(props) {
+  const [loading, setLoading] = useState(true)
+  const { 
+    topic,
+    settings,
+    handleToggleSide,
+    pauseCycleDeck,
+    selectCard,
+    toggleTheme,
+    handleCardIndexChange,
+    handleDeckIndexChange,
+    cycleDeck,
+    selectDeck,
+    updateSettings,
+  } = props
+  const  { 
+    activeDeckIndex,
+    activeCardIndex,
+    currentDeck,
+    currentCard,
+    cardGroup,
+    timerRunning,
+  } = topic
+  const {
+    timeCycleBack,
+    timeCycleFront,
+    activeTheme,
+  } = settings
   useEffect(() => {
-    let limit = currentDeck.cards.length - 1
-    if (cardIndex >= 0 && cardIndex <= limit) {
-      setCard(x => currentDeck.cards[cardIndex])
-    }
-    if (cardIndex <= 0) {
-      setActiveCardByIndex(0)
-    }
-    if (cardIndex >= limit) {
-      setActiveCardByIndex(limit)
-    }
-  }, [cardIndex, currentDeck])
-
-  useEffect(() => {
-    const offset = deckIndex
-    let index = 0
-    if (offset < 0) {
-      index = 0
-    } else if (offset > 0 && offset >= cardGroup.length) {
-      index = offset - 1
-    } else if (offset > 0 && offset < cardGroup.length) {
-      index = offset
-    }
-    setDeck(cardGroup[index])
-    setActiveCardByIndex(0)
-    setActiveDeckByIndex(index)
-  }, [deckIndex, cardGroup])
-
-  useEffect(() => {
-    let interval = null;
+    let interval = null
     if (timerRunning) {
-      // setTimeout(() => {
-      //   setFront(v => !v)
-      //   handleCardIndexChange(1, currentDeck.cards.length, () => {
-      //     setFront(false)
-      //   })
-      //   setCurrentCycle(() => front ? timeCycleFront : timeCycleBack)
-      // }, currentCycle * 1000)
-      //   handleToggleSide(v => {
-      //     if (v.side === 'front') {
-      //       setFront(false)
-      //       handleCardIndexChange(1, currentDeck.cards.length, () => {
-      //         setTimerCycle(false)
-      //         setActiveCardByIndex(0)
-      //         setFront(true)
-      //       })
-      //     } else {
-      //       handleCardIndexChange(1)
-      //       setFront(true)
-      //     }
-      //     setCurrentCycle(() => v.side === 'front' ? timeCycleFront : timeCycleBack)
-      //   })
-      // }, currentCycle * 1000)
-      interval = setInterval(() => {
-        handleToggleSide(v => {
-          if (v.side === 'front' && !start) {
-            handleCardIndexChange(1, currentDeck.cards.length, () => {
-              setTimerCycle(false)
-              setActiveCardByIndex(0)
-            })
-          } else {
-            setStart(false)
+      interval = setTimeout(() => {
+        if (currentCard.side === 'front') {
+          handleToggleSide()
+        } else {
+          if (activeCardIndex >= currentDeck.cards.length - 1) {
+            clearInterval(interval)
+            pauseCycleDeck()
+            selectCard(0)
+            return
           }
-        })
-      }, timeCycleFront * 1000);
-    } else if (!timerRunning) {
-      clearInterval(interval)
+          handleCardIndexChange(1)
+        }
+      }, (currentCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
+    } else {
+      clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, start, currentDeck, front, currentCycle])
-
+  }, [timerRunning, currentCard, currentDeck, activeCardIndex])
+  useEffect(() => {
+    props.initDeck()
+    setLoading(false)
+  }, [])
+  function handleKeyPress(e) {
+      if (timerRunning) {
+        return
+      }
+      const key = e.code
+      // e.preventDefault()
+      if (key === 'Space') {
+          handleToggleSide()
+      }
+      if (key === 'ArrowLeft' || key === 'ArrowRight') {
+          let index = key === 'ArrowLeft' ? -1 : 1
+          handleCardIndexChange(index)
+      }
+      if (key === 'ArrowUp' || key === 'ArrowDown') {
+          let index = key === 'ArrowUp' ? -1 : 1
+          handleDeckIndexChange(index)
+      }
+  }
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [])
   return (
     <ThemeProvider value={activeTheme}>
-    <Page>
-      <div class="Dash-nav-desktop">  
-        <SettingsNav 
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
-          onChange={toggleTheme}
-          activeTheme={activeTheme}
-          updateSettings={updateSettings} />
-      </div>
-      <div className="Dash-Nav-mobile">
-        <ul className="Dash-Nav-mobile-left">
-          {cardGroup.map((deck, index) => <li className={`Dash-Nav-mobile-link ` + (index === deckIndex ? 'active' : '')} onClick={() => selectDeck(index)}>{deck.title}</li>)}
-        </ul>
-        <SettingsNav
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
-          onChange={toggleTheme}
-          activeTheme={activeTheme}
-          updateSettings={updateSettings} />
-      </div>
-      
-      <div className="Dash">
-        <div className="Dash-Nav-container">
-          <DeckNav 
-            currentId={currentCard.id}
-            active={currentDeck.title}
-            decks={cardGroup}
-            playing={timerRunning}
-            cycleDeck={cycleDeck}
-            pauseCycleDeck={pauseCycleDeck}
-            selectCard={selectCard}
-            selectDeck={selectDeck} />
+    <Page loaded={!loading}>
+        <div class="Dash-Nav-desktop">  
+          <SettingsNav 
+            frontTime={timeCycleFront}
+            backTime={timeCycleBack}
+            onChange={toggleTheme}
+            activeTheme={activeTheme}
+            updateSettings={updateSettings} />
         </div>
-        <div className="Card-container">
-          <div className="Card-container-inner">
-            {/* {
-              !timerRunning &&
-              <div className="Card-actions-app">
-                <button className="Card-button Card-button-back" onClick={() => handleCardIndexChange(-1)}>&#x2190;</button>
-                <button className="Card-button Card-button-advance" onClick={() => handleCardIndexChange(1)}>&#x2192;</button>
-              </div>
-            } */}
-            <Card
-              leftDisabled={cardIndex === 0}
-              rightDisabled={cardIndex === currentDeck.cards.length - 1}
-              key={currentCard.id}
-              deck={currentDeck.title}
-              number={cardIndex + 1}
-              onClick={() => handleToggleSide()} 
-              advance={() => handleCardIndexChange(1)}
-              goBack={() => handleCardIndexChange(-1)}
-              meta={currentCard.meta}
-              front={currentCard.front} 
-              back={currentCard.back} 
-              side={currentCard.side}
-              showArrows={!timerRunning}
-              language={currentCard.language} 
-            />
+        <div className="Dash-Nav-mobile">
+          <ul className="Dash-Nav-mobile-left">
+            {topic.cardGroup.map((deck, index) => (
+              <li 
+                className={`Dash-Nav-mobile-link ` + (index === activeDeckIndex ? 'active' : '')}
+                onClick={() => props.selectDeck(index)}>{deck.title}</li>)
+            )}
+          </ul>
+          <SettingsNav
+            frontTime={timeCycleFront}
+            backTime={timeCycleBack}
+            onChange={toggleTheme}
+            activeTheme={activeTheme}
+            updateSettings={updateSettings} />
+        </div>
+        
+        <div className="Dash">
+          <div className="Dash-Nav-container">
+            <DeckNav 
+              currentId={currentCard.id}
+              active={currentDeck.title}
+              decks={cardGroup}
+              playing={timerRunning}
+              cycleDeck={cycleDeck}
+              pauseCycleDeck={pauseCycleDeck}
+              selectCard={selectCard}
+              selectDeck={selectDeck} />
+          </div>
+          <div className="Card-container">
+            <div className="Card-container-inner">
+              <Card
+                leftDisabled={activeCardIndex === 0}
+                rightDisabled={activeCardIndex === currentDeck.cards.length - 1}
+                key={currentCard.id}
+                deck={currentDeck.title}
+                number={activeCardIndex + 1}
+                onClick={handleToggleSide} 
+                advance={() => handleCardIndexChange(1)}
+                goBack={() => handleCardIndexChange(-1)}
+                meta={currentCard.meta}
+                front={currentCard.front} 
+                back={currentCard.back} 
+                side={currentCard.side}
+                showArrows={!timerRunning}
+                language={currentCard.language} 
+              />
+            </div>
           </div>
         </div>
-      </div>
     </Page>
   </ThemeProvider>
   );
 }
+function mapStateToProps(state) {
+  return {
+    topic: state.topic,
+    settings: state.settings,
+  }
+}
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    initDeck: () => dispatch(initDeck()),
+    selectDeck: (index) => dispatch(selectDeck(index)),
+    selectCard: (index) => dispatch(selectCard(index)),
+    cycleDeck: () => dispatch(cycleDeck()),
+    pauseCycleDeck: () => dispatch(pauseCycleDeck()),
+    handleToggleSide: () => dispatch(handleToggleSide()),
+    toggleTheme: () => dispatch(toggleTheme()),
+    handleCardIndexChange: (diff) => dispatch(handleCardIndexChange(diff)),
+    handleDeckIndexChange: (index) => dispatch(handleDeckIndexChange(index)),
+    updateSettings: (settings) => dispatch(updateSettings(settings))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
+// export default App;

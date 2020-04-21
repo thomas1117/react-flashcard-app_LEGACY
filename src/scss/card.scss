@@ -88,6 +88,7 @@
     width: 80%;
     @media(max-width: 768px) {
       width: 95%;
+      padding-top: 2rem;
     }
   }
   
@@ -143,7 +144,6 @@
   }
 
   .App.dark-mode .Card-button {
-    z-index: 2;
     color: var(--off-white);
     background: rgb(29, 31, 33);
     border: 1px solid #fff;

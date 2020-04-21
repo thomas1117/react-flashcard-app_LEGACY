@@ -1,5 +1,16 @@
 .SettingsNav {
     position: relative;
+    z-index: 1;
+}
+
+.SettingsNav-toggle {
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+}
+
+.SettingsNav .theme-toggler {
+    margin-right: 1rem;
 }
 
 .SettingsNav ul {
@@ -45,6 +56,39 @@
     color:var(--off-dark);
 }
 
+.App.light-mode .Dash-nav-desktop {
+    .Settings-toggle {
+        color: var(--off-dark)
+    }
+}
+
+.App.light-mode {
+    .Settings-toggle {
+        &-overlay {
+            background-color: #fff;
+            color: var(--off-dark);
+        }
+    }
+
+    .Settings-toggle-close {
+        color: var(--off-dark);
+    }
+
+    .Settings-time {
+        border-color: var(--off-dark);
+        color: var(--off-dark);
+
+        &:focus {
+            color: var(--off-dark);
+        }
+    }
+
+    .Settings-submit {
+        color: var(--off-dark); 
+        border-color: var(--off-dark);
+    }
+}
+
 .Settings-time {
     border: none;
     outline: none;
@@ -71,12 +115,19 @@
     position: relative;
 }
 
+.App.dark-mode {
+    .Settings-toggle {
+        &-overlay {
+            background-color: var(--dark);
+        }
+    }
+}
+
 .Settings-toggle {
-    position: absolute;
-    right: .5rem;
-    top: 0;
     z-index: 3;
+    position: relative;
     font-size: 3rem;
+    line-height: 1.75rem;
     color: #fff;
     background: none;
     outline: none;
@@ -87,18 +138,8 @@
         bottom: 0;
         right: 0;
         left: 0;
-        background-color: var(--off-dark);
+        background-color: #fff;
         position: fixed;
         z-index: 2;
     }
 }
-
-.theme-toggler {
-    z-index: 1;
-    right: 3rem;
-    top: 1rem;
-
-    @media screen and (max-width: 768px) {
-        top: 0rem;
-    }
-  }

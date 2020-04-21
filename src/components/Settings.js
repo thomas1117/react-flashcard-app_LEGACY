@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Switch from './ui/Switch'
 
 export default function Settings(props) {
     const [visible, setVisible] = useState(false)
@@ -8,6 +9,11 @@ export default function Settings(props) {
         e.preventDefault()
         props.updateSettings({frontTime, backTime})
         setVisible(false)
+    }
+    const handleDismiss = (e) => {
+        setVisible(v => !v)
+        setFrontTime(props.frontTime)
+        setBackTime(props.backTime)
     }
     const handleFront = (e) => {
         setFrontTime(Number(e.target.value))
@@ -19,14 +25,22 @@ export default function Settings(props) {
         {
             visible ?
             <button 
-            className="Settings-toggle"
-            onClick={() => setVisible(v => !v)}>&times;</button>
+            className="Settings-toggle Settings-toggle-close"
+            onClick={handleDismiss}>&times;</button>
             :
             <button 
             className="Settings-toggle"
             onClick={() => setVisible(v => !v)}>&#9881;</button>
         }
         <div className="Settings-toggle-overlay" style={{visibility: visible ? 'visible' : 'hidden'}}>
+            {
+            visible &&
+            <Switch 
+                onChange={props.onChange}
+                activeTheme={props.activeTheme}
+                checked={props.activeTheme === 'dark-mode'}
+            />
+            }
             <form onSubmit={handleSubmit}>
                 <div className="Settings-time-container">
                     <fieldset>
