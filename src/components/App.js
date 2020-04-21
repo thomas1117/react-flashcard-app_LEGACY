@@ -57,6 +57,25 @@ function App(props) {
     props.initDeck()
     setLoading(false)
   }, [])
+  function handleKeyPress(e) {
+    const key = e.code
+    // e.preventDefault()
+    if (key === 'Space') {
+        props.handleToggleSide()
+    }
+    if (key === 'ArrowLeft' || key === 'ArrowRight') {
+        let index = key === 'ArrowLeft' ? -1 : 1
+        props.handleCardIndexChange(index)
+    }
+    if (key === 'ArrowUp' || key === 'ArrowDown') {
+        let index = key === 'ArrowUp' ? -1 : 1
+        props.selectDeck(index)
+    }
+    }
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [])
   return (
     <ThemeProvider value={activeTheme}>
     <Page loaded={!loading}>
