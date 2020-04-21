@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { themeProvider, ThemeProvider } from '../ThemeContext';
 import Card from './Card';
 import Page from './Page';
-// import cardData from './seed/js/seed';
-import cardData from '../seed/js/dynamic-seed';
 import DeckNav from './DeckNav';
-import Switch from './ui/Switch';
-import Settings from './Settings';
 import SettingsNav from './SettingsNav';
 import { connect } from 'react-redux';
 import { 
@@ -43,6 +39,12 @@ function App(props) {
         if (currentCard.side === 'front') {
           props.handleToggleSide()
         } else {
+          if (activeCardIndex >= currentDeck.cards.length - 1) {
+            clearInterval(interval)
+            props.pauseCycleDeck()
+            props.selectCard(0)
+            return
+          }
           props.handleCardIndexChange(1)
         }
       }, currentCard.side === 'front' ? timeCycleFront : timeCycleBack)
@@ -50,7 +52,7 @@ function App(props) {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, currentCard])
+  }, [timerRunning, currentCard, currentDeck, activeCardIndex])
   useEffect(() => {
     props.initDeck()
     setLoading(false)
