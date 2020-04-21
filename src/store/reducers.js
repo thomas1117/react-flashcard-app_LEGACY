@@ -4,7 +4,7 @@ const topicState = {
     activeCardIndex: 0,
     activeDeckIndex: 0,
     cardGroup: cardData,
-    currentDeck: {},
+    currentDeck: {cards: []},
     currentCard: {},
     timerRunning: false,
     timeCycleFront: 3000,
@@ -21,6 +21,26 @@ export function topic(state = topicState, action) {
                 ...state,
                 currentDeck: currDeck,
                 currentCard: currDeck.cards[state.activeCardIndex]
+            }
+        case 'SELECT_DECK':
+            return {
+                ...state,
+                currentDeck: state.cardGroup[action.index],
+                activeDeckIndex: action.index,
+                activeCardIndex: 0,
+            }
+        case 'SELECT_CARD':
+            return {
+                ...state,
+                currentCard: state.currentDeck.cards[action.index],
+                activeCardIndex: action.index,
+            }
+        case 'FLIP_CARD':
+            const card = state.currentCard
+            console.log('flip')
+            return {
+                ...state,
+                currentCard: {...card, side: card.side === 'front' ? 'back' : 'front'},
             }
         default:
             return state
