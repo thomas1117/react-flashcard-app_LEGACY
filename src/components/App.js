@@ -8,10 +8,12 @@ import DeckNav from './DeckNav';
 import Switch from './ui/Switch';
 import Settings from './Settings';
 import SettingsNav from './SettingsNav';
+import { connect } from 'react-redux';
+import { initDeck } from '../store/actions'
 
 console.log(cardData)
 
-function App() {
+function App(props) {
   const [cardIndex, setActiveCardByIndex] = useState(0)
   const [deckIndex, setActiveDeckByIndex] = useState(0)
   const [cardGroup, setCardGroup] = useState(cardData)
@@ -183,6 +185,10 @@ function App() {
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [])
+  useEffect(() => {
+    props.initDeck()
+  }, [])
+  const topic = props.topic
   return (
     <ThemeProvider value={activeTheme}>
     <Page>
@@ -196,7 +202,7 @@ function App() {
       </div>
       <div className="Dash-Nav-mobile">
         <ul className="Dash-Nav-mobile-left">
-          {cardGroup.map((deck, index) => <li className={`Dash-Nav-mobile-link ` + (index === deckIndex ? 'active' : '')} onClick={() => selectDeck(index)}>{deck.title}</li>)}
+          {topic.cardGroup.map((deck, index) => <li className={`Dash-Nav-mobile-link ` + (index === deckIndex ? 'active' : '')} onClick={() => selectDeck(index)}>{deck.title}</li>)}
         </ul>
         <SettingsNav
           frontTime={timeCycleFront}
@@ -250,5 +256,17 @@ function App() {
   </ThemeProvider>
   );
 }
+function mapStateToProps(state) {
+  return {
+    topic: state.topic,
+  }
+}
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    initDeck: () => dispatch(initDeck())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
+// export default App;

@@ -92,13 +92,3 @@
         z-index: 2;
     }
 }
-
-.theme-toggler {
-    z-index: 1;
-    right: 3rem;
-    top: 1rem;
-
-    @media screen and (max-width: 768px) {
-        top: 0rem;
-    }
-  }
