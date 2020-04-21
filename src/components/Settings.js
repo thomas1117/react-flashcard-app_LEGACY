@@ -33,11 +33,14 @@ export default function Settings(props) {
             onClick={() => setVisible(v => !v)}>&#9881;</button>
         }
         <div className="Settings-toggle-overlay" style={{visibility: visible ? 'visible' : 'hidden'}}>
+            {
+            visible &&
             <Switch 
                 onChange={props.onChange}
                 activeTheme={props.activeTheme}
                 checked={props.activeTheme === 'dark-mode'}
             />
+            }
             <form onSubmit={handleSubmit}>
                 <div className="Settings-time-container">
                     <fieldset>

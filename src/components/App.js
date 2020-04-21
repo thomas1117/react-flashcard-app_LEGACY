@@ -32,6 +32,7 @@ function App(props) {
     handleDeckIndexChange,
     cycleDeck,
     selectDeck,
+    updateSettings,
   } = props
   const  { 
     activeDeckIndex,
@@ -45,7 +46,6 @@ function App(props) {
     timeCycleBack,
     timeCycleFront,
     activeTheme,
-    updateSettings
   } = settings
   useEffect(() => {
     let interval = null
