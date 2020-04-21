@@ -3,6 +3,10 @@
     z-index: 1;
 }
 
+.SettingsNav .theme-toggler {
+    margin-right: 1rem;
+}
+
 .SettingsNav ul {
     display: flex;
     justify-content: flex-end;
@@ -46,7 +50,7 @@
     color:var(--off-dark);
 }
 
-.App.light-mode {
+.App.light-mode .Dash-nav-desktop {
     .Settings-toggle {
         color: var(--off-dark)
     }
