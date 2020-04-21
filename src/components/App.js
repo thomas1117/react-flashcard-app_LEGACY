@@ -24,10 +24,6 @@ import {
 
 function App(props) {
   const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    props.initDeck()
-    setLoading(false)
-  }, [])
   const topic = props.topic
   const  { 
     activeDeckIndex,
@@ -40,6 +36,25 @@ function App(props) {
     timeCycleFront,
     activeTheme
   } = topic
+  useEffect(() => {
+    let interval = null
+    if (timerRunning) {
+      interval = setTimeout(() => {
+        if (currentCard.side === 'front') {
+          props.handleToggleSide()
+        } else {
+          props.handleCardIndexChange(1)
+        }
+      }, currentCard.side === 'front' ? timeCycleFront : timeCycleBack)
+    } else {
+      clearTimeout(interval)
+    }
+    return () => clearInterval(interval)
+  }, [timerRunning, currentCard])
+  useEffect(() => {
+    props.initDeck()
+    setLoading(false)
+  }, [])
   return (
     <ThemeProvider value={activeTheme}>
     <Page loaded={!loading}>
@@ -78,8 +93,8 @@ function App(props) {
               active={currentDeck.title}
               decks={cardGroup}
               playing={timerRunning}
-              cycleDeck={cycleDeck}
-              pauseCycleDeck={pauseCycleDeck}
+              cycleDeck={props.cycleDeck}
+              pauseCycleDeck={props.pauseCycleDeck}
               selectCard={props.selectCard}
               selectDeck={props.selectDeck} />
           </div>
@@ -121,6 +136,7 @@ function mapDispatchToProps(dispatch) {
     selectDeck: (index) => dispatch(selectDeck(index)),
     selectCard: (index) => dispatch(selectCard(index)),
     cycleDeck: () => dispatch(cycleDeck()),
+    pauseCycleDeck: () => dispatch(pauseCycleDeck()),
     handleToggleSide: () => dispatch(handleToggleSide()),
     toggleTheme: () => dispatch(toggleTheme()),
     handleCardIndexChange: (diff) => dispatch(handleCardIndexChange(diff)),

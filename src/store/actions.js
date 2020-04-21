@@ -6,6 +6,8 @@ const SELECT_CARD = 'SELECT_CARD'
 const FLIP_CARD = 'FLIP_CARD'
 const TOGGLE_THEME = 'TOGGLE_THEME'
 const FORWARD_BACKWARD = 'FORWARD_BACKWARD'
+const START_DECK_CYCLE = 'START_DECK_CYCLE'
+const STOP_DECK_CYCLE = 'STOP_DECK_CYCLE'
 
 export function toggleTheme() {
     return {
@@ -42,6 +44,9 @@ export function updateSettings(settings) {
 }
 
 export function cycleDeck(index) {
+    return {
+        type: START_DECK_CYCLE
+    }
     // setActiveDeckByIndex(() => {
     //     setTimerCycle(true)
     //     return index
@@ -49,7 +54,9 @@ export function cycleDeck(index) {
 }
 
 export function pauseCycleDeck(index) {
-// setTimerCycle(false)
+    return {
+        type: STOP_DECK_CYCLE
+    }
 }
 
 export function handleToggleSide() {

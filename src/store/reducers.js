@@ -56,6 +56,16 @@ export function topic(state = topicState, action) {
                 currentCard: state.currentDeck.cards[newIndex]
 
             }
+        case 'START_DECK_CYCLE':
+            return {
+                ...state,
+                timerRunning: true,
+            }
+        case 'STOP_DECK_CYCLE':
+            return {
+                ...state,
+                timerRunning: false,
+            }
         default:
             return state
     }
