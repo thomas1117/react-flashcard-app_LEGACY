@@ -9,6 +9,11 @@ export default function Settings(props) {
         props.updateSettings({frontTime, backTime})
         setVisible(false)
     }
+    const handleDismiss = (e) => {
+        setVisible(v => !v)
+        setFrontTime(props.frontTime)
+        setBackTime(props.backTime)
+    }
     const handleFront = (e) => {
         setFrontTime(Number(e.target.value))
     }
@@ -20,7 +25,7 @@ export default function Settings(props) {
             visible ?
             <button 
             className="Settings-toggle"
-            onClick={() => setVisible(v => !v)}>&times;</button>
+            onClick={handleDismiss}>&times;</button>
             :
             <button 
             className="Settings-toggle"
