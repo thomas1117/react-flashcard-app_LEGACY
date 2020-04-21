@@ -13,13 +13,13 @@ export default function SettingsNav(props) {
                         checked={props.activeTheme === 'dark-mode'}
                     />
                 </li>
-                {/* <li>
+                <li>
                     <Settings
                         frontTime={props.frontTime}
                         backTime={props.backTime}
                         updateSettings={props.updateSettings} 
                     />
-                </li> */}
+                </li>
             </ul>
         </nav>
     )

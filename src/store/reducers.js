@@ -7,11 +7,9 @@ const topicState = {
     currentDeck: {cards: []},
     currentCard: {},
     timerRunning: false,
-    timeCycleFront: 3000,
-    timeCycleBack: 5000,
+    timeCycleFront: 3,
+    timeCycleBack: 5,
     activeTheme: localStorage.getItem('theme') || 'light-mode',
-    // currentCycle: 3000,
-
 }
 
 export function topic(state = topicState, action) {
@@ -71,8 +69,8 @@ export function topic(state = topicState, action) {
         case 'UPDATE_SETTINGS':
             return {
                 ...state,
-                timeCycleFront: action.settings.front,
-                timeCycleBack: action.settings.back,
+                timeCycleFront: action.settings.frontTime,
+                timeCycleBack: action.settings.backTime,
             }
         default:
             return state

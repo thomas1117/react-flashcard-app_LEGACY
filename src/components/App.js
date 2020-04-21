@@ -47,7 +47,7 @@ function App(props) {
           }
           props.handleCardIndexChange(1)
         }
-      }, currentCard.side === 'front' ? timeCycleFront : timeCycleBack)
+      }, (currentCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
     } else {
       clearTimeout(interval)
     }
@@ -89,7 +89,7 @@ function App(props) {
             backTime={timeCycleBack}
             onChange={props.toggleTheme}
             activeTheme={activeTheme}
-            updateSettings={updateSettings} />
+            updateSettings={props.updateSettings} />
         </div>
         <div className="Dash-Nav-mobile">
           <ul className="Dash-Nav-mobile-left">
@@ -104,7 +104,7 @@ function App(props) {
             backTime={timeCycleBack}
             onChange={props.toggleTheme}
             activeTheme={activeTheme}
-            updateSettings={updateSettings} />
+            updateSettings={props.updateSettings} />
         </div>
         
         <div className="Dash">

@@ -73,11 +73,10 @@
 }
 
 .Settings-toggle {
-    position: absolute;
-    right: .5rem;
-    top: 0;
     z-index: 3;
+    position: relative;
     font-size: 3rem;
+    line-height: 1.75rem;
     color: #fff;
     background: none;
     outline: none;

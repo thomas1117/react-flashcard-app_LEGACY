@@ -40,8 +40,8 @@ export function updateSettings(settings) {
     return {
         type: UPDATE_SETTINGS,
         settings: {
-            front: settings.front,
-            back: settings.back
+            frontTime: settings.frontTime,
+            backTime: settings.backTime,
         }
     }
 // setTimeFront(settings.front)
