@@ -16,6 +16,7 @@ import {
   handleToggleSide,
   toggleTheme,
   handleCardIndexChange,
+  handleDeckIndexChange,
 } from '../store/actions'
 
 function App(props) {
@@ -71,7 +72,7 @@ function App(props) {
     }
     if (key === 'ArrowUp' || key === 'ArrowDown') {
         let index = key === 'ArrowUp' ? -1 : 1
-        props.selectDeck(index)
+        props.handleDeckIndexChange(index)
     }
     }
   useEffect(() => {
@@ -159,6 +160,7 @@ function mapDispatchToProps(dispatch) {
     handleToggleSide: () => dispatch(handleToggleSide()),
     toggleTheme: () => dispatch(toggleTheme()),
     handleCardIndexChange: (diff) => dispatch(handleCardIndexChange(diff)),
+    handleDeckIndexChange: (index) => dispatch(handleDeckIndexChange(index)),
     updateSettings: (settings) => dispatch(updateSettings(settings))
   }
 }

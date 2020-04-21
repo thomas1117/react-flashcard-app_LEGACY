@@ -5,10 +5,11 @@ const SELECT_DECK = 'SELECT_DECK'
 const SELECT_CARD = 'SELECT_CARD'
 const FLIP_CARD = 'FLIP_CARD'
 const TOGGLE_THEME = 'TOGGLE_THEME'
-const FORWARD_BACKWARD = 'FORWARD_BACKWARD'
+const FORWARD_BACKWARD_CARD = 'FORWARD_BACKWARD_CARD'
 const START_DECK_CYCLE = 'START_DECK_CYCLE'
 const STOP_DECK_CYCLE = 'STOP_DECK_CYCLE'
 const UPDATE_SETTINGS = 'UPDATE_SETTINGS'
+const FORWARD_BACKWARD_DECK = 'FORWARD_BACKWARD_DECK'
 
 export function toggleTheme() {
     return {
@@ -80,7 +81,14 @@ export function handleToggleSide() {
 
 export function handleCardIndexChange(diff) {
     return {
-        type: FORWARD_BACKWARD,
+        type: FORWARD_BACKWARD_CARD,
+        diff
+    }
+}
+
+export function handleDeckIndexChange(diff) {
+    return {
+        type: FORWARD_BACKWARD_DECK,
         diff
     }
 }

@@ -64,14 +64,31 @@ export function topic(state = topicState, action) {
                 ...state,
                 currentCard: {...card, side: card.side === 'front' ? 'back' : 'front'},
             }
-        case 'FORWARD_BACKWARD':
-            const newIndex = state.activeCardIndex + action.diff
+        case 'FORWARD_BACKWARD_CARD':
+            const indexToTry = state.activeCardIndex + action.diff
+            const limit = state.currentDeck.cards.length
+            const allowedToShift = indexToTry >= 0 && indexToTry < limit
+            const newIndex = allowedToShift ? indexToTry : state.activeCardIndex
             return {
                 ...state,
                 activeCardIndex: newIndex,
-                currentCard: state.currentDeck.cards[newIndex]
-
+                currentCard: state.currentDeck.cards[newIndex],
+                timerRunning: false,
             }
+        case 'FORWARD_BACKWARD_DECK': {
+            const deckToTry = state.activeDeckIndex + action.diff
+            const limit = state.cardGroup.length
+            const allowedToShift = deckToTry >= 0 && deckToTry < limit
+            const newIndex = allowedToShift ? deckToTry : state.activeDeckIndex
+            return {
+                ...state,
+                currentDeck: state.cardGroup[newIndex],
+                activeDeckIndex: newIndex,
+                activeCardIndex: 0,
+                currentCard: state.cardGroup[newIndex].cards[0],
+                timerRunning: false,
+            }
+        }
         case 'START_DECK_CYCLE':
             return {
                 ...state,
