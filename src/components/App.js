@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { themeProvider, ThemeProvider } from '../ThemeContext';
+import { ThemeProvider } from '../ThemeContext';
 import Card from './Card';
 import Page from './Page';
 import DeckNav from './DeckNav';
@@ -13,7 +13,6 @@ import {
   cycleDeck,
   pauseCycleDeck,
   selectCard,
-  cardIndex,
   handleToggleSide,
   toggleTheme,
   handleCardIndexChange,
@@ -96,14 +95,13 @@ function App(props) {
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [])
   return (
-    <ThemeProvider value={activeTheme}>
+    <ThemeProvider value={{theme: activeTheme}}>
     <Page loaded={!loading}>
         <div class="Dash-Nav-desktop">  
           <SettingsNav 
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
             onChange={toggleTheme}
-            activeTheme={activeTheme}
             updateSettings={updateSettings} />
         </div>
         <div className="Dash-Nav-mobile">
@@ -118,7 +116,6 @@ function App(props) {
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
             onChange={toggleTheme}
-            activeTheme={activeTheme}
             updateSettings={updateSettings} />
         </div>
         

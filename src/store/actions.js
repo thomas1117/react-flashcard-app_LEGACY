@@ -45,19 +45,12 @@ export function updateSettings(settings) {
             backTime: settings.backTime,
         }
     }
-// setTimeFront(settings.front)
-// setTimeBack(settings.back)
-// localStorage.setItem('time', JSON.stringify(settings))
 }
 
 export function cycleDeck(index) {
     return {
         type: START_DECK_CYCLE
     }
-    // setActiveDeckByIndex(() => {
-    //     setTimerCycle(true)
-    //     return index
-    // })
 }
 
 export function pauseCycleDeck(index) {
@@ -70,13 +63,6 @@ export function handleToggleSide() {
     return {
         type: FLIP_CARD,
     }
-// setCard(currentCard => {
-//     let item = {...currentCard, side: currentCard.side === 'front' ? 'back' : 'front'}
-//     if (cb) {
-//     cb(item)
-//     }
-//     return item
-// })
 }
 
 export function handleCardIndexChange(diff) {
@@ -92,8 +78,3 @@ export function handleDeckIndexChange(diff) {
         diff
     }
 }
-
-// function getTimeCycle() {
-// const t = localStorage.getItem('time')
-// return t ? JSON.parse(t) : {frontTime: 3, backTime: 1}
-// }
