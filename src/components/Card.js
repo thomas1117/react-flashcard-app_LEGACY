@@ -7,26 +7,29 @@ export default function Card(props) {
         e.stopPropagation()
         cb()
     }
+
+    const {meta, front, back, side, language} = props.currentCard
+    const { onClick, leftDisabled, rightDisabled, deck, number, goBack, advance} = props
     return (
-    <div className="Card" onClick={props.onClick}>
+    <div className="Card" onClick={onClick}>
         <div className="Card-actions">
             <button 
-                disabled={props.leftDisabled}
+                disabled={leftDisabled}
                 className="Card-button Card-button-back"
-                onClick={e => handle(e, props.goBack)}>&#x2190;</button>
+                onClick={e => handle(e, goBack)}>&#x2190;</button>
             <button 
-                disabled={props.rightDisabled}
+                disabled={rightDisabled}
                 className="Card-button Card-button-advance"
-                onClick={e => handle(e, props.advance)}>&#x2192;</button>
+                onClick={e => handle(e, advance)}>&#x2192;</button>
         </div>
-        <span className="Card-deck">{props.deck}{props.side === 'back' && (' | ' + props.meta)}</span>
-        <span className="Card-number">{props.number}</span>
-            <div className={"Card-front " + (props.side !== 'back' ? 'visible' : '')}><ReactMarkdown source={props.front} /></div>
+        <span className="Card-deck">{deck}{side === 'back' && (' | ' + meta)}</span>
+        <span className="Card-number">{number}</span>
+            <div className={"Card-front " + (side !== 'back' ? 'visible' : '')}><ReactMarkdown source={front} /></div>
             
-            <div className={"Card-back " + (props.side !== 'front' ? 'visible' : '')}>
-                {props.language !== 'md' ? 
-                <CodeBlock language={props.language} value={props.back} /> : 
-                <ReactMarkdown source={props.back} />}
+            <div className={"Card-back " + (side !== 'front' ? 'visible' : '')}>
+                {language !== 'md' ? 
+                <CodeBlock language={language} value={back} /> : 
+                <ReactMarkdown source={back} />}
             </div>
     </div>)
 }

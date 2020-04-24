@@ -136,18 +136,12 @@ function App(props) {
               <Card
                 leftDisabled={activeCardIndex === 0}
                 rightDisabled={activeCardIndex === currentDeck.cards.length - 1}
-                key={currentCard.id}
+                currentCard={currentCard}
                 deck={currentDeck.title}
                 number={activeCardIndex + 1}
                 onClick={handleToggleSide} 
                 advance={() => handleCardIndexChange(1)}
                 goBack={() => handleCardIndexChange(-1)}
-                meta={currentCard.meta}
-                front={currentCard.front} 
-                back={currentCard.back} 
-                side={currentCard.side}
-                showArrows={!timerRunning}
-                language={currentCard.language} 
               />
             </div>
           </div>
