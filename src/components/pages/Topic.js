@@ -18,7 +18,7 @@ import {
   handleDeckIndexChange,
 } from '../../store/actions'
 
-function Topic() {
+function Topic(props) {
   const [loading, setLoading] = useState(true)
   const topic = useSelector(state => state.topic)
   const settings = useSelector(state => state.settings)
@@ -58,7 +58,7 @@ function Topic() {
     return () => clearInterval(interval)
   }, [timerRunning, currentCard, currentDeck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch])
   useEffect(() => {
-    dispatch(initDeck())
+    dispatch(initDeck(props.match.params.id))
     setLoading(false)
   }, [dispatch])
   useEffect(() => {

@@ -1,4 +1,5 @@
 const INIT_DECK = 'INIT_DECK'
+const INIT_JS_DECK = 'INIT_JS_DECK'
 const SELECT_DECK = 'SELECT_DECK'
 const SELECT_CARD = 'SELECT_CARD'
 const FLIP_CARD = 'FLIP_CARD'
@@ -15,9 +16,16 @@ export function toggleTheme() {
     }
 }
 
-export function initDeck() {
+export function initDeck(deckId) {
+    if (deckId === 'js') {
+        return {
+            type: INIT_JS_DECK,
+            payload: deckId,
+        }
+    }
     return {
         type: INIT_DECK,
+        payload: deckId,
     }
 }
 

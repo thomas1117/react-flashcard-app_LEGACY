@@ -3,7 +3,7 @@ import cardData from '../../seed/js/dynamic-seed';
 const topicState = {
     activeCardIndex: 0,
     activeDeckIndex: 0,
-    cardGroup: cardData,
+    cardGroup: [],
     currentDeck: {cards: []},
     currentCard: {},
     timerRunning: false,
@@ -11,6 +11,14 @@ const topicState = {
 
 export default function topic(state = topicState, action) {
     switch(action.type) {
+        case 'INIT_JS_DECK':
+            const curr = cardData[state.activeDeckIndex]
+            return {
+                ...state,
+                currentDeck: curr,
+                cardGroup: cardData,
+                currentCard: curr.cards[state.activeCardIndex]
+            }
         case 'INIT_DECK':
             const currDeck = state.cardGroup[state.activeDeckIndex]
             return {
