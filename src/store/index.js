@@ -1,10 +1,10 @@
 import { combineReducers, createStore } from 'redux'
-import { topic, settings } from './reducers'
+import reducers from './reducers/reducers'
 import { loadState, saveState } from './storage'
 
 const flashcardApp = combineReducers({
-    topic,
-    settings,
+    topic: reducers.topic,
+    settings: reducers.settings,
 })
 
 const store = createStore(
