@@ -82,7 +82,7 @@ function Deck() {
     }
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [])
+  }, [dispatch, timerRunning])
   return (
     <ThemeProvider value={{theme: activeTheme}}>
     <Page loaded={!loading}>
