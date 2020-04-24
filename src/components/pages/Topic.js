@@ -18,7 +18,7 @@ import {
   handleDeckIndexChange,
 } from '../../store/actions'
 
-function Deck() {
+function Topic() {
   const [loading, setLoading] = useState(true)
   const topic = useSelector(state => state.topic)
   const settings = useSelector(state => state.settings)
@@ -84,7 +84,6 @@ function Deck() {
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [dispatch, timerRunning])
   return (
-    <ThemeProvider value={{theme: activeTheme}}>
     <Page loaded={!loading}>
         <div className="Dash-Nav-desktop">  
           <SettingsNav 
@@ -137,7 +136,6 @@ function Deck() {
           </div>
         </div>
     </Page>
-  </ThemeProvider>
   );
 }
-export default Deck;
+export default Topic;
