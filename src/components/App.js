@@ -18,7 +18,7 @@ import {
   handleDeckIndexChange,
 } from '../store/actions'
 
-function App(props) {
+function App() {
   const [loading, setLoading] = useState(true)
   const topic = useSelector(state => state.topic)
   const settings = useSelector(state => state.settings)
@@ -56,33 +56,33 @@ function App(props) {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, currentCard, currentDeck, activeCardIndex])
+  }, [timerRunning, currentCard, currentDeck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch])
   useEffect(() => {
     dispatch(initDeck())
     setLoading(false)
-  }, [])
-  function handleKeyPress(e) {
-      if (timerRunning) {
-        return
-      }
-      const key = e.code
-      // e.preventDefault()
-      if (key === 'Space') {
-          dispatch(handleToggleSide())
-      }
-      if (key === 'ArrowLeft' || key === 'ArrowRight') {
-          let index = key === 'ArrowLeft' ? -1 : 1
-          dispatch(handleCardIndexChange(index))
-      }
-      if (key === 'ArrowUp' || key === 'ArrowDown') {
-          let index = key === 'ArrowUp' ? -1 : 1
-          dispatch(handleDeckIndexChange(index))
-      }
-  }
+  }, [dispatch])
   useEffect(() => {
+    function handleKeyPress(e) {
+        if (timerRunning) {
+          return
+        }
+        const key = e.code
+        // e.preventDefault()
+        if (key === 'Space') {
+            dispatch(handleToggleSide())
+        }
+        if (key === 'ArrowLeft' || key === 'ArrowRight') {
+            let index = key === 'ArrowLeft' ? -1 : 1
+            dispatch(handleCardIndexChange(index))
+        }
+        if (key === 'ArrowUp' || key === 'ArrowDown') {
+            let index = key === 'ArrowUp' ? -1 : 1
+            dispatch(handleDeckIndexChange(index))
+        }
+    }
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [handleKeyPress])
+  }, [])
   return (
     <ThemeProvider value={{theme: activeTheme}}>
     <Page loaded={!loading}>
