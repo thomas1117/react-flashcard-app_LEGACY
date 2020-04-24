@@ -4,8 +4,7 @@ import Card from './Card';
 import Page from './Page';
 import DeckNav from './DeckNav';
 import SettingsNav from './SettingsNav';
-import Switch from './ui/Switch'
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { 
   initDeck,
   selectDeck,
@@ -21,19 +20,9 @@ import {
 
 function App(props) {
   const [loading, setLoading] = useState(true)
-  const { 
-    topic,
-    settings,
-    handleToggleSide,
-    pauseCycleDeck,
-    selectCard,
-    toggleTheme,
-    handleCardIndexChange,
-    handleDeckIndexChange,
-    cycleDeck,
-    selectDeck,
-    updateSettings,
-  } = props
+  const topic = useSelector(state => state.topic)
+  const settings = useSelector(state => state.settings)
+  const dispatch = useDispatch()
   const  { 
     activeDeckIndex,
     activeCardIndex,
@@ -52,7 +41,7 @@ function App(props) {
     if (timerRunning) {
       interval = setTimeout(() => {
         if (currentCard.side === 'front') {
-          handleToggleSide()
+          dispatch(handleToggleSide())
         } else {
           if (activeCardIndex >= currentDeck.cards.length - 1) {
             clearInterval(interval)
@@ -60,7 +49,7 @@ function App(props) {
             selectCard(0)
             return
           }
-          handleCardIndexChange(1)
+          dispatch(handleCardIndexChange(1))
         }
       }, (currentCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
     } else {
@@ -69,7 +58,7 @@ function App(props) {
     return () => clearInterval(interval)
   }, [timerRunning, currentCard, currentDeck, activeCardIndex])
   useEffect(() => {
-    props.initDeck()
+    dispatch(initDeck())
     setLoading(false)
   }, [])
   function handleKeyPress(e) {
@@ -79,44 +68,45 @@ function App(props) {
       const key = e.code
       // e.preventDefault()
       if (key === 'Space') {
-          handleToggleSide()
+          dispatch(handleToggleSide())
       }
       if (key === 'ArrowLeft' || key === 'ArrowRight') {
           let index = key === 'ArrowLeft' ? -1 : 1
-          handleCardIndexChange(index)
+          dispatch(handleCardIndexChange(index))
       }
       if (key === 'ArrowUp' || key === 'ArrowDown') {
           let index = key === 'ArrowUp' ? -1 : 1
-          handleDeckIndexChange(index)
+          dispatch(handleDeckIndexChange(index))
       }
   }
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [])
+  }, [handleKeyPress])
   return (
     <ThemeProvider value={{theme: activeTheme}}>
     <Page loaded={!loading}>
-        <div class="Dash-Nav-desktop">  
+        <div className="Dash-Nav-desktop">  
           <SettingsNav 
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
-            onChange={toggleTheme}
-            updateSettings={updateSettings} />
+            onChange={() => dispatch(toggleTheme())}
+            updateSettings={(settings) => dispatch(updateSettings(settings))} />
         </div>
         <div className="Dash-Nav-mobile">
           <ul className="Dash-Nav-mobile-left">
             {topic.cardGroup.map((deck, index) => (
-              <li 
+              <li
+                key={'mobile-link-' + index} 
                 className={`Dash-Nav-mobile-link ` + (index === activeDeckIndex ? 'active' : '')}
-                onClick={() => props.selectDeck(index)}>{deck.title}</li>)
+                onClick={() => dispatch(selectDeck(index))}>{deck.title}</li>)
             )}
           </ul>
           <SettingsNav
             frontTime={timeCycleFront}
             backTime={timeCycleBack}
-            onChange={toggleTheme}
-            updateSettings={updateSettings} />
+            onChange={() => dispatch(toggleTheme())}
+            updateSettings={(settings) => dispatch(updateSettings(settings))} />
         </div>
         
         <div className="Dash">
@@ -126,10 +116,10 @@ function App(props) {
               active={currentDeck.title}
               decks={cardGroup}
               playing={timerRunning}
-              cycleDeck={cycleDeck}
-              pauseCycleDeck={pauseCycleDeck}
-              selectCard={selectCard}
-              selectDeck={selectDeck} />
+              cycleDeck={() => dispatch(cycleDeck())}
+              pauseCycleDeck={() => dispatch(pauseCycleDeck())}
+              selectCard={(index) => dispatch(selectCard(index))}
+              selectDeck={(index) => dispatch(selectDeck(index))} />
           </div>
           <div className="Dash-Card-container">
             <div className="Dash-Card-container-inner">
@@ -139,9 +129,9 @@ function App(props) {
                 currentCard={currentCard}
                 deck={currentDeck.title}
                 number={activeCardIndex + 1}
-                onClick={handleToggleSide} 
-                advance={() => handleCardIndexChange(1)}
-                goBack={() => handleCardIndexChange(-1)}
+                onClick={() => dispatch(handleToggleSide())} 
+                advance={() => dispatch(handleCardIndexChange(1))}
+                goBack={() => dispatch(handleCardIndexChange(-1))}
               />
             </div>
           </div>
@@ -150,27 +140,4 @@ function App(props) {
   </ThemeProvider>
   );
 }
-function mapStateToProps(state) {
-  return {
-    topic: state.topic,
-    settings: state.settings,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    initDeck: () => dispatch(initDeck()),
-    selectDeck: (index) => dispatch(selectDeck(index)),
-    selectCard: (index) => dispatch(selectCard(index)),
-    cycleDeck: () => dispatch(cycleDeck()),
-    pauseCycleDeck: () => dispatch(pauseCycleDeck()),
-    handleToggleSide: () => dispatch(handleToggleSide()),
-    toggleTheme: () => dispatch(toggleTheme()),
-    handleCardIndexChange: (diff) => dispatch(handleCardIndexChange(diff)),
-    handleDeckIndexChange: (index) => dispatch(handleDeckIndexChange(index)),
-    updateSettings: (settings) => dispatch(updateSettings(settings))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
-// export default App;
+export default App;

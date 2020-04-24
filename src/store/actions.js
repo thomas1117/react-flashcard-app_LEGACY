@@ -1,5 +1,3 @@
-import { dispatch } from 'redux'
-
 const INIT_DECK = 'INIT_DECK'
 const SELECT_DECK = 'SELECT_DECK'
 const SELECT_CARD = 'SELECT_CARD'
