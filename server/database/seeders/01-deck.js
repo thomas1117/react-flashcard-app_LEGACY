@@ -13,6 +13,7 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('Decks', [{
+      id: 1,
       title: 'Deck 1',
       createdAt: new Date(),
       updatedAt: new Date()

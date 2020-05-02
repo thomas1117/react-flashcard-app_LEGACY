@@ -19,6 +19,7 @@ module.exports = {
     */
 
     return queryInterface.bulkInsert('Sections', [{
+      id: 1,
       title: 'Section 1',
       deckId: 1,
       createdAt: new Date(),
