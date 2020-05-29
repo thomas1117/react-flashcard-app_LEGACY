@@ -5,7 +5,7 @@ import Page from '../Page';
 import DeckNav from '../DeckNav';
 import SettingsNav from '../SettingsNav';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
+import {
   initDeck,
   selectDeck,
   updateSettings,
@@ -16,6 +16,7 @@ import {
   toggleTheme,
   handleCardIndexChange,
   handleDeckIndexChange,
+  initDeckCard,
 } from '../../store/actions'
 
 function Topic(props) {
@@ -23,19 +24,34 @@ function Topic(props) {
   const topic = useSelector(state => state.topic)
   const settings = useSelector(state => state.settings)
   const dispatch = useDispatch()
-  const  { 
+
+  function handleCardSelection(index) {
+    dispatch(selectCard(index))
+  }
+
+  const {
     activeDeckIndex,
     activeCardIndex,
     currentDeck,
     currentCard,
     cardGroup,
     timerRunning,
+    cardUrl,
+    deckUrl,
   } = topic
   const {
     timeCycleBack,
     timeCycleFront,
     activeTheme,
   } = settings
+
+  useEffect(() => {
+    const deckPath = deckUrl ? '/' + deckUrl : ''
+    const cardPath = cardUrl ? '/' + cardUrl : ''
+    if (deckPath || cardPath) {
+      props.history.push(`/js${deckPath}${cardPath}`)
+    }
+  }, [cardUrl, deckUrl])
   useEffect(() => {
     let interval = null
     if (timerRunning) {
@@ -46,7 +62,7 @@ function Topic(props) {
           if (activeCardIndex >= currentDeck.cards.length - 1) {
             clearInterval(interval)
             pauseCycleDeck()
-            selectCard(0)
+            handleCardSelection(0)
             return
           }
           dispatch(handleCardIndexChange(1))
@@ -58,83 +74,85 @@ function Topic(props) {
     return () => clearInterval(interval)
   }, [timerRunning, currentCard, currentDeck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch])
   useEffect(() => {
-    dispatch(initDeck(props.match.params.id))
+    const { deck, card, id } = props.match.params
+    dispatch(initDeck(id))
+    dispatch(initDeckCard(deck, card))
     setLoading(false)
   }, [dispatch])
   useEffect(() => {
     function handleKeyPress(e) {
-        if (timerRunning) {
-          return
-        }
-        const key = e.code
-        // e.preventDefault()
-        if (key === 'Space') {
-            dispatch(handleToggleSide())
-        }
-        if (key === 'ArrowLeft' || key === 'ArrowRight') {
-            let index = key === 'ArrowLeft' ? -1 : 1
-            dispatch(handleCardIndexChange(index))
-        }
-        if (key === 'ArrowUp' || key === 'ArrowDown') {
-            let index = key === 'ArrowUp' ? -1 : 1
-            dispatch(handleDeckIndexChange(index))
-        }
+      if (timerRunning) {
+        return
+      }
+      const key = e.code
+      // e.preventDefault()
+      if (key === 'Space') {
+        dispatch(handleToggleSide())
+      }
+      if (key === 'ArrowLeft' || key === 'ArrowRight') {
+        let index = key === 'ArrowLeft' ? -1 : 1
+        dispatch(handleCardIndexChange(index))
+      }
+      if (key === 'ArrowUp' || key === 'ArrowDown') {
+        let index = key === 'ArrowUp' ? -1 : 1
+        dispatch(handleDeckIndexChange(index))
+      }
     }
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [dispatch, timerRunning])
   return (
     <Page loaded={!loading}>
-        <div className="Dash-Nav-desktop">  
-          <SettingsNav 
-            frontTime={timeCycleFront}
-            backTime={timeCycleBack}
-            onChange={() => dispatch(toggleTheme())}
-            updateSettings={(settings) => dispatch(updateSettings(settings))} />
+      <div className="Dash-Nav-desktop">
+        <SettingsNav
+          frontTime={timeCycleFront}
+          backTime={timeCycleBack}
+          onChange={() => dispatch(toggleTheme())}
+          updateSettings={(settings) => dispatch(updateSettings(settings))} />
+      </div>
+      <div className="Dash-Nav-mobile">
+        <ul className="Dash-Nav-mobile-left">
+          {topic.cardGroup.map((deck, index) => (
+            <li
+              key={'mobile-link-' + index}
+              className={`Dash-Nav-mobile-link ` + (index === activeDeckIndex ? 'active' : '')}
+              onClick={() => dispatch(selectDeck(index))}>{deck.title}</li>)
+          )}
+        </ul>
+        <SettingsNav
+          frontTime={timeCycleFront}
+          backTime={timeCycleBack}
+          onChange={() => dispatch(toggleTheme())}
+          updateSettings={(settings) => dispatch(updateSettings(settings))} />
+      </div>
+
+      <div className="Dash">
+        <div className="Dash-Nav-container">
+          <DeckNav
+            currentId={currentCard.id}
+            active={currentDeck.title}
+            decks={cardGroup}
+            playing={timerRunning}
+            cycleDeck={() => dispatch(cycleDeck())}
+            pauseCycleDeck={() => dispatch(pauseCycleDeck())}
+            selectCard={(index) => handleCardSelection(index)}
+            selectDeck={(index) => dispatch(selectDeck(index))} />
         </div>
-        <div className="Dash-Nav-mobile">
-          <ul className="Dash-Nav-mobile-left">
-            {topic.cardGroup.map((deck, index) => (
-              <li
-                key={'mobile-link-' + index} 
-                className={`Dash-Nav-mobile-link ` + (index === activeDeckIndex ? 'active' : '')}
-                onClick={() => dispatch(selectDeck(index))}>{deck.title}</li>)
-            )}
-          </ul>
-          <SettingsNav
-            frontTime={timeCycleFront}
-            backTime={timeCycleBack}
-            onChange={() => dispatch(toggleTheme())}
-            updateSettings={(settings) => dispatch(updateSettings(settings))} />
-        </div>
-        
-        <div className="Dash">
-          <div className="Dash-Nav-container">
-            <DeckNav 
-              currentId={currentCard.id}
-              active={currentDeck.title}
-              decks={cardGroup}
-              playing={timerRunning}
-              cycleDeck={() => dispatch(cycleDeck())}
-              pauseCycleDeck={() => dispatch(pauseCycleDeck())}
-              selectCard={(index) => dispatch(selectCard(index))}
-              selectDeck={(index) => dispatch(selectDeck(index))} />
+        <div className="Dash-Card-container">
+          <div className="Dash-Card-container-inner">
+            <Card
+              leftDisabled={activeCardIndex === 0}
+              rightDisabled={activeCardIndex === currentDeck.cards.length - 1}
+              currentCard={currentCard}
+              deck={currentDeck.title}
+              number={activeCardIndex + 1}
+              onClick={() => dispatch(handleToggleSide())}
+              advance={() => dispatch(handleCardIndexChange(1))}
+              goBack={() => dispatch(handleCardIndexChange(-1))}
+            />
           </div>
-          <div className="Dash-Card-container">
-            <div className="Dash-Card-container-inner">
-              <Card
-                leftDisabled={activeCardIndex === 0}
-                rightDisabled={activeCardIndex === currentDeck.cards.length - 1}
-                currentCard={currentCard}
-                deck={currentDeck.title}
-                number={activeCardIndex + 1}
-                onClick={() => dispatch(handleToggleSide())} 
-                advance={() => dispatch(handleCardIndexChange(1))}
-                goBack={() => dispatch(handleCardIndexChange(-1))}
-              />
-            </div>
-          </div>
         </div>
+      </div>
     </Page>
   );
 }

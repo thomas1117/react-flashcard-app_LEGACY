@@ -1,8 +1,9 @@
 function makeId() {
-    let id = 0
+    let id = 1
     return () => id++
 }
-let id = makeId()
+let cardId = makeId()
+let deckId = makeId()
 
 function normalize(str) {
     let strArr = str.split('\n')
@@ -23,7 +24,7 @@ function normalize(str) {
 
 export class Card {
     constructor(front, back, meta, language) {
-        this.id = id()
+        this.id = cardId()
         this.front = normalize(front)
         this.back = normalize(back)
         this.side = 'front'
@@ -34,7 +35,7 @@ export class Card {
 
 export class Deck {
     constructor(title, cards) {
-        this.id = id()
+        this.id = deckId()
         this.title = title
         this.cards = cards
     }

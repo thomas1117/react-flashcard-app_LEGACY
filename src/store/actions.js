@@ -9,6 +9,7 @@ const START_DECK_CYCLE = 'START_DECK_CYCLE'
 const STOP_DECK_CYCLE = 'STOP_DECK_CYCLE'
 const UPDATE_SETTINGS = 'UPDATE_SETTINGS'
 const FORWARD_BACKWARD_DECK = 'FORWARD_BACKWARD_DECK'
+const INIT_DECK_CARD = 'INIT_DECK_CARD'
 
 export function toggleTheme() {
     return {
@@ -82,5 +83,15 @@ export function handleDeckIndexChange(diff) {
     return {
         type: FORWARD_BACKWARD_DECK,
         diff
+    }
+}
+
+export function initDeckCard(deck, card) {
+    return {
+        type: INIT_DECK_CARD,
+        payload: {
+            deck,
+            card
+        }
     }
 }

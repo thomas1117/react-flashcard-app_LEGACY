@@ -4,13 +4,25 @@ const topicState = {
     activeCardIndex: 0,
     activeDeckIndex: 0,
     cardGroup: [],
-    currentDeck: {cards: []},
+    currentDeck: { cards: [] },
     currentCard: {},
     timerRunning: false,
+    deckUrl: null,
+    cardUrl: null,
 }
 
 export default function topic(state = topicState, action) {
-    switch(action.type) {
+    switch (action.type) {
+        case 'INIT_DECK_CARD':
+            const d = state.cardGroup.find(x => x.id == action.payload.deck)
+            if (!d) {
+                return { ...state }
+            }
+            return {
+                ...state,
+                currentDeck: d,
+                currentCard: d.cards.find(x => x.id == action.payload.card) || d.cards[0]
+            }
         case 'INIT_JS_DECK':
             const curr = cardData[state.activeDeckIndex]
             return {
@@ -34,19 +46,23 @@ export default function topic(state = topicState, action) {
                 activeCardIndex: 0,
                 currentCard: state.cardGroup[action.index].cards[0],
                 timerRunning: false,
+                deckUrl: state.cardGroup[action.index].id,
+                cardUrl: null
             }
         case 'SELECT_CARD':
+            const selectCard = state.currentDeck.cards[action.index]
             return {
                 ...state,
-                currentCard: state.currentDeck.cards[action.index],
+                currentCard: selectCard,
                 activeCardIndex: action.index,
                 timerRunning: false,
+                cardUrl: selectCard.id,
             }
         case 'FLIP_CARD':
             const card = state.currentCard
             return {
                 ...state,
-                currentCard: {...card, side: card.side === 'front' ? 'back' : 'front'},
+                currentCard: { ...card, side: card.side === 'front' ? 'back' : 'front' },
             }
         case 'FORWARD_BACKWARD_CARD':
             const indexToTry = state.activeCardIndex + action.diff
