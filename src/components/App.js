@@ -9,9 +9,9 @@ function App() {
   return (
     <ThemeProvider value={{ theme: settings.activeTheme }}>
       <Router>
-        <Route path="/:id" component={Topic} />
-        <Route path="/:id/:deck" component={Topic} />
-        <Route path="/:id/:deck/:card" component={Topic} />
+        <Route exact path="/:id" component={Topic} />
+        <Route exact path="/:id/:deck" component={Topic} />
+        <Route exact path="/:id/:deck/:card" component={Topic} />
       </Router>
     </ThemeProvider>
   );

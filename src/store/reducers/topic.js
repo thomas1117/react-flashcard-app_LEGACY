@@ -14,13 +14,20 @@ const topicState = {
 export default function topic(state = topicState, action) {
     switch (action.type) {
         case 'INIT_DECK_CARD':
-            const d = state.cardGroup.find(x => x.id == action.payload.deck)
+            let initIndex = null
+            const d = state.cardGroup.find((x, index) => {
+                if (x.id == action.payload.deck) {
+                    initIndex = index
+                    return true
+                }
+            })
             if (!d) {
                 return { ...state }
             }
             return {
                 ...state,
                 currentDeck: d,
+                activeDeckIndex: initIndex,
                 currentCard: d.cards.find(x => x.id == action.payload.card) || d.cards[0]
             }
         case 'INIT_JS_DECK':
