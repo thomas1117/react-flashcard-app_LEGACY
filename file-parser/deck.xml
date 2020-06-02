@@ -1,5 +1,5 @@
 <decks>
-    <deck title="Syntax" language="js">
+    <deck title="variables" language="js">
         <card>
             <front>
             ## variable declaration
@@ -13,20 +13,142 @@
         </card>
         <card>
             <front>
-            ## if/else/else if statements
+            ## block
             </front>
             <back>
-                if (anyTrueCondition) {
-                    // execute this code...
-                } else if (someOtherTrueCondition) {
-                    // execute this code...
-                } else {
-                    // do this thing if other conditions are not true
-                }
-            </back>
-            <meta>if/else/else if statements</meta>
-        </card>
+            /*
+                A block statement (or compound statement in other languages) 
+                is used to group zero or more statements. 
+                The block is delimited by a pair of braces ("curly brackets")
+                and may optionally be labelled:
 
+                a block is looks like this {}
+            */
+
+            function () {
+
+            }
+
+            if (true) {
+                var x = 2
+                let y = 2
+            }
+
+            while() {
+
+            }
+
+            </back>
+            <meta>block</meta>
+        </card>
+        <card>
+            <front>
+            ## var
+            </front>
+            <back>
+            // var is globally scoped or function scoped
+            var x = 2
+            function foo() {
+                var d = 2
+                x // available due to global scoped
+            }
+            console.log(d) // Uncaught ReferenceError: d is not defined
+
+            </back>
+            <meta>var</meta>
+        </card>
+        <card>
+            <front>
+            ## let
+            </front>
+            <back>
+            // let is block scoped
+
+            for (let i = 0; i < 10; i++) {
+                console.log(i) // 0,1,2,3....
+            }
+            console.log(i) // Uncaught ReferenceError: i is not defined
+
+            {
+                let x = true
+            }
+            console.log(x) // Uncaught ReferenceError: x is not defined
+            </back>
+            <meta>let</meta>
+        </card>
+        <card>
+            <front>
+            ## const
+            </front>
+            <back>
+            // const is block scoped
+            // const cannot be re-assigned
+            {
+                const y = true
+            }
+            console.log(y) // Uncaught ReferenceError: y is not defined
+            const x = 2
+            x = 3 // Uncaught TypeError: Assignment to constant variable
+            </back>
+            <meta>const</meta>
+        </card>
+    </deck>
+    <deck title="data types" language="js">
+        <card>
+            <front>
+            ## Data types
+            </front>
+            <back>
+            /*
+                Essential data types
+                string, boolean, number, array, object
+                undefined, null
+            */
+            // string
+            const str = 'hello'
+            // boolean
+            const bln = true // true || false
+            // number
+            const num = 5
+            // array
+            const list = [1,2,3]
+            // object
+            const foo = {
+                name: 'John'
+            }
+            const undef = undefined // no value
+            const nil = null // represents empty value
+            </back>
+            <meta>
+            data types
+            </meta>
+        </card>
+    </deck>
+    <deck title="operators" language="js">
+        <card>
+            <front>
+            ## what is an operator?
+            </front>
+            <back>
+            /*
+                An operator performs some operation on single 
+                or multiple operands (data value) and produces a result.
+
+                unary: operates on single value (typeof)
+                binary: operates on 2 values
+                ternary: operates on 3 values (ternary)
+
+            */
+
+            typeof "a" // 'string'
+            var num = 2
+            num++ // => 3
+            const isThree = num === 3 ? true : false // true
+            </back>
+            <meta>
+            what is an operator?
+            </meta>
+        </card>
         <card>
             <front>
             ## arithmetic operators
@@ -90,107 +212,8 @@
             comparison operators
             </meta>
         </card>
-        <card>
-            <front>
-            ## function
-            </front>
-            <back>
-            function functionName(param1, param2) {
-                // param1 is the first value passed in (1)
-                // param2 is the second value passed in ([1,2,3])
-            }
-
-            function doubleNumbersArr(arr) {
-                let newArr = []
-                for (let i = 0; i < arr.length; i++) {
-                    newArr.push(arr[i])
-                }
-                return newArr
-            }
-
-            functionName(1, [1,2,3]) // undefined (since no return)
-            doubleNumbersArr([1,2,3]) // [2,4,6]
-            </back>
-            <meta>
-            function
-            </meta>
-        </card>
-        <card>   
-            <front>## comparison operators</front>
-
-            <back>
-            /*
-            (==, ===)
-
-            == // equal to
-            === // 	equal value and equal type
-            != // not equal to
-            */
-            let x = 5
-            x === "5" // false
-            x == 5 // true
-            let num = 10
-            let moreThan = num > 5 // true
-            x !== 1 // true
-            let y = 5
-            y = y + 1 (y is now 6)
-            let x = 10
-            x += 5 (x is now 15)
-            </back>
-            <meta>
-                comparison operators
-            </meta>
-        </card>
-
-        <card>
-            <front>
-            ## logical operators
-            </front>
-            <back>
-            /*
-            && (and)
-            || (or)
-            !  (not)
-
-            Logical operators are used to determine the logic between variables or values.
-            You can combine these just fine and use as many as you want
-            */
-            let x = 5
-            let y = 10
-
-            (x > 5 && y == 10) // false
-            (x == 5 && y === 10) // true
-            (x == 5 || y === false) // true
-            (!false) // true
-            </back>
-            <meta>
-                logical operators
-            </meta>
-        </card>
-
-        <card>
-            <front>
-            ## falsey values
-            </front>
-            <back>
-            /*
-                null, undefined, '', false, 0
-                are all the "falsey" values
-                everything else is true
-            */
-            let x = ''
-            x == true // false
-            x == false // true
-            let y = null
-            y === null // true
-            y == false // true
-            !y // true
-            !0 // true
-            </back>
-            <meta>
-                falsey values
-            </meta>
-        </card>
+    </deck>
+    <deck title="loops" language="js">
         <card>
             <front>
             ## for loop
@@ -206,263 +229,43 @@
                 // i gives me 0 through 9
             }
             </back>
-            <meta>
-            for loops
-            </meta>
+            <meta>for loop parts</meta>
         </card>
         <card>
             <front>
-            ## for loops continued
-            </front>
-            <back>
-            // you can do all the stuff above with for loops...
-            let str = ''
-            let arr = []
-            for(let i = 0; i < 10; i++) {
-                str += 'x'
-                arr.push(i)
-            }
-
-            // str is now 'xxxxxxxxxx'
-            // arr is now [0,1,2,3,4,5,6,7,8,9]
-            </back>
-            <meta>for loops continued</meta>
-        </card>
-    </deck>
-
-    <deck title="Basics" language="js">
-        <card>
-            <front>## what is a statement?</front>
-            <back>
-            /* 
-            A statement can set a variable equal to a value. 
-            A statement can also be a function call, i.e. document. ... 
-            Statements define what the script will do and how it will be done. */
-            var x = 5
-            foo()
-            </back>
-            <meta>statements</meta>
-        </card>
-        <card>
-            <front>## what are primitive values?</front>
-            <back>
-            /* 
-                In JavaScript there are 6 primitive types: 
-                undefined null boolean string number symbol
-                
-                Everything else is an object.
-            */
-            let str = 'hello'
-            let bln = true // or false
-            </back>
-            <meta>primitive values</meta>
-        </card>
-        <card>
-            <front>## What is the difference between var, let, and const?</front>
-            <back>
-            // var declarations are globally scoped or function scoped
-            // var variables can be updated and re-declared within its scope;
-            var x = 1
-            // let and const are block scoped
-            // let variables can be updated but not re-declared
-            let y = 2
-            // const variables can neither be updated nor re-declared
-            const name = 'mark'
-            name = 'a' // would throw an ERROR
-            </back>
-            <meta>var let & const</meta>
-        </card>
-        <card>
-            <front>## var let const continued</front>
-            <back>
-            for (let i = 0; i < 10; i++) {
-                console.log(i) // is defined in block
-            }
-            i // i is not defined outside of the block
-            </back>
-            <meta>var let & const continued</meta>
-        </card>
-        <card>
-        <front>
-        ## objects
-        </front>
-        <back>
-        // objects
-        let person = {age: 4, first: 'John'}
-        // objects can be accessed with dot
-        // or bracket notation
-        let prop = 'age'
-        person.age // 4
-        person[prop] // 4
-        </back>
-        <meta>
-        objects
-        </meta>
-        </card>
-        <card>
-        <front>
-        ## methods
-        </front>
-        <back>
-        // methods
-        let person = {
-            first: 'Henry',
-            last: 'Henryson',
-            // methods are functions on objects
-            getName: function () {
-                return this.first + ' ' this.last
-            },
-            // I'm a method shorthand!
-            greet() {
-                return `Hi, I'm ${this.getName()}`
-            }
-        }
-        person.getName() // Henry Henryson
-        person.greet() // Hi, I'm Henry Henryson
-        // some methods on Object constructor prototype
-        person.hasOwnProperty(prop) // true
-        person.hasOwnProperty('name') // false
-        </back>
-        <meta>
-        methods
-        </meta>
-        </card>
-        <card>
-        <front>
-        ## array methods
-        </front>
-        <back>
-        // array methods
-        const nums = [1,2,3]
-        // map: transforms each item in array based on return
-        const multiply = nums.map(item => item * 2) // [2,4,6]
-        // filter: if condition is true keep item else dont
-        const filtered = nums.filter(i => i % 2 === 0) // [2]
-        // reduce: reduces an array to a single value
-        const reduced = nums.reduce((a,b) => a + b) // 6
-        const found = nums.find(item => item === 3) // 3
-        </back>
-        <meta>
-        array methods
-        </meta>
-        </card>
-        <card>
-        <front>
-        ## functions
-        </front>
-        <back>
-        // functions take values and can do "things"
-        // a function will return undefined if nothing is returned
-        function add(a, b) {
-            return a + b
-        }
-        add(1, 2) // 3
-        add(add(1, 2), 2) // 5
-        </back>
-        <meta>
-        
-        </meta>
-        </card>
-        <card>
-        <front>
-        ## string methods
-        </front>
-        <back>
-        // string methods work because the js engine wraps a String
-        // constructor function around the primitive
-        let str = 'hello'
-        str.charAt(0) // 'h'
-        str.toUpperCase() // HELLO
-        str.indexOf(0) // 'h'
-        str.includes('h') // true
-        </back>
-        <meta>
-        string methods
-        </meta>
-        </card>
-        <card>
-        <front>
-        ## function closures
-        </front>
-        <back>
-        function makeId() {
-            let count = 1
-            // inner function still has access to parent function scope (IE count...)
-            return () => count++
-        }
-        let id = makeId() // fn()
-        let newId = id() // 1
-        id() // 2
-        id() // 3
-        </back>
-        <meta>
-        function closures
-        </meta>
-        </card>
-        <card>
-        <front>
-        ## for loops with objects
-        </front>
-        <back>
-        let obj = {name: 'John', age: 6, ssn: 'n/a'}
-        // go over an object and grab keys
-        for (let key in obj) {
-            console.log(key) // name // age // etc...
-        }
-        </back>
-        <meta>
-        for loops with objects
-        </meta>
-        </card>
-
-        <card>
-        <front>
-        for loops with arrays
-        </front>
-        <back>
-        // go over an array and grab item in array
-        const arr = [1,2,3]
-        for (let item of arr) {
-            console.log(item) // 1 // 2 // 3
-        }
-        for (let i = 0; i < arr.length; i++) {
-            console.log(arr[i]) // 1 // 2 // 3
-        }
-        </back>
-        <meta>
-        for loops with arrays
-        </meta>
-        </card>
-    </deck>
-    <deck title="es6 and beyond" language="js">
-        <card>
-            <front>
-            ## destructuring assignment
-            </front>
-            <back>
-            /* The destructuring assignment syntax is a JavaScript expression
-            that makes it possible to unpack values from arrays, or properties 
-            from objects, into distinct variables. */
-            </back>
-            <meta>
-            destructuring assignment
-            </meta>
-        </card>
-
-        <card>
-            <front>
-            ## arrays and destructuring
+            ## for loop with array
             </front>
             <back>
             const arr = [1,2,3]
-            const [one, two, three] = arr
-            one // 1
-            two // 2
-            three // 3
+            for(let i = 0; i < arr.length; i++) {
+                arr[i] // access array by index (1 then 2 then 3)
+            }
             </back>
-            <meta>
-            arrays and destructuring
-            </meta>
+            <meta>for loop with array</meta>
+        </card>
+        <card>
+            <front>
+            ## for loop with string
+            </front>
+            <back>
+            const str = 'hello'
+            for(let i = 0; i < str.length; i++) {
+                str.charAt(i) // access string by index ('h' 'e' 'l' 'l' 'o')
+            }
+            </back>
+            <meta>for loop with string</meta>
+        </card>
+        <card>
+            <front>
+            ## for loop with object
+            </front>
+            <back>
+            const obj = {first: 'john', last: 'smith', age: 22}
+            for (let key in obj) {
+                console.log(key) // first, last, age
+            }
+            </back>
+            <meta>for loop with object</meta>
         </card>
     </deck>
 </decks>

@@ -45,6 +45,12 @@
     }
   }
 
+  .Card-copy {
+    position: absolute;
+    right: 3rem;
+    top: .5rem;
+  }
+
     /*
   TODO: should probably compute the height of the card and then decide the height to show
   based on both the front and the back elements

@@ -86,12 +86,13 @@ export function handleDeckIndexChange(diff) {
     }
 }
 
-export function initDeckCard(deck, card) {
+export function initDeckCard(deck, card, side) {
     return {
         type: INIT_DECK_CARD,
         payload: {
             deck,
-            card
+            card,
+            side
         }
     }
 }

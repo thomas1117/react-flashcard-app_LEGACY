@@ -1,6 +1,6 @@
 [
     {
-        "title": "Syntax",
+        "title": "variables",
         "language": "js",
         "cards": [
             {
@@ -10,9 +10,51 @@
                 "language": "js"
             },
             {
-                "front": "\n            ## if/else/else if statements\n            ",
-                "back": "\n                if (anyTrueCondition) {\n                    // execute this code...\n                } else if (someOtherTrueCondition) {\n                    // execute this code...\n                } else {\n                    // do this thing if other conditions are not true\n                }\n            ",
-                "meta": "if/else/else if statements",
+                "front": "\n            ## block\n            ",
+                "back": "\n            /*\n                A block statement (or compound statement in other languages) \n                is used to group zero or more statements. \n                The block is delimited by a pair of braces (\"curly brackets\")\n                and may optionally be labelled:\n\n                a block is looks like this {}\n            */\n\n            function () {\n\n            }\n\n            if (true) {\n                var x = 2\n                let y = 2\n            }\n\n            while() {\n\n            }\n\n            ",
+                "meta": "block",
+                "language": "js"
+            },
+            {
+                "front": "\n            ## var\n            ",
+                "back": "\n            // var is globally scoped or function scoped\n            var x = 2\n            function foo() {\n                var d = 2\n                x // available due to global scoped\n            }\n            console.log(d) // Uncaught ReferenceError: d is not defined\n\n            ",
+                "meta": "var",
+                "language": "js"
+            },
+            {
+                "front": "\n            ## let\n            ",
+                "back": "\n            // let is block scoped\n\n            for (let i = 0; i < 10; i++) {\n                console.log(i) // 0,1,2,3....\n            }\n            console.log(i) // Uncaught ReferenceError: i is not defined\n\n            {\n                let x = true\n            }\n            console.log(x) // Uncaught ReferenceError: x is not defined\n            ",
+                "meta": "let",
+                "language": "js"
+            },
+            {
+                "front": "\n            ## const\n            ",
+                "back": "\n            // const is block scoped\n            // const cannot be re-assigned\n            {\n                const y = true\n            }\n            console.log(y) // Uncaught ReferenceError: y is not defined\n            const x = 2\n            x = 3 // Uncaught TypeError: Assignment to constant variable\n            ",
+                "meta": "const",
+                "language": "js"
+            }
+        ]
+    },
+    {
+        "title": "data types",
+        "language": "js",
+        "cards": [
+            {
+                "front": "\n            ## Data types\n            ",
+                "back": "\n            /*\n                Essential data types\n                string, boolean, number, array, object\n                undefined, null\n            */\n            // string\n            const str = 'hello'\n            // boolean\n            const bln = true // true || false\n            // number\n            const num = 5\n            // array\n            const list = [1,2,3]\n            // object\n            const foo = {\n                name: 'John'\n            }\n            const undef = undefined // no value\n            const nil = null // represents empty value\n            ",
+                "meta": "\n            Data types\n            ",
+                "language": "js"
+            }
+        ]
+    },
+    {
+        "title": "operators",
+        "language": "js",
+        "cards": [
+            {
+                "front": "\n            ## what is an operator?\n            ",
+                "back": "\n            /*\n                An operator performs some operation on single \n                or multiple operands (data value) and produces a result.\n\n                unary: operates on single value (typeof)\n                binary: operates on 2 values\n                ternary: operates on 3 values (ternary)\n\n            */\n\n            typeof \"a\" // 'string'\n            var num = 2\n            num++ // => 3\n            const isThree = num === 3 ? true : false // true\n            ",
+                "meta": "\n            what is an operator?\n            ",
                 "language": "js"
             },
             {
@@ -32,137 +74,35 @@
                 "back": "\n            /*\n                (==, ===)\n\n                == // equal to\n                === // \tequal value and equal type\n                != // not equal to\n            */\n            let x = 5\n            x === \"5\" // false\n            x == 5 // true\n            let num = 10\n            let moreThan = num > 5 // true\n            x !== 1 // true\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
                 "meta": "\n            comparison operators\n            ",
                 "language": "js"
-            },
-            {
-                "front": "\n            ## function\n            ",
-                "back": "\n            function functionName(param1, param2) {\n                // param1 is the first value passed in (1)\n                // param2 is the second value passed in ([1,2,3])\n            }\n\n            function doubleNumbersArr(arr) {\n                let newArr = []\n                for (let i = 0; i < arr.length; i++) {\n                    newArr.push(arr[i])\n                }\n                return newArr\n            }\n\n            functionName(1, [1,2,3]) // undefined (since no return)\n            doubleNumbersArr([1,2,3]) // [2,4,6]\n            ",
-                "meta": "\n            function\n            ",
-                "language": "js"
-            },
-            {
-                "front": "## comparison operators",
-                "back": "\n            /*\n            (==, ===)\n\n            == // equal to\n            === // \tequal value and equal type\n            != // not equal to\n            */\n            let x = 5\n            x === \"5\" // false\n            x == 5 // true\n            let num = 10\n            let moreThan = num > 5 // true\n            x !== 1 // true\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
-                "meta": "\n                comparison operators\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## logical operators\n            ",
-                "back": "\n            /*\n            && (and)\n            || (or)\n            !  (not)\n\n            Logical operators are used to determine the logic between variables or values.\n            You can combine these just fine and use as many as you want\n            */\n            let x = 5\n            let y = 10\n\n            (x > 5 && y == 10) // false\n            (x == 5 && y === 10) // true\n            (x == 5 || y === false) // true\n            (!false) // true\n            ",
-                "meta": "\n                logical operators\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## falsey values\n            ",
-                "back": "\n            /*\n                null, undefined, '', false, 0\n                are all the \"falsey\" values\n                everything else is true\n            */\n            let x = ''\n            x == true // false\n            x == false // true\n            let y = null\n            y === null // true\n            y == false // true\n            !y // true\n            !0 // true\n            ",
-                "meta": "\n                falsey values\n            ",
-                "language": "js"
-            },
+            }
+        ]
+    },
+    {
+        "title": "loops",
+        "language": "js",
+        "cards": [
             {
                 "front": "\n            ## for loop\n            ",
                 "back": "\n            /*\n                for loops consist of 3 parts\n                1. variable initialization: let i = 0\n                2. a comparison: i < 10 (once false the for loop stops)\n                3. a change in value: i++ (same as saying i = i + 1)\n            */\n            for(let i = 0; i < 10; i++) {\n                // i gives me 0 through 9\n            }\n            ",
-                "meta": "\n            for loops\n            ",
+                "meta": "for loop parts",
                 "language": "js"
             },
             {
-                "front": "\n            ## for loops continued\n            ",
-                "back": "\n            // you can do all the stuff above with for loops...\n            let str = ''\n            let arr = []\n            for(let i = 0; i < 10; i++) {\n                str += 'x'\n                arr.push(i)\n            }\n\n            // str is now 'xxxxxxxxxx'\n            // arr is now [0,1,2,3,4,5,6,7,8,9]\n            ",
-                "meta": "for loops continued",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "Basics",
-        "language": "js",
-        "cards": [
-            {
-                "front": "## what is a statement?",
-                "back": "\n            /* \n            A statement can set a variable equal to a value. \n            A statement can also be a function call, i.e. document. ... \n            Statements define what the script will do and how it will be done. */\n            var x = 5\n            foo()\n            ",
-                "meta": "statements",
+                "front": "\n            ## for loop with array\n            ",
+                "back": "\n            const arr = [1,2,3]\n            for(let i = 0; i < arr.length; i++) {\n                arr[i] // access array by index (1 then 2 then 3)\n            }\n            ",
+                "meta": "for loop with array",
                 "language": "js"
             },
             {
-                "front": "## what are primitive values?",
-                "back": "\n            /* \n                In JavaScript there are 6 primitive types: \n                undefined null boolean string number symbol\n                \n                Everything else is an object.\n            */\n            let str = 'hello'\n            let bln = true // or false\n            ",
-                "meta": "primitive values",
+                "front": "\n            ## for loop with string\n            ",
+                "back": "\n            const str = 'hello'\n            for(let i = 0; i < str.length; i++) {\n                str.charAt(i) // access string by index ('h' 'e' 'l' 'l' 'o')\n            }\n            ",
+                "meta": "for loop with string",
                 "language": "js"
             },
             {
-                "front": "## What is the difference between var, let, and const?",
-                "back": "\n            // var declarations are globally scoped or function scoped\n            // var variables can be updated and re-declared within its scope;\n            var x = 1\n            // let and const are block scoped\n            // let variables can be updated but not re-declared\n            let y = 2\n            // const variables can neither be updated nor re-declared\n            const name = 'mark'\n            name = 'a' // would throw an ERROR\n            ",
-                "meta": "var let & const",
-                "language": "js"
-            },
-            {
-                "front": "## var let const continued",
-                "back": "\n            for (let i = 0; i < 10; i++) {\n                console.log(i) // is defined in block\n            }\n            i // i is not defined outside of the block\n            ",
-                "meta": "var let & const continued",
-                "language": "js"
-            },
-            {
-                "front": "\n        ## objects\n        ",
-                "back": "\n        // objects\n        let person = {age: 4, first: 'John'}\n        // objects can be accessed with dot\n        // or bracket notation\n        let prop = 'age'\n        person.age // 4\n        person[prop] // 4\n        ",
-                "meta": "\n        objects\n        ",
-                "language": "js"
-            },
-            {
-                "front": "\n        ## methods\n        ",
-                "back": "\n        // methods\n        let person = {\n            first: 'Henry',\n            last: 'Henryson',\n            // methods are functions on objects\n            getName: function () {\n                return this.first + ' ' this.last\n            },\n            // I'm a method shorthand!\n            greet() {\n                return `Hi, I'm ${this.getName()}`\n            }\n        }\n        person.getName() // Henry Henryson\n        person.greet() // Hi, I'm Henry Henryson\n        // some methods on Object constructor prototype\n        person.hasOwnProperty(prop) // true\n        person.hasOwnProperty('name') // false\n        ",
-                "meta": "\n        methods\n        ",
-                "language": "js"
-            },
-            {
-                "front": "\n        ## array methods\n        ",
-                "back": "\n        // array methods\n        const nums = [1,2,3]\n        // map: transforms each item in array based on return\n        const multiply = nums.map(item => item * 2) // [2,4,6]\n        // filter: if condition is true keep item else dont\n        const filtered = nums.filter(i => i % 2 === 0) // [2]\n        // reduce: reduces an array to a single value\n        const reduced = nums.reduce((a,b) => a + b) // 6\n        const found = nums.find(item => item === 3) // 3\n        ",
-                "meta": "\n        array methods\n        ",
-                "language": "js"
-            },
-            {
-                "front": "\n        ## functions\n        ",
-                "back": "\n        // functions take values and can do \"things\"\n        // a function will return undefined if nothing is returned\n        function add(a, b) {\n            return a + b\n        }\n        add(1, 2) // 3\n        add(add(1, 2), 2) // 5\n        ",
-                "meta": "\n        \n        ",
-                "language": "js"
-            },
-            {
-                "front": "\n        ## string methods\n        ",
-                "back": "\n        // string methods work because the js engine wraps a String\n        // constructor function around the primitive\n        let str = 'hello'\n        str.charAt(0) // 'h'\n        str.toUpperCase() // HELLO\n        str.indexOf(0) // 'h'\n        str.includes('h') // true\n        ",
-                "meta": "\n        string methods\n        ",
-                "language": "js"
-            },
-            {
-                "front": "\n        ## function closures\n        ",
-                "back": "\n        function makeId() {\n            let count = 1\n            // inner function still has access to parent function scope (IE count...)\n            return () => count++\n        }\n        let id = makeId() // fn()\n        let newId = id() // 1\n        id() // 2\n        id() // 3\n        ",
-                "meta": "\n        function closures\n        ",
-                "language": "js"
-            },
-            {
-                "front": "\n        ## for loops with objects\n        ",
-                "back": "\n        let obj = {name: 'John', age: 6, ssn: 'n/a'}\n        // go over an object and grab keys\n        for (let key in obj) {\n            console.log(key) // name // age // etc...\n        }\n        ",
-                "meta": "\n        for loops with objects\n        ",
-                "language": "js"
-            },
-            {
-                "front": "\n        for loops with arrays\n        ",
-                "back": "\n        // go over an array and grab item in array\n        const arr = [1,2,3]\n        for (let item of arr) {\n            console.log(item) // 1 // 2 // 3\n        }\n        for (let i = 0; i < arr.length; i++) {\n            console.log(arr[i]) // 1 // 2 // 3\n        }\n        ",
-                "meta": "\n        for loops with arrays\n        ",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "es6 and beyond",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## destructuring assignment\n            ",
-                "back": "\n            /* The destructuring assignment syntax is a JavaScript expression\n            that makes it possible to unpack values from arrays, or properties \n            from objects, into distinct variables. */\n            ",
-                "meta": "\n            destructuring assignment\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## arrays and destructuring\n            ",
-                "back": "\n            const arr = [1,2,3]\n            const [one, two, three] = arr\n            one // 1\n            two // 2\n            three // 3\n            ",
-                "meta": "\n            arrays and destructuring\n            ",
+                "front": "\n            ## for loop with object\n            ",
+                "back": "\n            const obj = {first: 'john', last: 'smith', age: 22}\n            for (let key in obj) {\n                console.log(key) // first, last, age\n            }\n            ",
+                "meta": "for loop with object",
                 "language": "js"
             }
         ]

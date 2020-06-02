@@ -9,6 +9,7 @@ const topicState = {
     timerRunning: false,
     deckUrl: null,
     cardUrl: null,
+    isBack: false,
 }
 
 export default function topic(state = topicState, action) {
@@ -16,19 +17,21 @@ export default function topic(state = topicState, action) {
         case 'INIT_DECK_CARD':
             let initIndex = null
             const d = state.cardGroup.find((x, index) => {
-                if (x.id == action.payload.deck) {
+                if (x.id === Number(action.payload.deck)) {
                     initIndex = index
                     return true
                 }
+                return false
             })
             if (!d) {
                 return { ...state }
             }
+            const c = d.cards.find(x => x.id === Number(action.payload.card)) || d.cards[0]
             return {
                 ...state,
                 currentDeck: d,
                 activeDeckIndex: initIndex,
-                currentCard: d.cards.find(x => x.id == action.payload.card) || d.cards[0]
+                currentCard: { ...c, side: action.payload.side }
             }
         case 'INIT_JS_DECK':
             const curr = cardData[state.activeDeckIndex]
@@ -70,6 +73,7 @@ export default function topic(state = topicState, action) {
             return {
                 ...state,
                 currentCard: { ...card, side: card.side === 'front' ? 'back' : 'front' },
+                isBack: card.side === 'back'
             }
         case 'FORWARD_BACKWARD_CARD':
             const indexToTry = state.activeCardIndex + action.diff
@@ -80,6 +84,7 @@ export default function topic(state = topicState, action) {
                 ...state,
                 activeCardIndex: newIndex,
                 currentCard: state.currentDeck.cards[newIndex],
+                cardUrl: state.currentDeck.cards[newIndex].id,
             }
         case 'FORWARD_BACKWARD_DECK': {
             const deckToTry = state.activeDeckIndex + action.diff
@@ -93,6 +98,7 @@ export default function topic(state = topicState, action) {
                 activeCardIndex: 0,
                 currentCard: state.cardGroup[newIndex].cards[0],
                 timerRunning: false,
+                deckUrl: state.cardGroup[newIndex].id,
             }
         }
         case 'START_DECK_CYCLE':

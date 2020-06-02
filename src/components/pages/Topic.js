@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { ThemeProvider } from '../../ThemeContext';
+import React, { useState, useEffect, useCallback } from 'react';
 import Card from '../Card';
 import Page from '../Page';
 import DeckNav from '../DeckNav';
@@ -29,6 +28,8 @@ function Topic(props) {
     dispatch(selectCard(index))
   }
 
+  const manageSide = useCallback(() => dispatch(handleToggleSide()), [dispatch])
+
   const {
     activeDeckIndex,
     activeCardIndex,
@@ -42,7 +43,6 @@ function Topic(props) {
   const {
     timeCycleBack,
     timeCycleFront,
-    activeTheme,
   } = settings
 
   useEffect(() => {
@@ -51,13 +51,17 @@ function Topic(props) {
     if (deckPath || cardPath) {
       props.history.push(`/js${deckPath}${cardPath}`)
     }
-  }, [cardUrl, deckUrl])
+  }, [cardUrl, deckUrl, props.history.push])
+  useEffect(() => {
+    const pushState = currentCard.side === 'back' ? '?back=true' : null
+    props.history.push({ search: pushState })
+  }, [currentCard.side, props.history.push])
   useEffect(() => {
     let interval = null
     if (timerRunning) {
       interval = setTimeout(() => {
         if (currentCard.side === 'front') {
-          dispatch(handleToggleSide())
+          manageSide()
         } else {
           if (activeCardIndex >= currentDeck.cards.length - 1) {
             clearInterval(interval)
@@ -72,11 +76,12 @@ function Topic(props) {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, currentCard, currentDeck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch])
+  }, [timerRunning, currentCard, currentDeck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, handleCardSelection, manageSide])
   useEffect(() => {
     const { deck, card, id } = props.match.params
     dispatch(initDeck(id))
-    dispatch(initDeckCard(deck, card))
+    const side = props.location.search === '?back=true' ? 'back' : 'front'
+    dispatch(initDeckCard(deck, card, side))
     setLoading(false)
   }, [dispatch])
   useEffect(() => {
@@ -87,7 +92,7 @@ function Topic(props) {
       const key = e.code
       // e.preventDefault()
       if (key === 'Space') {
-        dispatch(handleToggleSide())
+        manageSide()
       }
       if (key === 'ArrowLeft' || key === 'ArrowRight') {
         let index = key === 'ArrowLeft' ? -1 : 1
@@ -100,7 +105,7 @@ function Topic(props) {
     }
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [dispatch, timerRunning])
+  }, [dispatch, timerRunning, manageSide])
   return (
     <Page loaded={!loading}>
       <div className="Dash-Nav-desktop">
@@ -146,7 +151,7 @@ function Topic(props) {
               currentCard={currentCard}
               deck={currentDeck.title}
               number={activeCardIndex + 1}
-              onClick={() => dispatch(handleToggleSide())}
+              onClick={() => manageSide()}
               advance={() => dispatch(handleCardIndexChange(1))}
               goBack={() => dispatch(handleCardIndexChange(-1))}
             />
