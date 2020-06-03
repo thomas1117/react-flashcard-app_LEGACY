@@ -4,12 +4,12 @@ import ThemeContext from '../ThemeContext';
 
 export default function Settings(props) {
     const [visible, setVisible] = useState(false)
-    const [frontTime,setFrontTime] = useState(props.frontTime)
+    const [frontTime, setFrontTime] = useState(props.frontTime)
     const [backTime, setBackTime] = useState(props.backTime)
     const ctx = useContext(ThemeContext)
     const handleSubmit = (e) => {
         e.preventDefault()
-        props.updateSettings({frontTime, backTime})
+        props.updateSettings({ frontTime, backTime })
         setVisible(false)
     }
     const handleDismiss = (e) => {
@@ -34,20 +34,20 @@ export default function Settings(props) {
     return <div>
         {
             visible ?
-            <button 
-            className="Settings-toggle Settings-toggle-close"
-            onClick={handleDismiss}>&times;</button>
-            :
-            <button 
-            className="Settings-toggle"
-            onClick={() => setVisible(v => !v)}>&#9881;</button>
+                <button
+                    className="Settings-toggle Settings-toggle-close"
+                    onClick={handleDismiss}>&times;</button>
+                :
+                <button
+                    className="Settings-toggle"
+                    onClick={() => setVisible(v => !v)}>&#9881;</button>
         }
-        <div className="Settings-toggle-overlay" style={{visibility: visible ? 'visible' : 'hidden'}}>
+        <div className="Settings-toggle-overlay" style={{ visibility: visible ? 'visible' : 'hidden' }}>
             <form onSubmit={handleSubmit}>
                 <div className="Settings-time-container">
                     <fieldset>
                         <label className="Settings-time-container-label" htmlFor="Front">Front time (seconds)</label>
-                        <input 
+                        <input
                             id="front"
                             type="text"
                             className="Settings-front-time Settings-time"
@@ -57,7 +57,7 @@ export default function Settings(props) {
                     </fieldset>
                     <fieldset>
                         <label className="Settings-time-container-label" htmlFor="Back">Back time (seconds)</label>
-                        <input 
+                        <input
                             id="back"
                             type="text"
                             className="Settings-back-time Settings-time"
@@ -66,7 +66,7 @@ export default function Settings(props) {
                             placeholder="Back card time" />
                     </fieldset>
                     <fieldset className="Settings-Switch">
-                        <Switch 
+                        <Switch
                             onChange={handleDark}
                             checked={ctx.theme === 'dark-mode'}
                         />

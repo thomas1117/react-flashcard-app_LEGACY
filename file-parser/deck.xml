@@ -96,7 +96,7 @@
     <deck title="data types" language="js">
         <card>
             <front>
-            ## Data types
+            ## data types
             </front>
             <back>
             /*
@@ -121,6 +121,44 @@
             </back>
             <meta>
             data types
+            </meta>
+        </card>
+        <card>
+            <front>
+            ## string methods
+            </front>
+            <back>
+            /*
+                some methods (functions) available on string
+            */
+            // string
+            const str = 'hello'
+            str.toUpperCase() // 'HELLO'
+            str.split('') // ['h', 'e', 'l', 'l', 'o']
+            str.charAt(0) // 'h'
+            </back>
+            <meta>
+            string methods
+            </meta>
+        </card>
+        <card>
+            <front>
+            ## array methods
+            </front>
+            <back>
+            // array methods
+            const nums = [1,2,3]
+            // map: transforms each item in array based on return
+            const multiply = nums.map(item => item * 2) // [2,4,6]
+            // filter: if condition is true keep item else dont
+            const filtered = nums.filter(i => i % 2 === 0) // [2]
+            // reduce: reduces an array to a single value
+            const reduced = nums.reduce((a,b) => a + b) // 6
+            // find: returns the first element of array that meets a condition
+            const found = nums.find(item => item === 3) // 3
+            </back>
+            <meta>
+            array methods
             </meta>
         </card>
     </deck>
@@ -212,6 +250,325 @@
             comparison operators
             </meta>
         </card>
+        <card>
+            <front>
+            ## not operator
+            </front>
+            <back>
+            // not operator flips the value (into a boolean representation)
+            // you can use it as many times as you want and it'll flip it
+            let x = true
+            x = !x // false
+            let f = ''
+            f = !!f // false
+            let r = 'hello'
+            r = !r // false
+            </back>
+            <meta>
+            not operator
+            </meta>
+        </card>
+    </deck>
+    <deck title="conditionals" language="js">
+        <card>
+            <front>
+            ## if/else/else if statements syntax
+            </front>
+            <back>
+                if (anyTrueCondition) {
+                    // execute this code...
+                } else if (someOtherTrueCondition) {
+                    // execute this code...
+                } else {
+                    // do this thing if other conditions are not true
+                }
+            </back>
+            <meta>if/else/else if statements syntax</meta>
+        </card>
+        <card>
+            <front>
+            ## == vs ===
+            </front>
+            <back>
+                // == uses type coercion
+                // === checks value and type
+                const str = 'a'
+                str === 'a' // true
+                str == 'a' // true
+                const num = 5
+                num == '5' // true
+                num === '5' // true
+            </back>
+            <meta>== vs ===</meta>
+        </card>
+         <card>
+            <front>
+            ## ternary if
+            </front>
+            <back>
+                const num = 5
+                const isFive = num === 5 ? true : false
+                const greaterThanFour = num > 4 ? true : false
+                const lessThan4 = num < 4 ? 'less than 4' : '4 or more'
+            </back>
+            <meta>ternary if</meta>
+        </card>
+    </deck>
+    <deck title="objects" language="js">
+        <card>
+            <front>
+            ## object reassignment
+            </front>
+            <back>
+            const obj = {
+                first: 'John'
+            }
+            obj.first = 'Mark'
+            </back>
+            <meta>reassignment</meta>
+        </card>
+        <card>
+            <front>
+            ## add property to object
+            </front>
+            <back>
+            const obj = {
+                first: 'John'
+            }
+            obj.last = 'Smith'
+            obj['age'] = 22
+            </back>
+            <meta>add property</meta>
+        </card>
+        <card>
+            <front>
+            ## loop over object (in operator)
+            </front>
+            <back>
+            const obj = {
+                first: 'John'
+            }
+            obj.last = 'Smith'
+            obj['age'] = 22
+            for (let key in obj) {
+                console.log(key) // first, last, age
+            }
+            </back>
+            <meta>loop over object</meta>
+        </card>
+        <card>
+            <front>
+            ## loop over object 2
+            </front>
+            <back>
+            const obj = {
+                first: 'John'
+            }
+            Object.keys(obj).forEach(key => {
+                console.log(key)
+            })
+            </back>
+            <meta>loop over object 2</meta>
+        </card>
+        <card>
+            <front>
+            ## delete from object
+            </front>
+            <back>
+            const obj = {
+                first: 'John',
+                last: 'Smith'
+            }
+            delete obj.first
+            obj // {last: 'Smith'}
+            </back>
+            <meta>delete from object</meta>
+        </card>
+        <card>
+            <front>
+            ## clone object
+            </front>
+            <back>
+            const obj = {
+                first: 'John',
+                last: 'Smith'
+            }
+            const newObj = {...obj, age: 22}
+            newObj // {first: 'John', last: 'Smith', age: 22}
+            </back>
+            <meta>clone object</meta>
+        </card>
+        <card>
+            <front>
+            ## check if key is in object
+            </front>
+            <back>
+            const obj = {
+                first: 'John',
+            }
+            // using the in operator
+
+            'first' in obj // true
+
+            // using hasOwnProperty
+            Object(obj).hasOwnProperty('first') // true
+            </back>
+            <meta>check if key is in object</meta>
+        </card>
+        <card>
+            <front>
+            ## methods
+            </front>
+            <back>
+            const obj = {
+                first: 'John',
+                last: 'Smith',
+                sayName() {
+                    return this.first + ' ' + this.last
+                }
+            }
+            obj.sayName() // 'John Smith'
+            </back>
+            <meta>methods</meta>
+        </card>
+        <card>
+            <front>
+            ## objects and destructuring
+            </front>
+            <back>
+            const foo = {
+                first: 'Walter',
+                last: 'White',
+                yell() {
+                    console.log('Jesse!')
+                }
+            }
+            const { first, last, yell } = foo
+            first // 'Walter'
+            last // 'White'
+            yell // () => console.log('Jesse!')
+            </back>
+            <meta>
+            objects and destructuring
+            </meta>
+        </card>
+    </deck>
+    <deck title="arrays" language="js">
+        <card>
+            <front>
+            ## add item to array (mutation)
+            </front>
+            <back>
+                const arr = [1]
+                arr.push(2)
+                arr // [1,2]
+            </back>
+            <meta>add item to array (mutation)</meta>
+        </card>
+        <card>
+            <front>
+            ## add item to array (cloning)
+            </front>
+            <back>
+                const arr = [1]
+                const newArr = [...arr, 2]
+                newArr // [1,2]
+            </back>
+            <meta>add item to array (cloning)</meta>
+        </card>
+        <card>
+            <front>
+            ## find item in array
+            </front>
+            <back>
+                const arr = [1,2,3]
+                const found1 = arr.find(item => item === 1) // 1
+                const arr2 = [{id: 1}, {id: 2}]
+                const found2 = arr2.find(item => item.id === 2) // {id: 2}
+            </back>
+            <meta>find item in array</meta>
+        </card>
+        <card>
+            <front>
+            ## get item at index in array
+            </front>
+            <back>
+                const arr = [1,2,3, {id: 2}]
+                arr[0] // 1
+                arr[3] // {id: 2}
+            </back>
+            <meta>get item at index in array</meta>
+        </card>
+        <card>
+            <front>
+            ## check if array has something inside it
+            </front>
+            <back>
+                const arr = [1,2,3]
+                arr.includes(2) // true
+            </back>
+            <meta>check if array has something inside it</meta>
+        </card>
+        <card>
+            <front>
+            ## remove item from array
+            </front>
+            <back>
+                const arr = [1,2,3]
+                const moreThanOne = arr.filter(item => item > 1) // [2,3]
+            </back>
+            <meta>remove item from array</meta>
+        </card>
+        <card>
+            <front>
+            ## transform array
+            </front>
+            <back>
+                const arr = [1,2,3]
+                const multiply = arr.map(item => item * 2) // [2,4,6]
+                const products = [{id: 1, price: 1}, {id: 2, price: 3}]
+                const prices = products.map(item => item.price) // [1, 3]
+            </back>
+            <meta>transform array</meta>
+        </card>
+        <card>
+            <front>
+            ## reduce array into single value
+            </front>
+            <back>
+                const arr = [1,2,3]
+                const total = arr.reduce((a, b) => a + b)
+                const arr2 = [{price: 1}, {price: 2}, {price: 3}]
+                // takes second param (first a will be 0)
+                const total2 = arr2.reduce((a, b) => a + b.price, 0)
+            </back>
+            <meta>reduce array into single value</meta>
+        </card>
+        <card>
+            <front>
+            ## clone array
+            </front>
+            <back>
+                const arr = [1,2,3]
+                const arr2 = [...arr] // [1,2,3]
+            </back>
+            <meta>clone array</meta>
+        </card>
+        <card>
+            <front>
+            ## arrays and destructuring
+            </front>
+            <back>
+            const arr = [1,2,3]
+            const [one, two, three] = arr
+            one // 1
+            two // 2
+            three // 3
+            </back>
+            <meta>
+            arrays and destructuring
+            </meta>
+        </card>
     </deck>
     <deck title="loops" language="js">
         <card>
@@ -266,6 +623,251 @@
             }
             </back>
             <meta>for loop with object</meta>
+        </card>
+    </deck>
+    <deck title="functions" language="js">
+        <card>
+            <front>
+            ## writing a function
+            </front>
+            <back>
+            /*
+                various ways to write functions
+            */
+
+            function add(a, b) {
+                return a + b
+            }
+
+            const anotherAdd = (a, b) => a + b
+
+            const anotherAddAgain = (a, b) => {
+                return a + b
+            }
+
+            const add3 = function (a, b) {
+                return a + b
+            }
+            </back>
+            <meta>writing functions</meta>
+        </card>
+        <card>
+            <front>
+            ## fat arrow continued
+            </front>
+            <back>
+            // one value passed no parenthesis required
+            const oneParam = param1 => param1
+             // more than 1 or no parameters... parenthesis required
+            const twoParams = (param1, param2) => param1 + param2
+            const noParams = () => console.log('hello!')
+            </back>
+            <meta>fat arrow continued</meta>
+        </card>
+        <card>
+            <front>
+            ## functions syntax and nomenclature
+            </front>
+            <back>
+            const add = (num1, num2) => num1 + num2
+            // function name: add
+            // parameters/arguments: num1, num2
+            // body: {return num1 + num2}
+
+            const add2 = function (a, b) {
+                console.log('hello!')
+                return a + b
+            }
+            // function name: add2
+            // parameters/arguments: a, b
+            /*
+            body: {
+                console.log('hello!')
+                return a + b
+            }
+            */
+            </back>
+            <meta>functions syntax and nomenclature</meta>
+        </card>
+        <card>
+            <front>
+            ## function return
+            </front>
+            <back>
+            // functions are the values they return when called
+
+            // implicit return (since its on one line)
+            const multiply = (a, b) => a * b
+            multiply(2,6) // 12
+            multiply(multiply(2, 5), 10) // 100
+
+            // functions without an explicit/implicit return will
+            // return undefined
+            function dumbFunction (a, b) {
+                a + b
+
+            }
+            dumbFunction(1, 2) // undefined
+
+            const add = (a, b) => {
+                return a + b
+            }
+            </back>
+            <meta>function return</meta>
+        </card>
+        <card>
+            <front>
+            ## function passed as reference
+            </front>
+            <back>
+            // functions can be passed along by reference
+            // IE not calling it directly
+
+            const add = (a, b) => a + b
+
+            function callIt(fn, param1, param2) {
+                return fn(param1, param2)
+            }
+            // add passed as reference
+            callIt(add, 1, 2) // 3
+
+            const nums = [1,2,3]
+            const multiplyNum = (item) => item * 2
+            const newNums = nums.map(multiplyNum) // [2,4,6]
+            const multiplyNum2 = nums.map(item => item * 3) // [3,6,9]
+            </back>
+            <meta>function passed as reference</meta>
+        </card>
+        <card>
+            <front>
+            ## recursion
+            </front>
+            <back>
+            // recursion means a function that calls itself
+            // it will call the function until a base condition is met
+            
+            function factorial(num) {
+                if (num === 1 || num === 0) {
+                    return 1
+                }
+                return num * factorial(num - 1)
+            }
+            factorial(4) // 24 (4 * 3 * 2 * 1)
+            </back>
+            <meta>recursion</meta>
+        </card>
+        <card>
+            <front>
+            ## function closures
+            </front>
+            <back>
+            function makeId() {
+                let count = 1
+                // inner function still has access to parent function scope (IE count...)
+                return () => count++
+            }
+            let id = makeId() // fn()
+            let newId = id() // 1
+            id() // 2
+            id() // 3
+            </back>
+            <meta>
+            function closures
+            </meta>
+        </card>
+    </deck>
+    <deck title="DOM and browser" language="js">
+        <card>
+            <front>
+            ## What is the DOM?
+            </front>
+            <back>
+            // DOM stands for document object model
+            // it is an object with methods that 
+            // can access and modify the document (html page)
+
+            const foo = document.querySelector('#foo')
+
+            foo.innerHTML = 'some text'
+            function cb() {
+                console.log('hello!')
+            }
+            foo.addEventListener('click', cb)
+            </back>
+            <meta>What is the DOM?</meta>
+        </card>
+        <card>
+            <front>
+            ## What is e in a callback function on event listener?
+            </front>
+            <back>
+            // e is the event object from the browser
+            // e.preventDefault() // prevents the default from happening
+            // for example preventing a form from refreshing the page
+            // or preventing a link from going to it's href
+
+            // input value is in e.target.value, etc....
+            </back>
+            <meta>e in event listener</meta>
+        </card>
+        <card>
+            <front>
+            ## set timeout
+            </front>
+            <back>
+            const timeInMs = 2000
+
+            setTimeout(() => {
+                // call this code in 2 seconds...
+            }, timeInMs)
+            </back>
+            <meta>set timeout</meta>
+        </card>
+        <card>
+            <front>
+            ## set interval
+            </front>
+            <back>
+            const timeInMs = 2000
+
+            setInterval(() => {
+                // call this code every 2 seconds...
+            }, timeInMs)
+            </back>
+            <meta>set interval</meta>
+        </card>
+        <card>
+            <front>
+            ## promise
+            </front>
+            <back>
+            // a promise represents a value in the future
+            const prom = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(55)
+                }, 3000)
+            })
+            // resolving a promise will call a then method on object
+            prom.then(v => console.log(v)) // 55 (after 3 seconds)
+            // rejecting a promise will call a catch method on object
+            </back>
+            <meta>promise</meta>
+        </card>
+        <card>
+            <front>
+            ## what is ajax and crud?
+            </front>
+            <back>
+            // Asynchronous JavaScript And XML
+            // some examples
+            axios.get('some-url-here/path')
+            axios.post('some-url-here/path', someObject)
+            // Create: POST
+            // Read: GET
+            // Update: PATCH or PUT
+            // Delete: DELETE
+            </back>
+            <meta>ajax and crud</meta>
         </card>
     </deck>
 </decks>
