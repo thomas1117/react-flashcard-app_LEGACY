@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react'
 import Switch from './ui/Switch'
 import ThemeContext from '../ThemeContext';
+import { BsGearFill } from 'react-icons/bs'
+import { FaTimes } from 'react-icons/fa'
 
 export default function Settings(props) {
     const [visible, setVisible] = useState(false)
@@ -16,11 +18,11 @@ export default function Settings(props) {
         setVisible(v => !v)
         setFrontTime(props.frontTime)
         setBackTime(props.backTime)
-        // TODO come back to fix this theming issue on refresh
-        // probably just place in state....
-        if (ctx.theme) {
-            props.onChange()
-        }
+        // // TODO come back to fix this theming issue on refresh
+        // // probably just place in state....
+        // if (ctx.theme) {
+        //     props.onChange()
+        // }
     }
     const handleFront = (e) => {
         setFrontTime(Number(e.target.value))
@@ -36,11 +38,11 @@ export default function Settings(props) {
             visible ?
                 <button
                     className="Settings-toggle Settings-toggle-close"
-                    onClick={handleDismiss}>&times;</button>
+                    onClick={handleDismiss}><FaTimes size="26" /></button>
                 :
                 <button
                     className="Settings-toggle"
-                    onClick={() => setVisible(v => !v)}>&#9881;</button>
+                    onClick={() => setVisible(v => !v)}><BsGearFill size="26" /></button>
         }
         <div className="Settings-toggle-overlay" style={{ visibility: visible ? 'visible' : 'hidden' }}>
             <form onSubmit={handleSubmit}>

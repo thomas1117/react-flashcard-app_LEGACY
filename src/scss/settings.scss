@@ -1,7 +1,7 @@
 $setting-input-focus: #1b88bb;
 .App.light-mode .Dash-Nav-desktop {
     .Settings-toggle {
-        color: var(--off-dark)
+        color: var(--off-dark);
     }
 }
 
@@ -38,6 +38,7 @@ $setting-input-focus: #1b88bb;
     .Settings-submit {
         color: var(--off-dark); 
         border-color: var(--off-dark);
+        border-width: 1px;
     }
 }
 
@@ -72,6 +73,7 @@ $setting-input-focus: #1b88bb;
     background: transparent;
     color: #fff;
     padding: 1rem;
+    border: 1px solid #ddd;
 }
 
 .Settings-time-container {
