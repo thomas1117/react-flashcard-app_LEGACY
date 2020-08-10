@@ -1,51 +1,27 @@
 {
-  "name": "flashcard",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "copy-to-clipboard": "^3.3.1",
-    "localforage": "^1.7.3",
-    "node-sass": "^4.13.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-icons": "^3.10.0",
-    "react-markdown": "^4.3.1",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
-    "react-syntax-highlighter": "^12.2.1",
-    "redux": "^4.0.5",
-    "xml2js": "^0.4.23"
-  },
+  "name": "react-flashcard-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "rename": "mv build/index.html build/200.html",
-    "deploy": "npm run build && node deploy.js",
-    "deploy-surge": "npm run deploy && npm run rename && cd build && surge",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "seed": "node file-parser/xml.js"
+    "start": "concurrently \"cd client && npm run start\" \"cd server && npm run start\"",
+    "create-fixture": "cd file-parser && node xml.js",
+    "seed-fixture": "cd server && npm run seed-fixture",
+    "delete:db": "rm -rf server/db.sqlite"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomas1117/react-flashcard-app.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thomas1117/react-flashcard-app/issues"
   },
-  "devDependencies": {
-    "firebase": "^7.14.2"
+  "homepage": "https://github.com/thomas1117/react-flashcard-app#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "xml2js": "^0.4.23"
   }
 }

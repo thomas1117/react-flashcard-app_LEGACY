@@ -3,7 +3,7 @@ const path = require('path')
 const xmlParser = require('xml2js')
 const parseXMLToString = xmlParser.parseString
 
-const SEED_PATH = path.join(__dirname, '../src/seed/js/dynamic-seed.json')
+const SEED_PATH = path.join(__dirname, '../client/src/seed/js/dynamic-seed.json')
 const XML_PATH = path.join(__dirname, './deck.xml')
 
 function safelyEncodeXML(m) {
@@ -45,9 +45,9 @@ function buildDeckFromXMLRoot(deckRoot) {
   })
 }
 
-function storeToJSONSeed(decks) {
+function storeToJSONSeed(decks, path) {
   const deckToStore = JSON.stringify(decks, null, 4)
-  fs.writeFileSync(SEED_PATH, deckToStore)
+  fs.writeFileSync(path || SEED_PATH, deckToStore)
 }
 
 function validate(xpath, currentValue, newValue) {
@@ -64,13 +64,15 @@ fs.readFile(XML_PATH, 'utf8', (err, contents) => {
       }
       const decks = buildDeckFromXMLRoot(result.decks.deck)
       storeToJSONSeed(decks)
+      storeToJSONSeed(decks, '../server/SEED.json')
     })
 })
 
-function JSONToXML() {
-  fs.readFile(SEED_PATH, 'utf8', (err, contents) => {
-    const builder = new x.Builder()
-    const xml = builder.buildObject(JSON.parse(contents))
-    console.log(xml)
-  })
-}
+// function JSONToXML() {
+//   fs.readFile(SEED_PATH, 'utf8', (err, contents) => {
+//     const builder = new x.Builder()
+//     const xml = builder.buildObject(JSON.parse(contents))
+//     console.log(xml)
+//   })
+// }
+// JSONToXML()

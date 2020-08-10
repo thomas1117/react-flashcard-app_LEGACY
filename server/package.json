@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "sequelize db:seed:all"
+    "seed": "sequelize db:seed:all",
+    "seed-fixture": "node seeder.js",
+    "start": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +19,11 @@
     "mysql2": "^2.1.0",
     "pg": "^8.0.3",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.7"
+    "sequelize": "^5.21.7",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "nodemon": "^2.0.4"
   }
 }
