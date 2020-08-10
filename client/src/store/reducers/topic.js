@@ -42,11 +42,12 @@ export default function topic(state = topicState, action) {
                 currentCard: curr.cards[state.activeCardIndex]
             }
         case 'INIT_DECK':
-            const currDeck = state.cardGroup[state.activeDeckIndex]
+            const x = action.payload.sections[0]
             return {
                 ...state,
-                currentDeck: currDeck,
-                currentCard: currDeck.cards[state.activeCardIndex]
+                currentDeck: x,
+                cardGroup: action.payload.sections,
+                currentCard: x.cards[state.activeCardIndex]
             }
         case 'SELECT_DECK':
             return {

@@ -11,6 +11,6 @@ Section.init({
     },
 }, {sequelize})
 
-Section.hasMany(Card)
+Section.hasMany(Card, {as: 'cards', foreignKey: 'sectionId'})
 // Section.belongsToMany(Deck, { through: 'SectionDecks'})
 module.exports = { Section }

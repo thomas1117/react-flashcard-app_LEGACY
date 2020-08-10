@@ -7,7 +7,7 @@ const { Deck, Section, Card } = require('./database/models');
     seed.map(async item => {
         const section = await Section.create({
             title: item.title,
-            DeckId: deck.id
+            deckId: deck.id
         })
         item.cards.map(async card => {
             await Card.create({
@@ -15,7 +15,7 @@ const { Deck, Section, Card } = require('./database/models');
                 back: card.back,
                 meta: card.meta,
                 language: card.language,
-                SectionId: section.id
+                sectionId: section.id
             })
         })
     })

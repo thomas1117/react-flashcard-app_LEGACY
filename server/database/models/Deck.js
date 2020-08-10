@@ -8,5 +8,5 @@ Deck.init({
         type: DataTypes.STRING
     },
 }, {sequelize})
-Deck.hasMany(Section)
+Deck.hasMany(Section, {as: 'sections', foreignKey: 'deckId'})
 module.exports = { Deck }

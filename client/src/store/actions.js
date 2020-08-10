@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const INIT_DECK = 'INIT_DECK'
 const INIT_JS_DECK = 'INIT_JS_DECK'
 const SELECT_DECK = 'SELECT_DECK'
@@ -24,9 +26,13 @@ export function initDeck(deckId) {
             payload: deckId,
         }
     }
-    return {
-        type: INIT_DECK,
-        payload: deckId,
+    return dispatch => {
+        axios.get(`/decks/${deckId}`).then(resp => {
+            dispatch({
+                type: INIT_DECK,
+                payload: resp.data,
+            })
+        })
     }
 }
 

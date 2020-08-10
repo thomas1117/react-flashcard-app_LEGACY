@@ -5,15 +5,15 @@ const app = express()
 const PORT = 3001
 
 // https://sequelize.org/master/manual/eager-loading.html
-app.get('/deck/:id', async (req, res) => {
+app.get('/decks/:id', async (req, res) => {
     const deck = await Deck.findOne({where: {id: req.params.id}, include: [
         {
             model: Section,
-            foreignKey: 'DeckId',
+            as: 'sections',
             include: [
                 {
                     model: Card,
-                    foreignKey: 'SectionId',
+                    as: 'cards',
                 }
             ]
         }
