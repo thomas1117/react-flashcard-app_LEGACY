@@ -12,6 +12,9 @@ Card.init({
     meta: {
         type: DataTypes.STRING
     },
+    language: {
+        type: DataTypes.STRING
+    },
     type: {
         type: DataTypes.STRING
     },

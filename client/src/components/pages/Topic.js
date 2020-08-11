@@ -49,7 +49,7 @@ function Topic(props) {
     const deckPath = deckUrl ? '/' + deckUrl : ''
     const cardPath = cardUrl ? '/' + cardUrl : ''
     if (deckPath || cardPath) {
-      props.history.push(`/js${deckPath}${cardPath}`)
+      props.history.push(`/${props.match.params.id}${deckPath}${cardPath}`)
     }
   }, [cardUrl, deckUrl, props.history.push])
   useEffect(() => {
@@ -78,12 +78,19 @@ function Topic(props) {
     return () => clearInterval(interval)
   }, [timerRunning, currentCard, currentDeck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, handleCardSelection, manageSide])
   useEffect(() => {
+    // const { deck, card, id } = props.match.params
+    // dispatch(initDeck(id))
+    // const side = props.location.search === '?back=true' ? 'back' : 'front'
+    // dispatch(initDeckCard(deck, card, side))
+    // setLoading(false)
+  }, [dispatch])
+  useEffect(() => {
     const { deck, card, id } = props.match.params
     dispatch(initDeck(id))
     const side = props.location.search === '?back=true' ? 'back' : 'front'
     dispatch(initDeckCard(deck, card, side))
     setLoading(false)
-  }, [dispatch])
+  }, [])
   useEffect(() => {
     function handleKeyPress(e) {
       if (timerRunning) {

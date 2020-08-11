@@ -1,4 +1,5 @@
 import cardData from '../../seed/js/dynamic-seed';
+import { Deck, Card } from '../../models'
 
 const topicState = {
     activeCardIndex: 0,
@@ -10,6 +11,22 @@ const topicState = {
     deckUrl: null,
     cardUrl: null,
     isBack: false,
+}
+
+function deckMaker(decks) {
+    return decks.map(deck => {
+        let d = new Deck(deck.title, [])
+        d.cards = deck.cards.map(item => {
+            const card = new Card(
+                item.front,
+                item.back,
+                item.meta,
+                item.language,
+            )
+            return card
+        })
+        return d
+    })
 }
 
 export default function topic(state = topicState, action) {
@@ -35,6 +52,7 @@ export default function topic(state = topicState, action) {
             }
         case 'INIT_JS_DECK':
             const curr = cardData[state.activeDeckIndex]
+            // debugger
             return {
                 ...state,
                 currentDeck: curr,
@@ -42,11 +60,13 @@ export default function topic(state = topicState, action) {
                 currentCard: curr.cards[state.activeCardIndex]
             }
         case 'INIT_DECK':
-            const x = action.payload.sections[0]
+            const sections = deckMaker(action.payload.sections)
+            const x = sections[0]
+            // debugger
             return {
                 ...state,
                 currentDeck: x,
-                cardGroup: action.payload.sections,
+                cardGroup: sections,
                 currentCard: x.cards[state.activeCardIndex]
             }
         case 'SELECT_DECK':
