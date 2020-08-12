@@ -49,7 +49,7 @@ function Topic(props) {
     const deckPath = deckUrl ? '/' + deckUrl : ''
     const cardPath = cardUrl ? '/' + cardUrl : ''
     if (deckPath || cardPath) {
-      props.history.push(`/${props.match.params.id}${deckPath}${cardPath}`)
+      props.history.push(`/decks/${props.match.params.id}${deckPath}${cardPath}`)
     }
   }, [cardUrl, deckUrl, props.history.push])
   useEffect(() => {

@@ -56,17 +56,35 @@ function validate(xpath, currentValue, newValue) {
   return newValue
 }
 
-fs.readFile(XML_PATH, 'utf8', (err, contents) => {
+// fs.readFile(XML_PATH, 'utf8', (err, contents) => {
+//     const parsed = escapeInvalidXML(contents)
+//     parseXMLToString(parsed, {validator: validate}, function (err, result) {
+//       if (err) {
+//         throw new Error(`INVALID XML: ${err}`)
+//       }
+//       const decks = buildDeckFromXMLRoot(result.decks.deck)
+//       storeToJSONSeed(decks)
+//       storeToJSONSeed(decks, '../server/SEED.json')
+//     })
+// })
+
+function xmlToJSON(path, cb) {
+  return fs.readFile(path, 'utf8', (err, contents) => {
     const parsed = escapeInvalidXML(contents)
-    parseXMLToString(parsed, {validator: validate}, function (err, result) {
+    return parseXMLToString(parsed, {validator: validate}, function (err, result) {
       if (err) {
         throw new Error(`INVALID XML: ${err}`)
       }
       const decks = buildDeckFromXMLRoot(result.decks.deck)
-      storeToJSONSeed(decks)
-      storeToJSONSeed(decks, '../server/SEED.json')
+      cb(decks)
+      return new Promise((res, rej) => res(decks))
     })
-})
+  })
+}
+
+module.exports = {
+  xmlToJSON
+}
 
 // function JSONToXML() {
 //   fs.readFile(SEED_PATH, 'utf8', (err, contents) => {

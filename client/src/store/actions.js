@@ -1,17 +1,19 @@
 import axios from 'axios'
-
-const INIT_DECK = 'INIT_DECK'
-const INIT_JS_DECK = 'INIT_JS_DECK'
-const SELECT_DECK = 'SELECT_DECK'
-const SELECT_CARD = 'SELECT_CARD'
-const FLIP_CARD = 'FLIP_CARD'
-const TOGGLE_THEME = 'TOGGLE_THEME'
-const FORWARD_BACKWARD_CARD = 'FORWARD_BACKWARD_CARD'
-const START_DECK_CYCLE = 'START_DECK_CYCLE'
-const STOP_DECK_CYCLE = 'STOP_DECK_CYCLE'
-const UPDATE_SETTINGS = 'UPDATE_SETTINGS'
-const FORWARD_BACKWARD_DECK = 'FORWARD_BACKWARD_DECK'
-const INIT_DECK_CARD = 'INIT_DECK_CARD'
+import {
+    INIT_DECK,
+    INIT_JS_DECK,
+    SELECT_DECK,
+    SELECT_CARD,
+    FLIP_CARD,
+    TOGGLE_THEME,
+    FORWARD_BACKWARD_CARD,
+    START_DECK_CYCLE,
+    STOP_DECK_CYCLE,
+    UPDATE_SETTINGS,
+    FORWARD_BACKWARD_DECK,
+    INIT_DECK_CARD,
+    INIT_QUIZ_DECK
+} from './actionTypes'
 
 export function toggleTheme() {
     return {
@@ -25,14 +27,20 @@ export function initDeck(deckId) {
             type: INIT_JS_DECK,
             payload: deckId,
         }
-    }
-    return dispatch => {
-        axios.get(`/decks/${deckId}`).then(resp => {
-            dispatch({
-                type: INIT_DECK,
-                payload: resp.data,
+    } else if (deckId === 'quiz') {
+        return {
+            type: INIT_QUIZ_DECK,
+            payload: deckId,
+        }
+    } else {
+        return dispatch => {
+            axios.get(`/decks/${deckId}`).then(resp => {
+                dispatch({
+                    type: INIT_DECK,
+                    payload: resp.data,
+                })
             })
-        })
+        }
     }
 }
 
