@@ -6,6 +6,7 @@ import {
     SELECT_CARD,
     FLIP_CARD,
     TOGGLE_THEME,
+    UPDATE_SCORE,
     FORWARD_BACKWARD_CARD,
     START_DECK_CYCLE,
     STOP_DECK_CYCLE,
@@ -107,6 +108,15 @@ export function initDeckCard(deck, card, side) {
             deck,
             card,
             side
+        }
+    }
+}
+
+export function answerCorrect(bool) {
+    return {
+        type: UPDATE_SCORE,
+        payload: {
+            correct: bool
         }
     }
 }

@@ -15,6 +15,7 @@ import {
   toggleTheme,
   handleCardIndexChange,
   handleDeckIndexChange,
+  answerCorrect,
   initDeckCard,
 } from '../../store/actions'
 
@@ -29,6 +30,11 @@ function Topic(props) {
   }
 
   const manageSide = useCallback(() => dispatch(handleToggleSide()), [dispatch])
+  const handleCorrect = () => {
+    manageSide()
+    dispatch(handleCardIndexChange(1))
+    dispatch(answerCorrect(true))
+  }
 
   const {
     activeDeckIndex,
@@ -161,6 +167,8 @@ function Topic(props) {
               onClick={() => manageSide()}
               advance={() => dispatch(handleCardIndexChange(1))}
               goBack={() => dispatch(handleCardIndexChange(-1))}
+              correct={() => handleCorrect()} 
+              incorrect={() => dispatch(answerCorrect(false))} 
             />
           </div>
         </div>

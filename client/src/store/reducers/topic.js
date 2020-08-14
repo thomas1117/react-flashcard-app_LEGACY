@@ -8,6 +8,7 @@ import {
     SELECT_DECK,
     SELECT_CARD,
     FLIP_CARD,
+    UPDATE_SCORE,
     FORWARD_BACKWARD_CARD,
     FORWARD_BACKWARD_DECK,
     START_DECK_CYCLE,
@@ -24,6 +25,10 @@ const topicState = {
     deckUrl: null,
     cardUrl: null,
     isBack: false,
+    score: {
+        correct: 0,
+        incorrect: 0
+    }
 }
 
 function deckMaker(decks) {
@@ -96,6 +101,27 @@ export default function topic(state = topicState, action) {
                                 correct: true
                             }
                         ]
+                    },
+                    {
+                        front: 'who is batman?',
+                        back: 'bruce',
+                        meta: 'joker has a question',
+                        language: 'english',
+                        question: 'who is batman?',
+                        mode: 'multiple',
+                        side: 'front',
+                        answers: [
+                            {
+                                id: 1,
+                                text: 'bruce',
+                                correct: true
+                            },
+                            {
+                                id: 2,
+                                text: 'alfred',
+                                correct: false
+                            }
+                        ]
                     }
                 ]
             }
@@ -105,6 +131,16 @@ export default function topic(state = topicState, action) {
                 currentDeck: quizDeck, // update transfom... deckMaker
                 currentCard: quizDeck.cards[0]
 
+            }
+        case UPDATE_SCORE:
+            const isAnswerCorrect = action.payload.correct
+            const scoreState = state.score
+            return {
+                ...state,
+                score: {
+                    correct: isAnswerCorrect ? scoreState.correct + 1 : scoreState.correct,
+                    incorrect: !isAnswerCorrect ? scoreState.incorrect + 1 : scoreState.incorrect,
+                }
             }
         case INIT_DECK:
             const sections = deckMaker(action.payload.sections)
