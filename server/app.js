@@ -35,6 +35,31 @@ app.get('/decks/:id', async (req, res) => {
     res.send(deck)
 })
 
+app.post('/deck', (req, res) => {
+    const { title, sections } = req.body
+    const deck = await Deck.create({
+        title
+    })
+    sections.map(async section => {
+        const { title } = section
+        const s = await Section.create({
+            title,
+            deckId: deck.id
+        })
+        section.cards.map(async card => {
+            const { front, back, meta, language } = card
+            await Card.create({
+                front,
+                back,
+                meta,
+                language,
+                sectionId: s.id
+            })
+        })
+    })
+    res.send({message: 'deck created successfully'})
+})
+
 app.post('/xml', upload.single('xml'), async function (req, res, next) {
     xmlToJSON(req.file.path, async (resp) => {
         const deck = await Deck.create({
