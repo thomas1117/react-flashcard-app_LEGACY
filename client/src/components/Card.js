@@ -13,10 +13,10 @@ export default function Card(props) {
         submitted: false,
         incorrect: false,
         selectedAnswer: answers && answers[0].id || null,
-        correctAnswer: answers.length && answers.find(a => a.correct).id,
+        correctAnswer: answers && answers.length && answers.find(a => a.correct).id,
         disabled: false
     })
-    const isQuiz = answers.length
+    const isQuiz = answers && answers.length
 
     function handleQuizSubmit(e) {
         e.stopPropagation()

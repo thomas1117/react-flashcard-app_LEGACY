@@ -1,1 +1,1 @@
-export { default as previewState } from './preview'
+export { default as deckState } from './deck'

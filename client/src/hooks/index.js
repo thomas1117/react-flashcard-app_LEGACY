@@ -1,0 +1,1 @@
+export { useDeck } from '../store/ducks/deck'

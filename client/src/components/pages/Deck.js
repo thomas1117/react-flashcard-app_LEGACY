@@ -4,9 +4,10 @@ import Page from '../Page';
 import DeckNav from '../DeckNav';
 import SettingsNav from '../SettingsNav';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDeck } from '../../hooks'
 import {
   initDeck,
-  selectDeck,
+  // selectDeck,
   updateSettings,
   cycleDeck,
   pauseCycleDeck,
@@ -19,10 +20,11 @@ import {
   initDeckCard,
 } from '../../store/actions'
 
-function Topic(props) {
+function Deck(props) {
   const [loading, setLoading] = useState(true)
   const topic = useSelector(state => state.topic)
   const settings = useSelector(state => state.settings)
+  const { deck, activeCardIndex, activeDeckIndex, currentCard, currentSection, selectDeck } = useDeck()
   const dispatch = useDispatch()
 
   function handleCardSelection(index) {
@@ -37,11 +39,11 @@ function Topic(props) {
   }
 
   const {
-    activeDeckIndex,
-    activeCardIndex,
-    currentDeck,
-    currentCard,
-    cardGroup,
+    // activeDeckIndex,
+    // activeCardIndex,
+    // deck,
+    // currentCard,
+    // cardGroup,
     timerRunning,
     cardUrl,
     deckUrl,
@@ -69,7 +71,7 @@ function Topic(props) {
         if (currentCard.side === 'front') {
           manageSide()
         } else {
-          if (activeCardIndex >= currentDeck.cards.length - 1) {
+          if (activeCardIndex >= deck.cards.length - 1) {
             clearInterval(interval)
             pauseCycleDeck()
             handleCardSelection(0)
@@ -82,7 +84,7 @@ function Topic(props) {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, currentCard, currentDeck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, handleCardSelection, manageSide])
+  }, [timerRunning, currentCard, deck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, handleCardSelection, manageSide])
   useEffect(() => {
     // const { deck, card, id } = props.match.params
     // dispatch(initDeck(id))
@@ -130,7 +132,7 @@ function Topic(props) {
       </div>
       <div className="Dash-Nav-mobile">
         <ul className="Dash-Nav-mobile-left">
-          {topic.cardGroup.map((deck, index) => (
+          {deck.sections.map((deck, index) => (
             <li
               key={'mobile-link-' + index}
               className={`Dash-Nav-mobile-link ` + (index === activeDeckIndex ? 'active' : '')}
@@ -148,21 +150,21 @@ function Topic(props) {
         <div className="Dash-Nav-container">
           <DeckNav
             currentId={currentCard.id}
-            active={currentDeck.title}
-            decks={cardGroup}
+            active={currentSection.title}
+            decks={deck.sections}
             playing={timerRunning}
             cycleDeck={() => dispatch(cycleDeck())}
             pauseCycleDeck={() => dispatch(pauseCycleDeck())}
             selectCard={(index) => handleCardSelection(index)}
-            selectDeck={(index) => dispatch(selectDeck(index))} />
+            selectDeck={(index) => selectDeck(index)} />
         </div>
         <div className="Dash-Card-container">
           <div className="Dash-Card-container-inner">
             <Card
               leftDisabled={activeCardIndex === 0}
-              rightDisabled={activeCardIndex === currentDeck.cards.length - 1}
+              rightDisabled={activeCardIndex === 100}
               currentCard={currentCard}
-              deck={currentDeck.title}
+              deck={deck.title}
               number={activeCardIndex + 1}
               onClick={() => manageSide()}
               advance={() => dispatch(handleCardIndexChange(1))}
@@ -176,4 +178,4 @@ function Topic(props) {
     </Page>
   );
 }
-export default Topic;
+export default Deck;

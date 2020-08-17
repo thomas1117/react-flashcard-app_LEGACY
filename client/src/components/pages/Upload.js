@@ -9,7 +9,7 @@ function createId() {
   });
 }
 
-function Topic(props) {
+function Upload(props) {
   const card = {
     front: ``,
     back: ``,
@@ -169,4 +169,4 @@ function Topic(props) {
     </Page>
   );
 }
-export default Topic;
+export default Upload;
