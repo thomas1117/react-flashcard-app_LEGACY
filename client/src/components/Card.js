@@ -8,38 +8,49 @@ import { Radio, RadioGroup, Stack, Button } from "@chakra-ui/core";
 export default function Card(props) {
     const { meta, front, back, side, language, answers } = props.currentCard
     const { onClick, leftDisabled, rightDisabled, deck, number, goBack, advance, correct, incorrect } = props
-    const [selectedAnswer, setAnswer] = useState(answers && answers[0].id || null)
-    const [correctAnswer] = useState(answers.length && answers.find(a => a.correct))
-    const [answerPalette, setAnswerPalette] = useState(false)
+    const [question, setQuestion] = useState({
+        canAdvance: false,
+        submitted: false,
+        incorrect: false,
+        selectedAnswer: answers && answers[0].id || null,
+        correctAnswer: answers.length && answers.find(a => a.correct).id,
+        disabled: false
+    })
+    const isQuiz = answers.length
 
     function handleQuizSubmit(e) {
         e.stopPropagation()
         e.preventDefault()
-        if (selectedAnswer === correctAnswer.id) {
-            correct()
-            setAnswerPalette(false)
-            setAnswer(null)
-        } else {
-            // incorrect()
-            setAnswerPalette(true)
+        // if it wasnt submitted - validate form
 
+        if (!question.submitted) {
+            setQuestion({...question, submitted: true, disabled: true})
+            if (question.selectedAnswer !== question.correctAnswer) {
+                setQuestion({...question, incorrect: true, submitted: true, disabled: true})
+            }
+        } else {
+            setQuestion({...question, incorrect: false, submitted: false, disabled: false})
+            advance()
         }
+
+        // if it was submitted already
     }
 
     function handleCheck(e) {
         e.stopPropagation()
         // keep it as number
-        setAnswer(+e.target.value)
+        setQuestion({...question, selectedAnswer: +e.target.value})
     }
 
     const handleColor = (id) => {
-        if (!answerPalette) {
-            return {color: 'inherit'}
+        const { submitted, selectedAnswer, correctAnswer } = question
+        if (id === correctAnswer && submitted) {
+            return {
+                color: 'green'
+            }
         }
-        const incorrectSelected = id === selectedAnswer
-        const correct = correctAnswer.id === id
         return {
-            color: incorrectSelected ? 'red' : (correct && 'green')
+            color: submitted && selectedAnswer == id ? 'red' : 'inherit'
         }
     }
 
@@ -47,12 +58,18 @@ export default function Card(props) {
         return (
         <div>
             <form onSubmit={handleQuizSubmit}>
-                <RadioGroup onClick={e => e.stopPropagation()} onChange={e => handleCheck(e)} value={selectedAnswer}>
+                <RadioGroup 
+                    style={{margin: '20px 0'}}
+                    variantColor="blue"
+                    onClick={e => e.stopPropagation()}
+                    onChange={e => handleCheck(e)}
+                    value={question.selectedAnswer}>
                     {answers.map(answer => (
                     <Radio
                         size="lg"
                         name="question"
                         value={answer.id}
+                        isDisabled={question.disabled}
                         style={handleColor(answer.id)}
                         key={answer.id}>
                         {answer.text}
@@ -60,7 +77,11 @@ export default function Card(props) {
                     )
                     )}
                 </RadioGroup>
-                <Button onClick={(e) => e.stopPropagation()} type="submit" style={{background: '#ddd'}}>Submit</Button>
+                <Button 
+                    type="submit"
+                    style={{background: '#ddd'}}>
+                    Submit
+                </Button>
             </form>
         </div>
         )
@@ -75,26 +96,33 @@ export default function Card(props) {
         e.stopPropagation()
         copy(window.location)
     }
+    function handleCardClick() {
+        if (isQuiz) {
+            return
+        }
+        onClick()
+    }
     return (
-        <div className="Card" onClick={onClick}>
-            <div className="Card-actions">
-                <button
-                    disabled={leftDisabled}
-                    className="Card-button Card-button-back"
-                    onClick={e => handle(e, goBack)}>&#x2190;</button>
-                <button
-                    disabled={rightDisabled}
-                    className="Card-button Card-button-advance"
-                    onClick={e => handle(e, advance)}>&#x2192;</button>
-            </div>
+        <div className="Card" onClick={handleCardClick}>
+            {!isQuiz &&
+                <div className="Card-actions">
+                    <button
+                        disabled={leftDisabled}
+                        className="Card-button Card-button-back"
+                        onClick={e => handle(e, goBack)}>&#x2190;</button>
+                    <button
+                        disabled={rightDisabled}
+                        className="Card-button Card-button-advance"
+                        onClick={e => handle(e, advance)}>&#x2192;</button>
+                </div>
+            }
             <span className="Card-deck">{deck}{side === 'back' && (' | ' + meta)}</span>
             <FaCopy className="Card-copy" onClick={(e) => copyToClipboard(e)} />
             <span className="Card-number">{number}</span>
             <div className={"Card-front " + (side !== 'back' ? 'visible' : '')}>
-                {answerPalette && <h2>{correctAnswer.text}</h2>}
                 <ReactMarkdown source={front} />
                 {
-                answers.length && 
+                isQuiz && 
                 <RadioButton />
               }
                     
