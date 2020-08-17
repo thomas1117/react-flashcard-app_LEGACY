@@ -6,12 +6,12 @@ import SettingsNav from '../SettingsNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeck } from '../../hooks'
 import {
-  initDeck,
+  // initDeck,
   // selectDeck,
   updateSettings,
   cycleDeck,
   pauseCycleDeck,
-  selectCard,
+  // selectCard,
   handleToggleSide,
   toggleTheme,
   handleCardIndexChange,
@@ -24,14 +24,27 @@ function Deck(props) {
   const [loading, setLoading] = useState(true)
   const topic = useSelector(state => state.topic)
   const settings = useSelector(state => state.settings)
-  const { deck, activeCardIndex, activeDeckIndex, currentCard, currentSection, selectDeck } = useDeck()
+  const {
+    deck,
+    sectionUrl,
+    cardUrl,
+    isPreview,
+    activeCardIndex,
+    activeSectionIndex,
+    currentCard,
+    currentSection,
+    selectDeck,
+    initDeck,
+    selectCard,
+    manageSide
+  } = useDeck()
   const dispatch = useDispatch()
 
-  function handleCardSelection(index) {
-    dispatch(selectCard(index))
-  }
+  // function handleCardSelection(index) {
+  //   dispatch(selectCard(index))
+  // }
 
-  const manageSide = useCallback(() => dispatch(handleToggleSide()), [dispatch])
+  // const manageSide = useCallback(() => dispatch(handleToggleSide()), [dispatch])
   const handleCorrect = () => {
     manageSide()
     dispatch(handleCardIndexChange(1))
@@ -39,14 +52,7 @@ function Deck(props) {
   }
 
   const {
-    // activeDeckIndex,
-    // activeCardIndex,
-    // deck,
-    // currentCard,
-    // cardGroup,
     timerRunning,
-    cardUrl,
-    deckUrl,
   } = topic
   const {
     timeCycleBack,
@@ -54,12 +60,14 @@ function Deck(props) {
   } = settings
 
   useEffect(() => {
-    const deckPath = deckUrl ? '/' + deckUrl : ''
+    const deckPath = sectionUrl ? '/' + sectionUrl : ''
     const cardPath = cardUrl ? '/' + cardUrl : ''
     if (deckPath || cardPath) {
-      props.history.push(`/decks/${props.match.params.id}${deckPath}${cardPath}`)
+      const deckPrefix= isPreview ? 'deck-preview' : 'decks'
+      const deckId = !isPreview && '/' + props.match.params.id ? '/' + props.match.params.id : ''
+      props.history.push(`/${deckPrefix}${deckId}${deckPath}${cardPath}`)
     }
-  }, [cardUrl, deckUrl, props.history.push])
+  }, [cardUrl, sectionUrl, props.history.push])
   useEffect(() => {
     const pushState = currentCard.side === 'back' ? '?back=true' : null
     props.history.push({ search: pushState })
@@ -74,7 +82,7 @@ function Deck(props) {
           if (activeCardIndex >= deck.cards.length - 1) {
             clearInterval(interval)
             pauseCycleDeck()
-            handleCardSelection(0)
+            selectCard(0)
             return
           }
           dispatch(handleCardIndexChange(1))
@@ -84,7 +92,7 @@ function Deck(props) {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, currentCard, deck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, handleCardSelection, manageSide])
+  }, [timerRunning, currentCard, deck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, selectCard, manageSide])
   useEffect(() => {
     // const { deck, card, id } = props.match.params
     // dispatch(initDeck(id))
@@ -135,7 +143,7 @@ function Deck(props) {
           {deck.sections.map((deck, index) => (
             <li
               key={'mobile-link-' + index}
-              className={`Dash-Nav-mobile-link ` + (index === activeDeckIndex ? 'active' : '')}
+              className={`Dash-Nav-mobile-link ` + (index === activeSectionIndex ? 'active' : '')}
               onClick={() => dispatch(selectDeck(index))}>{deck.title}</li>)
           )}
         </ul>
@@ -155,7 +163,7 @@ function Deck(props) {
             playing={timerRunning}
             cycleDeck={() => dispatch(cycleDeck())}
             pauseCycleDeck={() => dispatch(pauseCycleDeck())}
-            selectCard={(index) => handleCardSelection(index)}
+            selectCard={(index) => selectCard(index)}
             selectDeck={(index) => selectDeck(index)} />
         </div>
         <div className="Dash-Card-container">
