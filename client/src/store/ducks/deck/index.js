@@ -209,7 +209,6 @@ export function useDeck() {
   const updateSettings = () => {}
   const cycleDeck = () => {}
   const pauseCycleDeck = () => {}
-  const toggleTheme = () => {}
   const handleCardIndexChange = () => {}
   const handleDeckIndexChange = () => {}
   const answerCorrect = () => {}
@@ -224,7 +223,6 @@ export function useDeck() {
     updateSettings,
     cycleDeck,
     pauseCycleDeck,
-    toggleTheme,
     handleCardIndexChange,
     handleDeckIndexChange,
     answerCorrect,

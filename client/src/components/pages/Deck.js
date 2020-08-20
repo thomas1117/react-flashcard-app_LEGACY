@@ -4,17 +4,7 @@ import Page from '../Page';
 import DeckNav from '../DeckNav';
 import SettingsNav from '../SettingsNav';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDeck } from '../../hooks'
-// import {
-  // updateSettings,
-  // cycleDeck,
-  // pauseCycleDeck,
-  // toggleTheme,
-  // handleCardIndexChange,
-  // handleDeckIndexChange,
-  // answerCorrect,
-  // // initDeckCard,
-// } from '../../store/actions'
+import { useDeck, useSetting } from '../../hooks'
 
 function Deck(props) {
   const [loading, setLoading] = useState(true)
@@ -33,7 +23,6 @@ function Deck(props) {
     answerCorrect,
     pauseCycleDeck,
     handleDeckIndexChange,
-    toggleTheme,
     updateSettings,
     cycleDeck,
     selectDeck,
@@ -42,6 +31,7 @@ function Deck(props) {
     selectCard,
     manageSide
   } = useDeck()
+  const { toggleTheme } = useSetting()
   const dispatch = useDispatch()
 
   const handleCorrect = () => {
@@ -129,7 +119,7 @@ function Deck(props) {
         <SettingsNav
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
-          onChange={() => dispatch(toggleTheme())}
+          onChange={() => toggleTheme()}
           updateSettings={(settings) => dispatch(updateSettings(settings))} />
       </div>
       <div className="Dash-Nav-mobile">
@@ -144,7 +134,7 @@ function Deck(props) {
         <SettingsNav
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
-          onChange={() => dispatch(toggleTheme())}
+          onChange={() => toggleTheme()}
           updateSettings={(settings) => dispatch(updateSettings(settings))} />
       </div>
 
