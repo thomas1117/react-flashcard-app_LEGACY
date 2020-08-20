@@ -5,20 +5,16 @@ import DeckNav from '../DeckNav';
 import SettingsNav from '../SettingsNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeck } from '../../hooks'
-import {
-  // initDeck,
-  // selectDeck,
-  updateSettings,
-  cycleDeck,
-  pauseCycleDeck,
-  // selectCard,
-  handleToggleSide,
-  toggleTheme,
-  handleCardIndexChange,
-  handleDeckIndexChange,
-  answerCorrect,
-  initDeckCard,
-} from '../../store/actions'
+// import {
+  // updateSettings,
+  // cycleDeck,
+  // pauseCycleDeck,
+  // toggleTheme,
+  // handleCardIndexChange,
+  // handleDeckIndexChange,
+  // answerCorrect,
+  // // initDeckCard,
+// } from '../../store/actions'
 
 function Deck(props) {
   const [loading, setLoading] = useState(true)
@@ -33,18 +29,21 @@ function Deck(props) {
     activeSectionIndex,
     currentCard,
     currentSection,
+    handleCardIndexChange,
+    answerCorrect,
+    pauseCycleDeck,
+    handleDeckIndexChange,
+    toggleTheme,
+    updateSettings,
+    cycleDeck,
     selectDeck,
     initDeck,
+    initDeckCard,
     selectCard,
     manageSide
   } = useDeck()
   const dispatch = useDispatch()
 
-  // function handleCardSelection(index) {
-  //   dispatch(selectCard(index))
-  // }
-
-  // const manageSide = useCallback(() => dispatch(handleToggleSide()), [dispatch])
   const handleCorrect = () => {
     manageSide()
     dispatch(handleCardIndexChange(1))
@@ -94,15 +93,10 @@ function Deck(props) {
     return () => clearInterval(interval)
   }, [timerRunning, currentCard, deck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, selectCard, manageSide])
   useEffect(() => {
-    // const { deck, card, id } = props.match.params
-    // dispatch(initDeck(id))
-    // const side = props.location.search === '?back=true' ? 'back' : 'front'
-    // dispatch(initDeckCard(deck, card, side))
-    // setLoading(false)
-  }, [dispatch])
-  useEffect(() => {
     const { deck, card, id } = props.match.params
-    dispatch(initDeck(id))
+    if (id) {
+      dispatch(initDeck(id))
+    }
     const side = props.location.search === '?back=true' ? 'back' : 'front'
     dispatch(initDeckCard(deck, card, side))
     setLoading(false)

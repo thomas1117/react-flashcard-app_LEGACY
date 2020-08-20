@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 
 // 2. action definitions
 const INIT_DECK = 'deck/INIT_DECK'
+const INIT_DECK_CARD = 'deck/INIT_DECK_CARD'
 const INIT_JS_DECK = 'deck/INIT_JS_DECK'
 const INIT_QUIZ_DECK = 'deck/INIT_QUIZ_DECK'
 const SELECT_DECK = 'deck/SELECT_DECK'
@@ -60,12 +61,23 @@ const initialState = {
   activeCardIndex: 0,
   sectionUrl: null,
   cardUrl: null,
+  currentCard: {},
+  currentDeck: {},
   currentCard: {}
 }
 
 // 4. reducer
 export default (state = initialState, action) => {
   switch (action.type) {
+    case INIT_DECK_CARD:
+      const dIndex = state.deck.sections.findIndex(x => x.id === action.payload.deck)
+      const cIndex = state.deck.sections[dIndex].cards.findIndex(x => x.id === action.payload.card)
+      return {
+        ...state,
+        activeSectionIndex: dIndex,
+        activeCardIndex: cIndex,
+        currentCard: state.deck.sections[dIndex].cards[cIndex]
+      }
     case SELECT_CARD:
       const c = state.deck.sections[state.activeSectionIndex].cards
       return {
@@ -126,7 +138,22 @@ export default (state = initialState, action) => {
   }
 }
 
+export function initDeckCardItem(deck, card, side) {
+  return {
+      type: INIT_DECK_CARD,
+      payload: {
+          deck,
+          card,
+          side
+      }
+  }
+}
+
 // 5. action creators
+/**
+ * @param  {number} deckId
+ * @param  {array[]} deck
+ */
 export function init(deckId, deck) {
   if (deckId === 'js') {
       return {
@@ -168,14 +195,39 @@ export function useDeck() {
   const selectCard = (index) => dispatch({type: SELECT_CARD, payload: index})
   const manageSide = () => dispatch({type: FLIP_CARD})
   const initDeck = () => dispatch(init('preview'))
+  const initDeckCard = (deck, card, side) => dispatch(initDeckCardItem(deck, card, side))
   const cardUrl = useSelector(appState => appState.deckState.cardUrl)
   const sectionUrl = useSelector(appState => appState.deckState.sectionUrl)
+  // updateSettings,
+  // cycleDeck,
+  // pauseCycleDeck,
+  // toggleTheme,
+  // handleCardIndexChange,
+  // handleDeckIndexChange,
+  // answerCorrect,
+  // // initDeckCard,
+  const updateSettings = () => {}
+  const cycleDeck = () => {}
+  const pauseCycleDeck = () => {}
+  const toggleTheme = () => {}
+  const handleCardIndexChange = () => {}
+  const handleDeckIndexChange = () => {}
+  const answerCorrect = () => {}
+  // const initDeckCard = () => {}
   const isPreview = true
   return {
     deck,
     isPreview,
     setDeckPreview,
     initDeck,
+    initDeckCard,
+    updateSettings,
+    cycleDeck,
+    pauseCycleDeck,
+    toggleTheme,
+    handleCardIndexChange,
+    handleDeckIndexChange,
+    answerCorrect,
     activeCardIndex,
     currentCard,
     activeSectionIndex,

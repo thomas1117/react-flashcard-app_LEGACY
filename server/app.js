@@ -35,7 +35,7 @@ app.get('/decks/:id', async (req, res) => {
     res.send(deck)
 })
 
-app.post('/deck', (req, res) => {
+app.post('/deck', async (req, res) => {
     const { title, sections } = req.body
     const deck = await Deck.create({
         title
