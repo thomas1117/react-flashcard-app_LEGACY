@@ -1,8 +1,15 @@
 .deck-builder {
-    width: 95%;
+    width: 100%;
+    height: 100vh;
     margin: 0 auto;
-    background: #ddd;
+    background: #221e1e;
     padding: 1rem;
+}
+.deck-builder-columns {
+    display: flex;
+}
+.deck-builder-columns-form {
+    width: 50%;
 }
 .deck-builder {
     .deck-input {

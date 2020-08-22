@@ -87,83 +87,90 @@ function Upload(props) {
   return (
     <Page loaded={true}>
         <div>
-          <div className="deck-builder" >
+          <div className="deck-builder">
             <div>
               <form class="deck-upload" action="/xml" method="post" encType="multipart/form-data">
                   <input type="file" name="xml" />
                   <button type="submit">submit</button>
               </form>
             </div>
-            <form onSubmit={(e) => e.preventDefault()}>
-              <input 
-                class="deck-input"
-                style={{marginTop: '2rem'}}
-                type="text"
-                value={deckTitle}
-                onChange={(e) => setDeckTitle(e.target.value)}
-                placeholder="Deck Title"
-                name="title" />
-              <div className="deck-section">
-                {sections.map(section => {
-                  return (
-                    <div className="deck-section-item" key={section.id}>
-                      <div style={{display: 'flex'}}>
-                        <input 
-                          class="deck-input"
-                          type="text"
-                          placeholder="Section Title"
-                          name="sectionTitle"
-                          value={section.title}
-                          onChange={(e) => updateSectionTitle(section.id, e.target.value)}
-                        />
-                        <button 
-                          className="deck-section-delete"
-                          onClick={() => deleteSection(section.id)}>
-                          Delete Section
-                        </button>
-                      </div>
-                      {section.cards.map(card => {
-                        return (
-                          <div key={card.id} className="deck-card">
-                            <div className="deck-card-form">
-                              <textarea 
-                                class="deck-input"
-                                placeholder="Front"
-                                value={card.front}
-                                onChange={e => updateCard(section.id, card.id, 'front', e.target.value)}>
-                              </textarea>
-                              <textarea 
-                                class="deck-input"
-                                placeholder="Back"
-                                value={card.back}
-                                onChange={e => updateCard(section.id, card.id, 'back', e.target.value)}>
-                              </textarea>
-                              <input 
-                                class="deck-input deck-meta"
-                                type="text"
-                                placeholder="Section Meta"
-                                name="sectionMeta"
-                                value={section.meta}
-                                onChange={e => updateCard(section.id, card.id, 'meta', e.target.value)}
-                              />
-                            </div>
-                            <div>
-                              <button className="deck-card-button" onClick={() => deleteCard(section.id, card.id)}>Delete <br />Card</button>
-                            </div>
+            <div class="deck-builder-columns">
+              <div class="deck-builder-columns-form">
+                <form onSubmit={(e) => e.preventDefault()}>
+                  <input 
+                    class="deck-input"
+                    style={{marginTop: '2rem'}}
+                    type="text"
+                    value={deckTitle}
+                    onChange={(e) => setDeckTitle(e.target.value)}
+                    placeholder="Deck Title"
+                    name="title" />
+                  <div className="deck-section">
+                    {sections.map(section => {
+                      return (
+                        <div className="deck-section-item" key={section.id}>
+                          <div style={{display: 'flex'}}>
+                            <input 
+                              class="deck-input"
+                              type="text"
+                              placeholder="Section Title"
+                              name="sectionTitle"
+                              value={section.title}
+                              onChange={(e) => updateSectionTitle(section.id, e.target.value)}
+                            />
+                            <button 
+                              className="deck-section-delete"
+                              onClick={() => deleteSection(section.id)}>
+                              Delete Section
+                            </button>
                           </div>
-                        )
-                      })}
-                      <button className="deck-card-add" onClick={() => addCard(section.id)}>Add Card</button>
-                    </div>
-                  )
-                })}
-                <button className="deck-section-add" onClick={() => addSection()}>Add Section</button>
+                          {section.cards.map(card => {
+                            return (
+                              <div key={card.id} className="deck-card">
+                                <div className="deck-card-form">
+                                  <textarea 
+                                    class="deck-input"
+                                    placeholder="Front"
+                                    value={card.front}
+                                    onChange={e => updateCard(section.id, card.id, 'front', e.target.value)}>
+                                  </textarea>
+                                  <textarea 
+                                    class="deck-input"
+                                    placeholder="Back"
+                                    value={card.back}
+                                    onChange={e => updateCard(section.id, card.id, 'back', e.target.value)}>
+                                  </textarea>
+                                  <input 
+                                    class="deck-input deck-meta"
+                                    type="text"
+                                    placeholder="Section Meta"
+                                    name="sectionMeta"
+                                    value={section.meta}
+                                    onChange={e => updateCard(section.id, card.id, 'meta', e.target.value)}
+                                  />
+                                </div>
+                                <div>
+                                  <button className="deck-card-button" onClick={() => deleteCard(section.id, card.id)}>Delete <br />Card</button>
+                                </div>
+                              </div>
+                            )
+                          })}
+                          <button className="deck-card-add" onClick={() => addCard(section.id)}>Add Card</button>
+                        </div>
+                      )
+                    })}
+                    <button className="deck-section-add" onClick={() => addSection()}>Add Section</button>
+                  </div>
+                  <div class="deck-submit-container">
+                    <button class="deck-preview" onClick={previewDeck}>Preview Deck</button>
+                    <button class="deck-submit">Submit Deck</button>
+                  </div>
+                </form>
               </div>
-              <div class="deck-submit-container">
-                <button class="deck-preview" onClick={previewDeck}>Preview Deck</button>
-                <button class="deck-submit">Submit Deck</button>
+              <div class="deck-builder-columns-preview">
+                
               </div>
-            </form>
+            </div>
           </div>
         </div>
     </Page>
