@@ -26,5 +26,6 @@
   "devDependencies": {
     "babel-register": "^6.26.0",
     "nodemon": "^2.0.4"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

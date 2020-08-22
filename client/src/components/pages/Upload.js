@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Card from '../Card';
-import Page from '../Page';
+import React, { useState, useEffect, useCallback } from 'react'
+import axios from 'axios'
+import Card from '../Card'
+import DeckNav from '../DeckNav'
+import Page from '../Page'
 
 function createId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -10,28 +12,81 @@ function createId() {
 }
 
 function Upload(props) {
-  const card = {
-    front: ``,
-    back: ``,
-    meta: ``,
-    language: `js`
+  function makeCard() {
+    return {
+      id: createId(),
+      front: ``,
+      back: ``,
+      meta: ``,
+      language: `js`,
+      side: 'front'
+    }
   }
   const [sections, setSections] = useState([
     {
       id: createId(),
       title: ``,
       cards: [
-        {...card, id: createId()}
+        {...makeCard()}
       ]
     }
   ])
+  const [currentCard, setCurrentCard] = useState(sections[0].cards[0])
+  const [currentSection, setCurrentSection] = useState(sections[0])
+  const [preview, setPreview] = useState(false)
+  const togglePreview = () => setPreview(!preview)
+  const selectCard = (index) => {
+    if (!currentSection.cards[index]) {
+      return
+    }
+    setCurrentCard({...currentSection.cards[index]})
+  }
+  const selectDeck = (index) => {
+    if (!sections[index]) {
+      return
+    }
+    setCurrentSection({...sections[index]})
+    setCurrentCard({...sections[index].cards[0]})
+  }
+  const activeCardIndex = 1
+  const manageSide = () => {
+    setCurrentCard({...currentCard, side: currentCard.side === 'front' ? 'back' : 'front'})
+  }
+  const handleCardIndexChange = () => {}
+  const handleCorrect = () => {}
+  const answerCorrect = () => {}
+  const timerRunning = false
+
+  useEffect(() => {
+    function handleKeyPress(e) {
+      if (timerRunning) {
+        return
+      }
+      const key = e.code
+      // e.preventDefault()
+      // if (key === 'Space') {
+      //   manageSide()
+      // }
+      if (key === 'ArrowLeft' || key === 'ArrowRight') {
+        let index = key === 'ArrowLeft' ? -1 : 1
+        selectCard(index)
+      }
+      if (key === 'ArrowUp' || key === 'ArrowDown') {
+        let index = key === 'ArrowUp' ? -1 : 1
+        selectDeck(index)
+      }
+    }
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [timerRunning, manageSide])
 
   const [deckTitle, setDeckTitle] = useState('')
 
   function addCard(sectionId) {
     setSections(sections => sections.map(x => {
       if (x.id === sectionId) {
-        x.cards = [...x.cards, {...card, id: createId(), sectionId}]
+        x.cards = [...x.cards, {...makeCard(), sectionId}]
+        setCurrentSection({...x})
       }
       return x
     }))
@@ -51,16 +106,22 @@ function Upload(props) {
       id: createId(),
       title: ``,
       cards: [
-        {...card, id: createId()}
+        makeCard()
       ]
     }])
   }
 
   function updateSectionTitle(id, title) {
+    if (id == currentSection.id) {
+      setCurrentSection({...currentSection, title})
+    }
     setSections(sections => sections.map(x => x.id == id ? {...x, title} : x))
   }
 
   function updateCard(sectionId, cardId, field, value) {
+    if (currentCard.id === cardId) {
+      setCurrentCard({...currentCard, [field]: value})
+    }
     setSections(sections => sections.map(section => {
       if (section.id === sectionId) {
         section.cards = section.cards.map(item => {
@@ -77,25 +138,32 @@ function Upload(props) {
   function deleteSection(id) {
     setSections(sections => sections.filter(x => x.id !== id))
   }
-  function previewDeck(e) {
+  function submitDeck(e) {
     e.stopPropagation()
     const deckPreview = {
       title: deckTitle,
       sections
     }
+    axios.post('/deck', deckPreview).then(resp => {
+      console.log(resp.data)
+    })
   }
+
   return (
     <Page loaded={true}>
         <div>
           <div className="deck-builder">
-            <div>
-              <form class="deck-upload" action="/xml" method="post" encType="multipart/form-data">
-                  <input type="file" name="xml" />
-                  <button type="submit">submit</button>
-              </form>
+            <div className="deck-builder-nav">
+              <button onClick={togglePreview}>preview</button>
+              <div>
+                <form className="deck-upload" action="/xml" method="post" encType="multipart/form-data">
+                    <input type="file" name="xml" />
+                    <button type="submit">submit</button>
+                </form>
+              </div>
             </div>
             <div class="deck-builder-columns">
-              <div class="deck-builder-columns-form">
+              <div class="deck-builder-columns-form" style={{width: preview ? '0px' : '50%'}}>
                 <form onSubmit={(e) => e.preventDefault()}>
                   <input 
                     class="deck-input"
@@ -110,6 +178,7 @@ function Upload(props) {
                       return (
                         <div className="deck-section-item" key={section.id}>
                           <div style={{display: 'flex'}}>
+                            
                             <input 
                               class="deck-input"
                               type="text"
@@ -162,13 +231,32 @@ function Upload(props) {
                     <button className="deck-section-add" onClick={() => addSection()}>Add Section</button>
                   </div>
                   <div class="deck-submit-container">
-                    <button class="deck-preview" onClick={previewDeck}>Preview Deck</button>
-                    <button class="deck-submit">Submit Deck</button>
+                    <button class="deck-submit" onClick={submitDeck}>Submit Deck</button>
                   </div>
                 </form>
               </div>
-              <div class="deck-builder-columns-preview">
-                
+              <div class="deck-builder-columns-preview" style={{width: preview ? '100%' : '50%'}}>
+              <DeckNav
+                currentId={currentCard.id}
+                active={currentSection && currentSection.id}
+                sections={sections}
+                currentSection={currentSection}
+                selectCard={(index) => selectCard(index)}
+                selectDeck={(index) => selectDeck(index)} />
+                <div style={{margin: '2rem', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Card
+                    leftDisabled={activeCardIndex === 0}
+                    rightDisabled={currentSection.cards && activeCardIndex === currentSection.cards.length - 1}
+                    currentCard={currentCard}
+                    title={currentSection.title}
+                    number={activeCardIndex + 1}
+                    onClick={() => manageSide()}
+                    advance={() => handleCardIndexChange(1)}
+                    goBack={() => handleCardIndexChange(-1)}
+                    correct={() => handleCorrect()} 
+                    incorrect={() => answerCorrect(false)} 
+                  />
+                </div>
               </div>
             </div>
           </div>
