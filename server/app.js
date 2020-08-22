@@ -36,6 +36,23 @@ app.get('/decks/:id', async (req, res) => {
     res.send(deck)
 })
 
+app.get('/decks/exports/:id', async (req, res) => {
+    const deck = await Deck.findOne({where: {id: req.params.id}, include: [
+        {
+            model: Section,
+            as: 'sections',
+            include: [
+                {
+                    model: Card,
+                    as: 'cards',
+                }
+            ]
+        }
+    ]})
+    console.log(deck)
+    res.send(deck)
+})
+
 app.post('/deck', async (req, res) => {
     const { title, sections } = req.body
     const deck = await Deck.create({
