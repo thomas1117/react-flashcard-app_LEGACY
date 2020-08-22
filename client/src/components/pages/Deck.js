@@ -110,7 +110,7 @@ function Deck(props) {
         <div className="Dash-Nav-container">
           <DeckNav
             currentId={currentCard.id}
-            active={currentSection && currentSection.title}
+            active={currentSection.id}
             sections={sections}
             currentSection={currentSection}
             playing={timerRunning}

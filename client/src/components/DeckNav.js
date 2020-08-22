@@ -21,7 +21,7 @@ export default function DeckNav(props) {
         {/* <h2 className="Nav-title">Decks</h2> */}
         <ul className="Nav-deck">
           {props.sections.map((deck, deckIndex) => {
-            const isActive = props.active === deck.title
+            const isActive = props.active == deck.id
             const active = isActive ? 'active' : ''
             const isPlaying = props.playing
             return (

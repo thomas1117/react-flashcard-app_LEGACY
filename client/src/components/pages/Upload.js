@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Card from '../Card';
+import DeckNav from '../DeckNav'
 import Page from '../Page';
 
 function createId() {
@@ -14,7 +15,8 @@ function Upload(props) {
     front: ``,
     back: ``,
     meta: ``,
-    language: `js`
+    language: `js`,
+    side: 'front'
   }
   const [sections, setSections] = useState([
     {
@@ -25,6 +27,22 @@ function Upload(props) {
       ]
     }
   ])
+  const [currentCard, setCurrentCard] = useState(sections[0].cards[0])
+  const [currentSection, setCurrentSection] = useState(sections[0])
+  const selectCard = (index) => {
+    setCurrentCard({...currentSection.cards[index]})
+  }
+  const selectDeck = (index) => {
+    setCurrentSection({...sections[index]})
+    setCurrentCard({...sections[index].cards[0]})
+  }
+  const activeCardIndex = 1
+  const manageSide = () => {
+    setCurrentCard({...currentCard, side: currentCard.side === 'front' ? 'back' : 'front'})
+  }
+  const handleCardIndexChange = () => {}
+  const handleCorrect = () => {}
+  const answerCorrect = () => {}
 
   const [deckTitle, setDeckTitle] = useState('')
 
@@ -32,6 +50,7 @@ function Upload(props) {
     setSections(sections => sections.map(x => {
       if (x.id === sectionId) {
         x.cards = [...x.cards, {...card, id: createId(), sectionId}]
+        setCurrentSection({...x})
       }
       return x
     }))
@@ -57,10 +76,16 @@ function Upload(props) {
   }
 
   function updateSectionTitle(id, title) {
+    if (id == currentSection.id) {
+      setCurrentSection({...currentSection, title})
+    }
     setSections(sections => sections.map(x => x.id == id ? {...x, title} : x))
   }
 
   function updateCard(sectionId, cardId, field, value) {
+    if (currentCard.id === cardId) {
+      setCurrentCard({...currentCard, [field]: value})
+    }
     setSections(sections => sections.map(section => {
       if (section.id === sectionId) {
         section.cards = section.cards.map(item => {
@@ -168,7 +193,27 @@ function Upload(props) {
                 </form>
               </div>
               <div class="deck-builder-columns-preview">
-                
+              <DeckNav
+                currentId={currentCard.id}
+                active={currentSection && currentSection.id}
+                sections={sections}
+                currentSection={currentSection}
+                selectCard={(index) => selectCard(index)}
+                selectDeck={(index) => selectDeck(index)} />
+                <div style={{margin: '2rem', width: '100%'}}>
+                  <Card
+                    leftDisabled={activeCardIndex === 0}
+                    rightDisabled={currentSection.cards && activeCardIndex === currentSection.cards.length - 1}
+                    currentCard={currentCard}
+                    title={currentSection.title}
+                    number={activeCardIndex + 1}
+                    onClick={() => manageSide()}
+                    advance={() => handleCardIndexChange(1)}
+                    goBack={() => handleCardIndexChange(-1)}
+                    correct={() => handleCorrect()} 
+                    incorrect={() => answerCorrect(false)} 
+                  />
+                </div>
               </div>
             </div>
           </div>
