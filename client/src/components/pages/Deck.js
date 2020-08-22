@@ -9,19 +9,16 @@ function Deck(props) {
   const [loading, setLoading] = useState(true)
   const { timeCycleFront, timeCycleBack } = useSetting()
   const {
-    title,
     sections,
     sectionUrl,
     cardUrl,
     activeCardIndex,
-    activeSectionIndex,
     currentCard,
     currentSection,
     handleCardIndexChange,
     answerCorrect,
     pauseCycleDeck,
     handleDeckIndexChange,
-    updateSettings,
     cycleDeck,
     selectDeck,
     initSectionCard,
@@ -126,9 +123,9 @@ function Deck(props) {
           <div className="Dash-Card-container-inner">
             <Card
               leftDisabled={activeCardIndex === 0}
-              rightDisabled={activeCardIndex === 100}
+              rightDisabled={currentSection.cards && activeCardIndex === currentSection.cards.length - 1}
               currentCard={currentCard}
-              title={title}
+              title={currentSection.title}
               number={activeCardIndex + 1}
               onClick={() => manageSide()}
               advance={() => handleCardIndexChange(1)}

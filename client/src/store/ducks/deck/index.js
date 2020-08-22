@@ -239,7 +239,7 @@ export function useDeck() {
   const dispatch = useDispatch()
   const deckState = useSelector(appState => appState.deckState)
   const { title, sections, activeCardIndex, activeSectionIndex, currentCard, timerRunning } = deckState
-  const currentSection = useSelector(appState => appState.deckState.sections[activeSectionIndex])
+  const currentSection = useSelector(appState => appState.deckState.sections[activeSectionIndex]) || {}
   const setDeckPreview = (d) => dispatch(initDeck('preview', d))
   const selectDeck = (index) => dispatch({type: SELECT_DECK, payload: index})
   const selectCard = (index) => dispatch({type: SELECT_CARD, payload: index})
