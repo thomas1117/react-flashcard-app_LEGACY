@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 
 const TOGGLE_THEME = 'setting/TOGGLE_THEME'
+const UPDATE_TIME_CYCLE = 'setting/UPDATE_TIME_CYCLE'
 
 const settingState = {
     timeCycleFront: 3,
@@ -10,7 +11,7 @@ const settingState = {
 
 export default function settings(state = settingState, action) {
     switch(action.type) {
-        case 'UPDATE_SETTINGS':
+        case UPDATE_TIME_CYCLE:
             return {
                 ...state,
                 timeCycleFront: action.settings.frontTime,
@@ -32,9 +33,18 @@ export function toggle() {
     }
 }
 
+export function timeCycle() {
+    return {
+        type: UPDATE_TIME_CYCLE,
+    }
+}
+
 export function useSetting() {
     const dispatch = useDispatch()
     const activeTheme = useSelector(appState => appState.settingState.activeTheme)
     const toggleTheme = () => dispatch(toggle())
-    return { activeTheme, toggleTheme }
+    const updateTimeCycle = () => dispatch(timeCycle())
+    const timeCycleFront = useSelector(appState => appState.settingState.timeCycleFront)
+    const timeCycleBack = useSelector(appState => appState.settingState.timeCycleBack)
+    return { activeTheme, toggleTheme, updateTimeCycle, timeCycleBack, timeCycleFront, timeCycleFront}
 }

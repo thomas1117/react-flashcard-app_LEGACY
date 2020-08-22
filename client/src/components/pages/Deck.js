@@ -9,7 +9,7 @@ import { useDeck, useSetting } from '../../hooks'
 function Deck(props) {
   const [loading, setLoading] = useState(true)
   const topic = useSelector(state => state.topic)
-  const settings = useSelector(state => state.settings)
+  const { timeCycleFront, timeCycleBack } = useSetting()
   const {
     deck,
     sectionUrl,
@@ -43,10 +43,6 @@ function Deck(props) {
   const {
     timerRunning,
   } = topic
-  const {
-    timeCycleBack,
-    timeCycleFront,
-  } = settings
 
   useEffect(() => {
     const deckPath = sectionUrl ? '/' + sectionUrl : ''
@@ -145,8 +141,8 @@ function Deck(props) {
             active={currentSection.title}
             decks={deck.sections}
             playing={timerRunning}
-            cycleDeck={() => dispatch(cycleDeck())}
-            pauseCycleDeck={() => dispatch(pauseCycleDeck())}
+            cycleDeck={cycleDeck}
+            pauseCycleDeck={pauseCycleDeck}
             selectCard={(index) => selectCard(index)}
             selectDeck={(index) => selectDeck(index)} />
         </div>

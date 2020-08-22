@@ -13,6 +13,8 @@ const SELECT_CARD = 'deck/SELECT_CARD'
 const FLIP_CARD = 'deck/FLIP_CARD'
 const FORWARD_BACKWARD_CARD = 'deck/FORWARD_BACKWARD_CARD'
 const FORWARD_BACKWARD_DECK = 'deck/FORWARD_BACKWARD_DECK'
+const START_DECK_CYCLE = 'deck/START_DECK_CYCLE'
+const STOP_DECK_CYCLE = 'deck/STOP_DECK_CYCLE'
 
 // 3. initial state
 const initialState = {
@@ -63,21 +65,30 @@ const initialState = {
   cardUrl: null,
   currentCard: {},
   currentDeck: {},
-  currentCard: {}
 }
 
 // 4. reducer
 export default (state = initialState, action) => {
   switch (action.type) {
-    case INIT_DECK_CARD:
-      const dIndex = state.deck.sections.findIndex(x => x.id === action.payload.deck)
-      const cIndex = state.deck.sections[dIndex].cards.findIndex(x => x.id === action.payload.card)
+    case INIT_DECK_CARD: {
+      const { sections } =  state.deck
+      const { deck, card } = action.payload
+      const activeSectionIndex = sections.findIndex(x => x.id == deck)
+      const section = sections[activeSectionIndex]
+      let activeCardIndex
+      if (activeSectionIndex !== undefined) {
+        activeCardIndex = section.cards.findIndex(x => x.id == card)
+      } else {
+        return state
+      }
+      const currentCard = section.cards[activeCardIndex]
       return {
         ...state,
-        activeSectionIndex: dIndex,
-        activeCardIndex: cIndex,
-        currentCard: state.deck.sections[dIndex].cards[cIndex]
+        activeSectionIndex,
+        activeCardIndex,
+        currentCard
       }
+    }
     case SELECT_CARD:
       const c = state.deck.sections[state.activeSectionIndex].cards
       return {
@@ -108,31 +119,31 @@ export default (state = initialState, action) => {
           ...state,
           currentCard: {...state.currentCard, side: state.currentCard.side === 'front' ? 'back' : 'front'}
       }
-    // case FORWARD_BACKWARD_CARD:
-    //   const indexToTry = state.activeCardIndex + action.diff
-    //   let limit = state.currentDeck.cards.length
-    //   const allowedToShift = indexToTry >= 0 && indexToTry < limit
-    //   const newIndex = allowedToShift ? indexToTry : state.activeCardIndex
-    //   return {
-    //       ...state,
-    //       activeCardIndex: newIndex,
-    //       currentCard: state.currentDeck.cards[newIndex],
-    //       cardUrl: state.currentDeck.cards[newIndex].id,
-    //   }
-    // case FORWARD_BACKWARD_DECK:
-    //   const deckToTry = state.activeSectionIndex + action.diff
-    //   let lim = state.cardGroup.length
-    //   const allowed = deckToTry >= 0 && deckToTry < lim
-    //   const newI = allowed ? deckToTry : state.activeSectionIndex
-    //   return {
-    //       ...state,
-    //       currentDeck: state.cardGroup[newI],
-    //       activeSectionIndex: newI,
-    //       activeCardIndex: 0,
-    //       currentCard: state.cardGroup[newI].cards[0],
-    //       timerRunning: false,
-    //       deckUrl: state.cardGroup[newI].id,
-    //   }
+    case FORWARD_BACKWARD_CARD:
+      const indexToTry = state.activeCardIndex + action.diff
+      let limit = state.deck.sections[state.activeSectionIndex].cards.length
+      const allowedToShift = indexToTry >= 0 && indexToTry < limit
+      const newIndex = allowedToShift ? indexToTry : state.activeCardIndex
+      return {
+          ...state,
+          activeCardIndex: newIndex,
+          currentCard: state.deck.sections[state.activeSectionIndex].cards[newIndex],
+          cardUrl: state.deck.sections[state.activeSectionIndex].cards[newIndex].id,
+      }
+    case FORWARD_BACKWARD_DECK:
+      const deckToTry = state.activeSectionIndex + action.diff
+      let lim = state.deck.sections.length
+      const allowed = deckToTry >= 0 && deckToTry < lim
+      const newI = allowed ? deckToTry : state.activeSectionIndex
+      return {
+          ...state,
+          activeCardIndex: newIndex,
+          activeSectionIndex: newI,
+          currentCard: state.cardGroup[newI].cards[0],
+          deckUrl: state.cardGroup[newI].id,
+          activeCardIndex: 0,
+          timerRunning: false,
+      }
     default:
       return state
   }
@@ -182,13 +193,23 @@ export function init(deckId, deck) {
   }
 }
 
+export function cycleDeckItem(index) {
+  return {
+      type: START_DECK_CYCLE
+  }
+}
+
+export function pauseCycleDeckItem(index) {
+  return {
+      type: STOP_DECK_CYCLE
+  }
+}
+
 // 6. custom hook
 export function useDeck() {
   const dispatch = useDispatch()
-  const deck = useSelector(appState => appState.deckState.deck)
-  const activeCardIndex = useSelector(appState => appState.deckState.activeCardIndex)
-  const activeSectionIndex = useSelector(appState => appState.deckState.activeSectionIndex)
-  const currentCard = useSelector(appState => appState.deckState.currentCard)
+  const deckState = useSelector(appState => appState.deckState)
+  const { deck, activeCardIndex, activeDeckIndex, activeSectionIndex, currentCard } = deckState
   const currentSection = useSelector(appState => appState.deckState.deck.sections[activeSectionIndex])
   const setDeckPreview = (d) => dispatch(initDeck('preview', d))
   const selectDeck = (index) => dispatch({type: SELECT_DECK, payload: index})
@@ -198,19 +219,22 @@ export function useDeck() {
   const initDeckCard = (deck, card, side) => dispatch(initDeckCardItem(deck, card, side))
   const cardUrl = useSelector(appState => appState.deckState.cardUrl)
   const sectionUrl = useSelector(appState => appState.deckState.sectionUrl)
-  // updateSettings,
-  // cycleDeck,
-  // pauseCycleDeck,
-  // toggleTheme,
-  // handleCardIndexChange,
-  // handleDeckIndexChange,
-  // answerCorrect,
-  // // initDeckCard,
   const updateSettings = () => {}
-  const cycleDeck = () => {}
-  const pauseCycleDeck = () => {}
-  const handleCardIndexChange = () => {}
-  const handleDeckIndexChange = () => {}
+  const cycleDeck = () => dispatch(cycleDeckItem())
+  const pauseCycleDeck = () => dispatch(pauseCycleDeckItem())
+  const handleCardIndexChange = (diff) => {
+    return {
+        type: FORWARD_BACKWARD_CARD,
+        diff
+    }
+}
+
+const handleDeckIndexChange = (diff) => {
+    return {
+        type: FORWARD_BACKWARD_DECK,
+        diff
+    }
+}
   const answerCorrect = () => {}
   // const initDeckCard = () => {}
   const isPreview = true
@@ -237,3 +261,4 @@ export function useDeck() {
     cardUrl
   }
 }
+ 
