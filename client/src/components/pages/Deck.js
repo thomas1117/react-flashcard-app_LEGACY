@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../Card';
 import Page from '../Page';
 import DeckNav from '../DeckNav';
-import SettingsNav from '../SettingsNav';
+import NavSettings from '../NavSettings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeck, useSetting } from '../../hooks'
 
@@ -110,28 +110,7 @@ function Deck(props) {
   }, [dispatch, timerRunning, manageSide])
   return (
     <Page loaded={!loading}>
-      <div className="Dash-Nav-desktop">
-        <SettingsNav
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
-          onChange={() => toggleTheme()}
-          updateSettings={(settings) => updateSettings(settings)} />
-      </div>
-      <div className="Dash-Nav-mobile">
-        <ul className="Dash-Nav-mobile-left">
-          {sections.map((deck, index) => (
-            <li
-              key={'mobile-link-' + index}
-              className={`Dash-Nav-mobile-link ` + (index === activeSectionIndex ? 'active' : '')}
-              onClick={() => selectDeck(index)}>{title}</li>)
-          )}
-        </ul>
-        <SettingsNav
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
-          onChange={() => toggleTheme()}
-          updateSettings={(settings) => updateSettings(settings)} />
-      </div>
+      <NavSettings timeCycleFront={timeCycleFront} timeCycleBack={timeCycleBack}/>
 
       <div className="Dash">
         <div className="Dash-Nav-container">
