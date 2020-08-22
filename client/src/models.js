@@ -6,6 +6,9 @@ let cardId = makeId()
 let deckId = makeId()
 
 function normalize(str) {
+    if (!str) {
+        return
+    }
     let strArr = str.split('\n')
     let smallest = Infinity
     let filteredCollection = []

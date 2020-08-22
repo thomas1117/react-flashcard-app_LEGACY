@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import cardData from '../../../seed/js/dynamic-seed'
+import cardData, { makeSection } from '../../../seed/js/dynamic-seed'
 
 // 2. action definitions
 import {
@@ -24,6 +24,28 @@ const initialState = {
   },
 }
 
+function fetchMetaFromDeck(sections, deckMeta) {
+  const { title, cardId, side, sectionId } = deckMeta
+  const activeSectionIndex = sections.findIndex(x => x.id == sectionId)
+  const newSectionIndex = activeSectionIndex === -1 ? 0 : activeSectionIndex
+  const currentCards = sections[newSectionIndex].cards
+  const activeCardIndex = currentCards.findIndex(x => x.id == cardId)
+  const newCardIndex = activeCardIndex === -1 ? 0 : activeCardIndex
+  const newCard = {...currentCards[newCardIndex], side: 'front'}
+  const currentSection = sections[newSectionIndex]
+  const currentCard = currentSection.cards[newCardIndex]
+  return {
+    title,
+    sections,
+    activeCardIndex: newSectionIndex,
+    sectionUrl: currentSection.id,
+    cardUrl: currentCard.id,
+    activeSectionIndex,
+    activeCardIndex,
+    currentCard: newCard
+  }
+}
+
 // 4. reducer
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -32,41 +54,48 @@ export default (state = initialState, action) => {
         title: 'js',
         sections: cardData
       }
-      const { title, cardId, side, sectionId } = action.payload
-      const curr = cardData[state.activeSectionIndex]
-      const activeSectionIndex = jsDeck.sections.findIndex(x => x.id == sectionId)
-      const newSectionIndex = activeSectionIndex === -1 ? 0 : activeSectionIndex
-      const currCards = jsDeck.sections[newSectionIndex].cards
-      const activeCardIndex = currCards.findIndex(x => x.id == cardId)
-      const newCardIndex = activeCardIndex === -1 ? 0 : activeCardIndex
-      const newCard = {...currCards[newCardIndex], side: 'front'}
+      const { 
+        title,
+        sections,
+        sectionUrl,
+        cardUrl,
+        activeSectionIndex,
+        activeCardIndex,
+        currentCard
+      } = fetchMetaFromDeck(jsDeck.sections, action.payload)
+
       return {
         ...state,
-        title: jsDeck.title,
-        sections: jsDeck.sections,
-        activeSectionIndex: newSectionIndex,
-        activeCardIndex: newCardIndex,
-        currentDeck: curr,
-        currentCard: newCard,
+        title,
+        sections,
+        sectionUrl,
+        cardUrl,
+        activeSectionIndex,
+        activeCardIndex,
+        currentCard,
       }
     }
     case INIT_SECTION_CARD: {
-      const { title, sections, cardId, side, sectionId } = action.payload
-      const activeSectionIndex = sections.findIndex(x => x.id == sectionId)
-      const newSectionIndex = activeSectionIndex === -1 ? 0 : activeSectionIndex
-      const activeCardIndex = sections[newSectionIndex].cards.findIndex(x => x.id == cardId)
-      const newCardIndex = activeCardIndex === -1 ? 0 : activeCardIndex
-      const newCard = {...sections[newSectionIndex].cards[newCardIndex], side: 'front'}
-      // debugger
+      const sectionItems = action.payload.sections
+      const { 
+        title,
+        sections,
+        sectionUrl,
+        cardUrl,
+        activeSectionIndex,
+        activeCardIndex,
+        currentCard
+      } = fetchMetaFromDeck(sectionItems, action.payload)
+      const newSections = sections.map(makeSection)
       return {
         ...state,
-        activeSectionIndex: newSectionIndex,
-        activeCardIndex: newCardIndex,
-        currentCard: newCard,
-        cardUrl: newCard.id,
-        sectionUrl: sections[newSectionIndex].id,
+        activeSectionIndex,
+        activeCardIndex,
+        currentCard,
+        cardUrl,
+        sectionUrl,
         title,
-        sections: sections
+        sections: newSections
       }
     }
     case SELECT_CARD: {
@@ -118,6 +147,7 @@ export default (state = initialState, action) => {
           ...state,
           activeCardIndex: newIndex,
           currentCard: currentCard,
+          sectionUrl: currentSection.id,
           cardUrl: currentCard.id,
       }
     }
@@ -129,7 +159,6 @@ export default (state = initialState, action) => {
       const newI = allowed ? deckToTry : state.activeSectionIndex
       const currSection = sections[newI]
       const currentCard = currSection.cards[0]
-      console.log(newI)
       return {
           ...state,
           activeCardIndex: 0,

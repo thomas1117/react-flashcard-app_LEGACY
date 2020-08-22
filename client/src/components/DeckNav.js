@@ -40,7 +40,7 @@ export default function DeckNav(props) {
                 </p>
                 <div>
                   {isActive && <ul className="Nav-deck-sub">
-                    {deck.cards.map((card, cardIndex) => {
+                    {props.currentSection.cards.map((card, cardIndex) => {
                       return <li key={cardIndex} onClick={(e) => handleCardSelection(e, cardIndex, deckIndex)} className={card.id === props.currentId ? 'active' : ''}>{card.meta}</li>
                     })}
                   </ul>}

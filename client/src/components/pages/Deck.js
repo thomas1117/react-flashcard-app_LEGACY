@@ -141,6 +141,7 @@ function Deck(props) {
             currentId={currentCard.id}
             active={currentSection && currentSection.title}
             sections={sections}
+            currentSection={currentSection}
             playing={timerRunning}
             cycleDeck={cycleDeck}
             pauseCycleDeck={pauseCycleDeck}
