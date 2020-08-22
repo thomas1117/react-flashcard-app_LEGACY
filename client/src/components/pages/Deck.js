@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../Card';
 import Page from '../Page';
 import DeckNav from '../DeckNav';
@@ -11,10 +11,10 @@ function Deck(props) {
   const topic = useSelector(state => state.topic)
   const { timeCycleFront, timeCycleBack } = useSetting()
   const {
-    deck,
+    title,
+    sections,
     sectionUrl,
     cardUrl,
-    isPreview,
     activeCardIndex,
     activeSectionIndex,
     currentCard,
@@ -26,8 +26,7 @@ function Deck(props) {
     updateSettings,
     cycleDeck,
     selectDeck,
-    initDeck,
-    initDeckCard,
+    initSectionCard,
     selectCard,
     manageSide
   } = useDeck()
@@ -45,12 +44,17 @@ function Deck(props) {
   } = topic
 
   useEffect(() => {
-    const deckPath = sectionUrl ? '/' + sectionUrl : ''
+    // if a deck id exists
+    const deckIdPath = props.match.params.deckId && '/' + props.match.params.deckId || ''
+    // if there is a section id present
+    const sectionPath = sectionUrl ? '/' + sectionUrl : ''
+    // if a card id is present
     const cardPath = cardUrl ? '/' + cardUrl : ''
-    if (deckPath || cardPath) {
-      const deckPrefix= isPreview ? 'deck-preview' : 'decks'
-      const deckId = !isPreview && '/' + props.match.params.id ? '/' + props.match.params.id : ''
-      props.history.push(`/${deckPrefix}${deckId}${deckPath}${cardPath}`)
+    
+    const isPreview = props.match.path.includes('preview')
+    if (sectionPath || cardPath) {
+      const deckPrefix = isPreview ? 'deck-preview' : 'decks'
+      props.history.push(`/${deckPrefix}${deckIdPath}${sectionPath}${cardPath}`)
     }
   }, [cardUrl, sectionUrl, props.history.push])
   useEffect(() => {
@@ -64,7 +68,7 @@ function Deck(props) {
         if (currentCard.side === 'front') {
           manageSide()
         } else {
-          if (activeCardIndex >= deck.cards.length - 1) {
+          if (activeCardIndex >= currentSection.cards.length - 1) {
             clearInterval(interval)
             pauseCycleDeck()
             selectCard(0)
@@ -77,14 +81,11 @@ function Deck(props) {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, currentCard, deck, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, selectCard, manageSide])
+  }, [timerRunning, currentCard, currentSection, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, selectCard, manageSide])
   useEffect(() => {
-    const { deck, card, id } = props.match.params
-    if (id) {
-      dispatch(initDeck(id))
-    }
+    const { sectionId, cardId, deckId } = props.match.params
     const side = props.location.search === '?back=true' ? 'back' : 'front'
-    dispatch(initDeckCard(deck, card, side))
+    initSectionCard({sectionId, cardId, side, deckId})
     setLoading(false)
   }, [])
   useEffect(() => {
@@ -99,11 +100,11 @@ function Deck(props) {
       }
       if (key === 'ArrowLeft' || key === 'ArrowRight') {
         let index = key === 'ArrowLeft' ? -1 : 1
-        dispatch(handleCardIndexChange(index))
+        handleCardIndexChange(index)
       }
       if (key === 'ArrowUp' || key === 'ArrowDown') {
         let index = key === 'ArrowUp' ? -1 : 1
-        dispatch(handleDeckIndexChange(index))
+        handleDeckIndexChange(index)
       }
     }
     document.addEventListener('keydown', handleKeyPress);
@@ -116,30 +117,30 @@ function Deck(props) {
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
           onChange={() => toggleTheme()}
-          updateSettings={(settings) => dispatch(updateSettings(settings))} />
+          updateSettings={(settings) => updateSettings(settings)} />
       </div>
       <div className="Dash-Nav-mobile">
         <ul className="Dash-Nav-mobile-left">
-          {deck.sections.map((deck, index) => (
+          {sections.map((deck, index) => (
             <li
               key={'mobile-link-' + index}
               className={`Dash-Nav-mobile-link ` + (index === activeSectionIndex ? 'active' : '')}
-              onClick={() => dispatch(selectDeck(index))}>{deck.title}</li>)
+              onClick={() => selectDeck(index)}>{title}</li>)
           )}
         </ul>
         <SettingsNav
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
           onChange={() => toggleTheme()}
-          updateSettings={(settings) => dispatch(updateSettings(settings))} />
+          updateSettings={(settings) => updateSettings(settings)} />
       </div>
 
       <div className="Dash">
         <div className="Dash-Nav-container">
           <DeckNav
             currentId={currentCard.id}
-            active={currentSection.title}
-            decks={deck.sections}
+            active={currentSection && currentSection.title}
+            sections={sections}
             playing={timerRunning}
             cycleDeck={cycleDeck}
             pauseCycleDeck={pauseCycleDeck}
@@ -152,13 +153,13 @@ function Deck(props) {
               leftDisabled={activeCardIndex === 0}
               rightDisabled={activeCardIndex === 100}
               currentCard={currentCard}
-              deck={deck.title}
+              title={title}
               number={activeCardIndex + 1}
               onClick={() => manageSide()}
-              advance={() => dispatch(handleCardIndexChange(1))}
-              goBack={() => dispatch(handleCardIndexChange(-1))}
+              advance={() => handleCardIndexChange(1)}
+              goBack={() => handleCardIndexChange(-1)}
               correct={() => handleCorrect()} 
-              incorrect={() => dispatch(answerCorrect(false))} 
+              incorrect={() => answerCorrect(false)} 
             />
           </div>
         </div>

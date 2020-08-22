@@ -7,7 +7,7 @@ import { Radio, RadioGroup, Stack, Button } from "@chakra-ui/core";
 
 export default function Card(props) {
     const { meta, front, back, side, language, answers } = props.currentCard
-    const { onClick, leftDisabled, rightDisabled, deck, number, goBack, advance, correct, incorrect } = props
+    const { onClick, leftDisabled, rightDisabled, title, number, goBack, advance, correct, incorrect } = props
     const [question, setQuestion] = useState({
         canAdvance: false,
         submitted: false,
@@ -116,7 +116,7 @@ export default function Card(props) {
                         onClick={e => handle(e, advance)}>&#x2192;</button>
                 </div>
             }
-            <span className="Card-deck">{deck}{side === 'back' && (' | ' + meta)}</span>
+            <span className="Card-deck">{title}{side === 'back' && (' | ' + meta)}</span>
             <FaCopy className="Card-copy" onClick={(e) => copyToClipboard(e)} />
             <span className="Card-number">{number}</span>
             <div className={"Card-front " + (side !== 'back' ? 'visible' : '')}>
