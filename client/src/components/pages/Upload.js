@@ -11,28 +11,39 @@ function createId() {
 }
 
 function Upload(props) {
-  const card = {
-    front: ``,
-    back: ``,
-    meta: ``,
-    language: `js`,
-    side: 'front'
+  function makeCard() {
+    return {
+      id: createId(),
+      front: ``,
+      back: ``,
+      meta: ``,
+      language: `js`,
+      side: 'front'
+    }
   }
   const [sections, setSections] = useState([
     {
       id: createId(),
       title: ``,
       cards: [
-        {...card, id: createId()}
+        {...makeCard()}
       ]
     }
   ])
   const [currentCard, setCurrentCard] = useState(sections[0].cards[0])
   const [currentSection, setCurrentSection] = useState(sections[0])
+  const [preview, setPreview] = useState(false)
+  const togglePreview = () => setPreview(!preview)
   const selectCard = (index) => {
+    if (!currentSection.cards[index]) {
+      return
+    }
     setCurrentCard({...currentSection.cards[index]})
   }
   const selectDeck = (index) => {
+    if (!sections[index]) {
+      return
+    }
     setCurrentSection({...sections[index]})
     setCurrentCard({...sections[index].cards[0]})
   }
@@ -43,13 +54,37 @@ function Upload(props) {
   const handleCardIndexChange = () => {}
   const handleCorrect = () => {}
   const answerCorrect = () => {}
+  const timerRunning = false
+
+  useEffect(() => {
+    function handleKeyPress(e) {
+      if (timerRunning) {
+        return
+      }
+      const key = e.code
+      // e.preventDefault()
+      // if (key === 'Space') {
+      //   manageSide()
+      // }
+      if (key === 'ArrowLeft' || key === 'ArrowRight') {
+        let index = key === 'ArrowLeft' ? -1 : 1
+        selectCard(index)
+      }
+      if (key === 'ArrowUp' || key === 'ArrowDown') {
+        let index = key === 'ArrowUp' ? -1 : 1
+        selectDeck(index)
+      }
+    }
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [timerRunning, manageSide])
 
   const [deckTitle, setDeckTitle] = useState('')
 
   function addCard(sectionId) {
     setSections(sections => sections.map(x => {
       if (x.id === sectionId) {
-        x.cards = [...x.cards, {...card, id: createId(), sectionId}]
+        x.cards = [...x.cards, {...makeCard(), sectionId}]
         setCurrentSection({...x})
       }
       return x
@@ -70,7 +105,7 @@ function Upload(props) {
       id: createId(),
       title: ``,
       cards: [
-        {...card, id: createId()}
+        makeCard()
       ]
     }])
   }
@@ -109,18 +144,22 @@ function Upload(props) {
       sections
     }
   }
+
   return (
     <Page loaded={true}>
         <div>
           <div className="deck-builder">
-            <div>
-              <form class="deck-upload" action="/xml" method="post" encType="multipart/form-data">
-                  <input type="file" name="xml" />
-                  <button type="submit">submit</button>
-              </form>
+            <div className="deck-builder-nav">
+              <button onClick={togglePreview}>preview</button>
+              <div>
+                <form class="deck-upload" action="/xml" method="post" encType="multipart/form-data">
+                    <input type="file" name="xml" />
+                    <button type="submit">submit</button>
+                </form>
+              </div>
             </div>
             <div class="deck-builder-columns">
-              <div class="deck-builder-columns-form">
+              <div class="deck-builder-columns-form" style={{width: preview ? '0px' : '50%'}}>
                 <form onSubmit={(e) => e.preventDefault()}>
                   <input 
                     class="deck-input"
@@ -135,6 +174,7 @@ function Upload(props) {
                       return (
                         <div className="deck-section-item" key={section.id}>
                           <div style={{display: 'flex'}}>
+                            
                             <input 
                               class="deck-input"
                               type="text"
@@ -192,7 +232,7 @@ function Upload(props) {
                   </div>
                 </form>
               </div>
-              <div class="deck-builder-columns-preview">
+              <div class="deck-builder-columns-preview" style={{width: preview ? '100%' : '50%'}}>
               <DeckNav
                 currentId={currentCard.id}
                 active={currentSection && currentSection.id}
@@ -200,7 +240,7 @@ function Upload(props) {
                 currentSection={currentSection}
                 selectCard={(index) => selectCard(index)}
                 selectDeck={(index) => selectDeck(index)} />
-                <div style={{margin: '2rem', width: '100%'}}>
+                <div style={{margin: '2rem', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   <Card
                     leftDisabled={activeCardIndex === 0}
                     rightDisabled={currentSection.cards && activeCardIndex === currentSection.cards.length - 1}

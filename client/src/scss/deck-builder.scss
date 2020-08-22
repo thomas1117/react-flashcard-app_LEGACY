@@ -6,16 +6,23 @@
     padding: 1rem;
     overflow: auto;
 }
+// .deck-builder input, .deck-builder textarea {
+//     color: #fff;
+//     background: transparent;
+//     border: 1px solid #fff;
+// }
+.deck-builder-nav {
+    display: flex;
+    justify-content: space-between;
+}
 .deck-builder-columns {
     display: flex;
 }
 .deck-builder-columns-form {
-    width: 50%;
     height: 100vh;
     overflow: auto;
 }
 .deck-builder-columns-preview {
-    width: 50%;
     display: flex;
 }
 .deck-builder {
