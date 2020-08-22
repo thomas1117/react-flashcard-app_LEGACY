@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Card from '../Card';
+import React, { useState, useEffect, useCallback } from 'react'
+import axios from 'axios'
+import Card from '../Card'
 import DeckNav from '../DeckNav'
-import Page from '../Page';
+import Page from '../Page'
 
 function createId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -137,12 +138,15 @@ function Upload(props) {
   function deleteSection(id) {
     setSections(sections => sections.filter(x => x.id !== id))
   }
-  function previewDeck(e) {
+  function submitDeck(e) {
     e.stopPropagation()
     const deckPreview = {
       title: deckTitle,
       sections
     }
+    axios.post('/deck', deckPreview).then(resp => {
+      console.log(resp.data)
+    })
   }
 
   return (
@@ -152,7 +156,7 @@ function Upload(props) {
             <div className="deck-builder-nav">
               <button onClick={togglePreview}>preview</button>
               <div>
-                <form class="deck-upload" action="/xml" method="post" encType="multipart/form-data">
+                <form className="deck-upload" action="/xml" method="post" encType="multipart/form-data">
                     <input type="file" name="xml" />
                     <button type="submit">submit</button>
                 </form>
@@ -227,8 +231,7 @@ function Upload(props) {
                     <button className="deck-section-add" onClick={() => addSection()}>Add Section</button>
                   </div>
                   <div class="deck-submit-container">
-                    <button class="deck-preview" onClick={previewDeck}>Preview Deck</button>
-                    <button class="deck-submit">Submit Deck</button>
+                    <button class="deck-submit" onClick={submitDeck}>Submit Deck</button>
                   </div>
                 </form>
               </div>

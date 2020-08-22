@@ -16,6 +16,7 @@ const upload = multer({ storage: storage })
 
 const { xmlToJSON } = require('../file-parser/xml')
 const app = express()
+app.use(express.json())
 const PORT = 3001
 
 // https://sequelize.org/master/manual/eager-loading.html
@@ -40,13 +41,14 @@ app.post('/deck', async (req, res) => {
     const deck = await Deck.create({
         title
     })
-    sections.map(async section => {
+    for (let section of sections) {
         const { title } = section
         const s = await Section.create({
             title,
             deckId: deck.id
         })
-        section.cards.map(async card => {
+
+        for (let card of section.cards) {
             const { front, back, meta, language } = card
             await Card.create({
                 front,
@@ -55,9 +57,9 @@ app.post('/deck', async (req, res) => {
                 language,
                 sectionId: s.id
             })
-        })
-    })
-    res.send({message: 'deck created successfully'})
+        }
+    }
+    res.json({message: 'deck created successfully', data: {title, sections}})
 })
 
 app.post('/xml', upload.single('xml'), async function (req, res, next) {
