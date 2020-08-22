@@ -282,6 +282,7 @@ export function useDeck() {
     manageSide,
     currentSection,
     sectionUrl,
+    timerRunning,
     cardUrl
   }
 }

@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import Card from '../Card';
-import Page from '../Page';
-import DeckNav from '../DeckNav';
-import NavSettings from '../NavSettings';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import Card from '../Card'
+import Page from '../Page'
+import DeckNav from '../DeckNav'
+import NavSettings from '../NavSettings'
 import { useDeck, useSetting } from '../../hooks'
 
 function Deck(props) {
   const [loading, setLoading] = useState(true)
-  const topic = useSelector(state => state.topic)
   const { timeCycleFront, timeCycleBack } = useSetting()
   const {
     title,
@@ -31,15 +29,14 @@ function Deck(props) {
     manageSide,
     timerRunning
   } = useDeck()
-  const { toggleTheme } = useSetting()
-  const dispatch = useDispatch()
 
   const handleCorrect = () => {
     manageSide()
-    dispatch(handleCardIndexChange(1))
-    dispatch(answerCorrect(true))
+    handleCardIndexChange(1)
+    answerCorrect(true)
   }
 
+  const timerDeps = [timerRunning, currentCard, currentSection, activeCardIndex, timeCycleFront, timeCycleBack, selectCard, manageSide]
 
   useEffect(() => {
     // if a deck id exists
@@ -72,14 +69,14 @@ function Deck(props) {
             selectCard(0)
             return
           }
-          dispatch(handleCardIndexChange(1))
+          handleCardIndexChange(1)
         }
       }, (currentCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
     } else {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [timerRunning, currentCard, currentSection, activeCardIndex, timeCycleFront, timeCycleBack, dispatch, selectCard, manageSide])
+  }, timerDeps)
   useEffect(() => {
     const { sectionId, cardId, deckId } = props.match.params
     const side = props.location.search === '?back=true' ? 'back' : 'front'
@@ -107,7 +104,7 @@ function Deck(props) {
     }
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [dispatch, timerRunning, manageSide])
+  }, [timerRunning, manageSide])
   return (
     <Page loaded={!loading}>
       <NavSettings timeCycleFront={timeCycleFront} timeCycleBack={timeCycleBack}/>
