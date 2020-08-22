@@ -22,6 +22,7 @@ const initialState = {
   currentCard: {
     side: ''
   },
+  timerRunning: false,
 }
 
 function fetchMetaFromDeck(sections, deckMeta) {
@@ -63,7 +64,6 @@ export default (state = initialState, action) => {
         activeCardIndex,
         currentCard
       } = fetchMetaFromDeck(jsDeck.sections, action.payload)
-
       return {
         ...state,
         title,
@@ -86,7 +86,7 @@ export default (state = initialState, action) => {
         activeCardIndex,
         currentCard
       } = fetchMetaFromDeck(sectionItems, action.payload)
-      const newSections = sections.map(makeSection)
+      console.log(currentCard)
       return {
         ...state,
         activeSectionIndex,
@@ -95,7 +95,7 @@ export default (state = initialState, action) => {
         cardUrl,
         sectionUrl,
         title,
-        sections: newSections
+        sections
       }
     }
     case SELECT_CARD: {
@@ -170,6 +170,16 @@ export default (state = initialState, action) => {
           timerRunning: false,
       }
     }
+    case START_DECK_CYCLE:
+      return {
+          ...state,
+          timerRunning: true,
+      }
+    case STOP_DECK_CYCLE:
+      return {
+          ...state,
+          timerRunning: false,
+      }
     default:
       return state
   }
@@ -195,7 +205,7 @@ export function initSectionCardItem(i) {
     }
   } else {
       return dispatch => {
-          axios.get(`/decks/${deckId}`).then(resp => {
+          return axios.get(`/decks/${deckId}`).then(resp => {
               const initDeck = {
                 ...resp.data,
                 cardId,
@@ -203,7 +213,6 @@ export function initSectionCardItem(i) {
                 sectionId,
                 side: 'front'
               }
-              console.log(initDeck)
               dispatch({
                   type: INIT_SECTION_CARD,
                   payload: initDeck,
@@ -229,10 +238,8 @@ export function pauseCycleDeckItem(index) {
 export function useDeck() {
   const dispatch = useDispatch()
   const deckState = useSelector(appState => appState.deckState)
-  const { activeCardIndex, activeSectionIndex, currentCard } = deckState
+  const { title, sections, activeCardIndex, activeSectionIndex, currentCard, timerRunning } = deckState
   const currentSection = useSelector(appState => appState.deckState.sections[activeSectionIndex])
-  const title = useSelector(appState => appState.deckState.title)
-  const sections = useSelector(appState => appState.deckState.sections)
   const setDeckPreview = (d) => dispatch(initDeck('preview', d))
   const selectDeck = (index) => dispatch({type: SELECT_DECK, payload: index})
   const selectCard = (index) => dispatch({type: SELECT_CARD, payload: index})

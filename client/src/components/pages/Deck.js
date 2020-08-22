@@ -28,7 +28,8 @@ function Deck(props) {
     selectDeck,
     initSectionCard,
     selectCard,
-    manageSide
+    manageSide,
+    timerRunning
   } = useDeck()
   const { toggleTheme } = useSetting()
   const dispatch = useDispatch()
@@ -39,9 +40,6 @@ function Deck(props) {
     dispatch(answerCorrect(true))
   }
 
-  const {
-    timerRunning,
-  } = topic
 
   useEffect(() => {
     // if a deck id exists

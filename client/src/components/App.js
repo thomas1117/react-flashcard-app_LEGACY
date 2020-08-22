@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import Topic from './pages/Topic';
 import Deck from './pages/Deck';
 import Upload from './pages/Upload';
 import { ThemeProvider } from '../ThemeContext';
