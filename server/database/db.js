@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 function dbConfig(prod) {
     const o = {
         host: prod ? process.env.HOST_PROD : 'localhost',
-        dialect: process.env.DIALECT,
+        dialect: 'postgres',
         storage: 'db.sqlite',
         port: 5432,
     }
@@ -19,7 +19,7 @@ function dbConfig(prod) {
     return o
 }
 let sequelize
-    if (true) {
+    if (process.env.NODE_ENV === 'production') {
         sequelize = new Sequelize(process.env.DB_NAME_PROD, process.env.USERNAME_PROD, process.env.PASSWORD_PROD, dbConfig(true))
     } else {
         sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, dbConfig(false))
