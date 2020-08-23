@@ -35,7 +35,7 @@ export function initDeck(deckId) {
         }
     } else {
         return dispatch => {
-            axios.get(`/decks/${deckId}`).then(resp => {
+            axios.get(`/api/decks/${deckId}`).then(resp => {
                 dispatch({
                     type: INIT_DECK,
                     payload: resp.data,

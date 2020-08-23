@@ -9,7 +9,7 @@ export default function SettingsNav(props) {
     const ctx = useContext(ThemeContext)
     const downloadDeck = () => {
         axios({
-            url: `/decks/exports/${props.deckId}`,
+            url: `/api/decks/exports/${props.deckId}`,
             method: 'GET',
             responseType: 'blob', // important
           }).then((response) => {
@@ -20,7 +20,6 @@ export default function SettingsNav(props) {
             document.body.appendChild(link)
             link.click()
           })
-        // axios.get(`/decks/exports/${props.deckId}`)
     }
     return (
         <nav className="SettingsNav">

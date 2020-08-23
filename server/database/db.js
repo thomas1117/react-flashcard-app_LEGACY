@@ -19,11 +19,11 @@ function dbConfig(prod) {
     return o
 }
 let sequelize
-    if (process.env.NODE_ENV === 'production') {
-        sequelize = new Sequelize(process.env.DB_NAME_PROD, process.env.USERNAME_PROD, process.env.PASSWORD_PROD, dbConfig(true))
-    } else {
-        sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, dbConfig(false))
-    }
+if (process.env.NODE_ENV === 'production') {
+    sequelize = new Sequelize(process.env.DB_NAME_PROD, process.env.USERNAME_PROD, process.env.PASSWORD_PROD, dbConfig(true))
+} else {
+    sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, dbConfig(false))
+}
     
 (async () => {
     

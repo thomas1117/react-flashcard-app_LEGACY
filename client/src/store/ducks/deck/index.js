@@ -210,7 +210,7 @@ export function initSectionCardItem(i) {
     }
   } else {
       return dispatch => {
-          return axios.get(`/decks/${deckId}`).then(resp => {
+          return axios.get(`/api/decks/${deckId}`).then(resp => {
               const initDeck = {
                 ...resp.data,
                 cardId,
