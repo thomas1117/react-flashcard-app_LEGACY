@@ -18,7 +18,7 @@ const upload = multer({ storage: storage })
 const { xmlToJSON } = require('../file-parser/xml')
 const app = express()
 app.use(express.json())
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 
 // https://sequelize.org/master/manual/eager-loading.html
 app.get('/decks/:id', async (req, res) => {
@@ -111,6 +111,6 @@ if (process.env.NODE_ENV === 'production') {
     });
   }
 
-app.listen(process.env.PORT || PORT, () => {
+app.listen(PORT, () => {
     console.log('listening on port', PORT)
 })
