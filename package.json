@@ -8,8 +8,8 @@
     "create-fixture": "cd file-parser && node xml.js",
     "seed-fixture": "cd server && npm run seed-fixture",
     "delete:db": "rm -rf server/db.sqlite",
-    "deploy": "node server/app.js",
-    "build": "cd client && npm install && npm run build"
+    "deploy": "cd server && yarn install && node app.js",
+    "build": "cd client && yarn install && yarn run build"
   },
   "repository": {
     "type": "git",
