@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "sequelize db:seed:all",
     "seed-fixture": "node seeder.js",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "deploy": "node app.js"
   },
   "keywords": [],
   "author": "",

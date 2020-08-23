@@ -1,6 +1,7 @@
 require('dotenv').config()
 const { Deck, Section, Card } = require('./database/models')
 const express = require('express')
+const path = require('path')
 const multer  = require('multer')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -101,6 +102,14 @@ app.post('/xml', upload.single('xml'), async function (req, res, next) {
         })
     })
 })
+
+// used for deployment...
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+    app.get('*', function(req, res) {
+      res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+    });
+  }
 
 app.listen(PORT, () => {
     console.log('listening on port', PORT)
