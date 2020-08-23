@@ -68,21 +68,20 @@ app.get('/decks/exports/:id', async (req, res) => {
             ]
         }
     ]})
-    console.log(deck)
     const file = `
-        <deck title="${deck.title}">
-            ${deck.sections.map(section => (
-                `<section title="${section.title}" language="js">
-                    ${section.cards.map(card => (
-                        `<card>
-                            <front>${card.front}</front>
-                            <back>${card.back}</back>
-                            <meta>${card.meta}</meta>
-                        </card>`
-                    ))}
-                </section>`
-            )).join('')}
-        </decks>
+<deck title="${deck.title}">
+    ${deck.sections.map(section => (
+        `<section title="${section.title}" language="js">
+            ${section.cards.map(card => (
+                `<card>
+                    <front>${card.front}</front>
+                    <back>${card.back}</back>
+                    <meta>${card.meta}</meta>
+                </card>`
+            ))}
+        </section>`
+    )).join('')}
+</decks>
     `
     res.setHeader('Content-type', "text/xml")
     res.setHeader('Content-disposition', 'attachment; filename=file.xml')
