@@ -1,37 +1,11 @@
-import { Deck, Card } from '../../models'
+import { Deck, Section } from '../../models'
 import seed from './dynamic-seed.json'
-const decks = JSON.stringify(seed)
-const parsedDecks = JSON.parse(decks)
+const deck = JSON.stringify(seed)
+const parsedDeck = JSON.parse(deck)
 
-export function makeSection(section) {
-    // return deck
-    let d = new Deck(section.title, [])
-    d.cards = section.cards.map(item => {
-        const card = new Card(
-            item.front,
-            item.back,
-            item.meta,
-            item.language,
-        )
-        return card
-    })
+function manageDynamic(deck) {
+    let d = new Deck(deck.title, [])
+    d.sections = deck.sections.map(x => new Section(x.title, x.cards))
     return d
 }
-
-export function deckMaker(decks) {
-    return decks.map(deck => {
-        let d = new Deck(deck.title, [])
-        d.cards = deck.cards.map(item => {
-            const card = new Card(
-                item.front,
-                item.back,
-                item.meta,
-                item.language,
-            )
-            return card
-        })
-        return d
-    })
-}
-
-export default deckMaker(parsedDecks)
+export default manageDynamic(parsedDeck)

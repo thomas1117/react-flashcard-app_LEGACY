@@ -32,8 +32,7 @@
     "deploy": "npm run build && node deploy.js",
     "deploy-surge": "npm run deploy && npm run rename && cd build && surge",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "seed": "node file-parser/xml.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

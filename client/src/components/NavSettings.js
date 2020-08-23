@@ -2,7 +2,7 @@ import React from 'react'
 import SettingsNav from './SettingsNav'
 import { useDeck, useSetting } from '../hooks'
 
-export default ({ timeCycleFront, timeCycleBack }) => {
+export default ({ timeCycleFront, timeCycleBack, deckId }) => {
     const { toggleTheme } = useSetting()
     const {
         title,
@@ -15,6 +15,7 @@ export default ({ timeCycleFront, timeCycleBack }) => {
         <>
             <div className="Dash-Nav-desktop">
                 <SettingsNav
+                    deckId={deckId}
                     frontTime={timeCycleFront}
                     backTime={timeCycleBack}
                     onChange={() => toggleTheme()}
@@ -30,6 +31,7 @@ export default ({ timeCycleFront, timeCycleBack }) => {
                     )}
                 </ul>
                 <SettingsNav
+                    deckId={deckId}
                     frontTime={timeCycleFront}
                     backTime={timeCycleBack}
                     onChange={() => toggleTheme()}

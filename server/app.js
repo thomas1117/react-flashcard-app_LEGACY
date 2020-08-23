@@ -36,6 +36,25 @@ app.get('/decks/:id', async (req, res) => {
     res.send(deck)
 })
 
+/*
+
+<decks>
+    <deck title="variables" language="js">
+        <card>
+            <front>
+            ## variable declaration
+            </front>
+            <back>
+            var x = 1
+            let y = 'a'
+            const b = [1,2,3]
+            </back>
+            <meta>variable declaration</meta>
+        </card>
+    </deck>
+</decks
+*/
+
 app.get('/decks/exports/:id', async (req, res) => {
     const deck = await Deck.findOne({where: {id: req.params.id}, include: [
         {
@@ -49,8 +68,24 @@ app.get('/decks/exports/:id', async (req, res) => {
             ]
         }
     ]})
-    console.log(deck)
-    res.send(deck)
+    const file = `
+<deck title="${deck.title}">
+    ${deck.sections.map(section => (
+        `<section title="${section.title}" language="js">
+            ${section.cards.map(card => (
+                `<card>
+                    <front>${card.front}</front>
+                    <back>${card.back}</back>
+                    <meta>${card.meta}</meta>
+                </card>`
+            ))}
+        </section>`
+    )).join('')}
+</decks>
+    `
+    res.setHeader('Content-type', "text/xml")
+    res.setHeader('Content-disposition', 'attachment; filename=file.xml')
+    res.send(file)
 })
 
 app.post('/deck', async (req, res) => {

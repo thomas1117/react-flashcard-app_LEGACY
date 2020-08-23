@@ -5,7 +5,6 @@ const parseXMLToString = xmlParser.parseString
 
 const SEED_PATH = path.join(__dirname, '../client/src/seed/js/dynamic-seed.json')
 const XML_PATH = path.join(__dirname, './deck.xml')
-
 function safelyEncodeXML(m) {
   return encodeURIComponent(m)
 }
@@ -25,28 +24,31 @@ function escapeInvalidXML(text) {
 }
 
 function buildDeckFromXMLRoot(deckRoot) {
-  return deckRoot.map(d => {
-    const deckTitle = d.$.title
-    const language = d.$.language
-    const deck = {
-      title: deckTitle,
-      language: language,
-      // map over deck cards and convert values from array to string
-      cards: d.card.map(item => {
-          return {
-              front: decodeXML(item.front.join('')),
-              back: decodeXML(item.back.join('')),
-              meta: decodeXML(item.meta.join('')),
-              language: item.language || language
-          }
-      })
-    }
-    return deck
-  })
+  const deckTitle = deckRoot.$.title
+  const deck = {
+    title: deckTitle,
+    sections: deckRoot.section.map(s => {
+      const sectionTitle = s.$.title
+      return {
+        title: sectionTitle,
+        cards: s.card.map(card => {
+          return (
+            {
+              front: decodeXML(card.front.join('')),
+              back: decodeXML(card.back.join('')),
+              meta: decodeXML(card.meta.join('')),
+              language: card.language || 'js'
+            }
+          )
+        })
+      }
+    })
+  }
+  return deck
 }
 
-function storeToJSONSeed(decks, path) {
-  const deckToStore = JSON.stringify(decks, null, 4)
+function storeToJSONSeed(deck, path) {
+  const deckToStore = JSON.stringify(deck, null, 4)
   fs.writeFileSync(path || SEED_PATH, deckToStore)
 }
 
@@ -71,11 +73,8 @@ function validate(xpath, currentValue, newValue) {
 function xmlToJSON(path, cb) {
   return fs.readFile(path, 'utf8', (err, contents) => {
     const parsed = escapeInvalidXML(contents)
-    return parseXMLToString(parsed, {validator: validate}, function (err, result) {
-      if (err) {
-        throw new Error(`INVALID XML: ${err}`)
-      }
-      const decks = buildDeckFromXMLRoot(result.decks.deck)
+    return parseXMLToString(parsed, {validator: validate}, function (err, result) {      
+      const decks = buildDeckFromXMLRoot(result.deck)
       cb(decks)
       return new Promise((res, rej) => res(decks))
     })
@@ -86,11 +85,6 @@ module.exports = {
   xmlToJSON
 }
 
-// function JSONToXML() {
-//   fs.readFile(SEED_PATH, 'utf8', (err, contents) => {
-//     const builder = new x.Builder()
-//     const xml = builder.buildObject(JSON.parse(contents))
-//     console.log(xml)
-//   })
-// }
-// JSONToXML()
+xmlToJSON(XML_PATH, function(data) {
+  storeToJSONSeed(data)
+})
