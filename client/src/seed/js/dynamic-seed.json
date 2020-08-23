@@ -1,368 +1,362 @@
-[
-    {
-        "title": "variables",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## variable declaration\n            ",
-                "back": "\n            var x = 1\n            let y = 'a'\n            const b = [1,2,3]\n            ",
-                "meta": "variable declaration",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## block\n            ",
-                "back": "\n            /*\n                A block statement (or compound statement in other languages) \n                is used to group zero or more statements. \n                The block is delimited by a pair of braces (\"curly brackets\")\n                and may optionally be labelled:\n\n                a block is looks like this {}\n            */\n\n            function () {\n\n            }\n\n            if (true) {\n                var x = 2\n                let y = 2\n            }\n\n            while() {\n\n            }\n\n            ",
-                "meta": "block",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## var\n            ",
-                "back": "\n            // var is globally scoped or function scoped\n            var x = 2\n            function foo() {\n                var d = 2\n                x // available due to global scoped\n            }\n            console.log(d) // Uncaught ReferenceError: d is not defined\n\n            ",
-                "meta": "var",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## let\n            ",
-                "back": "\n            // let is block scoped\n\n            for (let i = 0; i < 10; i++) {\n                console.log(i) // 0,1,2,3....\n            }\n            console.log(i) // Uncaught ReferenceError: i is not defined\n\n            {\n                let x = true\n            }\n            console.log(x) // Uncaught ReferenceError: x is not defined\n            ",
-                "meta": "let",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## const\n            ",
-                "back": "\n            // const is block scoped\n            // const cannot be re-assigned\n            {\n                const y = true\n            }\n            console.log(y) // Uncaught ReferenceError: y is not defined\n            const x = 2\n            x = 3 // Uncaught TypeError: Assignment to constant variable\n            ",
-                "meta": "const",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "data types",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## data types\n            ",
-                "back": "\n            /*\n                Essential data types\n                string, boolean, number, array, object\n                undefined, null\n            */\n            // string\n            const str = 'hello'\n            // boolean\n            const bln = true // true || false\n            // number\n            const num = 5\n            // array\n            const list = [1,2,3]\n            // object\n            const foo = {\n                name: 'John'\n            }\n            const undef = undefined // no value\n            const nil = null // represents empty value\n            ",
-                "meta": "\n            data types\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## string methods\n            ",
-                "back": "\n            /*\n                some methods (functions) available on string\n            */\n            // string\n            const str = 'hello'\n            str.toUpperCase() // 'HELLO'\n            str.split('') // ['h', 'e', 'l', 'l', 'o']\n            str.charAt(0) // 'h'\n            ",
-                "meta": "\n            string methods\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## array methods\n            ",
-                "back": "\n            // array methods\n            const nums = [1,2,3]\n            // map: transforms each item in array based on return\n            const multiply = nums.map(item => item * 2) // [2,4,6]\n            // filter: if condition is true keep item else dont\n            const filtered = nums.filter(i => i % 2 === 0) // [2]\n            // reduce: reduces an array to a single value\n            const reduced = nums.reduce((a,b) => a + b) // 6\n            // find: returns the first element of array that meets a condition\n            const found = nums.find(item => item === 3) // 3\n            ",
-                "meta": "\n            array methods\n            ",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "operators",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## what is an operator?\n            ",
-                "back": "\n            /*\n                An operator performs some operation on single \n                or multiple operands (data value) and produces a result.\n\n                unary: operates on single value (typeof)\n                binary: operates on 2 values\n                ternary: operates on 3 values (ternary)\n\n            */\n\n            typeof \"a\" // 'string'\n            var num = 2\n            num++ // => 3\n            const isThree = num === 3 ? true : false // true\n            ",
-                "meta": "\n            what is an operator?\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## arithmetic operators\n            ",
-                "back": "\n            /*\n                (+, -, /, *, %, ++, ...)\n            */\n            // modulus % (division remainder)\n            let y = 5\n            let x = y % 2 // 1 is the remainer so x is now 1\n\n            x++ // 3 (same as saying x = x + 1)\n            y-- // 4 (same as saying y = y - 1)\n            ",
-                "meta": "\n            arithmetic operators\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## assignment operators\n            ",
-                "back": "\n            /*\n            (=, +=, -=, ...)\n            */\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
-                "meta": "\n                assignment operators\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## comparison operators\n            ",
-                "back": "\n            /*\n                (==, ===)\n\n                == // equal to\n                === // \tequal value and equal type\n                != // not equal to\n            */\n            let x = 5\n            x === \"5\" // false\n            x == 5 // true\n            let num = 10\n            let moreThan = num > 5 // true\n            x !== 1 // true\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
-                "meta": "\n            comparison operators\n            ",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## not operator\n            ",
-                "back": "\n            // not operator flips the value (into a boolean representation)\n            // you can use it as many times as you want and it'll flip it\n            let x = true\n            x = !x // false\n            let f = ''\n            f = !!f // false\n            let r = 'hello'\n            r = !r // false\n            ",
-                "meta": "\n            not operator\n            ",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "conditionals",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## if/else/else if statements syntax\n            ",
-                "back": "\n                if (anyTrueCondition) {\n                    // execute this code...\n                } else if (someOtherTrueCondition) {\n                    // execute this code...\n                } else {\n                    // do this thing if other conditions are not true\n                }\n            ",
-                "meta": "if/else/else if statements syntax",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## == vs ===\n            ",
-                "back": "\n                // == uses type coercion\n                // === checks value and type\n                const str = 'a'\n                str === 'a' // true\n                str == 'a' // true\n                const num = 5\n                num == '5' // true\n                num === '5' // true\n            ",
-                "meta": "== vs ===",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## ternary if\n            ",
-                "back": "\n                const num = 5\n                const isFive = num === 5 ? true : false\n                const greaterThanFour = num > 4 ? true : false\n                const lessThan4 = num < 4 ? 'less than 4' : '4 or more'\n            ",
-                "meta": "ternary if",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "objects",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## object reassignment\n            ",
-                "back": "\n            const obj = {\n                first: 'John'\n            }\n            obj.first = 'Mark'\n            ",
-                "meta": "reassignment",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## add property to object\n            ",
-                "back": "\n            const obj = {\n                first: 'John'\n            }\n            obj.last = 'Smith'\n            obj['age'] = 22\n            ",
-                "meta": "add property",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## loop over object (in operator)\n            ",
-                "back": "\n            const obj = {\n                first: 'John'\n            }\n            obj.last = 'Smith'\n            obj['age'] = 22\n            for (let key in obj) {\n                console.log(key) // first, last, age\n            }\n            ",
-                "meta": "loop over object",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## loop over object 2\n            ",
-                "back": "\n            const obj = {\n                first: 'John'\n            }\n            Object.keys(obj).forEach(key => {\n                console.log(key)\n            })\n            ",
-                "meta": "loop over object 2",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## delete from object\n            ",
-                "back": "\n            const obj = {\n                first: 'John',\n                last: 'Smith'\n            }\n            delete obj.first\n            obj // {last: 'Smith'}\n            ",
-                "meta": "delete from object",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## clone object\n            ",
-                "back": "\n            const obj = {\n                first: 'John',\n                last: 'Smith'\n            }\n            const newObj = {...obj, age: 22}\n            newObj // {first: 'John', last: 'Smith', age: 22}\n            ",
-                "meta": "clone object",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## check if key is in object\n            ",
-                "back": "\n            const obj = {\n                first: 'John',\n            }\n            // using the in operator\n\n            'first' in obj // true\n\n            // using hasOwnProperty\n            Object(obj).hasOwnProperty('first') // true\n            ",
-                "meta": "check if key is in object",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## methods\n            ",
-                "back": "\n            const obj = {\n                first: 'John',\n                last: 'Smith',\n                sayName() {\n                    return this.first + ' ' + this.last\n                }\n            }\n            obj.sayName() // 'John Smith'\n            ",
-                "meta": "methods",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## objects and destructuring\n            ",
-                "back": "\n            const foo = {\n                first: 'Walter',\n                last: 'White',\n                yell() {\n                    console.log('Jesse!')\n                }\n            }\n            const { first, last, yell } = foo\n            first // 'Walter'\n            last // 'White'\n            yell // () => console.log('Jesse!')\n            ",
-                "meta": "\n            objects and destructuring\n            ",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "arrays",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## add item to array (mutation)\n            ",
-                "back": "\n                const arr = [1]\n                arr.push(2)\n                arr // [1,2]\n            ",
-                "meta": "add item to array (mutation)",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## add item to array (cloning)\n            ",
-                "back": "\n                const arr = [1]\n                const newArr = [...arr, 2]\n                newArr // [1,2]\n            ",
-                "meta": "add item to array (cloning)",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## find item in array\n            ",
-                "back": "\n                const arr = [1,2,3]\n                const found1 = arr.find(item => item === 1) // 1\n                const arr2 = [{id: 1}, {id: 2}]\n                const found2 = arr2.find(item => item.id === 2) // {id: 2}\n            ",
-                "meta": "find item in array",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## get item at index in array\n            ",
-                "back": "\n                const arr = [1,2,3, {id: 2}]\n                arr[0] // 1\n                arr[3] // {id: 2}\n            ",
-                "meta": "get item at index in array",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## check if array has something inside it\n            ",
-                "back": "\n                const arr = [1,2,3]\n                arr.includes(2) // true\n            ",
-                "meta": "check if array has something inside it",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## remove item from array\n            ",
-                "back": "\n                const arr = [1,2,3]\n                const moreThanOne = arr.filter(item => item > 1) // [2,3]\n            ",
-                "meta": "remove item from array",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## transform array\n            ",
-                "back": "\n                const arr = [1,2,3]\n                const multiply = arr.map(item => item * 2) // [2,4,6]\n                const products = [{id: 1, price: 1}, {id: 2, price: 3}]\n                const prices = products.map(item => item.price) // [1, 3]\n            ",
-                "meta": "transform array",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## reduce array into single value\n            ",
-                "back": "\n                const arr = [1,2,3]\n                const total = arr.reduce((a, b) => a + b)\n                const arr2 = [{price: 1}, {price: 2}, {price: 3}]\n                // takes second param (first a will be 0)\n                const total2 = arr2.reduce((a, b) => a + b.price, 0)\n            ",
-                "meta": "reduce array into single value",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## clone array\n            ",
-                "back": "\n                const arr = [1,2,3]\n                const arr2 = [...arr] // [1,2,3]\n            ",
-                "meta": "clone array",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## arrays and destructuring\n            ",
-                "back": "\n            const arr = [1,2,3]\n            const [one, two, three] = arr\n            one // 1\n            two // 2\n            three // 3\n            ",
-                "meta": "\n            arrays and destructuring\n            ",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "loops",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## for loop\n            ",
-                "back": "\n            /*\n                for loops consist of 3 parts\n                1. variable initialization: let i = 0\n                2. a comparison: i < 10 (once false the for loop stops)\n                3. a change in value: i++ (same as saying i = i + 1)\n            */\n            for(let i = 0; i < 10; i++) {\n                // i gives me 0 through 9\n            }\n            ",
-                "meta": "for loop parts",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## for loop with array\n            ",
-                "back": "\n            const arr = [1,2,3]\n            for(let i = 0; i < arr.length; i++) {\n                arr[i] // access array by index (1 then 2 then 3)\n            }\n            ",
-                "meta": "for loop with array",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## for loop with string\n            ",
-                "back": "\n            const str = 'hello'\n            for(let i = 0; i < str.length; i++) {\n                str.charAt(i) // access string by index ('h' 'e' 'l' 'l' 'o')\n            }\n            ",
-                "meta": "for loop with string",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## for loop with object\n            ",
-                "back": "\n            const obj = {first: 'john', last: 'smith', age: 22}\n            for (let key in obj) {\n                console.log(key) // first, last, age\n            }\n            ",
-                "meta": "for loop with object",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "functions",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## writing a function\n            ",
-                "back": "\n            /*\n                various ways to write functions\n            */\n\n            function add(a, b) {\n                return a + b\n            }\n\n            const anotherAdd = (a, b) => a + b\n\n            const anotherAddAgain = (a, b) => {\n                return a + b\n            }\n\n            const add3 = function (a, b) {\n                return a + b\n            }\n            ",
-                "meta": "writing functions",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## fat arrow continued\n            ",
-                "back": "\n            // one value passed no parenthesis required\n            const oneParam = param1 => param1\n             // more than 1 or no parameters... parenthesis required\n            const twoParams = (param1, param2) => param1 + param2\n            const noParams = () => console.log('hello!')\n            ",
-                "meta": "fat arrow continued",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## functions syntax and nomenclature\n            ",
-                "back": "\n            const add = (num1, num2) => num1 + num2\n            // function name: add\n            // parameters/arguments: num1, num2\n            // body: {return num1 + num2}\n\n            const add2 = function (a, b) {\n                console.log('hello!')\n                return a + b\n            }\n            // function name: add2\n            // parameters/arguments: a, b\n            /*\n            body: {\n                console.log('hello!')\n                return a + b\n            }\n            */\n            ",
-                "meta": "functions syntax and nomenclature",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## function return\n            ",
-                "back": "\n            // functions are the values they return when called\n\n            // implicit return (since its on one line)\n            const multiply = (a, b) => a * b\n            multiply(2,6) // 12\n            multiply(multiply(2, 5), 10) // 100\n\n            // functions without an explicit/implicit return will\n            // return undefined\n            function dumbFunction (a, b) {\n                a + b\n\n            }\n            dumbFunction(1, 2) // undefined\n\n            const add = (a, b) => {\n                return a + b\n            }\n            ",
-                "meta": "function return",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## function passed as reference\n            ",
-                "back": "\n            // functions can be passed along by reference\n            // IE not calling it directly\n\n            const add = (a, b) => a + b\n\n            function callIt(fn, param1, param2) {\n                return fn(param1, param2)\n            }\n            // add passed as reference\n            callIt(add, 1, 2) // 3\n\n            const nums = [1,2,3]\n            const multiplyNum = (item) => item * 2\n            const newNums = nums.map(multiplyNum) // [2,4,6]\n            const multiplyNum2 = nums.map(item => item * 3) // [3,6,9]\n            ",
-                "meta": "function passed as reference",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## recursion\n            ",
-                "back": "\n            // recursion means a function that calls itself\n            // it will call the function until a base condition is met\n            \n            function factorial(num) {\n                if (num === 1 || num === 0) {\n                    return 1\n                }\n                return num * factorial(num - 1)\n            }\n            factorial(4) // 24 (4 * 3 * 2 * 1)\n            ",
-                "meta": "recursion",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## function closures\n            ",
-                "back": "\n            function makeId() {\n                let count = 1\n                // inner function still has access to parent function scope (IE count...)\n                return () => count++\n            }\n            let id = makeId() // fn()\n            let newId = id() // 1\n            id() // 2\n            id() // 3\n            ",
-                "meta": "\n            function closures\n            ",
-                "language": "js"
-            }
-        ]
-    },
-    {
-        "title": "DOM and browser",
-        "language": "js",
-        "cards": [
-            {
-                "front": "\n            ## What is the DOM?\n            ",
-                "back": "\n            // DOM stands for document object model\n            // it is an object with methods that \n            // can access and modify the document (html page)\n\n            const foo = document.querySelector('#foo')\n\n            foo.innerHTML = 'some text'\n            function cb() {\n                console.log('hello!')\n            }\n            foo.addEventListener('click', cb)\n            ",
-                "meta": "What is the DOM?",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## What is e in a callback function on event listener?\n            ",
-                "back": "\n            // e is the event object from the browser\n            // e.preventDefault() // prevents the default from happening\n            // for example preventing a form from refreshing the page\n            // or preventing a link from going to it's href\n\n            // input value is in e.target.value, etc....\n            ",
-                "meta": "e in event listener",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## set timeout\n            ",
-                "back": "\n            const timeInMs = 2000\n\n            setTimeout(() => {\n                // call this code in 2 seconds...\n            }, timeInMs)\n            ",
-                "meta": "set timeout",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## set interval\n            ",
-                "back": "\n            const timeInMs = 2000\n\n            setInterval(() => {\n                // call this code every 2 seconds...\n            }, timeInMs)\n            ",
-                "meta": "set interval",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## promise\n            ",
-                "back": "\n            // a promise represents a value in the future\n            const prom = new Promise((resolve, reject) => {\n                setTimeout(() => {\n                    resolve(55)\n                }, 3000)\n            })\n            // resolving a promise will call a then method on object\n            prom.then(v => console.log(v)) // 55 (after 3 seconds)\n            // rejecting a promise will call a catch method on object\n            ",
-                "meta": "promise",
-                "language": "js"
-            },
-            {
-                "front": "\n            ## what is ajax and crud?\n            ",
-                "back": "\n            // Asynchronous JavaScript And XML\n            // some examples\n            axios.get('some-url-here/path')\n            axios.post('some-url-here/path', someObject)\n            // Create: POST\n            // Read: GET\n            // Update: PATCH or PUT\n            // Delete: DELETE\n            ",
-                "meta": "ajax and crud",
-                "language": "js"
-            }
-        ]
-    }
-]
+{
+    "title": "js",
+    "sections": [
+        {
+            "title": "variables",
+            "cards": [
+                {
+                    "front": "\n            ## variable declaration\n            ",
+                    "back": "\n            var x = 1\n            let y = 'a'\n            const b = [1,2,3]\n            ",
+                    "meta": "variable declaration",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## block\n            ",
+                    "back": "\n            /*\n                A block statement (or compound statement in other languages) \n                is used to group zero or more statements. \n                The block is delimited by a pair of braces (\"curly brackets\")\n                and may optionally be labelled:\n\n                a block is looks like this {}\n            */\n\n            function () {\n\n            }\n\n            if (true) {\n                var x = 2\n                let y = 2\n            }\n\n            while() {\n\n            }\n\n            ",
+                    "meta": "block",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## var\n            ",
+                    "back": "\n            // var is globally scoped or function scoped\n            var x = 2\n            function foo() {\n                var d = 2\n                x // available due to global scoped\n            }\n            console.log(d) // Uncaught ReferenceError: d is not defined\n\n            ",
+                    "meta": "var",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## let\n            ",
+                    "back": "\n            // let is block scoped\n\n            for (let i = 0; i < 10; i++) {\n                console.log(i) // 0,1,2,3....\n            }\n            console.log(i) // Uncaught ReferenceError: i is not defined\n\n            {\n                let x = true\n            }\n            console.log(x) // Uncaught ReferenceError: x is not defined\n            ",
+                    "meta": "let",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## const\n            ",
+                    "back": "\n            // const is block scoped\n            // const cannot be re-assigned\n            {\n                const y = true\n            }\n            console.log(y) // Uncaught ReferenceError: y is not defined\n            const x = 2\n            x = 3 // Uncaught TypeError: Assignment to constant variable\n            ",
+                    "meta": "const",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "data types",
+            "cards": [
+                {
+                    "front": "\n            ## data types\n            ",
+                    "back": "\n            /*\n                Essential data types\n                string, boolean, number, array, object\n                undefined, null\n            */\n            // string\n            const str = 'hello'\n            // boolean\n            const bln = true // true || false\n            // number\n            const num = 5\n            // array\n            const list = [1,2,3]\n            // object\n            const foo = {\n                name: 'John'\n            }\n            const undef = undefined // no value\n            const nil = null // represents empty value\n            ",
+                    "meta": "\n            data types\n            ",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## string methods\n            ",
+                    "back": "\n            /*\n                some methods (functions) available on string\n            */\n            // string\n            const str = 'hello'\n            str.toUpperCase() // 'HELLO'\n            str.split('') // ['h', 'e', 'l', 'l', 'o']\n            str.charAt(0) // 'h'\n            ",
+                    "meta": "\n            string methods\n            ",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## array methods\n            ",
+                    "back": "\n            // array methods\n            const nums = [1,2,3]\n            // map: transforms each item in array based on return\n            const multiply = nums.map(item => item * 2) // [2,4,6]\n            // filter: if condition is true keep item else dont\n            const filtered = nums.filter(i => i % 2 === 0) // [2]\n            // reduce: reduces an array to a single value\n            const reduced = nums.reduce((a,b) => a + b) // 6\n            // find: returns the first element of array that meets a condition\n            const found = nums.find(item => item === 3) // 3\n            ",
+                    "meta": "\n            array methods\n            ",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "operators",
+            "cards": [
+                {
+                    "front": "\n            ## what is an operator?\n            ",
+                    "back": "\n            /*\n                An operator performs some operation on single \n                or multiple operands (data value) and produces a result.\n\n                unary: operates on single value (typeof)\n                binary: operates on 2 values\n                ternary: operates on 3 values (ternary)\n\n            */\n\n            typeof \"a\" // 'string'\n            var num = 2\n            num++ // => 3\n            const isThree = num === 3 ? true : false // true\n            ",
+                    "meta": "\n            what is an operator?\n            ",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## arithmetic operators\n            ",
+                    "back": "\n            /*\n                (+, -, /, *, %, ++, ...)\n            */\n            // modulus % (division remainder)\n            let y = 5\n            let x = y % 2 // 1 is the remainer so x is now 1\n\n            x++ // 3 (same as saying x = x + 1)\n            y-- // 4 (same as saying y = y - 1)\n            ",
+                    "meta": "\n            arithmetic operators\n            ",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## assignment operators\n            ",
+                    "back": "\n            /*\n            (=, +=, -=, ...)\n            */\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
+                    "meta": "\n                assignment operators\n            ",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## comparison operators\n            ",
+                    "back": "\n            /*\n                (==, ===)\n\n                == // equal to\n                === // \tequal value and equal type\n                != // not equal to\n            */\n            let x = 5\n            x === \"5\" // false\n            x == 5 // true\n            let num = 10\n            let moreThan = num > 5 // true\n            x !== 1 // true\n            let y = 5\n            y = y + 1 (y is now 6)\n            let x = 10\n            x += 5 (x is now 15)\n            ",
+                    "meta": "\n            comparison operators\n            ",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## not operator\n            ",
+                    "back": "\n            // not operator flips the value (into a boolean representation)\n            // you can use it as many times as you want and it'll flip it\n            let x = true\n            x = !x // false\n            let f = ''\n            f = !!f // false\n            let r = 'hello'\n            r = !r // false\n            ",
+                    "meta": "\n            not operator\n            ",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "conditionals",
+            "cards": [
+                {
+                    "front": "\n            ## if/else/else if statements syntax\n            ",
+                    "back": "\n                if (anyTrueCondition) {\n                    // execute this code...\n                } else if (someOtherTrueCondition) {\n                    // execute this code...\n                } else {\n                    // do this thing if other conditions are not true\n                }\n            ",
+                    "meta": "if/else/else if statements syntax",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## == vs ===\n            ",
+                    "back": "\n                // == uses type coercion\n                // === checks value and type\n                const str = 'a'\n                str === 'a' // true\n                str == 'a' // true\n                const num = 5\n                num == '5' // true\n                num === '5' // true\n            ",
+                    "meta": "== vs ===",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## ternary if\n            ",
+                    "back": "\n                const num = 5\n                const isFive = num === 5 ? true : false\n                const greaterThanFour = num > 4 ? true : false\n                const lessThan4 = num < 4 ? 'less than 4' : '4 or more'\n            ",
+                    "meta": "ternary if",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "objects",
+            "cards": [
+                {
+                    "front": "\n            ## object reassignment\n            ",
+                    "back": "\n            const obj = {\n                first: 'John'\n            }\n            obj.first = 'Mark'\n            ",
+                    "meta": "reassignment",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## add property to object\n            ",
+                    "back": "\n            const obj = {\n                first: 'John'\n            }\n            obj.last = 'Smith'\n            obj['age'] = 22\n            ",
+                    "meta": "add property",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## loop over object (in operator)\n            ",
+                    "back": "\n            const obj = {\n                first: 'John'\n            }\n            obj.last = 'Smith'\n            obj['age'] = 22\n            for (let key in obj) {\n                console.log(key) // first, last, age\n            }\n            ",
+                    "meta": "loop over object",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## loop over object 2\n            ",
+                    "back": "\n            const obj = {\n                first: 'John'\n            }\n            Object.keys(obj).forEach(key => {\n                console.log(key)\n            })\n            ",
+                    "meta": "loop over object 2",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## delete from object\n            ",
+                    "back": "\n            const obj = {\n                first: 'John',\n                last: 'Smith'\n            }\n            delete obj.first\n            obj // {last: 'Smith'}\n            ",
+                    "meta": "delete from object",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## clone object\n            ",
+                    "back": "\n            const obj = {\n                first: 'John',\n                last: 'Smith'\n            }\n            const newObj = {...obj, age: 22}\n            newObj // {first: 'John', last: 'Smith', age: 22}\n            ",
+                    "meta": "clone object",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## check if key is in object\n            ",
+                    "back": "\n            const obj = {\n                first: 'John',\n            }\n            // using the in operator\n\n            'first' in obj // true\n\n            // using hasOwnProperty\n            Object(obj).hasOwnProperty('first') // true\n            ",
+                    "meta": "check if key is in object",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## methods\n            ",
+                    "back": "\n            const obj = {\n                first: 'John',\n                last: 'Smith',\n                sayName() {\n                    return this.first + ' ' + this.last\n                }\n            }\n            obj.sayName() // 'John Smith'\n            ",
+                    "meta": "methods",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## objects and destructuring\n            ",
+                    "back": "\n            const foo = {\n                first: 'Walter',\n                last: 'White',\n                yell() {\n                    console.log('Jesse!')\n                }\n            }\n            const { first, last, yell } = foo\n            first // 'Walter'\n            last // 'White'\n            yell // () => console.log('Jesse!')\n            ",
+                    "meta": "\n            objects and destructuring\n            ",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "arrays",
+            "cards": [
+                {
+                    "front": "\n            ## add item to array (mutation)\n            ",
+                    "back": "\n                const arr = [1]\n                arr.push(2)\n                arr // [1,2]\n            ",
+                    "meta": "add item to array (mutation)",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## add item to array (cloning)\n            ",
+                    "back": "\n                const arr = [1]\n                const newArr = [...arr, 2]\n                newArr // [1,2]\n            ",
+                    "meta": "add item to array (cloning)",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## find item in array\n            ",
+                    "back": "\n                const arr = [1,2,3]\n                const found1 = arr.find(item => item === 1) // 1\n                const arr2 = [{id: 1}, {id: 2}]\n                const found2 = arr2.find(item => item.id === 2) // {id: 2}\n            ",
+                    "meta": "find item in array",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## get item at index in array\n            ",
+                    "back": "\n                const arr = [1,2,3, {id: 2}]\n                arr[0] // 1\n                arr[3] // {id: 2}\n            ",
+                    "meta": "get item at index in array",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## check if array has something inside it\n            ",
+                    "back": "\n                const arr = [1,2,3]\n                arr.includes(2) // true\n            ",
+                    "meta": "check if array has something inside it",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## remove item from array\n            ",
+                    "back": "\n                const arr = [1,2,3]\n                const moreThanOne = arr.filter(item => item > 1) // [2,3]\n            ",
+                    "meta": "remove item from array",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## transform array\n            ",
+                    "back": "\n                const arr = [1,2,3]\n                const multiply = arr.map(item => item * 2) // [2,4,6]\n                const products = [{id: 1, price: 1}, {id: 2, price: 3}]\n                const prices = products.map(item => item.price) // [1, 3]\n            ",
+                    "meta": "transform array",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## reduce array into single value\n            ",
+                    "back": "\n                const arr = [1,2,3]\n                const total = arr.reduce((a, b) => a + b)\n                const arr2 = [{price: 1}, {price: 2}, {price: 3}]\n                // takes second param (first a will be 0)\n                const total2 = arr2.reduce((a, b) => a + b.price, 0)\n            ",
+                    "meta": "reduce array into single value",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## clone array\n            ",
+                    "back": "\n                const arr = [1,2,3]\n                const arr2 = [...arr] // [1,2,3]\n            ",
+                    "meta": "clone array",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## arrays and destructuring\n            ",
+                    "back": "\n            const arr = [1,2,3]\n            const [one, two, three] = arr\n            one // 1\n            two // 2\n            three // 3\n            ",
+                    "meta": "\n            arrays and destructuring\n            ",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "loops",
+            "cards": [
+                {
+                    "front": "\n            ## for loop\n            ",
+                    "back": "\n            /*\n                for loops consist of 3 parts\n                1. variable initialization: let i = 0\n                2. a comparison: i < 10 (once false the for loop stops)\n                3. a change in value: i++ (same as saying i = i + 1)\n            */\n            for(let i = 0; i < 10; i++) {\n                // i gives me 0 through 9\n            }\n            ",
+                    "meta": "for loop parts",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## for loop with array\n            ",
+                    "back": "\n            const arr = [1,2,3]\n            for(let i = 0; i < arr.length; i++) {\n                arr[i] // access array by index (1 then 2 then 3)\n            }\n            ",
+                    "meta": "for loop with array",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## for loop with string\n            ",
+                    "back": "\n            const str = 'hello'\n            for(let i = 0; i < str.length; i++) {\n                str.charAt(i) // access string by index ('h' 'e' 'l' 'l' 'o')\n            }\n            ",
+                    "meta": "for loop with string",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## for loop with object\n            ",
+                    "back": "\n            const obj = {first: 'john', last: 'smith', age: 22}\n            for (let key in obj) {\n                console.log(key) // first, last, age\n            }\n            ",
+                    "meta": "for loop with object",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "functions",
+            "cards": [
+                {
+                    "front": "\n            ## writing a function\n            ",
+                    "back": "\n            /*\n                various ways to write functions\n            */\n\n            function add(a, b) {\n                return a + b\n            }\n\n            const anotherAdd = (a, b) => a + b\n\n            const anotherAddAgain = (a, b) => {\n                return a + b\n            }\n\n            const add3 = function (a, b) {\n                return a + b\n            }\n            ",
+                    "meta": "writing functions",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## fat arrow continued\n            ",
+                    "back": "\n            // one value passed no parenthesis required\n            const oneParam = param1 => param1\n             // more than 1 or no parameters... parenthesis required\n            const twoParams = (param1, param2) => param1 + param2\n            const noParams = () => console.log('hello!')\n            ",
+                    "meta": "fat arrow continued",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## functions syntax and nomenclature\n            ",
+                    "back": "\n            const add = (num1, num2) => num1 + num2\n            // function name: add\n            // parameters/arguments: num1, num2\n            // body: {return num1 + num2}\n\n            const add2 = function (a, b) {\n                console.log('hello!')\n                return a + b\n            }\n            // function name: add2\n            // parameters/arguments: a, b\n            /*\n            body: {\n                console.log('hello!')\n                return a + b\n            }\n            */\n            ",
+                    "meta": "functions syntax and nomenclature",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## function return\n            ",
+                    "back": "\n            // functions are the values they return when called\n\n            // implicit return (since its on one line)\n            const multiply = (a, b) => a * b\n            multiply(2,6) // 12\n            multiply(multiply(2, 5), 10) // 100\n\n            // functions without an explicit/implicit return will\n            // return undefined\n            function dumbFunction (a, b) {\n                a + b\n\n            }\n            dumbFunction(1, 2) // undefined\n\n            const add = (a, b) => {\n                return a + b\n            }\n            ",
+                    "meta": "function return",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## function passed as reference\n            ",
+                    "back": "\n            // functions can be passed along by reference\n            // IE not calling it directly\n\n            const add = (a, b) => a + b\n\n            function callIt(fn, param1, param2) {\n                return fn(param1, param2)\n            }\n            // add passed as reference\n            callIt(add, 1, 2) // 3\n\n            const nums = [1,2,3]\n            const multiplyNum = (item) => item * 2\n            const newNums = nums.map(multiplyNum) // [2,4,6]\n            const multiplyNum2 = nums.map(item => item * 3) // [3,6,9]\n            ",
+                    "meta": "function passed as reference",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## recursion\n            ",
+                    "back": "\n            // recursion means a function that calls itself\n            // it will call the function until a base condition is met\n            \n            function factorial(num) {\n                if (num === 1 || num === 0) {\n                    return 1\n                }\n                return num * factorial(num - 1)\n            }\n            factorial(4) // 24 (4 * 3 * 2 * 1)\n            ",
+                    "meta": "recursion",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## function closures\n            ",
+                    "back": "\n            function makeId() {\n                let count = 1\n                // inner function still has access to parent function scope (IE count...)\n                return () => count++\n            }\n            let id = makeId() // fn()\n            let newId = id() // 1\n            id() // 2\n            id() // 3\n            ",
+                    "meta": "\n            function closures\n            ",
+                    "language": "js"
+                }
+            ]
+        },
+        {
+            "title": "DOM and browser",
+            "cards": [
+                {
+                    "front": "\n            ## What is the DOM?\n            ",
+                    "back": "\n            // DOM stands for document object model\n            // it is an object with methods that \n            // can access and modify the document (html page)\n\n            const foo = document.querySelector('#foo')\n\n            foo.innerHTML = 'some text'\n            function cb() {\n                console.log('hello!')\n            }\n            foo.addEventListener('click', cb)\n            ",
+                    "meta": "What is the DOM?",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## What is e in a callback function on event listener?\n            ",
+                    "back": "\n            // e is the event object from the browser\n            // e.preventDefault() // prevents the default from happening\n            // for example preventing a form from refreshing the page\n            // or preventing a link from going to it's href\n\n            // input value is in e.target.value, etc....\n            ",
+                    "meta": "e in event listener",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## set timeout\n            ",
+                    "back": "\n            const timeInMs = 2000\n\n            setTimeout(() => {\n                // call this code in 2 seconds...\n            }, timeInMs)\n            ",
+                    "meta": "set timeout",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## set interval\n            ",
+                    "back": "\n            const timeInMs = 2000\n\n            setInterval(() => {\n                // call this code every 2 seconds...\n            }, timeInMs)\n            ",
+                    "meta": "set interval",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## promise\n            ",
+                    "back": "\n            // a promise represents a value in the future\n            const prom = new Promise((resolve, reject) => {\n                setTimeout(() => {\n                    resolve(55)\n                }, 3000)\n            })\n            // resolving a promise will call a then method on object\n            prom.then(v => console.log(v)) // 55 (after 3 seconds)\n            // rejecting a promise will call a catch method on object\n            ",
+                    "meta": "promise",
+                    "language": "js"
+                },
+                {
+                    "front": "\n            ## what is ajax and crud?\n            ",
+                    "back": "\n            // Asynchronous JavaScript And XML\n            // some examples\n            axios.get('some-url-here/path')\n            axios.post('some-url-here/path', someObject)\n            // Create: POST\n            // Read: GET\n            // Update: PATCH or PUT\n            // Delete: DELETE\n            ",
+                    "meta": "ajax and crud",
+                    "language": "js"
+                }
+            ]
+        }
+    ]
+}
