@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 function dbConfig(prod) {
     const o = {
         host: prod ? process.env.HOST_PROD : 'localhost',
-        dialect: 'postgres',
+        dialect: process.env.DIALECT,
         storage: 'db.sqlite',
         port: 5432,
     }
