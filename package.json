@@ -9,7 +9,7 @@
     "seed-fixture": "cd server && npm run seed-fixture",
     "delete:db": "rm -rf server/db.sqlite",
     "deploy": "node server/app.js",
-    "build": "cd client && npm run build"
+    "build": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
