@@ -9,7 +9,8 @@
     "seed-fixture": "cd server && npm run seed-fixture",
     "delete:db": "rm -rf server/db.sqlite",
     "deploy": "cd server && yarn install && node app.js",
-    "build": "cd client && yarn install && yarn run build"
+    "build": "cd client && yarn install && yarn run build",
+    "seed": "node file-parser/xml.js"
   },
   "repository": {
     "type": "git",

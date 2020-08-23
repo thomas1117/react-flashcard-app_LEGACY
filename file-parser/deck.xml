@@ -1,5 +1,5 @@
-<decks>
-    <deck title="variables" language="js">
+<deck title="js">
+    <section title="variables" language="js">
         <card>
             <front>
             ## variable declaration
@@ -92,8 +92,8 @@
             </back>
             <meta>const</meta>
         </card>
-    </deck>
-    <deck title="data types" language="js">
+    </section>
+    <section title="data types" language="js">
         <card>
             <front>
             ## data types
@@ -161,8 +161,8 @@
             array methods
             </meta>
         </card>
-    </deck>
-    <deck title="operators" language="js">
+    </section>
+    <section title="operators" language="js">
         <card>
             <front>
             ## what is an operator?
@@ -268,8 +268,8 @@
             not operator
             </meta>
         </card>
-    </deck>
-    <deck title="conditionals" language="js">
+    </section>
+    <section title="conditionals" language="js">
         <card>
             <front>
             ## if/else/else if statements syntax
@@ -313,8 +313,8 @@
             </back>
             <meta>ternary if</meta>
         </card>
-    </deck>
-    <deck title="objects" language="js">
+    </section>
+    <section title="objects" language="js">
         <card>
             <front>
             ## object reassignment
@@ -452,8 +452,8 @@
             objects and destructuring
             </meta>
         </card>
-    </deck>
-    <deck title="arrays" language="js">
+    </section>
+    <section title="arrays" language="js">
         <card>
             <front>
             ## add item to array (mutation)
@@ -569,8 +569,8 @@
             arrays and destructuring
             </meta>
         </card>
-    </deck>
-    <deck title="loops" language="js">
+    </section>
+    <section title="loops" language="js">
         <card>
             <front>
             ## for loop
@@ -624,8 +624,8 @@
             </back>
             <meta>for loop with object</meta>
         </card>
-    </deck>
-    <deck title="functions" language="js">
+    </section>
+    <section title="functions" language="js">
         <card>
             <front>
             ## writing a function
@@ -775,8 +775,8 @@
             function closures
             </meta>
         </card>
-    </deck>
-    <deck title="DOM and browser" language="js">
+    </section>
+    <section title="DOM and browser" language="js">
         <card>
             <front>
             ## What is the DOM?
@@ -869,5 +869,5 @@
             </back>
             <meta>ajax and crud</meta>
         </card>
-    </deck>
-</decks>
+    </section>
+</deck>

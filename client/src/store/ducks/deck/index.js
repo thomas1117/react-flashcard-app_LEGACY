@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import cardData, { makeSection } from '../../../seed/js/dynamic-seed'
+import cardData from '../../../seed/js/dynamic-seed'
 
 // 2. action definitions
 import {
@@ -38,12 +38,12 @@ function fetchMetaFromDeck(sections, deckMeta) {
   return {
     title,
     sections,
-    activeCardIndex: newSectionIndex,
     sectionUrl: currentSection.id,
     cardUrl: currentCard.id,
-    activeSectionIndex,
-    activeCardIndex,
-    currentCard: newCard
+    activeSectionIndex: newSectionIndex,
+    activeCardIndex: newCardIndex,
+    currentCard: newCard,
+    currentSection
   }
 }
 
@@ -53,21 +53,26 @@ export default (state = initialState, action) => {
     case INIT_JS_DECK: {
       const jsDeck = {
         title: 'js',
-        sections: cardData
+        sections: cardData.sections
       }
+      const { sectionId, cardId } = action.payload
       const { 
         title,
         sections,
-        sectionUrl,
-        cardUrl,
+        currentSection,
         activeSectionIndex,
         activeCardIndex,
-        currentCard
-      } = fetchMetaFromDeck(jsDeck.sections, action.payload)
+        currentCard,
+        sectionUrl,
+        cardUrl
+      } = fetchMetaFromDeck(jsDeck.sections,
+        {...action.payload, title: jsDeck.title, sectionId, cardId}
+      )
       return {
         ...state,
         title,
         sections,
+        currentSection,
         sectionUrl,
         cardUrl,
         activeSectionIndex,

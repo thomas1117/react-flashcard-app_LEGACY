@@ -104,7 +104,7 @@ function Deck(props) {
   }, [timerRunning, manageSide])
   return (
     <Page loaded={!loading}>
-      <NavSettings timeCycleFront={timeCycleFront} timeCycleBack={timeCycleBack}/>
+      <NavSettings deckId={props.match.params.deckId} timeCycleFront={timeCycleFront} timeCycleBack={timeCycleBack}/>
 
       <div className="Dash">
         <div className="Dash-Nav-container">

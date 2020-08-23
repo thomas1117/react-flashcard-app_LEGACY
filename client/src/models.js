@@ -4,6 +4,7 @@ function makeId() {
 }
 let cardId = makeId()
 let deckId = makeId()
+let sectionId = makeId()
 
 function normalize(str) {
     if (!str) {
@@ -33,6 +34,14 @@ export class Card {
         this.side = 'front'
         this.language = language
         this.meta = meta
+    }
+}
+
+export class Section {
+    constructor(title, cards) {
+        this.id = sectionId()
+        this.title = title
+        this.cards = cards.map(item => new Card(item.front, item.back, item.meta, item.language))
     }
 }
 
