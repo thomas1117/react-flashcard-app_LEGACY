@@ -1,22 +1,28 @@
 const Sequelize = require('sequelize')
 // console.log(process.env)
-function dbConfig() {
+function dbConfig(prod) {
     const o = {
-        host: 'localhost',
+        host: prod ? process.env.HOST_PROD : 'localhost',
         dialect: process.env.DIALECT,
         storage: 'db.sqlite',
+        port: 5432,
     }
     if (o.dialect === 'postgres') {
         delete o.storage
-        o.host = 'localhost'
+        o.dialectOptions = {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+            }
+        }
     }
     return o
 }
 let sequelize
     if (process.env.NODE_ENV === 'production') {
-        sequelize = new Sequelize(process.env.DB_URL)
+        sequelize = new Sequelize(process.env.DB_NAME_PROD, process.env.USERNAME_PROD, process.env.PASSWORD_PROD, dbConfig(true))
     } else {
-        sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, dbConfig())
+        sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, dbConfig(false))
     }
     
 (async () => {
