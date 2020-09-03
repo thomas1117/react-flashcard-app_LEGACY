@@ -1,7 +1,7 @@
-import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
-import Page from "../Page"
-import { useDeck, useSetting } from "../../hooks"
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import Page from '../Page'
+import { useDeck, useSetting } from '../../hooks'
 
 export default () => {
   const { getDecks, decks } = useDeck()

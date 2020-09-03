@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Card from "../Card";
-import Page from "../Page";
-import DeckNav from "../DeckNav";
-import NavSettings from "../NavSettings";
-import { useDeck, useSetting } from "../../hooks";
+import React, { useState, useEffect } from 'react'
+import Card from '../Card'
+import Page from '../Page'
+import DeckNav from '../DeckNav'
+import NavSettings from '../NavSettings'
+import { useDeck, useSetting } from '../../hooks'
 
 function Deck(props) {
-  const [loading, setLoading] = useState(true);
-  const { timeCycleFront, timeCycleBack } = useSetting();
+  const [loading, setLoading] = useState(true)
+  const { timeCycleFront, timeCycleBack } = useSetting()
   const {
     sections,
     sectionUrl,
@@ -25,13 +25,13 @@ function Deck(props) {
     selectCard,
     manageSide,
     timerRunning,
-  } = useDeck();
+  } = useDeck()
 
   const handleCorrect = () => {
-    manageSide();
-    handleCardIndexChange(1);
-    answerCorrect(true);
-  };
+    manageSide()
+    handleCardIndexChange(1)
+    answerCorrect(true)
+  }
 
   const timerDeps = [
     timerRunning,
@@ -42,78 +42,76 @@ function Deck(props) {
     timeCycleBack,
     selectCard,
     manageSide,
-  ];
+  ]
 
   useEffect(() => {
     // if a deck id exists
     const deckIdPath =
-      (props.match.params.deckId && "/" + props.match.params.deckId) || "";
+      (props.match.params.deckId && '/' + props.match.params.deckId) || ''
     // if there is a section id present
-    const sectionPath = sectionUrl ? "/" + sectionUrl : "";
+    const sectionPath = sectionUrl ? '/' + sectionUrl : ''
     // if a card id is present
-    const cardPath = cardUrl ? "/" + cardUrl : "";
+    const cardPath = cardUrl ? '/' + cardUrl : ''
 
-    const isPreview = props.match.path.includes("preview");
+    const isPreview = props.match.path.includes('preview')
     if (sectionPath || cardPath) {
-      const deckPrefix = isPreview ? "deck-preview" : "decks";
-      props.history.push(
-        `/${deckPrefix}${deckIdPath}${sectionPath}${cardPath}`
-      );
+      const deckPrefix = isPreview ? 'deck-preview' : 'decks'
+      props.history.push(`/${deckPrefix}${deckIdPath}${sectionPath}${cardPath}`)
     }
-  }, [cardUrl, sectionUrl, props.history.push]);
+  }, [cardUrl, sectionUrl, props.history.push])
   useEffect(() => {
-    const pushState = currentCard.side === "back" ? "?back=true" : null;
-    props.history.push({ search: pushState });
-  }, [currentCard.side, props.history.push]);
+    const pushState = currentCard.side === 'back' ? '?back=true' : null
+    props.history.push({ search: pushState })
+  }, [currentCard.side, props.history.push])
   useEffect(() => {
-    let interval = null;
+    let interval = null
     if (timerRunning) {
       interval = setTimeout(() => {
-        if (currentCard.side === "front") {
-          manageSide();
+        if (currentCard.side === 'front') {
+          manageSide()
         } else {
           if (activeCardIndex >= currentSection.cards.length - 1) {
-            clearInterval(interval);
-            pauseCycleDeck();
-            selectCard(0);
-            return;
+            clearInterval(interval)
+            pauseCycleDeck()
+            selectCard(0)
+            return
           }
-          handleCardIndexChange(1);
+          handleCardIndexChange(1)
         }
-      }, (currentCard.side === "front" ? timeCycleFront : timeCycleBack) * 1000);
+      }, (currentCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
     } else {
-      clearTimeout(interval);
+      clearTimeout(interval)
     }
-    return () => clearInterval(interval);
-  }, timerDeps);
+    return () => clearInterval(interval)
+  }, timerDeps)
   useEffect(() => {
-    const { sectionId, cardId, deckId } = props.match.params;
-    const side = props.location.search === "?back=true" ? "back" : "front";
-    initSectionCard({ sectionId, cardId, side, deckId });
-    setLoading(false);
-  }, []);
+    const { sectionId, cardId, deckId } = props.match.params
+    const side = props.location.search === '?back=true' ? 'back' : 'front'
+    initSectionCard({ sectionId, cardId, side, deckId })
+    setLoading(false)
+  }, [])
   useEffect(() => {
     function handleKeyPress(e) {
       if (timerRunning) {
-        return;
+        return
       }
-      const key = e.code;
+      const key = e.code
       // e.preventDefault()
-      if (key === "Space") {
-        manageSide();
+      if (key === 'Space') {
+        manageSide()
       }
-      if (key === "ArrowLeft" || key === "ArrowRight") {
-        let index = key === "ArrowLeft" ? -1 : 1;
-        handleCardIndexChange(index);
+      if (key === 'ArrowLeft' || key === 'ArrowRight') {
+        let index = key === 'ArrowLeft' ? -1 : 1
+        handleCardIndexChange(index)
       }
-      if (key === "ArrowUp" || key === "ArrowDown") {
-        let index = key === "ArrowUp" ? -1 : 1;
-        handleDeckIndexChange(index);
+      if (key === 'ArrowUp' || key === 'ArrowDown') {
+        let index = key === 'ArrowUp' ? -1 : 1
+        handleDeckIndexChange(index)
       }
     }
-    document.addEventListener("keydown", handleKeyPress);
-    return () => document.removeEventListener("keydown", handleKeyPress);
-  }, [timerRunning, manageSide]);
+    document.addEventListener('keydown', handleKeyPress)
+    return () => document.removeEventListener('keydown', handleKeyPress)
+  }, [timerRunning, manageSide])
   return (
     <Page loaded={!loading}>
       <NavSettings
@@ -157,6 +155,6 @@ function Deck(props) {
         </div>
       </div>
     </Page>
-  );
+  )
 }
-export default Deck;
+export default Deck
