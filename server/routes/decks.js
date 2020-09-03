@@ -1,36 +1,36 @@
-const express = require("express")
+const express = require('express')
 const router = express.Router()
-const multer = require("multer")
-const { Deck, Section, Card } = require("../database/models")
+const multer = require('multer')
+const { Deck, Section, Card } = require('../database/models')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads")
+    cb(null, 'uploads')
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9)
-    cb(null, file.fieldname + "-" + uniqueSuffix + ".xml")
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + '.xml')
   },
 })
 
 const upload = multer({ storage: storage })
 
-router.get("/decks", async (req, res) => {
+router.get('/decks', async (req, res) => {
   const decks = await Deck.findAll()
   res.send(decks)
 })
 
 // https://sequelize.org/master/manual/eager-loading.html
-router.get("/decks/:id", async (req, res) => {
+router.get('/decks/:id', async (req, res) => {
   const deck = await Deck.findOne({
     where: { id: req.params.id },
     include: [
       {
         model: Section,
-        as: "sections",
+        as: 'sections',
         include: [
           {
             model: Card,
-            as: "cards",
+            as: 'cards',
           },
         ],
       },
@@ -58,17 +58,17 @@ router.get("/decks/:id", async (req, res) => {
 </decks
 */
 
-router.get("/decks/exports/:id", async (req, res) => {
+router.get('/decks/exports/:id', async (req, res) => {
   const deck = await Deck.findOne({
     where: { id: req.params.id },
     include: [
       {
         model: Section,
-        as: "sections",
+        as: 'sections',
         include: [
           {
             model: Card,
-            as: "cards",
+            as: 'cards',
           },
         ],
       },
@@ -90,15 +90,15 @@ router.get("/decks/exports/:id", async (req, res) => {
             )}
         </section>`
       )
-      .join("")}
+      .join('')}
 </decks>
     `
-  res.setHeader("Content-type", "text/xml")
-  res.setHeader("Content-disposition", "attachment; filename=file.xml")
+  res.setHeader('Content-type', 'text/xml')
+  res.setHeader('Content-disposition', 'attachment; filename=file.xml')
   res.send(file)
 })
 
-router.post("/deck", async (req, res) => {
+router.post('/deck', async (req, res) => {
   const { title, sections } = req.body
   const deck = await Deck.create({
     title,
@@ -121,13 +121,13 @@ router.post("/deck", async (req, res) => {
       })
     }
   }
-  res.json({ message: "deck created successfully", data: { title, sections } })
+  res.json({ message: 'deck created successfully', data: { title, sections } })
 })
 
-router.post("/xml", upload.single("xml"), async function (req, res, next) {
+router.post('/xml', upload.single('xml'), async function (req, res, next) {
   xmlToJSON(req.file.path, async (resp) => {
     const deck = await Deck.create({
-      title: "markdown",
+      title: 'markdown',
     })
     resp.map(async (item) => {
       const section = await Section.create({
