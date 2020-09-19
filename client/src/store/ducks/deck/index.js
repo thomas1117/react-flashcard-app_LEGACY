@@ -26,11 +26,14 @@ const initialState = {
   sections: [],
   activeSectionIndex: 0,
   activeCardIndex: 0,
+  lastCardIndex: null,
+  lastSectionIndex: null,
   sectionUrl: null,
   cardUrl: null,
   currentCard: {
     side: '',
   },
+  currentSection: [],
   timerRunning: false,
   decks: [],
 }
@@ -97,6 +100,8 @@ export default (state = initialState, action) => {
         activeSectionIndex,
         activeCardIndex,
         currentCard,
+        lastSectionIndex: sections.length - 1,
+        lastCardIndex: jsDeck.sections[activeSectionIndex].cards.length - 1,
       }
     }
     case INIT_SECTION_CARD: {
@@ -123,7 +128,7 @@ export default (state = initialState, action) => {
     }
     case SELECT_CARD: {
       const c = state.sections[state.activeSectionIndex].cards
-      const currentCard = c.find((x, i) => i === action.payload)
+      const currentCard = c[action.payload]
       return {
         ...state,
         activeCardIndex: action.payload,
@@ -138,9 +143,11 @@ export default (state = initialState, action) => {
         ...state,
         activeSectionIndex: action.payload,
         activeCardIndex: 0,
-        sectionUrl: state.sections.find((x, i) => i === action.payload).id,
+        lastCardIndex: currentSection.cards.length - 1,
+        sectionUrl: currentSection.id,
         cardUrl: currentCard.id,
         currentCard: currentCard,
+        currentSection: currentSection,
       }
     }
     case INIT_DECK: {
@@ -163,33 +170,26 @@ export default (state = initialState, action) => {
       }
     }
     case FORWARD_BACKWARD_CARD: {
-      const indexToTry = state.activeCardIndex + action.diff
-      const currentSection = state.sections[state.activeSectionIndex]
-      let limit = currentSection.cards.length
-      const allowedToShift = indexToTry >= 0 && indexToTry < limit
-      const newIndex = allowedToShift ? indexToTry : state.activeCardIndex
-      const currentCard = currentSection.cards[newIndex]
+      const newIndex = state.activeCardIndex + action.diff
+      const currentCard = state.currentSection.cards[newIndex]
+      debugger
       return {
         ...state,
         activeCardIndex: newIndex,
-        currentCard: currentCard,
-        sectionUrl: currentSection.id,
+        currentCard,
         cardUrl: currentCard.id,
       }
     }
     case FORWARD_BACKWARD_DECK: {
-      const deckToTry = state.activeSectionIndex + action.diff
-      const sections = state.sections
-      let lim = sections.length
-      const allowed = deckToTry >= 0 && deckToTry < lim
-      const newI = allowed ? deckToTry : state.activeSectionIndex
-      const currSection = sections[newI]
+      const newIndex = state.activeSectionIndex + action.diff
+      const currSection = state.sections[newIndex]
       const currentCard = currSection.cards[0]
       return {
         ...state,
         activeCardIndex: 0,
-        activeSectionIndex: newI,
+        activeSectionIndex: newIndex,
         currentCard,
+        currentSection: currSection,
         sectionUrl: currSection.id,
         cardUrl: currentCard.id,
         activeCardIndex: 0,
@@ -282,6 +282,7 @@ export function useDeck() {
     activeSectionIndex,
     currentCard,
     timerRunning,
+    lastCardIndex,
   } = deckState
   const currentSection =
     useSelector(
@@ -304,7 +305,6 @@ export function useDeck() {
       type: FORWARD_BACKWARD_CARD,
       diff,
     })
-
   const handleDeckIndexChange = (diff) =>
     dispatch({
       type: FORWARD_BACKWARD_DECK,
@@ -327,6 +327,7 @@ export function useDeck() {
     handleDeckIndexChange,
     answerCorrect,
     activeCardIndex,
+    lastCardIndex,
     currentCard,
     decks,
     activeSectionIndex,

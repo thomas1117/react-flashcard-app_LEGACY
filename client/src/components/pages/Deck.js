@@ -13,6 +13,9 @@ function Deck(props) {
     sectionUrl,
     cardUrl,
     activeCardIndex,
+    activeSectionIndex,
+    lastSectionIndex,
+    lastCardIndex,
     currentCard,
     currentSection,
     handleCardIndexChange,
@@ -101,17 +104,35 @@ function Deck(props) {
         manageSide()
       }
       if (key === 'ArrowLeft' || key === 'ArrowRight') {
-        let index = key === 'ArrowLeft' ? -1 : 1
-        handleCardIndexChange(index)
+        let diff = key === 'ArrowLeft' ? -1 : 1
+        const canAdvance = !(
+          diff + activeCardIndex > lastCardIndex || diff + activeCardIndex < 0
+        )
+        if (canAdvance) {
+          handleCardIndexChange(diff)
+        }
       }
       if (key === 'ArrowUp' || key === 'ArrowDown') {
-        let index = key === 'ArrowUp' ? -1 : 1
-        handleDeckIndexChange(index)
+        let diff = key === 'ArrowUp' ? -1 : 1
+        const canAdvance = !(
+          diff + activeSectionIndex > lastSectionIndex ||
+          diff + activeSectionIndex < 0
+        )
+        if (canAdvance) {
+          handleDeckIndexChange(diff)
+        }
       }
     }
     document.addEventListener('keydown', handleKeyPress)
     return () => document.removeEventListener('keydown', handleKeyPress)
-  }, [timerRunning, manageSide])
+  }, [
+    timerRunning,
+    manageSide,
+    activeCardIndex,
+    lastCardIndex,
+    activeSectionIndex,
+    lastSectionIndex,
+  ])
   return (
     <Page loaded={!loading}>
       <NavSettings
