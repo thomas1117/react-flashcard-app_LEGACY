@@ -1,6 +1,5 @@
 // 1. imports
 import axios from 'axios'
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import cardData from '../../../seed/js/dynamic-seed'
 
@@ -9,11 +8,9 @@ import {
   INIT_DECK,
   INIT_SECTION_CARD,
   INIT_JS_DECK,
+  SET_LAST_CARD_INDEX,
   INIT_QUIZ_DECK,
-  SELECT_DECK,
-  SELECT_CARD,
-  FLIP_CARD,
-  FORWARD_BACKWARD_CARD,
+  SELECT_SECTION,
   FORWARD_BACKWARD_DECK,
   START_DECK_CYCLE,
   STOP_DECK_CYCLE,
@@ -25,37 +22,23 @@ const initialState = {
   title: '',
   sections: [],
   activeSectionIndex: 0,
-  activeCardIndex: 0,
-  lastCardIndex: null,
   lastSectionIndex: null,
   sectionUrl: null,
-  cardUrl: null,
-  currentCard: {
-    side: '',
-  },
   currentSection: [],
   timerRunning: false,
   decks: [],
 }
 
 function fetchMetaFromDeck(sections, deckMeta) {
-  const { title, cardId, side, sectionId } = deckMeta
+  const { title, sectionId } = deckMeta
   const activeSectionIndex = sections.findIndex((x) => x.id == sectionId)
   const newSectionIndex = activeSectionIndex === -1 ? 0 : activeSectionIndex
-  const currentCards = sections[newSectionIndex].cards
-  const activeCardIndex = currentCards.findIndex((x) => x.id == cardId)
-  const newCardIndex = activeCardIndex === -1 ? 0 : activeCardIndex
-  const newCard = { ...currentCards[newCardIndex], side: 'front' }
   const currentSection = sections[newSectionIndex]
-  const currentCard = currentSection.cards[newCardIndex]
   return {
     title,
     sections,
     sectionUrl: currentSection.id,
-    cardUrl: currentCard.id,
     activeSectionIndex: newSectionIndex,
-    activeCardIndex: newCardIndex,
-    currentCard: newCard,
     currentSection,
   }
 }
@@ -80,15 +63,11 @@ export default (state = initialState, action) => {
         sections,
         currentSection,
         activeSectionIndex,
-        activeCardIndex,
-        currentCard,
         sectionUrl,
-        cardUrl,
       } = fetchMetaFromDeck(jsDeck.sections, {
         ...action.payload,
         title: jsDeck.title,
         sectionId,
-        cardId,
       })
       return {
         ...state,
@@ -96,12 +75,8 @@ export default (state = initialState, action) => {
         sections,
         currentSection,
         sectionUrl,
-        cardUrl,
         activeSectionIndex,
-        activeCardIndex,
-        currentCard,
         lastSectionIndex: sections.length - 1,
-        lastCardIndex: jsDeck.sections[activeSectionIndex].cards.length - 1,
       }
     }
     case INIT_SECTION_CARD: {
@@ -110,43 +85,23 @@ export default (state = initialState, action) => {
         title,
         sections,
         sectionUrl,
-        cardUrl,
         activeSectionIndex,
-        activeCardIndex,
-        currentCard,
       } = fetchMetaFromDeck(sectionItems, action.payload)
       return {
         ...state,
         activeSectionIndex,
-        activeCardIndex,
-        currentCard,
-        cardUrl,
         sectionUrl,
         title,
         sections,
       }
     }
-    case SELECT_CARD: {
-      const c = state.sections[state.activeSectionIndex].cards
-      const currentCard = c[action.payload]
+    case SELECT_SECTION: {
+      const currentSection = state.sections[action.payload.index]
       return {
         ...state,
-        activeCardIndex: action.payload,
-        cardUrl: currentCard.id,
-        currentCard: { ...currentCard, side: 'front' },
-      }
-    }
-    case SELECT_DECK: {
-      const currentSection = state.sections[action.payload]
-      const currentCard = currentSection.cards[0]
-      return {
-        ...state,
-        activeSectionIndex: action.payload,
+        activeSectionIndex: action.payload.index,
         activeCardIndex: 0,
-        lastCardIndex: currentSection.cards.length - 1,
         sectionUrl: currentSection.id,
-        cardUrl: currentCard.id,
-        currentCard: currentCard,
         currentSection: currentSection,
       }
     }
@@ -154,44 +109,19 @@ export default (state = initialState, action) => {
       const sections = state.sections
       const deckIndex = state.activeSectionIndex
       const cardIndex = state.activeCardIndex
-      const currentCard = sections[deckIndex].cards[cardIndex]
       return {
         ...state,
-        currentCard,
-      }
-    }
-    case FLIP_CARD: {
-      return {
-        ...state,
-        currentCard: {
-          ...state.currentCard,
-          side: state.currentCard.side === 'front' ? 'back' : 'front',
-        },
-      }
-    }
-    case FORWARD_BACKWARD_CARD: {
-      const newIndex = state.activeCardIndex + action.diff
-      const currentCard = state.currentSection.cards[newIndex]
-      debugger
-      return {
-        ...state,
-        activeCardIndex: newIndex,
-        currentCard,
-        cardUrl: currentCard.id,
       }
     }
     case FORWARD_BACKWARD_DECK: {
       const newIndex = state.activeSectionIndex + action.diff
       const currSection = state.sections[newIndex]
-      const currentCard = currSection.cards[0]
       return {
         ...state,
         activeCardIndex: 0,
         activeSectionIndex: newIndex,
-        currentCard,
         currentSection: currSection,
         sectionUrl: currSection.id,
-        cardUrl: currentCard.id,
         activeCardIndex: 0,
         timerRunning: false,
       }
@@ -214,10 +144,17 @@ export default (state = initialState, action) => {
 export function initSectionCardItem(i) {
   const { cardId, deckId, sectionId } = i
   const deck = {}
+  const sectionIndex = cardData.sections.findIndex((x) => x.id == sectionId)
   if (deckId === 'js') {
-    return {
-      type: INIT_JS_DECK,
-      payload: { deckId, cardId, sectionId },
+    return (dispatch) => {
+      dispatch({
+        type: INIT_JS_DECK,
+        payload: { deckId, cardId, sectionId },
+      })
+      dispatch({
+        type: SET_LAST_CARD_INDEX,
+        payload: cardData.sections[sectionIndex].cards.length - 1,
+      })
     }
   } else if (deckId === 'quiz') {
     return {
@@ -278,11 +215,9 @@ export function useDeck() {
   const {
     title,
     sections,
-    activeCardIndex,
     activeSectionIndex,
-    currentCard,
     timerRunning,
-    lastCardIndex,
+    lastSectionIndex,
   } = deckState
   const currentSection =
     useSelector(
@@ -290,21 +225,14 @@ export function useDeck() {
     ) || {}
   const decks = useSelector((appState) => appState.deckState.decks)
   const setDeckPreview = (d) => dispatch(initDeck('preview', d))
-  const selectDeck = (index) => dispatch({ type: SELECT_DECK, payload: index })
-  const selectCard = (index) => dispatch({ type: SELECT_CARD, payload: index })
-  const manageSide = () => dispatch({ type: FLIP_CARD })
+  const selectSection = (index, section) =>
+    dispatch({ type: SELECT_SECTION, payload: { index, section } })
   const initDeck = (id) => {}
   const initSectionCard = (i) => dispatch(initSectionCardItem(i))
-  const cardUrl = useSelector((appState) => appState.deckState.cardUrl)
   const sectionUrl = useSelector((appState) => appState.deckState.sectionUrl)
   const updateSettings = () => {}
   const cycleDeck = () => dispatch(cycleDeckItem())
   const pauseCycleDeck = () => dispatch(pauseCycleDeckItem())
-  const handleCardIndexChange = (diff) =>
-    dispatch({
-      type: FORWARD_BACKWARD_CARD,
-      diff,
-    })
   const handleDeckIndexChange = (diff) =>
     dispatch({
       type: FORWARD_BACKWARD_DECK,
@@ -316,6 +244,13 @@ export function useDeck() {
   return {
     title,
     sections,
+    lastSectionIndex,
+    decks,
+    activeSectionIndex,
+    currentSection,
+    sectionUrl,
+    timerRunning,
+    selectSection,
     setDeckPreview,
     initDeck,
     getDecks,
@@ -323,20 +258,7 @@ export function useDeck() {
     updateSettings,
     cycleDeck,
     pauseCycleDeck,
-    handleCardIndexChange,
     handleDeckIndexChange,
     answerCorrect,
-    activeCardIndex,
-    lastCardIndex,
-    currentCard,
-    decks,
-    activeSectionIndex,
-    selectDeck,
-    selectCard,
-    manageSide,
-    currentSection,
-    sectionUrl,
-    timerRunning,
-    cardUrl,
   }
 }

@@ -3,7 +3,7 @@ import Card from '../Card'
 import Page from '../Page'
 import DeckNav from '../DeckNav'
 import NavSettings from '../NavSettings'
-import { useDeck, useSetting } from '../../hooks'
+import { useDeck, useSetting, useCard } from '../../hooks'
 
 function Deck(props) {
   const [loading, setLoading] = useState(true)
@@ -11,24 +11,27 @@ function Deck(props) {
   const {
     sections,
     sectionUrl,
-    cardUrl,
-    activeCardIndex,
     activeSectionIndex,
     lastSectionIndex,
-    lastCardIndex,
-    currentCard,
     currentSection,
-    handleCardIndexChange,
     answerCorrect,
     pauseCycleDeck,
     handleDeckIndexChange,
     cycleDeck,
-    selectDeck,
+    selectSection,
     initSectionCard,
-    selectCard,
-    manageSide,
     timerRunning,
   } = useDeck()
+
+  const {
+    currentCard,
+    cardUrl,
+    selectCard,
+    activeCardIndex,
+    lastCardIndex,
+    handleCardIndexChange,
+    manageSide,
+  } = useCard()
 
   const handleCorrect = () => {
     manageSide()
@@ -76,7 +79,7 @@ function Deck(props) {
           if (activeCardIndex >= currentSection.cards.length - 1) {
             clearInterval(interval)
             pauseCycleDeck()
-            selectCard(0)
+            selectCard(0, currentSection.cards[0])
             return
           }
           handleCardIndexChange(1)
@@ -120,6 +123,7 @@ function Deck(props) {
         )
         if (canAdvance) {
           handleDeckIndexChange(diff)
+          selectCard(0, sections[diff].cards[0])
         }
       }
     }
@@ -151,8 +155,8 @@ function Deck(props) {
             playing={timerRunning}
             cycleDeck={cycleDeck}
             pauseCycleDeck={pauseCycleDeck}
-            selectCard={(index) => selectCard(index)}
-            selectDeck={(index) => selectDeck(index)}
+            selectCard={(index, card) => selectCard(index, card)}
+            selectSection={(index, deck) => selectSection(index, deck)}
           />
         </div>
         <div className="Dash-Card-container">
