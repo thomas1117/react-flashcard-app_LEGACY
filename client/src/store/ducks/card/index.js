@@ -30,10 +30,11 @@ export default (state = initialState, action) => {
       }
     }
     case FORWARD_BACKWARD_CARD: {
-      const newIndex = state.activeCardIndex + action.diff
+      const newIndex = state.activeCardIndex + action.payload.diff
       return {
         ...state,
         activeCardIndex: newIndex,
+        currentCard: action.payload.card,
       }
     }
     case FLIP_CARD: {
@@ -52,28 +53,25 @@ export default (state = initialState, action) => {
 
 export function useCard() {
   const dispatch = useDispatch()
-  const activeSectionIndex = useSelector(
-    (appState) => appState.deckState.activeSectionIndex
-  )
-  const currentSection =
-    useSelector(
-      (appState) => appState.deckState.sections[activeSectionIndex]
-    ) || {}
   const activeCardIndex = useSelector(
     (appState) => appState.cardState.activeCardIndex
   )
-  const side = useSelector((appState) => appState.cardState.side)
   const lastCardIndex = useSelector(
     (appState) => appState.cardState.lastCardIndex
   )
-  const currentCard = useSelector((appState) => appState.cardState.currentCard)
-
+  const currentCard =
+    useSelector((appState) => appState.cardState.currentCard) || {}
+  const currentSection =
+    useSelector((appState) => appState.deckState.currentSection) || {}
   const selectCard = (index, card) =>
     dispatch({ type: SELECT_CARD, payload: { index, card } })
   const handleCardIndexChange = (diff) =>
     dispatch({
       type: FORWARD_BACKWARD_CARD,
-      diff,
+      payload: {
+        diff,
+        card: currentSection.cards[activeCardIndex + diff],
+      },
     })
   const manageSide = () => dispatch({ type: FLIP_CARD })
   return {

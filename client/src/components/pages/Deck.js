@@ -123,7 +123,7 @@ function Deck(props) {
         )
         if (canAdvance) {
           handleDeckIndexChange(diff)
-          selectCard(0, sections[diff].cards[0])
+          selectCard(0, sections[diff + activeSectionIndex].cards[0])
         }
       }
     }
