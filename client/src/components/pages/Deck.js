@@ -3,7 +3,7 @@ import Card from '../Card'
 import Page from '../Page'
 import DeckNav from '../DeckNav'
 import NavSettings from '../NavSettings'
-import { useDeck, useSetting } from '../../hooks'
+import { useDeck, useSetting, useCard } from '../../hooks'
 
 function Deck(props) {
   const [loading, setLoading] = useState(true)
@@ -11,21 +11,27 @@ function Deck(props) {
   const {
     sections,
     sectionUrl,
-    cardUrl,
-    activeCardIndex,
-    currentCard,
+    activeSectionIndex,
+    lastSectionIndex,
     currentSection,
-    handleCardIndexChange,
     answerCorrect,
     pauseCycleDeck,
     handleDeckIndexChange,
     cycleDeck,
-    selectDeck,
+    selectSection,
     initSectionCard,
-    selectCard,
-    manageSide,
     timerRunning,
   } = useDeck()
+
+  const {
+    currentCard,
+    cardUrl,
+    selectCard,
+    activeCardIndex,
+    lastCardIndex,
+    handleCardIndexChange,
+    manageSide,
+  } = useCard()
 
   const handleCorrect = () => {
     manageSide()
@@ -73,7 +79,7 @@ function Deck(props) {
           if (activeCardIndex >= currentSection.cards.length - 1) {
             clearInterval(interval)
             pauseCycleDeck()
-            selectCard(0)
+            selectCard(0, currentSection.cards[0])
             return
           }
           handleCardIndexChange(1)
@@ -101,17 +107,36 @@ function Deck(props) {
         manageSide()
       }
       if (key === 'ArrowLeft' || key === 'ArrowRight') {
-        let index = key === 'ArrowLeft' ? -1 : 1
-        handleCardIndexChange(index)
+        let diff = key === 'ArrowLeft' ? -1 : 1
+        const canAdvance = !(
+          diff + activeCardIndex > lastCardIndex || diff + activeCardIndex < 0
+        )
+        if (canAdvance) {
+          handleCardIndexChange(diff)
+        }
       }
       if (key === 'ArrowUp' || key === 'ArrowDown') {
-        let index = key === 'ArrowUp' ? -1 : 1
-        handleDeckIndexChange(index)
+        let diff = key === 'ArrowUp' ? -1 : 1
+        const canAdvance = !(
+          diff + activeSectionIndex > lastSectionIndex ||
+          diff + activeSectionIndex < 0
+        )
+        if (canAdvance) {
+          handleDeckIndexChange(diff)
+          selectCard(0, sections[diff + activeSectionIndex].cards[0])
+        }
       }
     }
     document.addEventListener('keydown', handleKeyPress)
     return () => document.removeEventListener('keydown', handleKeyPress)
-  }, [timerRunning, manageSide])
+  }, [
+    timerRunning,
+    manageSide,
+    activeCardIndex,
+    lastCardIndex,
+    activeSectionIndex,
+    lastSectionIndex,
+  ])
   return (
     <Page loaded={!loading}>
       <NavSettings
@@ -130,8 +155,8 @@ function Deck(props) {
             playing={timerRunning}
             cycleDeck={cycleDeck}
             pauseCycleDeck={pauseCycleDeck}
-            selectCard={(index) => selectCard(index)}
-            selectDeck={(index) => selectDeck(index)}
+            selectCard={(index, card) => selectCard(index, card)}
+            selectSection={(index, deck) => selectSection(index, deck)}
           />
         </div>
         <div className="Dash-Card-container">

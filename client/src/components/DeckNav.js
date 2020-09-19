@@ -3,17 +3,21 @@ import React from 'react'
 export default function DeckNav(props) {
   function selectCycleDeck(e, deckIndex) {
     e.stopPropagation()
-    props.selectDeck(deckIndex)
+    props.selectSection(deckIndex)
     return props.cycleDeck(deckIndex)
   }
   function pauseCycleDeck(e, deckIndex) {
     e.stopPropagation()
     return props.pauseCycleDeck(deckIndex)
   }
-  function handleCardSelection(e, cardIndex, deckIndex) {
+  function handleCardSelection(e, cardIndex, deckIndex, card) {
     e.stopPropagation()
-    props.selectDeck(deckIndex)
-    props.selectCard(cardIndex)
+    props.selectSection(deckIndex)
+    props.selectCard(cardIndex, card)
+  }
+  function handleSectionSelection(deckIndex) {
+    props.selectSection(deckIndex)
+    props.selectCard(0, props.sections[deckIndex].cards[0])
   }
   return (
     <nav className="Nav">
@@ -28,7 +32,7 @@ export default function DeckNav(props) {
               <li
                 className="Nav-deck-item"
                 key={deckIndex}
-                onClick={() => props.selectDeck(deckIndex)}
+                onClick={() => handleSectionSelection(deckIndex)}
               >
                 <p
                   className={
@@ -60,7 +64,7 @@ export default function DeckNav(props) {
                           <li
                             key={cardIndex}
                             onClick={(e) =>
-                              handleCardSelection(e, cardIndex, deckIndex)
+                              handleCardSelection(e, cardIndex, deckIndex, card)
                             }
                             className={
                               card.id === props.currentId ? 'active' : ''
