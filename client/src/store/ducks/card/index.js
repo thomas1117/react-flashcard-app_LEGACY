@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         activeCardIndex: action.payload.index,
-        currentCard: action.payload.card,
+        currentCard: { ...action.payload.card, side: 'front' },
       }
     }
     case SET_LAST_CARD_INDEX: {
