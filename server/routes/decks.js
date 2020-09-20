@@ -1,18 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const multer = require('multer')
+const { xmlToJSON } = require('../../file-parser/xml')
+const xmlparser = require('express-xml-bodyparser')
 const { Deck, Section, Card } = require('../database/models')
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads')
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, file.fieldname + '-' + uniqueSuffix + '.xml')
-  },
-})
-
-const upload = multer({ storage: storage })
 
 router.get('/decks', async (req, res) => {
   const decks = await Deck.findAll()
@@ -124,26 +114,30 @@ router.post('/deck', async (req, res) => {
   res.json({ message: 'deck created successfully', data: { title, sections } })
 })
 
-router.post('/xml', upload.single('xml'), async function (req, res, next) {
-  xmlToJSON(req.file.path, async (resp) => {
-    const deck = await Deck.create({
-      title: 'markdown',
-    })
-    resp.map(async (item) => {
-      const section = await Section.create({
-        title: item.title,
-        deckId: deck.id,
-      })
-      item.cards.map(async (card) => {
-        await Card.create({
-          front: card.front,
-          back: card.back,
-          meta: card.meta,
-          language: card.language,
-          sectionId: section.id,
-        })
-      })
-    })
-  })
+router.post('/xml', async function (req, res, next) {
+  console.log(req.body)
+  res.json({ message: 'xml created successfully' })
+  // xmlToJSON(req.body.xml, async (resp) => {
+  //   console.log(resp)
+  //   const deck = await Deck.create({
+  //     title: 'markdown',
+  //   })
+  //   resp.map(async (item) => {
+  //     const section = await Section.create({
+  //       title: item.title,
+  //       deckId: deck.id,
+  //     })
+  //     item.cards.map(async (card) => {
+  //       await Card.create({
+  //         front: card.front,
+  //         back: card.back,
+  //         meta: card.meta,
+  //         language: card.language,
+  //         sectionId: section.id,
+  //       })
+  //     })
+  //   })
+  //   res.json({ message: 'deck created successfully', data: resp })
+  // })
 })
 module.exports = router

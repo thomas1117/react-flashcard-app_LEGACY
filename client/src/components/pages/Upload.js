@@ -33,6 +33,7 @@ function Upload(props) {
   const [currentCard, setCurrentCard] = useState(sections[0].cards[0])
   const [currentSection, setCurrentSection] = useState(sections[0])
   const [preview, setPreview] = useState(false)
+  const [xmlFile, setXmlFile] = useState(null)
   const togglePreview = () => setPreview(!preview)
   const selectCard = (index) => {
     if (!currentSection.cards[index]) {
@@ -160,23 +161,38 @@ function Upload(props) {
     })
   }
 
+  function handleSubmit(e) {
+    e.preventDefault()
+    const bodyFormData = new FormData()
+    bodyFormData.append('xml', xmlFile)
+    axios.post('/api/xml', bodyFormData, {
+      headers: { 'Content-Type': 'text/xml' },
+    })
+  }
+
+  function addXml(e) {
+    const file = e.target.files[0]
+    if (file) {
+      setXmlFile(file)
+    }
+  }
+
   return (
     <Page loaded={true}>
       <div>
         <div className="deck-builder">
           <div className="deck-builder-nav">
-            <button onClick={togglePreview}>preview</button>
             <div>
               <form
+                onSubmit={handleSubmit}
                 className="deck-upload"
-                action="/xml"
                 method="post"
-                encType="multipart/form-data"
               >
-                <input type="file" name="xml" />
+                <input onChange={addXml} type="file" name="xml" />
                 <button type="submit">submit</button>
               </form>
             </div>
+            <button onClick={togglePreview}>preview</button>
           </div>
           <div class="deck-builder-columns">
             <div
