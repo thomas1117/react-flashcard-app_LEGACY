@@ -11,24 +11,16 @@ const SECTIONS = cardData.sections.map((item) => {
 export const deckSlice = createSlice({
   name: 'deck',
   initialState: {
-    value: 0,
     activeTheme: 'dark-mode',
     activeSectionIndex: 0,
     activeCardIndex: 0,
     activeCard: SECTIONS[0].cards[0],
     sections: SECTIONS,
     cyclingSection: false,
+    timeCycleFront: 3,
+    timeCycleBack: 5,
   },
   reducers: {
-    increment: (state) => {
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    },
     setTheSection: (state, action) => {
       state.activeSectionIndex = action.payload
       state.activeCardIndex = 0
@@ -50,33 +42,36 @@ export const deckSlice = createSlice({
     setSectionCycle: (state, action) => {
       state.cyclingSection = action.payload
     },
+    toggleTheTheme: (state, action) => {
+      state.activeTheme =
+        state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
+    },
   },
 })
 
-export const {
-  increment,
-  decrement,
-  incrementByAmount,
+const {
   setTheSection,
   setTheCard,
   manageCardSide,
   setSectionCycle,
+  toggleTheTheme,
 } = deckSlice.actions
-export const incrementAsync = (amount) => (dispatch) => {
-  setTimeout(() => {
-    dispatch(incrementByAmount(amount))
-  }, 1000)
-}
 export const selectCount = (state) => state.deck.value
 
 export const useDeck = () => {
   const dispatch = useDispatch()
-  const activeSectionIndex = useSelector((app) => app.deck.activeSectionIndex)
-  const activeCardIndex = useSelector((app) => app.deck.activeCardIndex)
-  const sections = useSelector((app) => app.deck.sections)
-  const activeCard = useSelector((app) => app.deck.activeCard)
-  const activeTheme = useSelector((app) => app.deck.activeTheme)
-  const cyclingSection = useSelector((app) => app.deck.cyclingSection)
+
+  const {
+    activeSectionIndex,
+    activeCardIndex,
+    sections,
+    activeCard,
+    activeTheme,
+    cyclingSection,
+    timeCycleFront,
+    timeCycleBack,
+  } = useSelector((app) => app.deck)
+
   // TODO: come back to this.
   const activeSection = SECTIONS[activeSectionIndex]
   const atSectionEnd = activeCardIndex === activeSection.cards.length - 1
@@ -84,6 +79,7 @@ export const useDeck = () => {
   const setCard = (id) => dispatch(setTheCard(id))
   const manageSide = () => dispatch(manageCardSide())
   const cycleSection = (bool) => dispatch(setSectionCycle(bool))
+  const toggleTheme = () => dispatch(toggleTheTheme())
   return {
     activeSection,
     activeSectionIndex,
@@ -96,9 +92,10 @@ export const useDeck = () => {
     activeTheme,
     manageSide,
     cycleSection,
+    toggleTheme,
     cyclingSection,
-    timeCycleFront: 3,
-    timeCycleBack: 5,
+    timeCycleFront,
+    timeCycleBack,
   }
 }
 

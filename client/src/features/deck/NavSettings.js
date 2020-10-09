@@ -1,10 +1,17 @@
 import React from 'react'
 import SettingsNav from './SettingsNav'
-import { useDeck, useSetting } from '../hooks'
+// import { useSetting } from '../hooks'
+import { useDeck } from './deckSlice'
 
 export default ({ timeCycleFront, timeCycleBack, deckId }) => {
-  const { toggleTheme } = useSetting()
-  const { sections, activeSectionIndex, updateSettings, selectDeck } = useDeck()
+  // const { toggleTheme: aaa } = useSetting()
+  const {
+    sections,
+    activeSectionIndex,
+    updateSettings,
+    selectDeck,
+    toggleTheme,
+  } = useDeck()
   return (
     <>
       <div className="Dash-Nav-desktop">
