@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import CodeBlock from './CodeBlock'
 import { FaCopy } from 'react-icons/fa'
@@ -10,7 +10,15 @@ import { useDeck } from './deckSlice'
 export default function Card(props) {
   const history = useHistory()
   const location = useLocation()
-  const { activeCard, activeCardIndex, manageSide, activeSection } = useDeck()
+  const params = useParams()
+  const {
+    activeCard,
+    activeCardIndex,
+    manageSide,
+    activeSection,
+    getDeck,
+    initDeck,
+  } = useDeck()
   const { meta, front, back, side, language } = activeCard
 
   function copyToClipboard(e) {
@@ -28,6 +36,12 @@ export default function Card(props) {
   }, [activeCard.side])
 
   useEffect(() => {
+    const { cardId, deckId, sectionId } = params
+    const jsDeck = deckId === 'js'
+    if (jsDeck) {
+      getDeck('js')
+      initDeck({ sectionId, cardId })
+    }
     if (location.search.includes('back')) {
       history.push({ search: location.search })
       manageSide()

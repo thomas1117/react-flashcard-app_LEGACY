@@ -7,7 +7,6 @@ export default function DeckNav(props) {
   const {
     activeSectionIndex,
     activeCardIndex,
-    activeDeckIndex,
     activeCard,
     sections,
     setSection,
@@ -22,11 +21,13 @@ export default function DeckNav(props) {
   } = useDeck()
   useEffect(() => {
     const activeSection = sections[activeSectionIndex]
-    const activeCard = activeSection.cards[activeCardIndex]
-    const activeSectionId = activeSection.id
-    const activeCardId = activeCard.id
-    const back = activeCard.side === 'back' ? '?back' : ''
-    history.push(`/decks/js/${activeSectionId}/${activeCardId}${back}`)
+    const activeCard = activeSection?.cards[activeCardIndex]
+    const activeSectionId = activeSection?.id
+    const activeCardId = activeCard?.id
+    const back = activeCard?.side === 'back' ? '?back' : ''
+    if (activeSectionId && activeCardId) {
+      history.push(`/decks/js/${activeSectionId}/${activeCardId}${back}`)
+    }
   }, [sections, activeCardIndex, activeSectionIndex])
   useEffect(() => {
     const foo = location.search.includes('?back')
