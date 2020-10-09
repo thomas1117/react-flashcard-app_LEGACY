@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Card from '../Card'
+import Card from '../../features/deck/Card'
 import Page from '../Page'
 // import DeckNav from '../DeckNav'
 import DeckNav from '../../features/deck/DeckNav'
@@ -50,26 +50,10 @@ function Deck(props) {
     selectCard,
     manageSide,
   ]
-
-  useEffect(() => {
-    // if a deck id exists
-    const deckIdPath =
-      (props.match.params.deckId && '/' + props.match.params.deckId) || ''
-    // if there is a section id present
-    const sectionPath = sectionUrl ? '/' + sectionUrl : ''
-    // if a card id is present
-    const cardPath = cardUrl ? '/' + cardUrl : ''
-
-    const isPreview = props.match.path.includes('preview')
-    if (sectionPath || cardPath) {
-      const deckPrefix = isPreview ? 'deck-preview' : 'decks'
-      props.history.push(`/${deckPrefix}${deckIdPath}${sectionPath}${cardPath}`)
-    }
-  }, [cardUrl, sectionUrl, props.history.push])
-  useEffect(() => {
-    const pushState = currentCard.side === 'back' ? '?back=true' : null
-    props.history.push({ search: pushState })
-  }, [currentCard.side, props.history.push])
+  // useEffect(() => {
+  //   const pushState = currentCard.side === 'back' ? '?back=true' : null
+  //   props.history.push({ search: pushState })
+  // }, [currentCard.side, props.history.push])
   useEffect(() => {
     let interval = null
     if (timerRunning) {
@@ -92,9 +76,9 @@ function Deck(props) {
     return () => clearInterval(interval)
   }, timerDeps)
   useEffect(() => {
-    const { sectionId, cardId, deckId } = props.match.params
-    const side = props.location.search === '?back=true' ? 'back' : 'front'
-    initSectionCard({ sectionId, cardId, side, deckId })
+    // const { sectionId, cardId, deckId } = props.match.params
+    // const side = props.location.search === '?back=true' ? 'back' : 'front'
+    // initSectionCard({ sectionId, cardId, side, deckId })
     setLoading(false)
   }, [])
   useEffect(() => {

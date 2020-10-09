@@ -48,6 +48,7 @@ export const deckSlice = createSlice({
     value: 0,
     activeSectionIndex: 0,
     activeCardIndex: 0,
+    activeCard: cardData.sections[0].cards[0],
     sections: cardData.sections,
   },
   reducers: {
@@ -63,9 +64,16 @@ export const deckSlice = createSlice({
     setTheSection: (state, action) => {
       state.activeSectionIndex = action.payload
       state.activeCardIndex = 0
+      state.activeCard = state.sections[state.activeSectionIndex].cards[0]
     },
     setTheCard: (state, action) => {
       state.activeCardIndex = action.payload
+      state.activeCard =
+        state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
+    },
+    manageCardSide: (state, action) => {
+      state.activeCard.side =
+        state.activeCard.side === 'front' ? 'back' : 'front'
     },
   },
 })
@@ -76,6 +84,7 @@ export const {
   incrementByAmount,
   setTheSection,
   setTheCard,
+  manageCardSide,
 } = deckSlice.actions
 export const incrementAsync = (amount) => (dispatch) => {
   setTimeout(() => {
@@ -89,9 +98,19 @@ export const useDeck = () => {
   const activeSectionIndex = useSelector((app) => app.deck.activeSectionIndex)
   const activeCardIndex = useSelector((app) => app.deck.activeCardIndex)
   const sections = useSelector((app) => app.deck.sections)
+  const activeCard = useSelector((app) => app.deck.activeCard)
   const setSection = (id) => dispatch(setTheSection(id))
   const setCard = (id) => dispatch(setTheCard(id))
-  return { activeSectionIndex, activeCardIndex, sections, setSection, setCard }
+  const manageSide = () => dispatch(manageCardSide())
+  return {
+    activeSectionIndex,
+    activeCardIndex,
+    sections,
+    setSection,
+    setCard,
+    activeCard,
+    manageSide,
+  }
 }
 
 export default deckSlice.reducer

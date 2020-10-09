@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { increment, selectCount } from './deckSlice'
+import { useHistory, useLocation } from 'react-router-dom'
 import { useDeck } from './deckSlice'
 export default function DeckNav(props) {
   const {
     activeSectionIndex,
     activeCardIndex,
+    activeCard,
     sections,
     setSection,
     setCard,
   } = useDeck()
   const history = useHistory()
+  const location = useLocation()
+  console.log(location)
   function selectCycleDeck(e, deckIndex) {
     e.stopPropagation()
     props.selectSection(deckIndex)
@@ -26,8 +27,14 @@ export default function DeckNav(props) {
     const activeCard = activeSection.cards[activeCardIndex]
     const activeSectionId = activeSection.id
     const activeCardId = activeCard.id
-    history.push(`/decks/js/${activeSectionId}/${activeCardId}`)
+    const back = activeCard.side === 'back' ? '?back' : ''
+    history.push(`/decks/js/${activeSectionId}/${activeCardId}${back}`)
   }, [sections, activeCardIndex, activeSectionIndex])
+  useEffect(() => {
+    const foo = location.search.includes('?back')
+    const pushState = foo ? '?back=true' : null
+    history.push({ search: pushState })
+  }, [])
   return (
     <nav className="Nav">
       <div className="Nav-children">
