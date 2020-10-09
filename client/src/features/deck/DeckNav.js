@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useDeck } from './deckSlice'
 export default function DeckNav(props) {
+  const history = useHistory()
+  const location = useLocation()
   const {
     activeSectionIndex,
     activeCardIndex,
@@ -9,19 +11,13 @@ export default function DeckNav(props) {
     sections,
     setSection,
     setCard,
+    cycleSection,
+    cyclingSection,
+    atSectionEnd,
+    timeCycleFront,
+    timeCycleBack,
+    manageSide,
   } = useDeck()
-  const history = useHistory()
-  const location = useLocation()
-  console.log(location)
-  function selectCycleDeck(e, deckIndex) {
-    e.stopPropagation()
-    props.selectSection(deckIndex)
-    return props.cycleDeck(deckIndex)
-  }
-  function pauseCycleDeck(e, deckIndex) {
-    e.stopPropagation()
-    return props.pauseCycleDeck(deckIndex)
-  }
   useEffect(() => {
     const activeSection = sections[activeSectionIndex]
     const activeCard = activeSection.cards[activeCardIndex]
@@ -35,6 +31,71 @@ export default function DeckNav(props) {
     const pushState = foo ? '?back=true' : null
     history.push({ search: pushState })
   }, [])
+
+  // useEffect(() => {
+  //   function handleKeyPress(e) {
+  //     if (timerRunning) {
+  //       return
+  //     }
+  //     const key = e.code
+  //     // e.preventDefault()
+  //     if (key === 'Space') {
+  //       manageSide()
+  //     }
+  //     if (key === 'ArrowLeft' || key === 'ArrowRight') {
+  //       let diff = key === 'ArrowLeft' ? -1 : 1
+  //       const canAdvance = !(
+  //         diff + activeCardIndex > lastCardIndex || diff + activeCardIndex < 0
+  //       )
+  //       if (canAdvance) {
+  //         handleCardIndexChange(diff)
+  //       }
+  //     }
+  //     if (key === 'ArrowUp' || key === 'ArrowDown') {
+  //       let diff = key === 'ArrowUp' ? -1 : 1
+  //       const canAdvance = !(
+  //         diff + activeSectionIndex > lastSectionIndex ||
+  //         diff + activeSectionIndex < 0
+  //       )
+  //       if (canAdvance) {
+  //         handleDeckIndexChange(diff)
+  //         selectCard(0, sections[diff + activeSectionIndex].cards[0])
+  //       }
+  //     }
+  //   }
+  //   document.addEventListener('keydown', handleKeyPress)
+  //   return () => document.removeEventListener('keydown', handleKeyPress)
+  // }, [
+  //   timerRunning,
+  //   manageSide,
+  //   activeCardIndex,
+  //   lastCardIndex,
+  //   activeSectionIndex,
+  //   lastSectionIndex,
+  // ])
+
+  useEffect(() => {
+    let interval = null
+    if (cyclingSection) {
+      interval = setTimeout(() => {
+        if (activeCard.side === 'front') {
+          manageSide()
+        } else {
+          if (atSectionEnd) {
+            clearInterval(interval)
+            cycleSection(false)
+            setCard(0)
+
+            return
+          }
+          setCard(activeCardIndex + 1)
+        }
+      }, (activeCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
+    } else {
+      clearTimeout(interval)
+    }
+    return () => clearInterval(interval)
+  }, [activeCard, cycleSection, cyclingSection, atSectionEnd])
   return (
     <nav className="Nav">
       <div className="Nav-children">
@@ -43,7 +104,6 @@ export default function DeckNav(props) {
           {sections.map((deck, deckIndex) => {
             const isActive = activeSectionIndex == deckIndex
             const active = isActive ? 'active' : ''
-            const isPlaying = props.playing
             return (
               <li
                 className="Nav-deck-item"
@@ -56,9 +116,12 @@ export default function DeckNav(props) {
                   }
                 >
                   <span>{deck.title}</span>
-                  {isPlaying && isActive ? (
+                  {cyclingSection && isActive ? (
                     <span
-                      onClick={(e) => pauseCycleDeck(e, deckIndex)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        cycleSection(false)
+                      }}
                       className="Nav-deck-pause"
                     >
                       &#9611;&#9611;
@@ -66,7 +129,15 @@ export default function DeckNav(props) {
                   ) : (
                     <span
                       className="Nav-deck-item-inner-icon"
-                      onClick={(e) => selectCycleDeck(e, deckIndex)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        if (activeSectionIndex !== deckIndex) {
+                          setSection(deckIndex)
+                          cycleSection(true)
+                        } else {
+                          cycleSection(!cyclingSection)
+                        }
+                      }}
                     >
                       &#8634;
                     </span>

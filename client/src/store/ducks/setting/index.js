@@ -6,7 +6,7 @@ const UPDATE_TIME_CYCLE = 'setting/UPDATE_TIME_CYCLE'
 const settingState = {
   timeCycleFront: 3,
   timeCycleBack: 5,
-  activeTheme: 'light-mode',
+  activeTheme: 'dark-mode',
 }
 
 export default function settings(state = settingState, action) {

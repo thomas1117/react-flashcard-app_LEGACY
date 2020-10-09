@@ -5,7 +5,7 @@ import Decks from './pages/Decks'
 import Upload from './pages/Upload'
 import { ThemeProvider } from '../ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
-import { useSetting } from '../hooks'
+import { useDeck } from '../features/deck/deckSlice'
 
 const customTheme = {
   ...theme,
@@ -20,7 +20,7 @@ const customTheme = {
 }
 
 function App() {
-  const { activeTheme } = useSetting()
+  const { activeTheme } = useDeck()
   return (
     <ChakraTheme theme={customTheme}>
       <ThemeProvider value={{ theme: activeTheme }}>
