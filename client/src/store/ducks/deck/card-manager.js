@@ -10,7 +10,7 @@ import {
   SELECT_CARD,
   INIT_QUIZ_DECK,
 } from './actions'
-
+console.log(cardData)
 function manageAsync(deckId, cardId, sectionId) {
   return (dispatch) => {
     return axios.get(`/api/decks/${deckId}`).then((resp) => {
@@ -46,6 +46,7 @@ function manageAsync(deckId, cardId, sectionId) {
 }
 
 function jsPreviewManager(deckId, cardId, sectionId) {
+  // TODO: watch out for /js path.
   const sectionIndex = cardData.sections.findIndex((x) => x.id == sectionId)
   return (dispatch) => {
     dispatch({
@@ -75,7 +76,7 @@ export function initSectionCardItem(i) {
   const { cardId, deckId, sectionId } = i
   const deck = {}
   if (deckId === 'js') {
-    jsPreviewManager(deckId, cardId, sectionId)
+    return jsPreviewManager(deckId, cardId, sectionId)
   } else if (deckId === 'quiz') {
     return {
       type: INIT_QUIZ_DECK,

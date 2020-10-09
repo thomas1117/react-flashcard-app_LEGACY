@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Card from '../Card'
 import Page from '../Page'
-import DeckNav from '../DeckNav'
+// import DeckNav from '../DeckNav'
+import DeckNav from '../../features/deck/DeckNav'
 import NavSettings from '../NavSettings'
 import { useDeck, useSetting, useCard } from '../../hooks'
 
