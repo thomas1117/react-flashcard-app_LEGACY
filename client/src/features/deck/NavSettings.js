@@ -3,7 +3,7 @@ import SettingsNav from './SettingsNav'
 // import { useSetting } from '../hooks'
 import { useDeck } from './deckSlice'
 
-export default ({ timeCycleFront, timeCycleBack, deckId }) => {
+export default ({ deckId }) => {
   // const { toggleTheme: aaa } = useSetting()
   const {
     sections,
@@ -11,7 +11,14 @@ export default ({ timeCycleFront, timeCycleBack, deckId }) => {
     updateSettings,
     selectDeck,
     toggleTheme,
+    timeCycleFront,
+    timeCycleBack,
   } = useDeck()
+
+  function manageSettingsCache(settings) {
+    updateSettings(settings)
+    localStorage.setItem('CARD_SETTINGS', JSON.stringify(settings))
+  }
   return (
     <>
       <div className="Dash-Nav-desktop">
@@ -20,7 +27,7 @@ export default ({ timeCycleFront, timeCycleBack, deckId }) => {
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
           onChange={() => toggleTheme()}
-          updateSettings={(settings) => updateSettings(settings)}
+          updateSettings={manageSettingsCache}
         />
       </div>
       <div className="Dash-Nav-mobile">

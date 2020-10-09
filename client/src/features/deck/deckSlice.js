@@ -8,6 +8,8 @@ const SECTIONS = cardData.sections.map((item) => {
   return { ...item, cards: item.cards.map((x) => ({ ...x })) }
 })
 
+const cardSettings = JSON.parse(localStorage.getItem('CARD_SETTINGS')) || {}
+
 export const deckSlice = createSlice({
   name: 'deck',
   initialState: {
@@ -17,8 +19,8 @@ export const deckSlice = createSlice({
     activeCard: SECTIONS[0].cards[0],
     sections: SECTIONS,
     cyclingSection: false,
-    timeCycleFront: 3,
-    timeCycleBack: 5,
+    timeCycleFront: cardSettings.frontTime || 3,
+    timeCycleBack: cardSettings.backTime || 5,
   },
   reducers: {
     setTheSection: (state, action) => {
@@ -46,6 +48,10 @@ export const deckSlice = createSlice({
       state.activeTheme =
         state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
     },
+    updateTheSettings: (state, action) => {
+      state.timeCycleFront = action.payload.frontTime
+      state.timeCycleBack = action.payload.backTime
+    },
   },
 })
 
@@ -55,6 +61,7 @@ const {
   manageCardSide,
   setSectionCycle,
   toggleTheTheme,
+  updateTheSettings,
 } = deckSlice.actions
 export const selectCount = (state) => state.deck.value
 
@@ -80,6 +87,7 @@ export const useDeck = () => {
   const manageSide = () => dispatch(manageCardSide())
   const cycleSection = (bool) => dispatch(setSectionCycle(bool))
   const toggleTheme = () => dispatch(toggleTheTheme())
+  const updateSettings = (settings) => dispatch(updateTheSettings(settings))
   return {
     activeSection,
     activeSectionIndex,
@@ -96,6 +104,7 @@ export const useDeck = () => {
     cyclingSection,
     timeCycleFront,
     timeCycleBack,
+    updateSettings,
   }
 }
 

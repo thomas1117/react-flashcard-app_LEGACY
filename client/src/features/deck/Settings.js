@@ -18,11 +18,6 @@ export default function Settings(props) {
     setVisible((v) => !v)
     setFrontTime(props.frontTime)
     setBackTime(props.backTime)
-    // // TODO come back to fix this theming issue on refresh
-    // // probably just place in state....
-    // if (ctx.theme) {
-    //     props.onChange()
-    // }
   }
   const handleFront = (e) => {
     setFrontTime(Number(e.target.value))
