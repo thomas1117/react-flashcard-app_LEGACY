@@ -13,6 +13,7 @@ const cardSettings = JSON.parse(localStorage.getItem('CARD_SETTINGS')) || {}
 export const deckSlice = createSlice({
   name: 'deck',
   initialState: {
+    deckId: 'js',
     activeTheme: 'dark-mode',
     activeSectionIndex: 0,
     activeCardIndex: 0,
@@ -69,6 +70,7 @@ export const useDeck = () => {
   const dispatch = useDispatch()
 
   const {
+    deckId,
     activeSectionIndex,
     activeCardIndex,
     sections,
@@ -82,6 +84,7 @@ export const useDeck = () => {
   // TODO: come back to this.
   const activeSection = SECTIONS[activeSectionIndex]
   const atSectionEnd = activeCardIndex === activeSection.cards.length - 1
+  const atDeckEnd = activeSectionIndex === SECTIONS.length - 1
   const setSection = (id) => dispatch(setTheSection(id))
   const setCard = (id) => dispatch(setTheCard(id))
   const manageSide = () => dispatch(manageCardSide())
@@ -89,11 +92,13 @@ export const useDeck = () => {
   const toggleTheme = () => dispatch(toggleTheTheme())
   const updateSettings = (settings) => dispatch(updateTheSettings(settings))
   return {
+    deckId,
     activeSection,
     activeSectionIndex,
     activeCardIndex,
     sections,
     atSectionEnd,
+    atDeckEnd,
     setSection,
     setCard,
     activeCard,

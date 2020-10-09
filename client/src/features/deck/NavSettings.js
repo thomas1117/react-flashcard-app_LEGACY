@@ -1,11 +1,10 @@
 import React from 'react'
 import SettingsNav from './SettingsNav'
-// import { useSetting } from '../hooks'
 import { useDeck } from './deckSlice'
 
-export default ({ deckId }) => {
-  // const { toggleTheme: aaa } = useSetting()
+export default () => {
   const {
+    deckId,
     sections,
     activeSectionIndex,
     updateSettings,
@@ -50,7 +49,7 @@ export default ({ deckId }) => {
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
           onChange={() => toggleTheme()}
-          updateSettings={(settings) => updateSettings(settings)}
+          updateSettings={manageSettingsCache}
         />
       </div>
     </>

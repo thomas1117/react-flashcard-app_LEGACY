@@ -7,6 +7,7 @@ export default function DeckNav(props) {
   const {
     activeSectionIndex,
     activeCardIndex,
+    activeDeckIndex,
     activeCard,
     sections,
     setSection,
@@ -14,6 +15,7 @@ export default function DeckNav(props) {
     cycleSection,
     cyclingSection,
     atSectionEnd,
+    atDeckEnd,
     timeCycleFront,
     timeCycleBack,
     manageSide,
@@ -32,47 +34,42 @@ export default function DeckNav(props) {
     history.push({ search: pushState })
   }, [])
 
-  // useEffect(() => {
-  //   function handleKeyPress(e) {
-  //     if (timerRunning) {
-  //       return
-  //     }
-  //     const key = e.code
-  //     // e.preventDefault()
-  //     if (key === 'Space') {
-  //       manageSide()
-  //     }
-  //     if (key === 'ArrowLeft' || key === 'ArrowRight') {
-  //       let diff = key === 'ArrowLeft' ? -1 : 1
-  //       const canAdvance = !(
-  //         diff + activeCardIndex > lastCardIndex || diff + activeCardIndex < 0
-  //       )
-  //       if (canAdvance) {
-  //         handleCardIndexChange(diff)
-  //       }
-  //     }
-  //     if (key === 'ArrowUp' || key === 'ArrowDown') {
-  //       let diff = key === 'ArrowUp' ? -1 : 1
-  //       const canAdvance = !(
-  //         diff + activeSectionIndex > lastSectionIndex ||
-  //         diff + activeSectionIndex < 0
-  //       )
-  //       if (canAdvance) {
-  //         handleDeckIndexChange(diff)
-  //         selectCard(0, sections[diff + activeSectionIndex].cards[0])
-  //       }
-  //     }
-  //   }
-  //   document.addEventListener('keydown', handleKeyPress)
-  //   return () => document.removeEventListener('keydown', handleKeyPress)
-  // }, [
-  //   timerRunning,
-  //   manageSide,
-  //   activeCardIndex,
-  //   lastCardIndex,
-  //   activeSectionIndex,
-  //   lastSectionIndex,
-  // ])
+  useEffect(() => {
+    function handleKeyPress(e) {
+      if (cyclingSection) {
+        return
+      }
+      const key = e.code
+      // e.preventDefault()
+      if (key === 'Space') {
+        manageSide()
+      }
+      if (key === 'ArrowLeft' || key === 'ArrowRight') {
+        let diff = key === 'ArrowLeft' ? -1 : 1
+        const canAdvance = !(atSectionEnd || diff + activeCardIndex < 0)
+        if (canAdvance) {
+          setCard(activeCardIndex + diff)
+        }
+      }
+      if (key === 'ArrowUp' || key === 'ArrowDown') {
+        let diff = key === 'ArrowUp' ? -1 : 1
+        const canAdvance = !(atDeckEnd || diff + activeSectionIndex < 0)
+        if (canAdvance) {
+          setSection(activeSectionIndex + diff)
+          setCard(0)
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKeyPress)
+    return () => document.removeEventListener('keydown', handleKeyPress)
+  }, [
+    cycleSection,
+    manageSide,
+    activeCardIndex,
+    activeSectionIndex,
+    atSectionEnd,
+    atDeckEnd,
+  ])
 
   useEffect(() => {
     let interval = null
