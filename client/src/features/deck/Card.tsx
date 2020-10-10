@@ -26,16 +26,9 @@ export default function Card() {
     e.stopPropagation()
     copy(window.location.href)
   }
-  // TODO: these are pretty confusing... has to do with side effect of location query string
-  // TODO: There is a weird bug on load of back at the moment
   useEffect(() => {
-    const pushState: string | any =
-      activeCard.side === 'back' && !location.search.includes('back')
-        ? '?back=true'
-        : null
-    history.push({ search: pushState })
+    history.push({ search: activeCard.side === 'back' ? '?back=true' : ''})
   }, [activeCard.side])
-
   useEffect(() => {
     const { cardId, deckId, sectionId } = params
     const jsDeck = deckId === 'js'

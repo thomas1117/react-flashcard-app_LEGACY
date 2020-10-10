@@ -51,19 +51,25 @@ export const deckSlice = createSlice({
   initialState: initialState,
   reducers: {
     setTheSection: (state, action: PayloadAction<number>) => {
-      // state.activeSection = state.sectionMap[action.payload]
       state.activeSection = state.sectionMap[action.payload]
       state.activeCardIndex = 0
-      state.activeCard = state.sections[state.activeSectionIndex].cards[0]
-      // // TODO: should I move this?
+      state.activeCard = state.activeSection.cards[0]
       if (state.cyclingSection) {
         state.cyclingSection = false
       }
+    },
+    setTheSectionByIndex: (state, action: PayloadAction<number>) => {
+      state.activeSectionIndex = action.payload
+      state.activeSection = state.sections[action.payload]
     },
     setTheCard: (state, action: PayloadAction<number>) => {
       state.activeCardIndex = action.payload
       state.activeCard =
         state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
+    },
+    setTheCardByIndex: (state, action: PayloadAction<number>) => {
+      state.activeCardIndex = action.payload
+      state.activeCard = state.activeSection.cards[action.payload]
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, sections } = action.payload
@@ -115,6 +121,8 @@ export const deckSlice = createSlice({
 
 const {
   setTheSection,
+  setTheSectionByIndex,
+  setTheCardByIndex,
   setTheCard,
   setTheDeck,
   setTheDecks,
@@ -191,7 +199,9 @@ export const useDeck = () => {
     getDeck,
     getDecks,
     setSection,
+    setSectionByIndex: (index: number) => dispatch(setTheSectionByIndex(index)),
     setCard,
+    setCardByIndex: (index: number) => dispatch(setTheCardByIndex(index)),
     manageSide,
     cycleSection,
     toggleTheme,

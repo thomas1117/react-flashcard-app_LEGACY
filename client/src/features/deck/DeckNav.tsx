@@ -13,6 +13,8 @@ export default function DeckNav() {
     sections,
     setSection,
     setCard,
+    setSectionByIndex,
+    setCardByIndex,
     cycleSection,
     cyclingSection,
     atSectionEnd,
@@ -22,24 +24,13 @@ export default function DeckNav() {
     manageSide,
   } = useDeck()
   useEffect(() => {
-    const activeSection = sections[activeSectionIndex]
-    const activeCard = activeSection?.cards[activeCardIndex]
-    const activeSectionId = activeSection?.id
-    const activeCardId = activeCard?.id
-    const back = activeCard?.side === 'back' ? '?back' : ''
-    if (activeSectionId && activeCardId) {
+    const back = activeCard.side === 'back' || location.search.includes('?back') ? '?back=true' : ''
+    if (activeSection.id && activeCard.id) {
       history.push(
-        `/decks/${params.deckId}/${activeSectionId}/${activeCardId}${back}`
+        `/decks/${params.deckId}/${activeSection.id}/${activeCard.id}${back}`
       )
     }
-  }, [sections, activeCardIndex, activeSectionIndex])
-  useEffect(() => {
-    const onBack = location.search.includes('?back')
-    const pushState = onBack && '?back=true'
-    if (pushState) {
-      history.push({ search: pushState })
-    }
-  }, [])
+  }, [activeSection.id, activeCard.id])
 
   useEffect(() => {
     function handleKeyPress(e: KeyboardEvent) {
@@ -55,15 +46,16 @@ export default function DeckNav() {
         let diff = key === 'ArrowLeft' ? -1 : 1
         const canAdvance = !(atSectionEnd || diff + activeCardIndex < 0)
         if (canAdvance) {
-          setCard(activeCardIndex + diff)
+          debugger
+          setCardByIndex(activeCardIndex + diff)
         }
       }
       if (key === 'ArrowUp' || key === 'ArrowDown') {
         let diff = key === 'ArrowUp' ? -1 : 1
         const canAdvance = !(atDeckEnd || diff + activeSectionIndex < 0)
         if (canAdvance) {
-          setSection(activeSectionIndex + diff)
-          setCard(0)
+          setSectionByIndex(activeSectionIndex + diff)
+          setCardByIndex(0)
         }
       }
     }
