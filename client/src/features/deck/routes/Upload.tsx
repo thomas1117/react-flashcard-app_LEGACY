@@ -3,7 +3,7 @@ import axios from 'axios'
 import Card from '../Card'
 import DeckNav from '../DeckNav'
 import UploadForm from '../UploadForm'
-import Page from '../../../components/Page'
+import Page from '../../../ui/Page'
 
 function createId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

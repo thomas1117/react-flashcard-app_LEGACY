@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import Switch from '../../components/ui/Switch'
+import Switch from '../../ui/Switch'
 import ThemeContext from '../../ThemeContext'
 import { BsGearFill } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'

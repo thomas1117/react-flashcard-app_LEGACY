@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Page from '../../../components/Page'
+import Page from '../../../ui/Page'
 import Card from '../Card'
 import DeckNav from '../DeckNav'
 import NavSettings from '../NavSettings'

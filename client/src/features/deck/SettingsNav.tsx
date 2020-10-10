@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import axios from 'axios'
-import Switch from '../../components/ui/Switch'
+import Switch from '../../ui/Switch'
 import Settings from './Settings'
 import ThemeContext from '../../ThemeContext'
 import { BsDownload } from 'react-icons/bs'

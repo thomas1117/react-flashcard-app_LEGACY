@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDeck } from '../deckSlice'
-import Page from '../../../components/Page'
-import Switch from '../../../components/ui/Switch'
+import Page from '../../../ui/Page'
+import Switch from '../../../ui/Switch'
 
 export default () => {
   const { getDecks, decks, toggleTheme } = useDeck()
