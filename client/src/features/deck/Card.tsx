@@ -13,18 +13,18 @@ export default function Card() {
   const params: any = useParams()
   const {
     atSectionEnd,
-    setCard,
     activeCard,
     activeCardIndex,
-    manageSide,
     activeSection,
+    setCard,
+    manageSide,
     getDeck,
   } = useDeck()
   const { meta, front, back, side, language } = activeCard
 
   function copyToClipboard(e: SyntheticEvent) {
     e.stopPropagation()
-    copy(location.pathname)
+    copy(window.location.href)
   }
   // TODO: these are pretty confusing... has to do with side effect of location query string
   // TODO: There is a weird bug on load of back at the moment
@@ -41,10 +41,8 @@ export default function Card() {
     const jsDeck = deckId === 'js'
     if (jsDeck) {
       getDeck({ deckId, sectionId, cardId })
-      // initDeck({ sectionId, cardId, deckId })
     } else {
       getDeck({ deckId, sectionId, cardId })
-      // initDeck({ sectionId, cardId, deckId })
     }
     if (location.search.includes('back')) {
       history.push({ search: location.search })

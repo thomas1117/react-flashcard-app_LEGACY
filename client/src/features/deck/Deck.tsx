@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import Card from '../../features/deck/Card'
-import Page from '../Page'
-import DeckNav from '../../features/deck/DeckNav'
-import NavSettings from '../../features/deck/NavSettings'
+import Page from '../../components/Page'
+import Card from './Card'
+import DeckNav from './DeckNav'
+import NavSettings from './NavSettings'
 
 function Deck(props: any) {
   const [loading, setLoading] = useState(true)
