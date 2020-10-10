@@ -1,11 +1,11 @@
-import React, { useState, useEffect, SyntheticEvent } from 'react'
+import React, { useEffect, SyntheticEvent } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
-import CodeBlock from './CodeBlock'
 import { FaCopy } from 'react-icons/fa'
 import copy from 'copy-to-clipboard'
 
 import { useDeck } from './deckSlice'
+import CodeBlock from '../../ui/CodeBlock'
 
 export default function Card() {
   const history = useHistory()
