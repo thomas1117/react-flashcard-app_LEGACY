@@ -1,0 +1,47 @@
+export interface Section {
+  id: number
+  title: string
+  cards: Card[]
+}
+
+export interface Deck {
+  id: number
+  title: string
+}
+
+export interface DeckState {
+  deckId: number | string
+  decks: Deck[]
+  activeTheme: string
+  activeSectionIndex: number
+  activeCardIndex: number
+  activeCard: Card
+  sections: Section[]
+  cyclingSection: boolean
+  timeCycleFront: number
+  timeCycleBack: number
+}
+
+export interface DeckIds {
+  cardId: number
+  sectionId: number
+  deckId: number | string
+}
+
+export interface DeckMeta extends DeckIds {
+  sections: Section[]
+}
+
+export type Card = {
+  id: number
+  front: string
+  back: string
+  side: string
+  language: string
+  meta: string
+}
+
+export interface CardSetting {
+  frontTime: number
+  backTime: number
+}

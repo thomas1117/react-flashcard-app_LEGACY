@@ -10,7 +10,7 @@ export default () => {
     getDecks()
   }, [])
   return (
-    <Page loaded={true}>
+    <Page loaded={true} padding="20">
       <Switch onChange={() => toggleTheme()} />
       <ul className="decks-page">
         <h2 className="decks-page-header">Static</h2>

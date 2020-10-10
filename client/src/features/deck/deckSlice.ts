@@ -1,70 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-
 import cardData from '../../seed/js/dynamic-seed'
 import { RootState } from '../../app/store'
-// import { Card } from '../../models'
+import { DeckState, CardSetting, DeckIds, DeckMeta } from './interfaces'
 
-type Card = {
-  id: number
-  front: string
-  back: string
-  side: string
-  language: string
-  meta: string
+// strip away legacy class definition...
+// TODO: remove es6 model classes in favor of interface object casting or some shit like that...
+const manageCards = (deck: any) => {
+  return { ...deck, cards: deck.cards.map((x: any) => ({ ...x })) }
 }
-
-// strip away class...
-const SECTIONS = cardData.sections.map((item) => {
-  return item
-})
-
-export interface CardSetting {
-  frontTime: number
-  backTime: number
-}
-
-interface DeckIds {
-  cardId: number
-  sectionId: number
-  deckId: number | string
-}
-
-interface DeckMeta extends DeckIds {
-  sections: Section[]
-}
+const SECTIONS = cardData.sections.map(manageCards)
 
 const indexOrDefault = (index: number, defaultValue = 0) =>
   index === -1 ? defaultValue : index
-
+// TODO: dumb console.log hack due to proxy issue of immer
 const logger = (v: any) => console.log(JSON.parse(JSON.stringify(v)))
+// TODO: abstract storage mechanism into service
 const settings: string | any = localStorage.getItem('CARD_SETTINGS')
 const cardSettings: CardSetting = JSON.parse(settings) || {}
-
-interface Section {
-  id: number
-  title: string
-  cards: Card[]
-}
-
-interface Deck {
-  id: number
-  title: string
-}
-
-interface DeckState {
-  deckId: number | string
-  decks: Deck[]
-  activeTheme: string
-  activeSectionIndex: number
-  activeCardIndex: number
-  activeCard: Card
-  sections: Section[]
-  cyclingSection: boolean
-  timeCycleFront: number
-  timeCycleBack: number
-}
 
 const initialState: DeckState = {
   deckId: 'js',
@@ -119,6 +73,7 @@ export const deckSlice = createSlice({
       state.activeCardIndex = cardIndex
       const newCard =
         state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
+      // TODO: probably should look into some default ts obj cast on this or something...
       state.activeCard = { ...newCard, side: 'front' }
       state.deckId = deckId
     },
@@ -177,8 +132,6 @@ function getTheDecks() {
   }
 }
 
-export const selectCount = (state: any) => state.deck.value
-
 export const useDeck = () => {
   const dispatch = useDispatch()
 
@@ -195,9 +148,9 @@ export const useDeck = () => {
     timeCycleBack,
   } = useSelector((app: RootState) => app.deck)
 
-  // TODO: come back to this.
+  // TODO: come back to this global SECTION definition
   const activeSection = SECTIONS[activeSectionIndex] || {}
-  const atSectionEnd = activeCardIndex === activeSection?.cards?.length - 1
+  const atSectionEnd = activeCardIndex === activeSection.cards.length - 1
   const atDeckEnd = activeSectionIndex === SECTIONS.length - 1
   const setSection = (id: number) => dispatch(setTheSection(id))
   const setCard = (id: number) => dispatch(setTheCard(id))
