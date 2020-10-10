@@ -12,6 +12,8 @@ export default function Card() {
   const location = useLocation()
   const params: any = useParams()
   const {
+    atSectionEnd,
+    setCard,
     activeCard,
     activeCardIndex,
     manageSide,
@@ -52,6 +54,22 @@ export default function Card() {
   }, [])
   return (
     <div className="Card" onClick={() => manageSide()}>
+      <div className="Card-actions">
+        <button
+          disabled={activeCardIndex == 0}
+          className="Card-button Card-button-back"
+          onClick={(e) => setCard(activeCardIndex - 1)}
+        >
+          &#x2190;
+        </button>
+        <button
+          disabled={atSectionEnd}
+          className="Card-button Card-button-advance"
+          onClick={(e) => setCard(activeCardIndex + 1)}
+        >
+          &#x2192;
+        </button>
+      </div>
       <span className="Card-deck">
         {activeSection.title}
         {side === 'back' && ' | ' + meta}
