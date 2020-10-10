@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import Deck from './pages/Deck'
-import Decks from './pages/Decks'
-import Upload from './pages/Upload'
+import Deck from '../features/deck/routes/Deck'
+import Decks from '../features/deck/routes/Decks'
+import Upload from '../features/deck/routes/Upload'
 import { ThemeProvider } from '../ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
-import { useSetting } from '../hooks'
+import { useDeck } from '../features/deck/deckSlice.ts'
 
 const customTheme = {
   ...theme,
@@ -20,7 +20,7 @@ const customTheme = {
 }
 
 function App() {
-  const { activeTheme } = useSetting()
+  const { activeTheme } = useDeck()
   return (
     <ChakraTheme theme={customTheme}>
       <ThemeProvider value={{ theme: activeTheme }}>

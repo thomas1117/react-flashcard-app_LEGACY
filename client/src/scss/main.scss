@@ -1,15 +1,16 @@
-@import "base.scss";
-@import "nav.scss";
-@import "toggler.scss";
-@import "card.scss";
-@import "dash.scss";
-@import "settings.scss";
-@import "deck-builder.scss";
+@import 'base.scss';
+@import 'nav.scss';
+@import 'toggler.scss';
+@import 'card.scss';
+@import 'dash.scss';
+@import 'settings.scss';
+@import 'deck-builder.scss';
+@import 'decks.scss';
 
 .App.light-mode {
-    color: var(--off-dark);
+  color: var(--off-dark);
 }
 
 .App.dark-mode {
-    color: var(--off-white);
+  color: var(--off-white);
 }

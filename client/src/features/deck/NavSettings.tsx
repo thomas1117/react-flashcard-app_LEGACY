@@ -1,19 +1,32 @@
 import React from 'react'
 import SettingsNav from './SettingsNav'
-import { useDeck, useSetting } from '../hooks'
+import { useDeck } from './deckSlice'
+import { CardSetting } from './interfaces'
 
-export default ({ deckId }) => {
-  const { toggleTheme } = useSetting()
-  const { sections, activeSectionIndex, updateSettings, selectDeck } = useDeck()
+export default function NavSettings(props: any) {
+  const {
+    sections,
+    activeSectionIndex,
+    updateSettings,
+    setSection,
+    toggleTheme,
+    timeCycleFront,
+    timeCycleBack,
+  } = useDeck()
+
+  function manageSettingsCache(settings: CardSetting) {
+    updateSettings(settings)
+    localStorage.setItem('CARD_SETTINGS', JSON.stringify(settings))
+  }
   return (
     <>
       <div className="Dash-Nav-desktop">
         <SettingsNav
-          deckId={deckId}
+          deckId={props.deckId}
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
           onChange={() => toggleTheme()}
-          updateSettings={(settings) => updateSettings(settings)}
+          updateSettings={manageSettingsCache}
         />
       </div>
       <div className="Dash-Nav-mobile">
@@ -25,18 +38,18 @@ export default ({ deckId }) => {
                 `Dash-Nav-mobile-link ` +
                 (index === activeSectionIndex ? 'active' : '')
               }
-              onClick={() => selectDeck(index)}
+              onClick={() => setSection(index)}
             >
               {deck.title}
             </li>
           ))}
         </ul>
         <SettingsNav
-          deckId={deckId}
+          deckId={props.deckId}
           frontTime={timeCycleFront}
           backTime={timeCycleBack}
           onChange={() => toggleTheme()}
-          updateSettings={(settings) => updateSettings(settings)}
+          updateSettings={manageSettingsCache}
         />
       </div>
     </>

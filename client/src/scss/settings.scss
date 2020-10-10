@@ -1,152 +1,166 @@
 $setting-input-focus: #1b88bb;
 .App.light-mode .Dash-Nav-desktop {
-    .Settings-toggle {
-        color: var(--off-dark);
-    }
+  .Settings-toggle {
+    color: var(--off-dark);
+  }
 }
 
 .App.dark-mode {
-    .Settings-toggle {
-        &-overlay {
-            background-color: var(--dark);
-        }
+  .Settings-toggle {
+    &-overlay {
+      background-color: var(--dark);
     }
+  }
 }
 
 .App.light-mode {
-    .Settings-toggle {
-        &-overlay {
-            background-color: #fff;
-            color: var(--off-dark);
-        }
+  .Settings-toggle {
+    &-overlay {
+      background-color: #fff;
+      color: var(--off-dark);
     }
+  }
 
-    .Settings-toggle-close {
-        color: var(--off-dark);
+  .Settings-toggle-close {
+    color: var(--off-dark);
+  }
+
+  .Settings-time {
+    border-color: var(--off-dark);
+    color: var(--off-dark);
+
+    &:focus {
+      color: var(--off-dark);
+      border-color: $setting-input-focus;
     }
+  }
 
-    .Settings-time {
-        border-color: var(--off-dark);
-        color: var(--off-dark);
-
-        &:focus {
-            color: var(--off-dark);
-            border-color: $setting-input-focus;
-        }
-    }
-
-    .Settings-submit {
-        color: var(--off-dark); 
-        border-color: var(--off-dark);
-        border-width: 1px;
-    }
+  .Settings-submit {
+    color: var(--off-dark);
+    border-color: var(--off-dark);
+    border-width: 1px;
+  }
 }
 
 .SettingsNav {
-    position: relative;
-    z-index: 1;
-
-    &-toggle {
-        @media screen and (max-width: 768px) {
-            display: none;
-        }
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  li {
+    display: flex;
+    align-items: center;
+  }
+  a {
+    color: var(--off-white);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
     }
+  }
 
-    .theme-toggler {
-        margin-right: 1rem;
-    }   
-    
-    ul {
-        display: flex;
-        justify-content: flex-end;
+  &-toggle {
+    @media screen and (max-width: 768px) {
+      display: none;
     }
+  }
+
+  .theme-toggler {
+    margin-right: 1rem;
+  }
+
+  ul {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .Settings-Switch {
-    display: none;
-    @media screen and (max-width: 768px) {
-        display: block;
-    }
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
 }
 
 .Settings-submit {
-    background: transparent;
-    color: #fff;
-    padding: 1rem;
-    border: 1px solid #ddd;
+  background: transparent;
+  color: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
 }
 
 .Settings-time-container {
-    width: 20%;
-    min-width: 300px;
-    margin: 0 auto;
+  width: 20%;
+  min-width: 300px;
+  margin: 0 auto;
 
-    &-label {
-        position: absolute;
-        right: 0;
-        bottom: .5rem;
-        font-size: .75rem;
-    }
+  &-label {
+    position: absolute;
+    right: 0;
+    bottom: 0.5rem;
+    font-size: 0.75rem;
+  }
 
-    & fieldset {
-        position: relative;
-        margin-bottom: 2rem;
-    }
+  & fieldset {
+    position: relative;
+    margin-bottom: 2rem;
+  }
 }
 
 .Settings-submit-container {
-    position: relative;
-    text-align: right;
+  position: relative;
+  text-align: right;
 }
 
 .Settings-submit:hover {
-    background: #fff;
-    color:var(--off-dark);
+  background: #fff;
+  color: var(--off-dark);
 }
 
 .Settings-time {
-    border: none;
-    outline: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  border-bottom: 1px solid #d7d7d7;
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  position: relative;
+  background: transparent;
+
+  &:focus {
     color: #fff;
-    border-bottom: 1px solid #d7d7d7;
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    position: relative;
-    background: transparent;
+    border-bottom: 1px solid $setting-input-focus;
+  }
 
-    &:focus {
-        color: #fff;
-        border-bottom: 1px solid $setting-input-focus;
-    }
-
-    ::placeholder {
-        color: #d7d7d7;
-    }
+  ::placeholder {
+    color: #d7d7d7;
+  }
 }
 
 .Settings-time-container {
-    top: 6rem;
-    position: relative;
+  top: 6rem;
+  position: relative;
 }
 
 .Settings-toggle {
-    z-index: 3;
-    position: relative;
-    font-size: 3rem;
-    line-height: 1.75rem;
-    color: #fff;
-    background: none;
-    outline: none;
-    border: none;
+  z-index: 3;
+  position: relative;
+  font-size: 3rem;
+  line-height: 1.75rem;
+  color: #fff;
+  background: none;
+  outline: none;
+  border: none;
 
-    &-overlay {
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-color: #fff;
-        position: fixed;
-        z-index: 2;
-    }
+  &-overlay {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #fff;
+    position: fixed;
+    z-index: 2;
+  }
 }

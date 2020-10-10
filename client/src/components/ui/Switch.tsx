@@ -1,6 +1,8 @@
-import React, { useContext } from 'react'
+import React, { ChangeEvent, useContext } from 'react'
 import ThemeContext from '../../ThemeContext'
-export default function Switch(props) {
+export default function Switch(props: {
+  onChange: (event: ChangeEvent) => void
+}) {
   const ctx = useContext(ThemeContext)
   return (
     <label className="theme-toggler switch">
