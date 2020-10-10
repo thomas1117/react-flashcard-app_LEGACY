@@ -50,7 +50,7 @@ export default function Card() {
     }
   }, [])
   return (
-    <div className="Card" onClick={() => manageSide()}>
+    <div className="Card Card-deck-card" onClick={() => manageSide()}>
       <div className="Card-actions">
         <button
           disabled={activeCardIndex == 0}

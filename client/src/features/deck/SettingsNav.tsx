@@ -4,6 +4,7 @@ import Switch from '../../components/ui/Switch'
 import Settings from './Settings'
 import ThemeContext from '../../ThemeContext'
 import { BsDownload } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
 
 export default function SettingsNav(props: {
   deckId: any
@@ -30,11 +31,13 @@ export default function SettingsNav(props: {
   return (
     <nav className="SettingsNav">
       <ul>
+        <li>
+          <Link to="/decks" style={{ marginRight: '20px' }}>
+            Decks
+          </Link>
+        </li>
         <li className="SettingsNav-toggle">
-          <Switch
-            onChange={props.onChange}
-            checked={ctx.theme === 'dark-mode'}
-          />
+          <Switch onChange={props.onChange} />
         </li>
         <li>
           <Settings
