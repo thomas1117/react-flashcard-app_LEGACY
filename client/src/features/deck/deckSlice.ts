@@ -172,7 +172,7 @@ export const useDeck = () => {
 
   // TODO: come back to this global SECTION definition
   const atSectionEnd = activeCardIndex === activeSection.cards.length - 1
-  const atDeckEnd = activeSectionIndex === SECTIONS.length - 1
+  const atDeckEnd = activeSectionIndex === sections.length - 1
   const setSection = (id: number) => dispatch(setTheSection(id))
   const setCard = (id: number) => dispatch(setTheCard(id))
   const manageSide = () => dispatch(manageCardSide())
