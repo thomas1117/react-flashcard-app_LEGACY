@@ -61,12 +61,12 @@
   }
 
   &-back {
-    visibility: hidden;
+    display: none;
     height: 100%;
   }
 
   &-back.visible {
-    visibility: visible;
+    display: block;
   }
 
   &-front,

@@ -19,7 +19,6 @@ export default function Card() {
     manageSide,
     activeSection,
     getDeck,
-    initDeck,
   } = useDeck()
   const { meta, front, back, side, language } = activeCard
 
@@ -41,11 +40,11 @@ export default function Card() {
     const { cardId, deckId, sectionId } = params
     const jsDeck = deckId === 'js'
     if (jsDeck) {
-      getDeck('js')
-      initDeck({ sectionId, cardId, deckId })
+      getDeck({ deckId, sectionId, cardId })
+      // initDeck({ sectionId, cardId, deckId })
     } else {
-      getDeck(deckId)
-      initDeck({ sectionId, cardId, deckId })
+      getDeck({ deckId, sectionId, cardId })
+      // initDeck({ sectionId, cardId, deckId })
     }
     if (location.search.includes('back')) {
       history.push({ search: location.search })

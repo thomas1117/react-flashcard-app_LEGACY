@@ -31,6 +31,13 @@ interface DeckIds {
   deckId: number | string
 }
 
+interface DeckMeta extends DeckIds {
+  sections: Section[]
+}
+
+const indexOrDefault = (index: number, defaultValue = 0) =>
+  index === -1 ? defaultValue : index
+
 const logger = (v: any) => console.log(JSON.parse(JSON.stringify(v)))
 const settings: string | any = localStorage.getItem('CARD_SETTINGS')
 const cardSettings: CardSetting = JSON.parse(settings) || {}
@@ -58,7 +65,14 @@ const initialState: DeckState = {
   activeTheme: 'dark-mode',
   activeSectionIndex: 0,
   activeCardIndex: 0,
-  activeCard: { id: 1, side: '', meta: '', front: '', back: '', language: '' },
+  activeCard: {
+    id: 1,
+    side: 'front',
+    meta: '',
+    front: '',
+    back: '',
+    language: '',
+  },
   sections: [],
   cyclingSection: false,
   timeCycleFront: cardSettings.frontTime || 3,
@@ -83,8 +97,23 @@ export const deckSlice = createSlice({
       state.activeCard =
         state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
     },
-    setTheDeck: (state, action: PayloadAction<Section[]>) => {
-      state.sections = action.payload
+    setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
+      const { cardId, sectionId, deckId } = action.payload
+      state.sections = action.payload.sections
+      const sectionIndex = indexOrDefault(
+        state.sections.findIndex((section) => section.id == sectionId)
+      )
+      const cardIndex = indexOrDefault(
+        state.sections[sectionIndex].cards.findIndex(
+          (card) => card.id == cardId
+        )
+      )
+      state.activeSectionIndex = sectionIndex
+      state.activeCardIndex = cardIndex
+      const newCard =
+        state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
+      state.activeCard = { ...newCard, side: 'front' }
+      state.deckId = deckId
     },
     manageCardSide: (state) => {
       state.activeCard = {
@@ -103,24 +132,6 @@ export const deckSlice = createSlice({
       state.timeCycleFront = action.payload.frontTime
       state.timeCycleBack = action.payload.backTime
     },
-    initTheDeck: (state, action: PayloadAction<DeckIds>) => {
-      const { cardId, sectionId, deckId } = action.payload
-      const sectionIndex =
-        state.sections.findIndex((section) => section.id == sectionId) || 0
-      const cardIndex =
-        state.sections[sectionIndex].cards.findIndex(
-          (card) => card.id == cardId
-        ) || 0
-      state.activeSectionIndex = sectionIndex === -1 ? 0 : sectionIndex
-      state.activeCardIndex = cardIndex
-      logger(state.sections)
-      state.activeCard =
-        state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
-      state.deckId = deckId
-    },
-    setTheDeckId: (state, action: PayloadAction<number | string>) => {
-      state.deckId = action.payload
-    },
   },
 })
 
@@ -128,22 +139,22 @@ const {
   setTheSection,
   setTheCard,
   setTheDeck,
-  setTheDeckId,
-  initTheDeck,
   manageCardSide,
   setSectionCycle,
   toggleTheTheme,
   updateTheSettings,
 } = deckSlice.actions
 
-function getTheDeck(id: string | number) {
+function getTheDeck(params: DeckIds) {
+  const { deckId, cardId, sectionId } = params
   return async (dispatch: any) => {
-    if (id === 'js') {
-      dispatch(setTheDeck(SECTIONS))
+    if (deckId === 'js') {
+      dispatch(setTheDeck({ deckId, cardId, sectionId, sections: SECTIONS }))
     } else {
-      const res = await axios.get(`/api/decks/${id}`)
-      dispatch(setTheDeckId(id))
-      dispatch(setTheDeck(res.data.sections))
+      const res = await axios.get(`/api/decks/${deckId}`)
+      dispatch(
+        setTheDeck({ deckId, cardId, sectionId, sections: res.data.sections })
+      )
     }
   }
 }
@@ -176,28 +187,26 @@ export const useDeck = () => {
   const toggleTheme = () => dispatch(toggleTheTheme())
   const updateSettings = (settings: CardSetting) =>
     dispatch(updateTheSettings(settings))
-  const getDeck = (id: number | string) => dispatch(getTheDeck(id))
-  const initDeck = (params: DeckIds) => dispatch(initTheDeck(params))
+  const getDeck = (params: DeckIds) => dispatch(getTheDeck(params))
   return {
     deckId,
-    getDeck,
-    initDeck,
     activeSection,
     activeSectionIndex,
     activeCardIndex,
     sections,
     atSectionEnd,
     atDeckEnd,
-    setSection,
-    setCard,
     activeCard,
     activeTheme,
-    manageSide,
-    cycleSection,
-    toggleTheme,
     cyclingSection,
     timeCycleFront,
     timeCycleBack,
+    getDeck,
+    setSection,
+    setCard,
+    manageSide,
+    cycleSection,
+    toggleTheme,
     updateSettings,
   }
 }
