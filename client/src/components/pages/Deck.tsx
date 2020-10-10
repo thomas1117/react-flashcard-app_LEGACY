@@ -4,7 +4,7 @@ import Page from '../Page'
 import DeckNav from '../../features/deck/DeckNav'
 import NavSettings from '../../features/deck/NavSettings'
 
-function Deck(props) {
+function Deck(props: any) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

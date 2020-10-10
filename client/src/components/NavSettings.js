@@ -2,7 +2,7 @@ import React from 'react'
 import SettingsNav from './SettingsNav'
 import { useDeck, useSetting } from '../hooks'
 
-export default ({ timeCycleFront, timeCycleBack, deckId }) => {
+export default ({ deckId }) => {
   const { toggleTheme } = useSetting()
   const { sections, activeSectionIndex, updateSettings, selectDeck } = useDeck()
   return (

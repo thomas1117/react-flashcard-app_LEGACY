@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import { useDeck } from './deckSlice'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { useDeck } from './deckSlice.ts'
 export default function DeckNav(props) {
   const history = useHistory()
   const location = useLocation()
+  const params = useParams()
   const {
     activeSectionIndex,
     activeCardIndex,
@@ -26,7 +27,9 @@ export default function DeckNav(props) {
     const activeCardId = activeCard?.id
     const back = activeCard?.side === 'back' ? '?back' : ''
     if (activeSectionId && activeCardId) {
-      history.push(`/decks/js/${activeSectionId}/${activeCardId}${back}`)
+      history.push(
+        `/decks/${params.deckId}/${activeSectionId}/${activeCardId}${back}`
+      )
     }
   }, [sections, activeCardIndex, activeSectionIndex])
   useEffect(() => {

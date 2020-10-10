@@ -5,7 +5,13 @@ import Settings from './Settings'
 import ThemeContext from '../../ThemeContext'
 import { BsDownload } from 'react-icons/bs'
 
-export default function SettingsNav(props) {
+export default function SettingsNav(props: {
+  deckId: any
+  onChange: any
+  frontTime: any
+  backTime: any
+  updateSettings: any
+}) {
   const ctx = useContext(ThemeContext)
   const downloadDeck = () => {
     axios({

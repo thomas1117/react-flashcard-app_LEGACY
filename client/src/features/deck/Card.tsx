@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, SyntheticEvent } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import CodeBlock from './CodeBlock'
@@ -7,10 +7,10 @@ import copy from 'copy-to-clipboard'
 
 import { useDeck } from './deckSlice'
 
-export default function Card(props) {
+export default function Card() {
   const history = useHistory()
   const location = useLocation()
-  const params = useParams()
+  const params: any = useParams()
   const {
     activeCard,
     activeCardIndex,
@@ -21,14 +21,14 @@ export default function Card(props) {
   } = useDeck()
   const { meta, front, back, side, language } = activeCard
 
-  function copyToClipboard(e) {
+  function copyToClipboard(e: SyntheticEvent) {
     e.stopPropagation()
-    copy(window.location)
+    copy(location.pathname)
   }
   // TODO: these are pretty confusing... has to do with side effect of location query string
   // TODO: There is a weird bug on load of back at the moment
   useEffect(() => {
-    const pushState =
+    const pushState: string | any =
       activeCard.side === 'back' && !location.search.includes('back')
         ? '?back=true'
         : null
@@ -40,7 +40,10 @@ export default function Card(props) {
     const jsDeck = deckId === 'js'
     if (jsDeck) {
       getDeck('js')
-      initDeck({ sectionId, cardId })
+      initDeck({ sectionId, cardId, deckId })
+    } else {
+      getDeck(deckId)
+      initDeck({ sectionId, cardId, deckId })
     }
     if (location.search.includes('back')) {
       history.push({ search: location.search })

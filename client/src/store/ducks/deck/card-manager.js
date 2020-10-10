@@ -10,7 +10,7 @@ import {
   SELECT_CARD,
   INIT_QUIZ_DECK,
 } from './actions'
-console.log(cardData)
+
 function manageAsync(deckId, cardId, sectionId) {
   return (dispatch) => {
     return axios.get(`/api/decks/${deckId}`).then((resp) => {

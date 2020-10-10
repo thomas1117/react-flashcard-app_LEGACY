@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import Deck from './pages/Deck'
+import Deck from './pages/Deck.tsx'
 import Decks from './pages/Decks'
 import Upload from './pages/Upload'
 import { ThemeProvider } from '../ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
-import { useDeck } from '../features/deck/deckSlice'
+import { useDeck } from '../features/deck/deckSlice.ts'
 
 const customTheme = {
   ...theme,
