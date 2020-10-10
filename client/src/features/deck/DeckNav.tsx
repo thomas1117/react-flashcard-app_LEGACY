@@ -6,6 +6,7 @@ export default function DeckNav() {
   const location = useLocation()
   const params: any = useParams()
   const {
+    activeSection,
     activeSectionIndex,
     activeCardIndex,
     activeCard,
@@ -104,21 +105,21 @@ export default function DeckNav() {
       <div className="Nav-children">
         {/* <h2 className="Nav-title">Decks</h2> */}
         <ul className="Nav-deck">
-          {sections.map((deck, deckIndex) => {
-            const isActive = activeSectionIndex == deckIndex
+          {sections.map((section, sectionIndex) => {
+            const isActive = activeSection.id == section.id;
             const active = isActive ? 'active' : ''
             return (
               <li
-                className="Nav-deck-item"
-                key={deckIndex}
-                onClick={() => setSection(deckIndex)}
+                className="Nav-section-item"
+                key={sectionIndex}
+                onClick={() => setSection(section.id)}
               >
                 <p
                   className={
                     active + ' Nav-deck-item-inner d-flex space-between'
                   }
                 >
-                  <span>{deck.title}</span>
+                  <span>{section.title}</span>
                   {cyclingSection && isActive ? (
                     <span
                       onClick={(e) => {
@@ -134,8 +135,8 @@ export default function DeckNav() {
                       className="Nav-deck-item-inner-icon"
                       onClick={(e) => {
                         e.stopPropagation()
-                        if (activeSectionIndex !== deckIndex) {
-                          setSection(deckIndex)
+                        if (activeSectionIndex !== sectionIndex) {
+                          setSection(section.id)
                           cycleSection(true)
                         } else {
                           cycleSection(!cyclingSection)
@@ -152,7 +153,7 @@ export default function DeckNav() {
                       onClick={(e) => e.stopPropagation()}
                       className="Nav-deck-sub"
                     >
-                      {sections[activeSectionIndex].cards.map(
+                      {activeSection.cards.map(
                         (card, cardIndex) => {
                           return (
                             <li

@@ -23,9 +23,15 @@ const cardSettings: CardSetting = JSON.parse(settings) || {}
 const initialState: DeckState = {
   deckId: 'js',
   decks: [],
+  sectionMap: {},
   activeTheme: 'dark-mode',
   activeSectionIndex: 0,
   activeCardIndex: 0,
+  activeSection: {
+    id: 1,
+    title: '',
+    cards: []
+  },
   activeCard: {
     id: 1,
     side: 'front',
@@ -45,10 +51,11 @@ export const deckSlice = createSlice({
   initialState: initialState,
   reducers: {
     setTheSection: (state, action: PayloadAction<number>) => {
-      state.activeSectionIndex = action.payload
+      // state.activeSection = state.sectionMap[action.payload]
+      state.activeSection = state.sectionMap[action.payload]
       state.activeCardIndex = 0
       state.activeCard = state.sections[state.activeSectionIndex].cards[0]
-      // TODO: should I move this?
+      // // TODO: should I move this?
       if (state.cyclingSection) {
         state.cyclingSection = false
       }
@@ -59,23 +66,29 @@ export const deckSlice = createSlice({
         state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
-      const { cardId, sectionId, deckId } = action.payload
-      state.sections = action.payload.sections
+      const { cardId, sectionId, deckId, sections } = action.payload
+      state.deckId = deckId
+      state.sections = sections
       const sectionIndex = indexOrDefault(
         state.sections.findIndex((section) => section.id == sectionId)
       )
       const cardIndex = indexOrDefault(
-        state.sections[sectionIndex].cards.findIndex(
+        state.sections[sectionIndex]?.cards.findIndex(
           (card) => card.id == cardId
         )
       )
       state.activeSectionIndex = sectionIndex
       state.activeCardIndex = cardIndex
       const newCard =
-        state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
+        state.sections[sectionIndex]?.cards[cardIndex]
       // TODO: probably should look into some default ts obj cast on this or something...
       state.activeCard = { ...newCard, side: 'front' }
-      state.deckId = deckId
+      // make sections easily accessible
+      state.sectionMap = state.sections.reduce((map: any, obj) => {
+        map[obj.id] = obj
+        return map
+      }, {})
+      state.activeSection = state.sectionMap[sectionId]
     },
     setTheDecks: (state, action) => {
       state.decks = action.payload
@@ -139,6 +152,7 @@ export const useDeck = () => {
     deckId,
     decks,
     activeSectionIndex,
+    activeSection,
     activeCardIndex,
     sections,
     activeCard,
@@ -149,7 +163,6 @@ export const useDeck = () => {
   } = useSelector((app: RootState) => app.deck)
 
   // TODO: come back to this global SECTION definition
-  const activeSection = SECTIONS[activeSectionIndex] || {}
   const atSectionEnd = activeCardIndex === activeSection.cards.length - 1
   const atDeckEnd = activeSectionIndex === SECTIONS.length - 1
   const setSection = (id: number) => dispatch(setTheSection(id))
