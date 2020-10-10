@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useDeck } from './deckSlice'
+import { useDeck } from '../deckSlice'
 
 export default () => {
   const { getDecks, decks } = useDeck()
