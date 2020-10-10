@@ -42,7 +42,6 @@ export default function SettingsNav(props: {
         <li>
           <Settings
             onChange={props.onChange}
-            checked={ctx.theme === 'dark-mode'}
             frontTime={props.frontTime}
             backTime={props.backTime}
             updateSettings={props.updateSettings}

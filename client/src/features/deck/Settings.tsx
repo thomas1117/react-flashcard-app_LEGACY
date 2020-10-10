@@ -4,28 +4,28 @@ import ThemeContext from '../../ThemeContext'
 import { BsGearFill } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'
 
-export default function Settings(props) {
+export default function Settings(props: { frontTime: any; backTime: any; updateSettings: (arg0: { frontTime: any; backTime: any }) => void; onChange: (arg0: any) => void }) {
   const [visible, setVisible] = useState(false)
   const [frontTime, setFrontTime] = useState(props.frontTime)
   const [backTime, setBackTime] = useState(props.backTime)
   const ctx = useContext(ThemeContext)
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
     props.updateSettings({ frontTime, backTime })
     setVisible(false)
   }
-  const handleDismiss = (e) => {
+  const handleDismiss = () => {
     setVisible((v) => !v)
     setFrontTime(props.frontTime)
     setBackTime(props.backTime)
   }
-  const handleFront = (e) => {
+  const handleFront = (e: any) => {
     setFrontTime(Number(e.target.value))
   }
-  const handleBack = (e) => {
+  const handleBack = (e: any) => {
     setBackTime(Number(e.target.value))
   }
-  const handleDark = (data) => {
+  const handleDark = (data: any) => {
     props.onChange(data)
   }
   return (
@@ -80,7 +80,6 @@ export default function Settings(props) {
             <fieldset className="Settings-Switch">
               <Switch
                 onChange={handleDark}
-                checked={ctx.theme === 'dark-mode'}
               />
             </fieldset>
             <fieldset>

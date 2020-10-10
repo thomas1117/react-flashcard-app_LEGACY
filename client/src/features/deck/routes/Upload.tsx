@@ -97,14 +97,7 @@ function Upload() {
               className="deck-builder-columns-preview"
               style={{ width: preview ? '100%' : '50%' }}
             >
-              <DeckNav
-                currentId={currentCard.id}
-                active={currentSection && currentSection.id}
-                sections={sections}
-                currentSection={currentSection}
-                selectCard={(index: number) => selectCard(index)}
-                selectDeck={(index: number) => selectDeck(index)}
-              />
+              <DeckNav />
               <div
                 style={{
                   margin: '2rem',

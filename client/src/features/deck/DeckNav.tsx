@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
-import { useDeck } from './deckSlice.ts'
-export default function DeckNav(props) {
+import { useDeck } from './deckSlice'
+export default function DeckNav() {
   const history = useHistory()
   const location = useLocation()
-  const params = useParams()
+  const params: any = useParams()
   const {
     activeSectionIndex,
     activeCardIndex,
@@ -33,13 +33,15 @@ export default function DeckNav(props) {
     }
   }, [sections, activeCardIndex, activeSectionIndex])
   useEffect(() => {
-    const foo = location.search.includes('?back')
-    const pushState = foo ? '?back=true' : null
-    history.push({ search: pushState })
+    const onBack = location.search.includes('?back')
+    const pushState = onBack && '?back=true'
+    if (pushState) {
+      history.push({ search: pushState })
+    }
   }, [])
 
   useEffect(() => {
-    function handleKeyPress(e) {
+    function handleKeyPress(e: KeyboardEvent) {
       if (cyclingSection) {
         return
       }
@@ -76,7 +78,7 @@ export default function DeckNav(props) {
   ])
 
   useEffect(() => {
-    let interval = null
+    let interval: any = null
     if (cyclingSection) {
       interval = setTimeout(() => {
         if (activeCard.side === 'front') {

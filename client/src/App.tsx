@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Deck, Decks, Upload } from './features/deck/routes'
 import { ThemeProvider } from './ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
-import { useDeck } from './features/deck/deckSlice.ts'
+import { useDeck } from './features/deck/deckSlice'
 
 const customTheme = {
   ...theme,
