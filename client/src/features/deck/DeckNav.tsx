@@ -44,16 +44,19 @@ export default function DeckNav() {
       }
       if (key === 'ArrowLeft' || key === 'ArrowRight') {
         let diff = key === 'ArrowLeft' ? -1 : 1
-        const canAdvance = !(atSectionEnd || diff + activeCardIndex < 0)
-        if (canAdvance) {
-          debugger
+        const outOfZeroBound = key === 'ArrowLeft' && activeCardIndex === 0
+        const outOfEndBound = key === 'ArrowRight' && activeCardIndex === activeSection.cards.length - 1
+        const canMove = !outOfZeroBound && !outOfEndBound
+        if (canMove) {
           setCardByIndex(activeCardIndex + diff)
         }
       }
       if (key === 'ArrowUp' || key === 'ArrowDown') {
         let diff = key === 'ArrowUp' ? -1 : 1
-        const canAdvance = !(atDeckEnd || diff + activeSectionIndex < 0)
-        if (canAdvance) {
+        const outOfZeroBound = key === 'ArrowUp' && activeSectionIndex === 0
+        const outOfEndBound = key === 'ArrowDown' && activeSectionIndex === sections.length - 1
+        const canMove = !outOfZeroBound && !outOfEndBound
+        if (canMove) {
           setSectionByIndex(activeSectionIndex + diff)
           setCardByIndex(0)
         }
