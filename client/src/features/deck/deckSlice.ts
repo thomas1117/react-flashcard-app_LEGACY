@@ -43,13 +43,19 @@ const settings: string | any = localStorage.getItem('CARD_SETTINGS')
 const cardSettings: CardSetting = JSON.parse(settings) || {}
 
 interface Section {
-  title: string
   id: number
+  title: string
   cards: Card[]
+}
+
+interface Deck {
+  id: number
+  title: string
 }
 
 interface DeckState {
   deckId: number | string
+  decks: Deck[]
   activeTheme: string
   activeSectionIndex: number
   activeCardIndex: number
@@ -62,6 +68,7 @@ interface DeckState {
 
 const initialState: DeckState = {
   deckId: 'js',
+  decks: [],
   activeTheme: 'dark-mode',
   activeSectionIndex: 0,
   activeCardIndex: 0,
@@ -115,6 +122,9 @@ export const deckSlice = createSlice({
       state.activeCard = { ...newCard, side: 'front' }
       state.deckId = deckId
     },
+    setTheDecks: (state, action) => {
+      state.decks = action.payload
+    },
     manageCardSide: (state) => {
       state.activeCard = {
         ...state.activeCard,
@@ -139,6 +149,7 @@ const {
   setTheSection,
   setTheCard,
   setTheDeck,
+  setTheDecks,
   manageCardSide,
   setSectionCycle,
   toggleTheTheme,
@@ -159,6 +170,13 @@ function getTheDeck(params: DeckIds) {
   }
 }
 
+function getTheDecks() {
+  return async (dispatch: any) => {
+    const res = await axios.get(`/api/decks`)
+    dispatch(setTheDecks(res.data))
+  }
+}
+
 export const selectCount = (state: any) => state.deck.value
 
 export const useDeck = () => {
@@ -166,6 +184,7 @@ export const useDeck = () => {
 
   const {
     deckId,
+    decks,
     activeSectionIndex,
     activeCardIndex,
     sections,
@@ -188,8 +207,10 @@ export const useDeck = () => {
   const updateSettings = (settings: CardSetting) =>
     dispatch(updateTheSettings(settings))
   const getDeck = (params: DeckIds) => dispatch(getTheDeck(params))
+  const getDecks = () => dispatch(getTheDecks())
   return {
     deckId,
+    decks,
     activeSection,
     activeSectionIndex,
     activeCardIndex,
@@ -202,6 +223,7 @@ export const useDeck = () => {
     timeCycleFront,
     timeCycleBack,
     getDeck,
+    getDecks,
     setSection,
     setCard,
     manageSide,

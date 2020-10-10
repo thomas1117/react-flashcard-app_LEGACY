@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Deck from '../features/deck/Deck'
-import Decks from './pages/Decks'
+import Decks from '../features/deck/Decks'
 import Upload from './pages/Upload'
 import { ThemeProvider } from '../ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
