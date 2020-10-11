@@ -19,8 +19,8 @@ export default function DeckNav() {
     cyclingSection,
     atSectionEnd,
     atDeckEnd,
-    timeCycleFront,
-    timeCycleBack,
+    cardTimeFront,
+    cardTimeBack,
     manageSide,
   } = useDeck()
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function DeckNav() {
           }
           setCard(activeCardIndex + 1)
         }
-      }, (activeCard.side === 'front' ? timeCycleFront : timeCycleBack) * 1000)
+      }, (activeCard.side === 'front' ? cardTimeFront : cardTimeBack) * 1000)
     } else {
       clearTimeout(interval)
     }

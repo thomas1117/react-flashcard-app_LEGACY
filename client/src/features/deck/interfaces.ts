@@ -24,8 +24,8 @@ export interface DeckState {
   activeCard: Card
   sections: Section[]
   cyclingSection: boolean
-  timeCycleFront: number
-  timeCycleBack: number
+  cardTimeFront: number
+  cardTimeBack: number
 }
 
 export interface DeckIds {

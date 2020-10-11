@@ -10,8 +10,8 @@ export default function NavSettings(props: any) {
     updateSettings,
     setSection,
     toggleTheme,
-    timeCycleFront,
-    timeCycleBack,
+    cardTimeFront,
+    cardTimeBack,
   } = useDeck()
 
   function manageSettingsCache(settings: CardSetting) {
@@ -23,8 +23,8 @@ export default function NavSettings(props: any) {
       <div className="Dash-Nav-desktop">
         <SettingsNav
           deckId={props.deckId}
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
+          frontTime={cardTimeFront}
+          backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
         />
@@ -46,8 +46,8 @@ export default function NavSettings(props: any) {
         </ul>
         <SettingsNav
           deckId={props.deckId}
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
+          frontTime={cardTimeFront}
+          backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
         />

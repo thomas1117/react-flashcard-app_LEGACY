@@ -42,8 +42,8 @@ const initialState: DeckState = {
   },
   sections: [],
   cyclingSection: false,
-  timeCycleFront: cardSettings.frontTime || 3,
-  timeCycleBack: cardSettings.backTime || 5,
+  cardTimeFront: cardSettings.frontTime || 3,
+  cardTimeBack: cardSettings.backTime || 5,
 }
 
 export const deckSlice = createSlice({
@@ -113,8 +113,8 @@ export const deckSlice = createSlice({
         state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
     },
     updateTheSettings: (state, action: PayloadAction<CardSetting>) => {
-      state.timeCycleFront = action.payload.frontTime
-      state.timeCycleBack = action.payload.backTime
+      state.cardTimeFront = action.payload.frontTime
+      state.cardTimeBack = action.payload.backTime
     },
   },
 })
@@ -155,57 +155,38 @@ function getTheDecks() {
 
 export const useDeck = () => {
   const dispatch = useDispatch()
-
-  const {
-    deckId,
-    decks,
-    activeSectionIndex,
-    activeSection,
-    activeCardIndex,
-    sections,
-    activeCard,
-    activeTheme,
-    cyclingSection,
-    timeCycleFront,
-    timeCycleBack,
-  } = useSelector((app: RootState) => app.deck)
-
-  // TODO: come back to this global SECTION definition
-  const atSectionEnd = activeCardIndex === activeSection.cards.length - 1
-  const atDeckEnd = activeSectionIndex === sections.length - 1
-  const setSection = (id: number) => dispatch(setTheSection(id))
-  const setCard = (id: number) => dispatch(setTheCard(id))
-  const manageSide = () => dispatch(manageCardSide())
-  const cycleSection = (bool: boolean) => dispatch(setSectionCycle(bool))
-  const toggleTheme = () => dispatch(toggleTheTheme())
-  const updateSettings = (settings: CardSetting) =>
-    dispatch(updateTheSettings(settings))
-  const getDeck = (params: DeckIds) => dispatch(getTheDeck(params))
-  const getDecks = () => dispatch(getTheDecks())
-  return {
-    deckId,
-    decks,
-    activeSection,
-    activeSectionIndex,
-    activeCardIndex,
-    sections,
-    atSectionEnd,
-    atDeckEnd,
-    activeCard,
-    activeTheme,
-    cyclingSection,
-    timeCycleFront,
-    timeCycleBack,
-    getDeck,
-    getDecks,
-    setSection,
+  const deckState = useSelector((app: RootState) => app.deck)
+  const stateToExpose = {
+    deckId: deckState.deckId,
+    decks: deckState.decks,
+    atDeckEnd: deckState.activeSectionIndex === deckState.sections.length - 1,
+    cyclingSection: deckState.cyclingSection,
+    sections: deckState.sections,
+    activeSection: deckState.activeSection,
+    activeSectionIndex: deckState.activeSectionIndex,
+    atSectionEnd: deckState.activeCardIndex === deckState.activeSection?.cards?.length - 1,
+    activeCard: deckState.activeCard,
+    activeCardIndex: deckState.activeCardIndex,
+    cardTimeFront: deckState.cardTimeFront,
+    cardTimeBack: deckState.cardTimeBack,
+    activeTheme: deckState.activeTheme,
+  }
+  const methodsToExpose = {
+    getDeck: (params: DeckIds) => dispatch(getTheDeck(params)),
+    getDecks: () => dispatch(getTheDecks()),
+    setSection: (id: number) => dispatch(setTheSection(id)),
     setSectionByIndex: (index: number) => dispatch(setTheSectionByIndex(index)),
-    setCard,
+    setCard: (id: number) => dispatch(setTheCard(id)),
     setCardByIndex: (index: number) => dispatch(setTheCardByIndex(index)),
-    manageSide,
-    cycleSection,
-    toggleTheme,
-    updateSettings,
+    manageSide: () => dispatch(manageCardSide()),
+    cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
+    toggleTheme: () => dispatch(toggleTheTheme()),
+    updateSettings: (settings: CardSetting) =>
+    dispatch(updateTheSettings(settings)),
+  }
+  return {
+    ...stateToExpose,
+    ...methodsToExpose
   }
 }
 
