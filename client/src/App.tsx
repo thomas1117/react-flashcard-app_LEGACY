@@ -23,6 +23,7 @@ function App() {
     <ChakraTheme theme={customTheme}>
       <ThemeProvider value={{ theme: activeTheme }}>
         <Router>
+          <Route path="/upload" component={Upload} />
           <Route
             path="/deck-preview/:sectionId?/:cardId?"
             exact
@@ -30,7 +31,6 @@ function App() {
           />
           <Route path="/decks" exact component={Decks} />
           <Route path="/decks/:deckId/:sectionId?/:cardId?" component={Deck} />
-          <Route path="/upload" component={Upload} />
         </Router>
       </ThemeProvider>
     </ChakraTheme>

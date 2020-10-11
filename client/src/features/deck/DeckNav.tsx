@@ -2,9 +2,6 @@ import React, { useEffect } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import { useDeck } from './deckSlice'
 export default function DeckNav() {
-  const history = useHistory()
-  const location = useLocation()
-  const params: any = useParams()
   const {
     activeSection,
     activeSectionIndex,
@@ -23,14 +20,6 @@ export default function DeckNav() {
     cardTimeBack,
     manageSide,
   } = useDeck()
-  useEffect(() => {
-    const back = activeCard.side === 'back' || location.search.includes('?back') ? '?back=true' : ''
-    if (activeSection.id && activeCard.id) {
-      history.push(
-        `/decks/${params.deckId}/${activeSection.id}/${activeCard.id}${back}`
-      )
-    }
-  }, [activeSection.id, activeCard.id])
 
   useEffect(() => {
     function handleKeyPress(e: KeyboardEvent) {

@@ -11,7 +11,10 @@ export default () => {
   }, [])
   return (
     <Page loaded={true} padding="20">
-      <Switch onChange={() => toggleTheme()} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+        <Link to="upload">Uploads</Link>
+        <Switch onChange={() => toggleTheme()} />
+      </div>
       <ul className="decks-page">
         <h2 className="decks-page-header">Static</h2>
         <li className="decks-page-item Card">
