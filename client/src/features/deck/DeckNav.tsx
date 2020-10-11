@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
 import { useDeck } from './deckSlice'
+import { useSettings } from '../settings/settingsSlice'
 export default function DeckNav() {
   const {
     activeSection,
@@ -16,10 +16,12 @@ export default function DeckNav() {
     cyclingSection,
     atSectionEnd,
     atDeckEnd,
-    cardTimeFront,
-    cardTimeBack,
     manageSide,
   } = useDeck()
+  const {
+    cardTimeFront,
+    cardTimeBack,
+  } = useSettings()
 
   useEffect(() => {
     function handleKeyPress(e: KeyboardEvent) {
@@ -73,7 +75,6 @@ export default function DeckNav() {
             clearInterval(interval)
             cycleSection(false)
             setCard(0)
-
             return
           }
           setCard(activeCardIndex + 1)

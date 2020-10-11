@@ -17,15 +17,12 @@ export interface DeckState {
   deckId: number | string
   decks: Deck[]
   sectionMap: SectionMap
-  activeTheme: string
   activeSectionIndex: number
   activeCardIndex: number
   activeSection: Section
   activeCard: Card
   sections: Section[]
   cyclingSection: boolean
-  cardTimeFront: number
-  cardTimeBack: number
 }
 
 export interface DeckIds {

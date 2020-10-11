@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import Card from '../Card'
+import Card from '../Card/Card'
 import DeckNav from '../DeckNav'
 import UploadForm from '../UploadForm'
 import Page from '../../../ui/Page'

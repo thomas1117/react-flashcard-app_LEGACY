@@ -1,9 +1,10 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import deckReducer from '../features/deck/deckSlice'
+import settingReducer from '../features/settings/settingsSlice'
 export const store = configureStore({
   reducer: {
     deck: deckReducer,
-    settingState: () => ({}),
+    setting: settingReducer,
     deckState: () => ({ sections: [] }),
     cardState: () => ({}),
   },

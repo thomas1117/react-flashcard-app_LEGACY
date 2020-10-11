@@ -12,8 +12,6 @@ const manageCards = (deck: any) => {
 }
 const SECTIONS = cardData.sections.map(manageCards)
 
-const indexOrDefault = (index: number, defaultValue = 0) =>
-  index === -1 ? defaultValue : index
 // TODO: dumb console.log hack due to proxy issue of immer
 const logger = (v: any) => console.log(JSON.parse(JSON.stringify(v)))
 // TODO: abstract storage mechanism into service
@@ -24,7 +22,6 @@ const initialState: DeckState = {
   deckId: 'js',
   decks: [],
   sectionMap: {},
-  activeTheme: 'dark-mode',
   activeSectionIndex: 0,
   activeCardIndex: 0,
   activeSection: {
@@ -42,8 +39,6 @@ const initialState: DeckState = {
   },
   sections: [],
   cyclingSection: false,
-  cardTimeFront: cardSettings.frontTime || 3,
-  cardTimeBack: cardSettings.backTime || 5,
 }
 
 export const deckSlice = createSlice({
@@ -75,26 +70,23 @@ export const deckSlice = createSlice({
       const { cardId, sectionId, deckId, sections } = action.payload
       state.deckId = deckId
       state.sections = sections
-      const sectionIndex = indexOrDefault(
-        state.sections.findIndex((section) => section.id == sectionId)
-      )
-      const cardIndex = indexOrDefault(
-        state.sections[sectionIndex]?.cards.findIndex(
-          (card) => card.id == cardId
-        )
-      )
-      state.activeSectionIndex = sectionIndex
-      state.activeCardIndex = cardIndex
-      const newCard =
-        state.sections[sectionIndex]?.cards[cardIndex]
-      // TODO: probably should look into some default ts obj cast on this or something...
-      state.activeCard = { ...newCard, side: 'front' }
-      // make sections easily accessible
       state.sectionMap = state.sections.reduce((map: any, obj) => {
         map[obj.id] = obj
         return map
       }, {})
       state.activeSection = state.sectionMap[sectionId]
+      const findItemInList = (list: any, id: any) => list.findIndex((x: any) => x.id === id)
+      const indexOrZero = (index: number) => index === -1 ? 0 : index
+      const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
+      const sectionIndex = itemIndexOrZero(state.sections, sectionId)
+      const potentialCardList = state.activeSection?.cards
+      const cardIndex = itemIndexOrZero(potentialCardList, cardId)
+      state.activeSectionIndex = sectionIndex
+      state.activeCardIndex = cardIndex
+      const newCard = potentialCardList[cardIndex]
+      // TODO: probably should look into some default ts obj cast on this or something...
+      state.activeCard = { ...newCard, side: 'front' }
+      // make sections easily accessible
     },
     setTheDecks: (state, action) => {
       state.decks = action.payload
@@ -108,14 +100,6 @@ export const deckSlice = createSlice({
     setSectionCycle: (state, action: PayloadAction<boolean>) => {
       state.cyclingSection = action.payload
     },
-    toggleTheTheme: (state) => {
-      state.activeTheme =
-        state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
-    },
-    updateTheSettings: (state, action: PayloadAction<CardSetting>) => {
-      state.cardTimeFront = action.payload.frontTime
-      state.cardTimeBack = action.payload.backTime
-    },
   },
 })
 
@@ -128,8 +112,6 @@ const {
   setTheDecks,
   manageCardSide,
   setSectionCycle,
-  toggleTheTheme,
-  updateTheSettings,
 } = deckSlice.actions
 
 function getTheDeck(params: DeckIds) {
@@ -167,9 +149,6 @@ export const useDeck = () => {
     atSectionEnd: deckState.activeCardIndex === deckState.activeSection?.cards?.length - 1,
     activeCard: deckState.activeCard,
     activeCardIndex: deckState.activeCardIndex,
-    cardTimeFront: deckState.cardTimeFront,
-    cardTimeBack: deckState.cardTimeBack,
-    activeTheme: deckState.activeTheme,
   }
   const methodsToExpose = {
     getDeck: (params: DeckIds) => dispatch(getTheDeck(params)),
@@ -180,9 +159,6 @@ export const useDeck = () => {
     setCardByIndex: (index: number) => dispatch(setTheCardByIndex(index)),
     manageSide: () => dispatch(manageCardSide()),
     cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
-    toggleTheme: () => dispatch(toggleTheTheme()),
-    updateSettings: (settings: CardSetting) =>
-    dispatch(updateTheSettings(settings)),
   }
   return {
     ...stateToExpose,

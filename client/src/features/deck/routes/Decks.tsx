@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDeck } from '../deckSlice'
+import { useSettings } from '../../settings/settingsSlice'
 import Page from '../../../ui/Page'
 import Switch from '../../../ui/Switch'
 
 export default () => {
-  const { getDecks, decks, toggleTheme } = useDeck()
+  const { getDecks, decks } = useDeck()
+  const { toggleTheme } = useSettings()
   useEffect(() => {
     getDecks()
   }, [])

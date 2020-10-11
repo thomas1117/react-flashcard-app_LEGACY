@@ -2,18 +2,20 @@ import React from 'react'
 import SettingsNav from './SettingsNav'
 import { useDeck } from './deckSlice'
 import { CardSetting } from './interfaces'
+import { useSettings } from '../settings/settingsSlice'
 
 export default function NavSettings(props: any) {
   const {
-    deckId,
     sections,
     activeSectionIndex,
-    updateSettings,
     setSection,
-    toggleTheme,
-    cardTimeFront,
-    cardTimeBack,
   } = useDeck()
+const {
+  cardTimeFront,
+  cardTimeBack,
+  updateSettings,
+  toggleTheme,
+} = useSettings()
 
   function manageSettingsCache(settings: CardSetting) {
     updateSettings(settings)

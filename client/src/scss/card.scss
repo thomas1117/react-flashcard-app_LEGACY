@@ -54,21 +54,11 @@
   }
 
   &-front {
-    display: none;
     width: 100%;
   }
 
-  &-front.visible {
-    display: block;
-  }
-
   &-back {
-    display: none;
     height: 100%;
-  }
-
-  &-back.visible {
-    display: block;
   }
 
   &-front,
