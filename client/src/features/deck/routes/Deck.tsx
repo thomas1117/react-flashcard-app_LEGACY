@@ -31,7 +31,7 @@ function Deck(props: any) {
 
   return (
     <Page loaded={!loading}>
-      <NavSettings deckId={props.match.params.deckId} />
+      <NavSettings />
 
       <div className="Dash">
         <div className="Dash-Nav-container">

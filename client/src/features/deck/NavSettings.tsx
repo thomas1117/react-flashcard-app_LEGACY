@@ -5,6 +5,7 @@ import { CardSetting } from './interfaces'
 
 export default function NavSettings(props: any) {
   const {
+    deckId,
     sections,
     activeSectionIndex,
     updateSettings,

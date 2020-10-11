@@ -4,6 +4,7 @@ import Card from '../Card'
 import DeckNav from '../DeckNav'
 import UploadForm from '../UploadForm'
 import Page from '../../../ui/Page'
+import { Link } from 'react-router-dom'
 
 function createId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -80,6 +81,7 @@ function Upload() {
                 className="deck-upload"
                 method="post"
               >
+                <Link to="/decks/js">Js Deck</Link>
                 <input onChange={addXml} type="file" name="xml" />
                 <button type="submit">submit</button>
               </form>
