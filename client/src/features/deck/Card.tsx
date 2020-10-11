@@ -20,7 +20,6 @@ export default function Card() {
     manageSide,
     getDeck,
   } = useDeck()
-  const { meta, front, back, side, language } = activeCard
 
   function copyToClipboard(e: SyntheticEvent) {
     e.stopPropagation()
@@ -42,6 +41,7 @@ export default function Card() {
       manageSide()
     }
   }, [])
+  const { meta, front, back, side, language } = activeCard
   return (
     <div className="Card Card-deck-card" onClick={() => manageSide()}>
       <div className="Card-actions">
