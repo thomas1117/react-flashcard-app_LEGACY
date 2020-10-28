@@ -133,7 +133,7 @@ export default function DeckNav() {
                       onClick={(e) => {
                         e.stopPropagation()
                         if (section.id == activeSection.id) {
-                          cycleSection(true)
+                          cycleSection(!cyclingSection)
                         } else {
                           setSection(section.id)
                           cycleSection(!cyclingSection)
