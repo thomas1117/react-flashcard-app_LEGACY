@@ -9,17 +9,20 @@ export interface Deck {
   title: string
 }
 
+interface SectionMap {
+  [id: number]: Section
+}
+
 export interface DeckState {
   deckId: number | string
   decks: Deck[]
-  activeTheme: string
+  sectionMap: SectionMap
   activeSectionIndex: number
   activeCardIndex: number
+  activeSection: Section
   activeCard: Card
   sections: Section[]
   cyclingSection: boolean
-  timeCycleFront: number
-  timeCycleBack: number
 }
 
 export interface DeckIds {
@@ -39,9 +42,4 @@ export type Card = {
   side: string
   language: string
   meta: string
-}
-
-export interface CardSetting {
-  frontTime: number
-  backTime: number
 }

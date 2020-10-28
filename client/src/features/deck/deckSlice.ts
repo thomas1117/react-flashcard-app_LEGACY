@@ -1,31 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import cardData from '../../seed/js/dynamic-seed'
+import JS_SEED_DATA from '../../seed/js/dynamic-seed'
 import { RootState } from '../../app/store'
-import { DeckState, CardSetting, DeckIds, DeckMeta } from './interfaces'
+import { DeckState, DeckIds, DeckMeta } from './interfaces'
 
 // strip away legacy class definition...
 // TODO: remove es6 model classes in favor of interface object casting or some shit like that...
 const manageCards = (deck: any) => {
   return { ...deck, cards: deck.cards.map((x: any) => ({ ...x })) }
 }
-const SECTIONS = cardData.sections.map(manageCards)
-
-const indexOrDefault = (index: number, defaultValue = 0) =>
-  index === -1 ? defaultValue : index
-// TODO: dumb console.log hack due to proxy issue of immer
-const logger = (v: any) => console.log(JSON.parse(JSON.stringify(v)))
-// TODO: abstract storage mechanism into service
-const settings: string | any = localStorage.getItem('CARD_SETTINGS')
-const cardSettings: CardSetting = JSON.parse(settings) || {}
-
+const SECTIONS = JS_SEED_DATA.sections.map(manageCards)
 const initialState: DeckState = {
   deckId: 'js',
   decks: [],
-  activeTheme: 'dark-mode',
+  sectionMap: {},
   activeSectionIndex: 0,
   activeCardIndex: 0,
+  activeSection: {
+    id: 1,
+    title: '',
+    cards: []
+  },
   activeCard: {
     id: 1,
     side: 'front',
@@ -36,8 +32,6 @@ const initialState: DeckState = {
   },
   sections: [],
   cyclingSection: false,
-  timeCycleFront: cardSettings.frontTime || 3,
-  timeCycleBack: cardSettings.backTime || 5,
 }
 
 export const deckSlice = createSlice({
@@ -45,37 +39,47 @@ export const deckSlice = createSlice({
   initialState: initialState,
   reducers: {
     setTheSection: (state, action: PayloadAction<number>) => {
-      state.activeSectionIndex = action.payload
+      state.activeSection = state.sectionMap[action.payload]
       state.activeCardIndex = 0
-      state.activeCard = state.sections[state.activeSectionIndex].cards[0]
-      // TODO: should I move this?
+      state.activeCard = state.activeSection.cards[0]
       if (state.cyclingSection) {
         state.cyclingSection = false
       }
+    },
+    setTheSectionByIndex: (state, action: PayloadAction<number>) => {
+      state.activeSectionIndex = action.payload
+      state.activeSection = state.sections[action.payload]
     },
     setTheCard: (state, action: PayloadAction<number>) => {
       state.activeCardIndex = action.payload
       state.activeCard =
         state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
     },
+    setTheCardByIndex: (state, action: PayloadAction<number>) => {
+      state.activeCardIndex = action.payload
+      state.activeCard = state.activeSection.cards[action.payload]
+    },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
-      const { cardId, sectionId, deckId } = action.payload
-      state.sections = action.payload.sections
-      const sectionIndex = indexOrDefault(
-        state.sections.findIndex((section) => section.id == sectionId)
-      )
-      const cardIndex = indexOrDefault(
-        state.sections[sectionIndex].cards.findIndex(
-          (card) => card.id == cardId
-        )
-      )
+      const { cardId, sectionId, deckId, sections } = action.payload
+      state.deckId = deckId
+      state.sections = sections
+      state.sectionMap = state.sections.reduce((map: any, obj) => {
+        map[obj.id] = obj
+        return map
+      }, {})
+      state.activeSection = state.sectionMap[sectionId]
+      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id === id)
+      const indexOrZero = (index: number) => index === -1 ? 0 : index
+      const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
+      const sectionIndex = itemIndexOrZero(state.sections, sectionId)
+      const potentialCardList = state.activeSection?.cards
+      const cardIndex = itemIndexOrZero(potentialCardList, cardId)
       state.activeSectionIndex = sectionIndex
       state.activeCardIndex = cardIndex
-      const newCard =
-        state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
+      const newCard = potentialCardList[cardIndex]
       // TODO: probably should look into some default ts obj cast on this or something...
       state.activeCard = { ...newCard, side: 'front' }
-      state.deckId = deckId
+      // make sections easily accessible
     },
     setTheDecks: (state, action) => {
       state.decks = action.payload
@@ -89,26 +93,18 @@ export const deckSlice = createSlice({
     setSectionCycle: (state, action: PayloadAction<boolean>) => {
       state.cyclingSection = action.payload
     },
-    toggleTheTheme: (state) => {
-      state.activeTheme =
-        state.activeTheme === 'dark-mode' ? 'light-mode' : 'dark-mode'
-    },
-    updateTheSettings: (state, action: PayloadAction<CardSetting>) => {
-      state.timeCycleFront = action.payload.frontTime
-      state.timeCycleBack = action.payload.backTime
-    },
   },
 })
 
 const {
   setTheSection,
+  setTheSectionByIndex,
+  setTheCardByIndex,
   setTheCard,
   setTheDeck,
   setTheDecks,
   manageCardSide,
   setSectionCycle,
-  toggleTheTheme,
-  updateTheSettings,
 } = deckSlice.actions
 
 function getTheDeck(params: DeckIds) {
@@ -134,55 +130,32 @@ function getTheDecks() {
 
 export const useDeck = () => {
   const dispatch = useDispatch()
-
-  const {
-    deckId,
-    decks,
-    activeSectionIndex,
-    activeCardIndex,
-    sections,
-    activeCard,
-    activeTheme,
-    cyclingSection,
-    timeCycleFront,
-    timeCycleBack,
-  } = useSelector((app: RootState) => app.deck)
-
-  // TODO: come back to this global SECTION definition
-  const activeSection = SECTIONS[activeSectionIndex] || {}
-  const atSectionEnd = activeCardIndex === activeSection.cards.length - 1
-  const atDeckEnd = activeSectionIndex === SECTIONS.length - 1
-  const setSection = (id: number) => dispatch(setTheSection(id))
-  const setCard = (id: number) => dispatch(setTheCard(id))
-  const manageSide = () => dispatch(manageCardSide())
-  const cycleSection = (bool: boolean) => dispatch(setSectionCycle(bool))
-  const toggleTheme = () => dispatch(toggleTheTheme())
-  const updateSettings = (settings: CardSetting) =>
-    dispatch(updateTheSettings(settings))
-  const getDeck = (params: DeckIds) => dispatch(getTheDeck(params))
-  const getDecks = () => dispatch(getTheDecks())
+  const deckState = useSelector((app: RootState) => app.deck)
+  const stateToExpose = {
+    deckId: deckState.deckId,
+    decks: deckState.decks,
+    atDeckEnd: deckState.activeSectionIndex === deckState.sections.length - 1,
+    cyclingSection: deckState.cyclingSection,
+    sections: deckState.sections,
+    activeSection: deckState.activeSection,
+    activeSectionIndex: deckState.activeSectionIndex,
+    atSectionEnd: deckState.activeCardIndex === deckState.activeSection?.cards?.length - 1,
+    activeCard: deckState.activeCard,
+    activeCardIndex: deckState.activeCardIndex,
+  }
+  const methodsToExpose = {
+    getDeck: (params: DeckIds) => dispatch(getTheDeck(params)),
+    getDecks: () => dispatch(getTheDecks()),
+    setSection: (id: number) => dispatch(setTheSection(id)),
+    setSectionByIndex: (index: number) => dispatch(setTheSectionByIndex(index)),
+    setCard: (id: number) => dispatch(setTheCard(id)),
+    setCardByIndex: (index: number) => dispatch(setTheCardByIndex(index)),
+    manageSide: () => dispatch(manageCardSide()),
+    cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
+  }
   return {
-    deckId,
-    decks,
-    activeSection,
-    activeSectionIndex,
-    activeCardIndex,
-    sections,
-    atSectionEnd,
-    atDeckEnd,
-    activeCard,
-    activeTheme,
-    cyclingSection,
-    timeCycleFront,
-    timeCycleBack,
-    getDeck,
-    getDecks,
-    setSection,
-    setCard,
-    manageSide,
-    cycleSection,
-    toggleTheme,
-    updateSettings,
+    ...stateToExpose,
+    ...methodsToExpose
   }
 }
 

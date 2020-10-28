@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import Card from '../Card'
+import Card from '../Card/Card'
 import DeckNav from '../DeckNav'
 import UploadForm from '../UploadForm'
 import Page from '../../../ui/Page'
+import { Link } from 'react-router-dom'
 
 function createId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
-      v = c == 'x' ? r : (r & 0x3) | 0x8
+      v = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)
   })
 }
@@ -25,7 +26,7 @@ function Upload() {
       sectionId: '',
     }
   }
-  const [sections, setSections] = useState([
+  const [sections] = useState([
     {
       id: createId(),
       title: ``,
@@ -33,26 +34,12 @@ function Upload() {
       cards: [{ ...makeCard() }],
     },
   ])
-  const [currentCard, setCurrentCard] = useState(sections[0].cards[0])
-  const [currentSection, setCurrentSection] = useState(sections[0])
+  const [, setCurrentCard] = useState(sections[0].cards[0])
+  const [currentSection] = useState(sections[0])
   const [preview, setPreview] = useState(false)
   // not null assertion operator
   const [xmlFile, setXmlFile] = useState(null!)
   const togglePreview = () => setPreview(!preview)
-  const selectCard = (index: number) => {
-    if (!currentSection.cards[index]) {
-      return
-    }
-    setCurrentCard({ ...currentSection.cards[index] })
-  }
-  const selectDeck = (index: number) => {
-    if (!sections[index]) {
-      return
-    }
-    setCurrentSection({ ...sections[index] })
-    setCurrentCard({ ...sections[index].cards[0] })
-  }
-
   function handleSubmit(e: any) {
     e.preventDefault()
     const bodyFormData = new FormData()
@@ -80,6 +67,7 @@ function Upload() {
                 className="deck-upload"
                 method="post"
               >
+                <Link to="/decks/js">Js Deck</Link>
                 <input onChange={addXml} type="file" name="xml" />
                 <button type="submit">submit</button>
               </form>

@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDeck } from '../deckSlice'
+import { useSettings } from '../../settings/settingsSlice'
 import Page from '../../../ui/Page'
 import Switch from '../../../ui/Switch'
 
 export default () => {
-  const { getDecks, decks, toggleTheme } = useDeck()
+  const { getDecks, decks } = useDeck()
+  const { toggleTheme } = useSettings()
   useEffect(() => {
     getDecks()
-  }, [])
+  }, [getDecks])
   return (
     <Page loaded={true} padding="20">
-      <Switch onChange={() => toggleTheme()} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+        <Link to="upload">Uploads</Link>
+        <Switch onChange={() => toggleTheme()} />
+      </div>
       <ul className="decks-page">
         <h2 className="decks-page-header">Static</h2>
         <li className="decks-page-item Card">

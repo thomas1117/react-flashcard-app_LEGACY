@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import Switch from '../../ui/Switch'
-import ThemeContext from '../../ThemeContext'
 import { BsGearFill } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'
 
@@ -8,7 +7,6 @@ export default function Settings(props: { frontTime: any; backTime: any; updateS
   const [visible, setVisible] = useState(false)
   const [frontTime, setFrontTime] = useState(props.frontTime)
   const [backTime, setBackTime] = useState(props.backTime)
-  const ctx = useContext(ThemeContext)
   const handleSubmit = (e: any) => {
     e.preventDefault()
     props.updateSettings({ frontTime, backTime })

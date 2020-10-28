@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Deck, Decks, Upload } from './features/deck/routes'
 import { ThemeProvider } from './ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
-import { useDeck } from './features/deck/deckSlice'
+import { useSettings } from './features/settings/settingsSlice'
 
 const customTheme = {
   ...theme,
@@ -18,11 +18,12 @@ const customTheme = {
 }
 
 function App() {
-  const { activeTheme } = useDeck()
+  const { activeTheme } = useSettings()
   return (
     <ChakraTheme theme={customTheme}>
       <ThemeProvider value={{ theme: activeTheme }}>
         <Router>
+          <Route path="/upload" component={Upload} />
           <Route
             path="/deck-preview/:sectionId?/:cardId?"
             exact
@@ -30,7 +31,6 @@ function App() {
           />
           <Route path="/decks" exact component={Decks} />
           <Route path="/decks/:deckId/:sectionId?/:cardId?" component={Deck} />
-          <Route path="/upload" component={Upload} />
         </Router>
       </ThemeProvider>
     </ChakraTheme>

@@ -1,18 +1,21 @@
 import React from 'react'
 import SettingsNav from './SettingsNav'
 import { useDeck } from './deckSlice'
-import { CardSetting } from './interfaces'
+import { CardSetting } from '../settings/interfaces'
+import { useSettings } from '../settings/settingsSlice'
 
 export default function NavSettings(props: any) {
   const {
     sections,
     activeSectionIndex,
-    updateSettings,
     setSection,
-    toggleTheme,
-    timeCycleFront,
-    timeCycleBack,
   } = useDeck()
+const {
+  cardTimeFront,
+  cardTimeBack,
+  updateSettings,
+  toggleTheme,
+} = useSettings()
 
   function manageSettingsCache(settings: CardSetting) {
     updateSettings(settings)
@@ -23,8 +26,8 @@ export default function NavSettings(props: any) {
       <div className="Dash-Nav-desktop">
         <SettingsNav
           deckId={props.deckId}
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
+          frontTime={cardTimeFront}
+          backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
         />
@@ -46,8 +49,8 @@ export default function NavSettings(props: any) {
         </ul>
         <SettingsNav
           deckId={props.deckId}
-          frontTime={timeCycleFront}
-          backTime={timeCycleBack}
+          frontTime={cardTimeFront}
+          backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
         />
