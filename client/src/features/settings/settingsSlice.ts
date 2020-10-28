@@ -1,12 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
 import { RootState } from '../../app/store'
-import { DeckState, CardSetting, DeckIds, DeckMeta } from '../deck/interfaces'
+
+interface CardSetting {
+    frontTime: number
+    backTime: number
+}
 
 // TODO: abstract storage mechanism into service
 const settings: string | any = localStorage.getItem('CARD_SETTINGS')
-const cardSettings: CardSetting = JSON.parse(settings) || {}
+const appSettings: CardSetting = JSON.parse(settings) || {}
 
 interface Settings {
     activeTheme: string
@@ -16,8 +19,8 @@ interface Settings {
 
 const initialState: Settings = {
   activeTheme: 'dark-mode',
-  cardTimeFront: cardSettings.frontTime || 3,
-  cardTimeBack: cardSettings.backTime || 5,
+  cardTimeFront: appSettings.frontTime || 3,
+  cardTimeBack: appSettings.backTime || 5,
 }
 
 export const settingSlice = createSlice({

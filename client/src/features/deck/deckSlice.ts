@@ -1,23 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import cardData from '../../seed/js/dynamic-seed'
+import JS_SEED_DATA from '../../seed/js/dynamic-seed'
 import { RootState } from '../../app/store'
-import { DeckState, CardSetting, DeckIds, DeckMeta } from './interfaces'
+import { DeckState, DeckIds, DeckMeta } from './interfaces'
 
 // strip away legacy class definition...
 // TODO: remove es6 model classes in favor of interface object casting or some shit like that...
 const manageCards = (deck: any) => {
   return { ...deck, cards: deck.cards.map((x: any) => ({ ...x })) }
 }
-const SECTIONS = cardData.sections.map(manageCards)
-
-// TODO: dumb console.log hack due to proxy issue of immer
-const logger = (v: any) => console.log(JSON.parse(JSON.stringify(v)))
-// TODO: abstract storage mechanism into service
-const settings: string | any = localStorage.getItem('CARD_SETTINGS')
-const cardSettings: CardSetting = JSON.parse(settings) || {}
-
+const SECTIONS = JS_SEED_DATA.sections.map(manageCards)
 const initialState: DeckState = {
   deckId: 'js',
   decks: [],
@@ -75,7 +68,7 @@ export const deckSlice = createSlice({
         return map
       }, {})
       state.activeSection = state.sectionMap[sectionId]
-      const findItemInList = (list: any, id: any) => list.findIndex((x: any) => x.id === id)
+      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id === id)
       const indexOrZero = (index: number) => index === -1 ? 0 : index
       const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
       const sectionIndex = itemIndexOrZero(state.sections, sectionId)

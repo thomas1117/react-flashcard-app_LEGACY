@@ -43,8 +43,3 @@ export type Card = {
   language: string
   meta: string
 }
-
-export interface CardSetting {
-  frontTime: number
-  backTime: number
-}

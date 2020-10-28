@@ -1,7 +1,7 @@
 import React from 'react'
 import SettingsNav from './SettingsNav'
 import { useDeck } from './deckSlice'
-import { CardSetting } from './interfaces'
+import { CardSetting } from '../settings/interfaces'
 import { useSettings } from '../settings/settingsSlice'
 
 export default function NavSettings(props: any) {

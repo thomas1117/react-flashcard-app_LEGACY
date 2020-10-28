@@ -23,7 +23,7 @@ const CardItem = () => {
   useEffect(() => {
     const historyState = side === 'back' ? '?back=true' : ''
     history.push({ search: historyState})
-  }, [side])
+  }, [side, history])
   return (
     <Card className={'Card-deck-card'} onClick={() => manageSide()}>
       <CardArrows 
@@ -37,7 +37,7 @@ const CardItem = () => {
         meta={meta}
       />
       {
-      side == 'front' ?
+      side === 'front' ?
       <CardFront front={front} /> 
       :
       <CardBack language={language} back={back} />}

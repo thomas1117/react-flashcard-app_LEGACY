@@ -1,8 +1,7 @@
-import React, { useContext } from 'react'
+import React  from 'react'
 import axios from 'axios'
 import Switch from '../../ui/Switch'
 import Settings from './Settings'
-import ThemeContext from '../../ThemeContext'
 import { BsDownload } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 
@@ -13,7 +12,6 @@ export default function SettingsNav(props: {
   backTime: any
   updateSettings: any
 }) {
-  const ctx = useContext(ThemeContext)
   const downloadDeck = () => {
     axios({
       url: `/api/decks/exports/${props.deckId}`,

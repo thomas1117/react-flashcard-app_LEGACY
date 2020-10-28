@@ -8,14 +8,14 @@ export default function DeckNav() {
     activeCardIndex,
     activeCard,
     sections,
+    cyclingSection,
+    atSectionEnd,
+    atDeckEnd,
     setSection,
     setCard,
     setSectionByIndex,
     setCardByIndex,
     cycleSection,
-    cyclingSection,
-    atSectionEnd,
-    atDeckEnd,
     manageSide,
   } = useDeck()
   const {
@@ -58,6 +58,9 @@ export default function DeckNav() {
   }, [
     cycleSection,
     manageSide,
+    setCardByIndex,
+    setSectionByIndex,
+    cyclingSection,
     activeCardIndex,
     activeSectionIndex,
     atSectionEnd,
@@ -84,14 +87,24 @@ export default function DeckNav() {
       clearTimeout(interval)
     }
     return () => clearInterval(interval)
-  }, [activeCard, cycleSection, cyclingSection, atSectionEnd])
+  }, [
+    activeCard,
+    activeCardIndex,
+    cyclingSection,
+    atSectionEnd,
+    cardTimeFront,
+    cardTimeBack,
+    manageSide,
+    setCard,
+    cycleSection
+  ])
   return (
     <nav className="Nav">
       <div className="Nav-children">
         {/* <h2 className="Nav-title">Decks</h2> */}
         <ul className="Nav-deck">
           {sections.map((section, sectionIndex) => {
-            const isActive = activeSection.id == section.id;
+            const isActive = activeSection.id === section.id;
             const active = isActive ? 'active' : ''
             return (
               <li
@@ -145,7 +158,7 @@ export default function DeckNav() {
                               key={cardIndex}
                               onClick={(e) => setCard(cardIndex)}
                               className={
-                                activeCardIndex == cardIndex ? 'active' : ''
+                                activeCardIndex === cardIndex ? 'active' : ''
                               }
                             >
                               {card.meta}
