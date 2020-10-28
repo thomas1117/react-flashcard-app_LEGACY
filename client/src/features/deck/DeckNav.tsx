@@ -113,7 +113,7 @@ export default function DeckNav() {
               >
                 <p
                   className={
-                    active + ' Nav-deck-item-inner d-flex space-between'
+                    'Nav-deck-item-inner d-flex space-between ' + active
                   }
                 >
                   <span>{section.title}</span>
