@@ -45,6 +45,7 @@ export const deckSlice = createSlice({
       state.activeSection = state.sectionMap[action.payload]
       state.activeCardIndex = 0
       state.activeCard = state.activeSection.cards[0]
+      state.activeCardIds = state.activeSection.cards.map(c => c.id)
       const index = state.sections.findIndex(c => c.id == action.payload)
       state.activeSectionIndex = index > - 1 ? index : 0
       if (state.cyclingSection) {
@@ -54,7 +55,6 @@ export const deckSlice = createSlice({
     setTheCard: (state, action: PayloadAction<number>) => {
       state.activeCard = state.cardMap[action.payload]
       const index = state.activeSection.cards.findIndex(c => c.id == action.payload)
-      state.activeCardIds = state.activeSection.cards.map(c => c.id)
       state.activeCardIndex = index > - 1 ? index : 0
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
