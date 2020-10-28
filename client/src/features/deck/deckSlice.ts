@@ -15,6 +15,7 @@ const initialState: DeckState = {
   deckId: 'js',
   decks: [],
   sectionMap: {},
+  cardMap: {},
   activeSectionIndex: 0,
   activeCardIndex: 0,
   activeSection: {
@@ -31,6 +32,8 @@ const initialState: DeckState = {
     language: '',
   },
   sections: [],
+  sectionIds: [],
+  activeCardIds: [],
   cyclingSection: false,
 }
 
@@ -42,22 +45,17 @@ export const deckSlice = createSlice({
       state.activeSection = state.sectionMap[action.payload]
       state.activeCardIndex = 0
       state.activeCard = state.activeSection.cards[0]
+      state.activeCardIds = state.activeSection.cards.map(c => c.id)
+      const index = state.sections.findIndex(c => c.id == action.payload)
+      state.activeSectionIndex = index > - 1 ? index : 0
       if (state.cyclingSection) {
         state.cyclingSection = false
       }
     },
-    setTheSectionByIndex: (state, action: PayloadAction<number>) => {
-      state.activeSectionIndex = action.payload
-      state.activeSection = state.sections[action.payload]
-    },
     setTheCard: (state, action: PayloadAction<number>) => {
-      state.activeCardIndex = action.payload
-      state.activeCard =
-        state.sections[state.activeSectionIndex].cards[state.activeCardIndex]
-    },
-    setTheCardByIndex: (state, action: PayloadAction<number>) => {
-      state.activeCardIndex = action.payload
-      state.activeCard = state.activeSection.cards[action.payload]
+      state.activeCard = state.cardMap[action.payload]
+      const index = state.activeSection.cards.findIndex(c => c.id == action.payload)
+      state.activeCardIndex = index > - 1 ? index : 0
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, sections } = action.payload
@@ -67,8 +65,16 @@ export const deckSlice = createSlice({
         map[obj.id] = obj
         return map
       }, {})
-      state.activeSection = state.sectionMap[sectionId]
-      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id === id)
+      state.cardMap = state.sections.reduce((map: any, obj) => {
+        obj.cards.forEach(card => {
+          map[card.id] = card
+        })
+        return map
+      }, {})
+      state.activeSection = state.sectionMap[sectionId] || state.sections[0]
+      state.sectionIds = state.sections.map(x => x.id)
+      state.activeCardIds = state.activeSection.cards.map(x => x.id)
+      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id == id)
       const indexOrZero = (index: number) => index === -1 ? 0 : index
       const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
       const sectionIndex = itemIndexOrZero(state.sections, sectionId)
@@ -98,8 +104,6 @@ export const deckSlice = createSlice({
 
 const {
   setTheSection,
-  setTheSectionByIndex,
-  setTheCardByIndex,
   setTheCard,
   setTheDeck,
   setTheDecks,
@@ -142,14 +146,14 @@ export const useDeck = () => {
     atSectionEnd: deckState.activeCardIndex === deckState.activeSection?.cards?.length - 1,
     activeCard: deckState.activeCard,
     activeCardIndex: deckState.activeCardIndex,
+    sectionIds: deckState.sectionIds,
+    activeCardIds: deckState.activeCardIds
   }
   const methodsToExpose = {
     getDeck: (params: DeckIds) => dispatch(getTheDeck(params)),
     getDecks: () => dispatch(getTheDecks()),
     setSection: (id: number) => dispatch(setTheSection(id)),
-    setSectionByIndex: (index: number) => dispatch(setTheSectionByIndex(index)),
     setCard: (id: number) => dispatch(setTheCard(id)),
-    setCardByIndex: (index: number) => dispatch(setTheCardByIndex(index)),
     manageSide: () => dispatch(manageCardSide()),
     cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
   }
