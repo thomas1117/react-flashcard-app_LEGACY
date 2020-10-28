@@ -41,7 +41,7 @@ const {
                 `Dash-Nav-mobile-link ` +
                 (index === activeSectionIndex ? 'active' : '')
               }
-              onClick={() => setSection(index)}
+              onClick={() => setSection(deck.id)}
             >
               {deck.title}
             </li>

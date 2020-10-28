@@ -11,10 +11,10 @@ export default function DeckNav() {
     cyclingSection,
     atSectionEnd,
     atDeckEnd,
+    sectionIds,
+    activeCardIds,
     setSection,
     setCard,
-    setSectionByIndex,
-    setCardByIndex,
     cycleSection,
     manageSide,
   } = useDeck()
@@ -39,7 +39,7 @@ export default function DeckNav() {
         const outOfEndBound = key === 'ArrowRight' && atSectionEnd
         const canMove = !outOfZeroBound && !outOfEndBound
         if (canMove) {
-          setCardByIndex(activeCardIndex + diff)
+          setCard(activeCardIds[activeCardIndex + diff])
         }
       }
       if (key === 'ArrowUp' || key === 'ArrowDown') {
@@ -48,8 +48,7 @@ export default function DeckNav() {
         const outOfEndBound = key === 'ArrowDown' && atDeckEnd
         const canMove = !outOfZeroBound && !outOfEndBound
         if (canMove) {
-          setSectionByIndex(activeSectionIndex + diff)
-          setCardByIndex(0)
+          setSection(sectionIds[activeSectionIndex + diff])
         }
       }
     }
@@ -58,8 +57,8 @@ export default function DeckNav() {
   }, [
     cycleSection,
     manageSide,
-    setCardByIndex,
-    setSectionByIndex,
+    setCard,
+    setSection,
     cyclingSection,
     activeCardIndex,
     activeSectionIndex,
@@ -77,10 +76,10 @@ export default function DeckNav() {
           if (atSectionEnd) {
             clearInterval(interval)
             cycleSection(false)
-            setCard(0)
+            setCard(activeSection.cards[0].id)
             return
           }
-          setCard(activeCardIndex + 1)
+          setCard(activeSection.cards[activeCardIndex + 1].id)
         }
       }, (activeCard.side === 'front' ? cardTimeFront : cardTimeBack) * 1000)
     } else {
@@ -133,10 +132,10 @@ export default function DeckNav() {
                       className="Nav-deck-item-inner-icon"
                       onClick={(e) => {
                         e.stopPropagation()
-                        if (activeSectionIndex !== sectionIndex) {
-                          setSection(section.id)
+                        if (section.id == activeSection.id) {
                           cycleSection(true)
                         } else {
+                          setSection(section.id)
                           cycleSection(!cyclingSection)
                         }
                       }}
@@ -156,9 +155,9 @@ export default function DeckNav() {
                           return (
                             <li
                               key={cardIndex}
-                              onClick={(e) => setCard(cardIndex)}
+                              onClick={(e) => setCard(card.id)}
                               className={
-                                activeCardIndex === cardIndex ? 'active' : ''
+                                activeCard.id == card.id ? 'active' : ''
                               }
                             >
                               {card.meta}
