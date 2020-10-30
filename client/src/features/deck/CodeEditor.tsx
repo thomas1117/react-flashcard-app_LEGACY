@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // import Editor from 'react-simple-code-editor'
 // import { highlight, languages } from 'prismjs/components/prism-core'
 // import 'prismjs/components/prism-clike'
@@ -46,8 +46,26 @@ function escapeInvalidXML(text) {
     return parsed3
 }
 
+const start = `<deck title="js">
+    <section title="variables" language="markdown">
+        <card>
+            <front>
+            ## card start
+            </front>
+            <back>
+            # yo!
+            </back>
+            <meta>this is an example</meta>
+        </card>
+    </section>
+</deck>
+`
+
 export default function CodeEditor(props: any) {
     const [internalCode, setInternalCode] = useState('')
+    useEffect(() => {
+        handleCode(start)
+    }, [])
     function handleCode(code) {
         setInternalCode(code)
         try {

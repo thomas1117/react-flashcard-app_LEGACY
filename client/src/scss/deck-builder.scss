@@ -1,10 +1,10 @@
 .deck-builder {
-    width: 100%;
-    height: 100vh;
-    margin: 0 auto;
-    background: #221e1e;
-    padding: 1rem;
-    overflow: auto;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #221e1e;
+  padding: 1rem;
+  overflow: auto;
 }
 // .deck-builder input, .deck-builder textarea {
 //     color: #fff;
@@ -12,83 +12,84 @@
 //     border: 1px solid #fff;
 // }
 .deck-builder-nav {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 .deck-builder-columns {
-    display: flex;
+  display: flex;
 }
 .deck-builder-columns-form {
-    height: 100vh;
-    overflow: auto;
+  height: 100vh;
+  overflow: auto;
 }
 .deck-builder-columns-preview {
-    display: flex;
+  display: flex;
 }
 .deck-builder {
-    .deck-input {
-        width: 100%;
-        margin-bottom: 1rem;
-        padding: 1rem;
-    }
-    textarea {
-        padding: 2rem;
-        resize: none;
-    }
-    .deck-meta {
-        margin-bottom: 0;
-    }
+  .deck-input {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  textarea {
+    padding: 2rem;
+    resize: none;
+  }
+  .deck-meta {
+    margin-bottom: 0;
+  }
 }
 
 .deck-section {
-    margin-left: 2rem;
-    margin-bottom: 3rem;
+  margin-left: 2rem;
+  margin-bottom: 3rem;
 }
 
 .deck-section-item {
-    background: #8b8b8b;
-    padding: 1rem;
+  background: #8b8b8b;
+  padding: 1rem;
 }
 
 .deck-card {
-    margin-left: 2rem;
-    margin-bottom: 1rem;
-    display: flex;
-    border: 1px solid #666;
-    background: #bbbbbb;
-    padding: 1rem;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  border: 1px solid #666;
+  background: #bbbbbb;
+  padding: 1rem;
 }
 
 .deck-card-add {
-    margin-left: 2rem;
+  margin-left: 2rem;
 }
 
 .deck-section-delete {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .deck-section-add {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .deck-card-button {
-    height: 100%;
+  height: 100%;
 }
 
 .deck-card-form {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .deck-upload {
-    display: flex;
-    justify-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .deck-submit-container {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .deck-preview {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
