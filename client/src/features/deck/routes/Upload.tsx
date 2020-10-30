@@ -5,6 +5,8 @@ import DeckNav from '../DeckNav'
 import UploadForm from '../UploadForm'
 import Page from '../../../ui/Page'
 import { Link } from 'react-router-dom'
+import CodeEditor from '../CodeEditor'
+import { useDeck } from '../deckSlice'
 
 function createId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -15,6 +17,10 @@ function createId() {
 }
 
 function Upload() {
+  const {
+    setDeck
+  } = useDeck()
+
   function makeCard() {
     return {
       id: createId(),
@@ -79,13 +85,13 @@ function Upload() {
               className="deck-builder-columns-form"
               style={{ width: preview ? '0px' : '50%' }}
             >
-              <UploadForm />
+              <CodeEditor onCodeChange={(deck) => setDeck(deck)} />
             </div>
             <div
               className="deck-builder-columns-preview"
               style={{ width: preview ? '100%' : '50%' }}
             >
-              <DeckNav />
+              <DeckNav keyboardDisabled={true} />
               <div
                 style={{
                   margin: '2rem',

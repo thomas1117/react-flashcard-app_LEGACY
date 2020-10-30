@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDeck } from './deckSlice'
 import { useSettings } from '../settings/settingsSlice'
-export default function DeckNav() {
+interface P {
+  keyboardDisabled?: boolean
+}
+export default function DeckNav(props: P) {
   const {
     activeSection,
     activeSectionIndex,
@@ -25,7 +28,7 @@ export default function DeckNav() {
 
   useEffect(() => {
     function handleKeyPress(e: KeyboardEvent) {
-      if (cyclingSection) {
+      if (cyclingSection || props.keyboardDisabled) {
         return
       }
       const key = e.code
@@ -64,6 +67,7 @@ export default function DeckNav() {
     activeSectionIndex,
     atSectionEnd,
     atDeckEnd,
+    props.keyboardDisabled
   ])
 
   useEffect(() => {
