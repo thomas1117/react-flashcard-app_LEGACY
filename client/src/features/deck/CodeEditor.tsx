@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import Editor from 'react-simple-code-editor'
-import { highlight, languages } from 'prismjs/components/prism-core'
-import 'prismjs/components/prism-clike'
-import 'prismjs/components/prism-javascript'
+// import Editor from 'react-simple-code-editor'
+// import { highlight, languages } from 'prismjs/components/prism-core'
+// import 'prismjs/components/prism-clike'
+// import 'prismjs/components/prism-javascript'
 import parser from 'fast-xml-parser'
-console.log(languages)
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/theme-monokai";
  
 const config = {
     attributeNamePrefix : "",
@@ -80,14 +83,35 @@ export default function CodeEditor(props: any) {
         
     }
     return (
-        <Editor
+        <AceEditor
+            mode="html"
+            theme="monokai"
+            name="blah2"
+            onChange={handleCode}
+            fontSize={14}
+            showPrintMargin={true}
+            showGutter={true}
+            highlightActiveLine={true}
             value={internalCode}
-            onValueChange={code => handleCode(code)}
-            highlight={code => highlight(code, languages.js)}
-            padding={10}
-            style={{
-                fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: 12,
-            }} />
+            setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: false,
+                enableSnippets: false,
+                showLineNumbers: true,
+                tabSize: 2,
+            }}
+            style={{width: '100%', height: '100%'}}
+        />
+        // <Editor
+        //     value={internalCode}
+        //     onValueChange={code => handleCode(code)}
+        //     highlight={code => highlight(code, languages.js)}
+        //     padding={10}
+        //     style={{
+        //         fontFamily: '"Fira code", "Fira Mono", monospace',
+        //         fontSize: 12,
+        //         height: '100%',
+        //         width: '100%',
+        //     }} />
     )
 }
