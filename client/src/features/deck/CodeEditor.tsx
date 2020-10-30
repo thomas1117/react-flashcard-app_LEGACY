@@ -82,13 +82,13 @@ export default function CodeEditor(props: any) {
                         title: x.attr.title,
                         language: x.attr.language,
                         cards: x.card.map(i => {
-                            console.log(i)
+                            // replace is here due to new line characters...
                             return {
                                 id: Math.random(),
-                                front: decodeXML(i.front),
-                                back: decodeXML(i.back),
-                                meta: decodeXML(i.meta),
-                                language: i.language || 'js'
+                                front: decodeXML(i.front).replace(/^\s+|\s+$/g, ''),
+                                back: decodeXML(i.back).replace(/^\s+|\s+$/g, ''),
+                                meta: decodeXML(i.meta).replace(/^\s+|\s+$/g, ''),
+                                language: i.attr && i.attr.language || x.attr.language || 'js'
                               }
                         })
                     }
