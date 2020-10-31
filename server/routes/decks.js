@@ -111,7 +111,7 @@ router.post('/deck', async (req, res) => {
       })
     }
   }
-  res.json({ message: 'deck created successfully', data: { title, sections } })
+  res.json({ message: 'deck created successfully', data: { id: deck.id, title, sections } })
 })
 
 router.post('/xml', async function (req, res, next) {

@@ -59,6 +59,7 @@ export const deckSlice = createSlice({
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, sections } = action.payload
+      console.log(action.payload)
       state.deckId = deckId
       state.sections = sections
       state.sectionMap = state.sections.reduce((map: any, obj) => {
@@ -156,6 +157,7 @@ export const useDeck = () => {
     setCard: (id: number) => dispatch(setTheCard(id)),
     manageSide: () => dispatch(manageCardSide()),
     cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
+    setDeck: (deck) => dispatch(setTheDeck(deck)),
   }
   return {
     ...stateToExpose,

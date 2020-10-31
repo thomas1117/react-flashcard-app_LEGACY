@@ -1,59 +1,68 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { BsUpload, BsFillTrashFill, BsCursorFill } from 'react-icons/bs'
 import axios from 'axios'
 import Card from '../Card/Card'
 import DeckNav from '../DeckNav'
-import UploadForm from '../UploadForm'
 import Page from '../../../ui/Page'
-import { Link } from 'react-router-dom'
-
-function createId() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
-}
+import {Button, Link, FileUpload} from '../../../ui'
+// import { Link } from 'react-router-dom'
+import CodeEditor from '../CodeEditor'
+import { useDeck } from '../deckSlice'
+import { readXMLFile, xmlToJSON } from '../../../utils/xml'
 
 function Upload() {
-  function makeCard() {
-    return {
-      id: createId(),
-      front: ``,
-      back: ``,
-      meta: ``,
-      language: `js`,
-      side: 'front',
-      sectionId: '',
-    }
-  }
-  const [sections] = useState([
-    {
-      id: createId(),
-      title: ``,
-      meta: '',
-      cards: [{ ...makeCard() }],
-    },
-  ])
-  const [, setCurrentCard] = useState(sections[0].cards[0])
-  const [currentSection] = useState(sections[0])
+  const {
+    sections,
+    setDeck,
+  } = useDeck()
+
   const [preview, setPreview] = useState(false)
-  // not null assertion operator
-  const [xmlFile, setXmlFile] = useState(null!)
+  const [incomingCode, setIncomingCode] = useState('')
+  const [invalidState, setInvalidState] = useState(false)
   const togglePreview = () => setPreview(!preview)
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault()
-    const bodyFormData = new FormData()
-    bodyFormData.append('xml', xmlFile)
-    axios.post('/api/xml', bodyFormData, {
-      headers: { 'Content-Type': 'text/xml' },
-    })
+    const result = await axios.post('/api/deck', {title: 'test', sections})
+    const id = result.data.id
+    console.log(id)
   }
 
-  function addXml(e: any) {
-    const file = e.target.files[0]
-    if (file) {
-      setXmlFile(file)
+  async function readXML(file) {
+    try {
+      const xml = await readXMLFile(file)
+      if (typeof xml === 'string') {
+        setIncomingCode(xml)
+        handleCodeChange(xml)
+      }
+    } catch {
+
     }
+  }
+
+  function handleCodeChange(code) {
+    try {
+      const newObj = xmlToJSON(code)
+      setDeck(newObj)
+    } catch(err) {
+      if (!invalidState) {
+        setInvalidState(true)
+      } else {
+        setInvalidState(false)
+      }
+    }
+  }
+
+  function handleClear() {
+    setIncomingCode('')
+    // TODO: add deck default set
+    setDeck({title: '', sections: [{cards: []}]})
+  }
+
+  function initDeck(code) {
+    setIncomingCode(code)
+    const newObj = xmlToJSON(code)
+    setDeck(newObj)
   }
 
   return (
@@ -62,30 +71,32 @@ function Upload() {
         <div className="deck-builder">
           <div className="deck-builder-nav">
             <div>
-              <form
-                onSubmit={handleSubmit}
-                className="deck-upload"
-                method="post"
-              >
-                <Link to="/decks/js">Js Deck</Link>
-                <input onChange={addXml} type="file" name="xml" />
-                <button type="submit">submit</button>
-              </form>
+              <Link to="/decks/js">Js Deck</Link>
+              <FileUpload handleFile={readXML} name="xml"><BsUpload /></FileUpload>
+              <Button onClick={handleClear}><BsFillTrashFill/></Button>
+              <Button type="click" onClick={handleSubmit}><BsCursorFill /></Button>
             </div>
-            <button onClick={togglePreview}>preview</button>
+            <Button onClick={togglePreview}>
+              {preview ? 'Edit Raw' : 'preview'}
+            </Button>
           </div>
           <div className="deck-builder-columns">
             <div
               className="deck-builder-columns-form"
-              style={{ width: preview ? '0px' : '50%' }}
+              style={{ width: preview ? '1px' : '50%' }}
             >
-              <UploadForm />
+              <CodeEditor
+                invalidState={invalidState}
+                incomingCode={incomingCode}
+                init={initDeck}
+                onCodeChange={handleCodeChange}
+              />
             </div>
             <div
               className="deck-builder-columns-preview"
               style={{ width: preview ? '100%' : '50%' }}
             >
-              <DeckNav />
+              <DeckNav keyboardDisabled={true} />
               <div
                 style={{
                   margin: '2rem',
