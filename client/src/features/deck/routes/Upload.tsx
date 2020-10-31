@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import Card from '../Card/Card'
 import DeckNav from '../DeckNav'
@@ -8,15 +9,7 @@ import {Button, Link, FileUpload} from '../../../ui'
 // import { Link } from 'react-router-dom'
 import CodeEditor from '../CodeEditor'
 import { useDeck } from '../deckSlice'
-import { base64ToXML, readXMLFile } from '../../../utils/xml'
-
-function createId() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
-}
+import { readXMLFile, xmlToJSON } from '../../../utils/xml'
 
 function Upload() {
   const {
@@ -30,7 +23,8 @@ function Upload() {
   async function handleSubmit(e: any) {
     e.preventDefault()
     const result = await axios.post('/api/deck', {title: 'test', sections})
-    console.log(result)
+    const id = result.data.id
+    console.log(id)
   }
 
   async function readXML(file) {
@@ -38,10 +32,21 @@ function Upload() {
       const xml = await readXMLFile(file)
       if (typeof xml === 'string') {
         setIncomingCode(xml)
+        handleCodeChange(xml)
       }
     } catch {
 
     }
+  }
+
+  function handleCodeChange(code) {
+    try {
+      const newObj = xmlToJSON(code)
+      setDeck(newObj)
+    } catch(err) {
+      console.log(err)
+    }
+    
   }
 
   return (
@@ -50,15 +55,10 @@ function Upload() {
         <div className="deck-builder">
           <div className="deck-builder-nav">
             <div>
-              <form
-                onSubmit={handleSubmit}
-                className="deck-upload"
-                method="post"
-              >
-                <Link to="/decks/js">Js Deck</Link>
-                <FileUpload handleFile={readXML} name="xml">upload</FileUpload>
-                <Button type="submit">submit</Button>
-              </form>
+              <Link to="/decks/js">Js Deck</Link>
+              <FileUpload handleFile={readXML} name="xml">Upload</FileUpload>
+              <Button onClick={() => setIncomingCode('')}>Clear</Button>
+              <Button type="click" onClick={handleSubmit}>Submit</Button>
             </div>
             <Button onClick={togglePreview}>preview</Button>
           </div>
@@ -67,7 +67,7 @@ function Upload() {
               className="deck-builder-columns-form"
               style={{ width: preview ? '0px' : '50%' }}
             >
-              <CodeEditor incomingCode={incomingCode} onCodeChange={(deck) => setDeck(deck)} />
+              <CodeEditor incomingCode={incomingCode} init={code => setIncomingCode(code)} onCodeChange={handleCodeChange} />
             </div>
             <div
               className="deck-builder-columns-preview"

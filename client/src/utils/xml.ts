@@ -1,3 +1,23 @@
+import parser from 'fast-xml-parser'
+
+function safelyEncodeXML(m) {
+    return encodeURIComponent(m)
+  }
+  
+function decodeXML(m) {
+return decodeURIComponent(m)
+}
+
+function escapeInvalidXML(text) {
+    const regex = /(?<=\<back\>)[\s\S]*?(?=\<\/back\>)/g
+    const parsed = String(text).replace(regex, safelyEncodeXML)
+    const regex2 = /(?<=\<front\>)[\s\S]*?(?=\<\/front\>)/g
+    const parsed2 = String(parsed).replace(regex2, safelyEncodeXML)
+    const regex3 = /(?<=\<meta\>)[\s\S]*?(?=\<\/meta\>)/g
+    const parsed3 = String(parsed).replace(regex3, safelyEncodeXML)
+    return parsed3
+}
+
 export function base64ToXML(base64: string | ArrayBuffer) {    
     function base64ToText(str: string) {
         try {
@@ -48,3 +68,58 @@ export function base64ToXML(base64: string | ArrayBuffer) {
         reader.readAsDataURL(file);
     })
   }
+
+export function xmlToJSON(code) {
+    const config = {
+        attributeNamePrefix : "",
+        attrNodeName: "attr", //default is 'false'
+        textNodeName : "#text",
+        ignoreAttributes : false,
+        ignoreNameSpace : false,
+        allowBooleanAttributes : false,
+        parseNodeValue : true,
+        parseAttributeValue : false,
+        trimValues: true,
+        cdataTagName: "__cdata", //default is 'false'
+        cdataPositionChar: "\\c",
+        parseTrueNumberOnly: false,
+        arrayMode: true, //"strict"
+        // attrValueProcessor: (val, attrName) => he.decode(val, {isAttributeValue: true}),//default is a=>a
+        // tagValueProcessor : (val, tagName) => he.decode(val), //default is a=>a
+        stopNodes: ["parse-me-as-string"]
+    }
+    const tObj = parser.getTraversalObj(escapeInvalidXML(code), config)
+    const jsonObj = parser.convertToJson(tObj, config)
+    try {
+        const o = jsonObj.deck[0]
+        const newObj = {
+            id: Math.random(),
+            title: o.attr.title,
+            sections: o.section.map(x => {
+                return {
+                    ...x,
+                    id: Math.random(),
+                    title: x.attr.title,
+                    language: x.attr.language,
+                    cards: x.card.map(i => {
+                        // replace is here due to new line characters...
+                        return {
+                            id: Math.random(),
+                            front: decodeXML(i.front).replace(/^\s+|\s+$/g, ''),
+                            back: decodeXML(i.back).replace(/^\s+|\s+$/g, ''),
+                            meta: decodeXML(i.meta).replace(/^\s+|\s+$/g, ''),
+                            language: i.attr && i.attr.language || x.attr.language || 'js'
+                            }
+                    })
+                }
+            })
+        }
+        return newObj
+    } catch (err) {
+        throw new Error('Unable to parse')
+    }
+}
+
+export function JSONToXML() {
+    
+}
