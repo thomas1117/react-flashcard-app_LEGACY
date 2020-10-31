@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { BsUpload, BsFillTrashFill, BsCursorFill } from 'react-icons/bs'
 import axios from 'axios'
 import Card from '../Card/Card'
 import DeckNav from '../DeckNav'
-import UploadForm from '../UploadForm'
 import Page from '../../../ui/Page'
 import {Button, Link, FileUpload} from '../../../ui'
 // import { Link } from 'react-router-dom'
@@ -53,6 +53,12 @@ function Upload() {
     }
   }
 
+  function handleClear() {
+    setIncomingCode('')
+    // TODO: add deck default set
+    setDeck({title: '', sections: [{cards: []}]})
+  }
+
   function initDeck(code) {
     setIncomingCode(code)
     const newObj = xmlToJSON(code)
@@ -66,16 +72,18 @@ function Upload() {
           <div className="deck-builder-nav">
             <div>
               <Link to="/decks/js">Js Deck</Link>
-              <FileUpload handleFile={readXML} name="xml">Upload</FileUpload>
-              <Button onClick={() => setIncomingCode('')}>Clear</Button>
-              <Button type="click" onClick={handleSubmit}>Submit</Button>
+              <FileUpload handleFile={readXML} name="xml"><BsUpload /></FileUpload>
+              <Button onClick={handleClear}><BsFillTrashFill/></Button>
+              <Button type="click" onClick={handleSubmit}><BsCursorFill /></Button>
             </div>
-            <Button onClick={togglePreview}>preview</Button>
+            <Button onClick={togglePreview}>
+              {preview ? 'Edit Raw' : 'preview'}
+            </Button>
           </div>
           <div className="deck-builder-columns">
             <div
               className="deck-builder-columns-form"
-              style={{ width: preview ? '0px' : '50%' }}
+              style={{ width: preview ? '1px' : '50%' }}
             >
               <CodeEditor
                 invalidState={invalidState}
