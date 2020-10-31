@@ -64,8 +64,8 @@ const start = `<deck title="js">
 export default function CodeEditor(props: any) {
     const [internalCode, setInternalCode] = useState('')
     useEffect(() => {
-        handleCode(start)
-    }, [])
+        handleCode(props.incomingCode || start)
+    }, [props.incomingCode])
     function handleCode(code) {
         setInternalCode(code)
         try {

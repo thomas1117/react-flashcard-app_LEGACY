@@ -4,9 +4,11 @@ import Card from '../Card/Card'
 import DeckNav from '../DeckNav'
 import UploadForm from '../UploadForm'
 import Page from '../../../ui/Page'
-import { Link } from 'react-router-dom'
+import {Button, Link, FileUpload} from '../../../ui'
+// import { Link } from 'react-router-dom'
 import CodeEditor from '../CodeEditor'
 import { useDeck } from '../deckSlice'
+import { base64ToXML, readXMLFile } from '../../../utils/xml'
 
 function createId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -18,47 +20,27 @@ function createId() {
 
 function Upload() {
   const {
-    setDeck
+    sections,
+    setDeck,
   } = useDeck()
 
-  function makeCard() {
-    return {
-      id: createId(),
-      front: ``,
-      back: ``,
-      meta: ``,
-      language: `js`,
-      side: 'front',
-      sectionId: '',
-    }
-  }
-  const [sections] = useState([
-    {
-      id: createId(),
-      title: ``,
-      meta: '',
-      cards: [{ ...makeCard() }],
-    },
-  ])
-  const [, setCurrentCard] = useState(sections[0].cards[0])
-  const [currentSection] = useState(sections[0])
   const [preview, setPreview] = useState(false)
-  // not null assertion operator
-  const [xmlFile, setXmlFile] = useState(null!)
+  const [incomingCode, setIncomingCode] = useState('')
   const togglePreview = () => setPreview(!preview)
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault()
-    const bodyFormData = new FormData()
-    bodyFormData.append('xml', xmlFile)
-    axios.post('/api/xml', bodyFormData, {
-      headers: { 'Content-Type': 'text/xml' },
-    })
+    const result = await axios.post('/api/deck', {title: 'test', sections})
+    console.log(result)
   }
 
-  function addXml(e: any) {
-    const file = e.target.files[0]
-    if (file) {
-      setXmlFile(file)
+  async function readXML(file) {
+    try {
+      const xml = await readXMLFile(file)
+      if (typeof xml === 'string') {
+        setIncomingCode(xml)
+      }
+    } catch {
+
     }
   }
 
@@ -74,18 +56,18 @@ function Upload() {
                 method="post"
               >
                 <Link to="/decks/js">Js Deck</Link>
-                <input onChange={addXml} type="file" name="xml" />
-                <button type="submit">submit</button>
+                <FileUpload handleFile={readXML} name="xml">upload</FileUpload>
+                <Button type="submit">submit</Button>
               </form>
             </div>
-            <button onClick={togglePreview}>preview</button>
+            <Button onClick={togglePreview}>preview</Button>
           </div>
           <div className="deck-builder-columns">
             <div
               className="deck-builder-columns-form"
               style={{ width: preview ? '0px' : '50%' }}
             >
-              <CodeEditor onCodeChange={(deck) => setDeck(deck)} />
+              <CodeEditor incomingCode={incomingCode} onCodeChange={(deck) => setDeck(deck)} />
             </div>
             <div
               className="deck-builder-columns-preview"
