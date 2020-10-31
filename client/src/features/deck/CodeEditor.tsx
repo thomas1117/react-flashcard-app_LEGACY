@@ -39,6 +39,19 @@ export default function CodeEditor(props: any) {
         props.onCodeChange(code)
     }
     return (
+        <div style={{width: '100%', height: '100%'}}>
+            {props.invalidState && <div style={{
+                width: '20px',
+                height: '20px',
+                color: '#fff',
+                background: 'red',
+                borderRadius: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                i
+            </div>}
         <AceEditor
             mode="html"
             theme="monokai"
@@ -58,16 +71,6 @@ export default function CodeEditor(props: any) {
             }}
             style={{width: '100%', height: '100%'}}
         />
-        // <Editor
-        //     value={internalCode}
-        //     onValueChange={code => handleCode(code)}
-        //     highlight={code => highlight(code, languages.js)}
-        //     padding={10}
-        //     style={{
-        //         fontFamily: '"Fira code", "Fira Mono", monospace',
-        //         fontSize: 12,
-        //         height: '100%',
-        //         width: '100%',
-        //     }} />
+        </div>
     )
 }

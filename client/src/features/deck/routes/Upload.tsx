@@ -19,6 +19,7 @@ function Upload() {
 
   const [preview, setPreview] = useState(false)
   const [incomingCode, setIncomingCode] = useState('')
+  const [invalidState, setInvalidState] = useState(false)
   const togglePreview = () => setPreview(!preview)
   async function handleSubmit(e: any) {
     e.preventDefault()
@@ -44,9 +45,18 @@ function Upload() {
       const newObj = xmlToJSON(code)
       setDeck(newObj)
     } catch(err) {
-      console.log(err)
+      if (!invalidState) {
+        setInvalidState(true)
+      } else {
+        setInvalidState(false)
+      }
     }
-    
+  }
+
+  function initDeck(code) {
+    setIncomingCode(code)
+    const newObj = xmlToJSON(code)
+    setDeck(newObj)
   }
 
   return (
@@ -67,7 +77,12 @@ function Upload() {
               className="deck-builder-columns-form"
               style={{ width: preview ? '0px' : '50%' }}
             >
-              <CodeEditor incomingCode={incomingCode} init={code => setIncomingCode(code)} onCodeChange={handleCodeChange} />
+              <CodeEditor
+                invalidState={invalidState}
+                incomingCode={incomingCode}
+                init={initDeck}
+                onCodeChange={handleCodeChange}
+              />
             </div>
             <div
               className="deck-builder-columns-preview"
