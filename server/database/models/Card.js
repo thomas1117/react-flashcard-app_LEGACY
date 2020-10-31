@@ -3,6 +3,10 @@ const sequelize = require('../connection')
 
 class Card extends Model {}
 Card.init({
+    // id: {
+    //     primaryKey: true,
+    //     type: DataTypes.UUIDV1
+    // },
     front: {
         type: DataTypes.TEXT
     },

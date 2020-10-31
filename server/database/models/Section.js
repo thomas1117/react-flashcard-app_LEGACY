@@ -6,6 +6,10 @@ const { Deck } = require('./Deck')
 class Section extends Model {}
 
 Section.init({
+    // id: {
+    //     primaryKey: true,
+    //     type: DataTypes.UUIDV1
+    // },
     title: {
         type: DataTypes.STRING
     },

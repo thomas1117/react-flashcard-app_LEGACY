@@ -24,8 +24,10 @@ const CardItem = () => {
     const historyState = side === 'back' ? '?back=true' : ''
     history.push({ search: historyState})
   }, [side, history])
+  // render the card if it exists...
   return (
-    <Card className={'Card-deck-card'} onClick={() => manageSide()}>
+    activeCard.id ?
+      <Card className={'Card-deck-card'} onClick={() => manageSide()}>
       <CardArrows 
         activeCardIndex={activeCardIndex}
         atSectionEnd={atSectionEnd}
@@ -42,6 +44,7 @@ const CardItem = () => {
       :
       <CardBack language={language} back={back} />}
     </Card>
+    : null
   )
 }
 

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDeck } from './deckSlice'
 import { useSettings } from '../settings/settingsSlice'
 interface P {
-  keyboardDisabled?: boolean
+  keyboardDisabled?: boolean,
+  editable?: boolean,
 }
 export default function DeckNav(props: P) {
   const {
@@ -17,6 +18,8 @@ export default function DeckNav(props: P) {
     sectionIds,
     activeCardIds,
     setSection,
+    addSection,
+    addCard,
     setCard,
     cycleSection,
     manageSide,
@@ -25,6 +28,9 @@ export default function DeckNav(props: P) {
     cardTimeFront,
     cardTimeBack,
   } = useSettings()
+
+  const [newSectionTitle, setNewSectionTitle] = useState('')
+  const [newCardTitle, setNewCardTitle] = useState('')
 
   useEffect(() => {
     function handleKeyPress(e: KeyboardEvent) {
@@ -101,6 +107,18 @@ export default function DeckNav(props: P) {
     setCard,
     cycleSection
   ])
+  function  handleSubmit(e) {
+    e.preventDefault()
+    addSection(newSectionTitle)
+    setNewSectionTitle('')
+
+  }
+  function handleCardAdd(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    addCard(newCardTitle)
+    setNewCardTitle('')
+  }
   return (
     <nav className="Nav">
       <div className="Nav-children">
@@ -171,11 +189,26 @@ export default function DeckNav(props: P) {
                       )}
                     </ul>
                   )}
+                  {/* activeSectionIndex == sectionIndex || !activeSection.id && */}
+                  {props.editable && 
+                    <form onSubmit={(e) => handleCardAdd(e)}>
+                      <input style={{zIndex: 1, position: 'relative'}} value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)}/>
+                    </form>
+                  }
                 </div>
               </li>
             )
           })}
         </ul>
+        {props.editable && 
+        <form onSubmit={handleSubmit}>
+          <input 
+            placeholder="New Section"
+            style={{zIndex: 1, position: 'relative'}}
+            value={newSectionTitle}
+            onChange={(e) => setNewSectionTitle(e.target.value)}/>
+        </form>
+        }
       </div>
     </nav>
   )
