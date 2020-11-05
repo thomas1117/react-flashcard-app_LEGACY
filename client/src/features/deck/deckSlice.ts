@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, current } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import JS_SEED_DATA from '../../seed/js/dynamic-seed'
@@ -75,7 +75,9 @@ export const deckSlice = createSlice({
         language: '',
       }
       state.activeSection.cards.push(newCard)
+      state.sectionMap[state.activeSection.id].cards.push(newCard)
       state.cardMap[cardId] = newCard
+      state.activeCard = newCard
     },
     setTheSection: (state, action: PayloadAction<string>) => {
       state.activeSection = state.sectionMap[action.payload]

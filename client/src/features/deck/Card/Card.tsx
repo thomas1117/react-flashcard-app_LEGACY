@@ -18,7 +18,7 @@ const CardItem = () => {
     setCard,
     manageSide,
   } = useDeck()
-
+  console.log('the active card', activeCard)
   const { meta, front, back, side, language } = activeCard
   useEffect(() => {
     const historyState = side === 'back' ? '?back=true' : ''

@@ -11,7 +11,8 @@ export default (props: any) => {
         <>
         <span className="Card-deck">
         {props.title}
-        {props.side === 'back' && ' | ' + props.meta}
+        {props.meta && ' | '}
+        {props.meta}
       </span>
     <FaCopy className="Card-copy" onClick={(e) => copyToClipboard(e)} />
     <span className="Card-number">{props.activeCardIndex + 1}</span>
