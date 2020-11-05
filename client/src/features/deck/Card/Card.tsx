@@ -19,6 +19,7 @@ const CardItem = (props: any) => {
     setCard,
     setActiveCardFront,
     setActiveCardBack,
+    setActiveCardLanguage,
     manageSide,
   } = useDeck()
   const { meta, front, back, side, language } = activeCard
@@ -45,16 +46,24 @@ const CardItem = (props: any) => {
         editable={props.editable}
         meta={meta}
         togglePreview={() => setPreviewMode(!previewMode)}
+        handleSelect={setActiveCardLanguage}
+        flip={manageSide}
       />
       {
       side === 'front' ?
-      <CardFront 
-        front={front}
-        language={'markdown'}
-        previewMode={previewMode}
-        onCodeChange={setActiveCardFront} /> 
-      :
-      <CardBack language={language} back={back} previewMode={previewMode} onCodeChange={setActiveCardBack} />}
+        <CardFront 
+          front={front}
+          language={'markdown'}
+          previewMode={previewMode}
+          onCodeChange={setActiveCardFront} /> 
+        :
+        <CardBack 
+          language={language}
+          back={back}
+          previewMode={previewMode}
+          onCodeChange={setActiveCardBack} 
+      />
+      }
     </Card>
     : null
   )

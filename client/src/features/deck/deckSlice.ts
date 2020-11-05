@@ -70,6 +70,9 @@ export const deckSlice = createSlice({
     activeCardBack: (state, action: PayloadAction<string>) => {
       state.activeCard.back = action.payload
     },
+    activeCardLanguage: (state, action: PayloadAction<string>) => {
+      state.activeCard.language = action.payload
+    },
     createCard: (state,action) => {
       const cardId = UUID()
       const newCard = {
@@ -77,7 +80,7 @@ export const deckSlice = createSlice({
         side: 'front',
         meta: action.payload,
         front: '# hello',
-        back: '',
+        back: 'function () {}',
         language: 'markdown',
       }
       state.activeSection.cards.push(newCard)
@@ -157,6 +160,7 @@ const {
   createCard,
   activeCardFront,
   activeCardBack,
+  activeCardLanguage
 } = deckSlice.actions
 
 function getTheDeck(params: DeckIds) {
@@ -208,7 +212,8 @@ export const useDeck = () => {
     addSection: (title: string) => dispatch(createSection(title)),
     addCard: (title: string) => dispatch(createCard(title)),
     setActiveCardFront: (code: string) => dispatch(activeCardFront(code)),
-    setActiveCardBack: (code: string) => dispatch(activeCardBack(code))
+    setActiveCardBack: (code: string) => dispatch(activeCardBack(code)),
+    setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang))
   }
   return {
     ...stateToExpose,

@@ -13,6 +13,9 @@ export default (props: any) => {
       setChecked(!checked)
       props.togglePreview()
     }
+    function handleSelect(e) {
+      props.handleSelect(e.target.value)
+    }
     return (
         <>
         <div className="Card-deck">
@@ -24,6 +27,13 @@ export default (props: any) => {
               checked={checked}
               onChange={handleChecked}
             />}
+            {props.editable &&
+              <select onChange={handleSelect}>
+                <option value="markdown">markdown</option>
+                <option value="javascript">js</option>
+              </select>
+            }
+            <span onClick={props.flip}>flip</span>
           </div>
       </div>
     <FaCopy className="Card-copy" onClick={(e) => copyToClipboard(e)} />
