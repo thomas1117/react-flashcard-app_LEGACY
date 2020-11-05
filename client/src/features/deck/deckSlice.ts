@@ -64,15 +64,21 @@ export const deckSlice = createSlice({
       state.activeCardIndex = 0
       state.activeCard = state.activeSection.cards[0]
     },
+    activeCardFront: (state, action: PayloadAction<string>) => {
+      state.activeCard.front = action.payload
+    },
+    activeCardBack: (state, action: PayloadAction<string>) => {
+      state.activeCard.back = action.payload
+    },
     createCard: (state,action) => {
       const cardId = UUID()
       const newCard = {
         id: cardId,
         side: 'front',
         meta: action.payload,
-        front: '',
+        front: '# hello',
         back: '',
-        language: '',
+        language: 'markdown',
       }
       state.activeSection.cards.push(newCard)
       state.sectionMap[state.activeSection.id].cards.push(newCard)
@@ -148,7 +154,9 @@ const {
   manageCardSide,
   setSectionCycle,
   createSection,
-  createCard
+  createCard,
+  activeCardFront,
+  activeCardBack,
 } = deckSlice.actions
 
 function getTheDeck(params: DeckIds) {
@@ -198,7 +206,9 @@ export const useDeck = () => {
     cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
     setDeck: (deck) => dispatch(setTheDeck(deck)),
     addSection: (title: string) => dispatch(createSection(title)),
-    addCard: (title: string) => dispatch(createCard(title))
+    addCard: (title: string) => dispatch(createCard(title)),
+    setActiveCardFront: (code: string) => dispatch(activeCardFront(code)),
+    setActiveCardBack: (code: string) => dispatch(activeCardBack(code))
   }
   return {
     ...stateToExpose,

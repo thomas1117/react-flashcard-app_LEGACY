@@ -49,11 +49,11 @@ function PreviewEditDeck(props: any) {
 
       <div className="Dash">
         <div className="Dash-Nav-container">
-          <DeckNav editable={true} />
+          <DeckNav editable={true} keyboardDisabled={true} />
         </div>
         <div className="Dash-Card-container">
           <div className="Dash-Card-container-inner">
-            <Card />
+            <Card editable={true} />
           </div>
         </div>
       </div>

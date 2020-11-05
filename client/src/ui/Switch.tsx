@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useContext } from 'react'
 import ThemeContext from '../ThemeContext'
 export default function Switch(props: {
-  onChange: (event: ChangeEvent) => void
+  onChange: (event: ChangeEvent) => void,
+  checked?: boolean
 }) {
   const ctx = useContext(ThemeContext)
   return (
@@ -9,7 +10,7 @@ export default function Switch(props: {
       <input
         type="checkbox"
         onChange={props.onChange}
-        checked={ctx.theme === 'dark-mode'}
+        checked={(props.checked === undefined && ctx.theme === 'dark-mode') || props.checked}
       />
       <span className="slider round"></span>
     </label>
