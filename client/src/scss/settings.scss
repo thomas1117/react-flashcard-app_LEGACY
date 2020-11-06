@@ -42,6 +42,10 @@ $setting-input-focus: #1b88bb;
   }
 }
 
+.App.dark-mode .SettingsNav a {
+  color: var(--off-white);
+}
+
 .SettingsNav {
   position: relative;
   z-index: 1;
@@ -53,7 +57,7 @@ $setting-input-focus: #1b88bb;
     align-items: center;
   }
   a {
-    color: var(--off-white);
+    color: var(--off-dark);
     text-decoration: none;
     &:hover {
       text-decoration: underline;
