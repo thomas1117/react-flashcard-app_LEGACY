@@ -192,7 +192,7 @@ export default function DeckNav(props: P) {
                   {/* activeSectionIndex == sectionIndex || !activeSection.id && */}
                   {props.editable && isActive &&
                     <form onSubmit={(e) => handleCardAdd(e)}>
-                      <input style={{zIndex: 1, position: 'relative'}} value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)}/>
+                      <input style={{zIndex: 1, position: 'relative', marginLeft: '1rem'}} value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)}/>
                     </form>
                   }
                 </div>

@@ -79,8 +79,8 @@ export const deckSlice = createSlice({
         id: cardId,
         side: 'front',
         meta: action.payload,
-        front: '# hello',
-        back: 'function () {}',
+        front: '# front side',
+        back: '## back side',
         language: 'markdown',
       }
       state.activeSection.cards.push(newCard)
