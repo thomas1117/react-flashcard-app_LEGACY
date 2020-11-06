@@ -14,6 +14,7 @@ function PreviewEditDeck(props: any) {
   const {
     activeSection,
     activeCard,
+    deckTitle,
     getDeck,
     manageSide
   } = useDeck()
@@ -51,6 +52,9 @@ function PreviewEditDeck(props: any) {
         <div className="Dash-Nav-container">
           <DeckNav editable={true} keyboardDisabled={true} />
         </div>
+        <h2 style={{margin: '1rem'}}>
+          {deckTitle}
+        </h2>
         <div className="Dash-Card-container">
           <div className="Dash-Card-container-inner">
             <Card editable={true} />

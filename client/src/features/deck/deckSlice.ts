@@ -204,7 +204,8 @@ export const useDeck = () => {
     activeCard: deckState.activeCard,
     activeCardIndex: deckState.activeCardIndex,
     sectionIds: deckState.sectionIds,
-    activeCardIds: deckState.activeCardIds
+    activeCardIds: deckState.activeCardIds,
+    deckTitle: deckState.deckTitle
   }
   const methodsToExpose = {
     getDeck: (params: DeckIds) => dispatch(getTheDeck(params)),
