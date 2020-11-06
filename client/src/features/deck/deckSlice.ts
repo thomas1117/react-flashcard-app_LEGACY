@@ -14,6 +14,7 @@ const manageCards = (deck: any) => {
 const SECTIONS = JS_SEED_DATA.sections.map(manageCards)
 const initialState: DeckState = {
   deckId: 'js',
+  deckTitle: '',
   decks: [],
   sectionMap: {},
   cardMap: {},
@@ -88,6 +89,9 @@ export const deckSlice = createSlice({
       state.cardMap[cardId] = newCard
       state.activeCard = newCard
     },
+    setDeckTitle: (state, action: PayloadAction<string>) => {
+      state.deckTitle = action.payload
+    },
     setTheSection: (state, action: PayloadAction<string>) => {
       state.activeSection = state.sectionMap[action.payload]
       state.activeCardIndex = 0
@@ -158,6 +162,7 @@ const {
   setSectionCycle,
   createSection,
   createCard,
+  setDeckTitle,
   activeCardFront,
   activeCardBack,
   activeCardLanguage
@@ -213,7 +218,8 @@ export const useDeck = () => {
     addCard: (title: string) => dispatch(createCard(title)),
     setActiveCardFront: (code: string) => dispatch(activeCardFront(code)),
     setActiveCardBack: (code: string) => dispatch(activeCardBack(code)),
-    setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang))
+    setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang)),
+    addDeckTitle: (title: string) => dispatch(setDeckTitle(title))
   }
   return {
     ...stateToExpose,

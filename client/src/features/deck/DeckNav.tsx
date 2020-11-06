@@ -21,6 +21,7 @@ export default function DeckNav(props: P) {
     addSection,
     addCard,
     setCard,
+    addDeckTitle,
     cycleSection,
     manageSide,
   } = useDeck()
@@ -29,6 +30,7 @@ export default function DeckNav(props: P) {
     cardTimeBack,
   } = useSettings()
 
+  const [newDeckTitle, setNewDeckTitle] = useState('')
   const [newSectionTitle, setNewSectionTitle] = useState('')
   const [newCardTitle, setNewCardTitle] = useState('')
 
@@ -107,11 +109,14 @@ export default function DeckNav(props: P) {
     setCard,
     cycleSection
   ])
+  function  handleDeckSubmit(e) {
+    e.preventDefault()
+    addDeckTitle(newDeckTitle)
+  }
   function  handleSubmit(e) {
     e.preventDefault()
     addSection(newSectionTitle)
     setNewSectionTitle('')
-
   }
   function handleCardAdd(e) {
     e.preventDefault()
@@ -123,6 +128,16 @@ export default function DeckNav(props: P) {
     <nav className="Nav">
       <div className="Nav-children DeckNav-children">
         {/* <h2 className="Nav-title">Decks</h2> */}
+        {props.editable && 
+        <form onSubmit={handleDeckSubmit}>
+          <input 
+            style={{zIndex: 1, position: 'relative'}}
+            value={newDeckTitle}
+            placeholder="DeckTitle"
+            onChange={(e) => setNewDeckTitle(e.target.value)}/>
+        </form>
+        }
+
         <ul className="Nav-deck">
           {sections.map((section, sectionIndex) => {
             const isActive = activeSection.id === section.id;

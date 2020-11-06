@@ -19,6 +19,7 @@ interface CardMap {
 
 export interface DeckState {
   deckId: string
+  deckTitle: string
   decks: Deck[]
   sectionMap: SectionMap
   cardMap: CardMap
