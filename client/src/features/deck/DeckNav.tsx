@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDeck } from './deckSlice'
 import { useSettings } from '../settings/settingsSlice'
+// import { MdFlipToBack } from 'react-icons/md'
 interface P {
   keyboardDisabled?: boolean,
   editable?: boolean,
@@ -197,7 +198,11 @@ export default function DeckNav(props: P) {
                                 activeCard.id == card.id ? 'active' : ''
                               }
                             >
-                              {card.meta}
+                              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <span>{card.meta}</span>
+                                {/* <MdFlipToBack /> */}
+                              </div>
+                              
                             </li>
                           )
                         }
