@@ -1,4 +1,5 @@
 import parser from 'fast-xml-parser'
+import UUID from './id'
 
 function safelyEncodeXML(m) {
     return encodeURIComponent(m)
@@ -93,18 +94,18 @@ export function xmlToJSON(code) {
     try {
         const o = jsonObj.deck[0]
         const newObj = {
-            id: Math.random(),
+            id: UUID(),
             title: o.attr.title,
             sections: o.section.map(x => {
                 return {
                     ...x,
-                    id: Math.random(),
+                    id: UUID(),
                     title: x.attr.title,
                     language: x.attr.language,
                     cards: x.card.map(i => {
                         // replace is here due to new line characters...
                         return {
-                            id: Math.random(),
+                            id: UUID(),
                             front: decodeXML(i.front).replace(/^\s+|\s+$/g, ''),
                             back: decodeXML(i.back).replace(/^\s+|\s+$/g, ''),
                             meta: decodeXML(i.meta).replace(/^\s+|\s+$/g, ''),

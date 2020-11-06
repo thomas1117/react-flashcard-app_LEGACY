@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
-// import Editor from 'react-simple-code-editor'
-// import { highlight, languages } from 'prismjs/components/prism-core'
-// import 'prismjs/components/prism-clike'
-// import 'prismjs/components/prism-javascript'
-import parser from 'fast-xml-parser'
 import AceEditor from 'react-ace'
-
 import 'ace-builds/src-noconflict/mode-html'
+import 'ace-builds/src-noconflict/mode-javascript'
+import 'ace-builds/src-noconflict/mode-markdown'
 import 'ace-builds/src-noconflict/theme-monokai'
  
 
@@ -31,8 +27,8 @@ export default function CodeEditor(props: any) {
         setInternalCode(props.incomingCode)
     }, [props.incomingCode])
     useEffect(() => {
-        setInternalCode(start)
-        props.init(start)
+        setInternalCode(props.incomingCode)
+        props.init(props.incomingCode)
     }, [])
     function handleCodeChange(code) {
         setInternalCode(code)
@@ -40,20 +36,8 @@ export default function CodeEditor(props: any) {
     }
     return (
         <div style={{width: '100%', height: '100%'}}>
-            {props.invalidState && <div style={{
-                width: '20px',
-                height: '20px',
-                color: '#fff',
-                background: 'red',
-                borderRadius: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                i
-            </div>}
         <AceEditor
-            mode="html"
+            mode={props.language}
             theme="monokai"
             name="blah2"
             onChange={handleCodeChange}

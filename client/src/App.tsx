@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Deck, Decks, Upload } from './features/deck/routes'
+import { Deck, Decks, Upload, PreviewEditDeck } from './features/deck/routes'
 import { ThemeProvider } from './ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
 import { useSettings } from './features/settings/settingsSlice'
@@ -24,6 +24,11 @@ function App() {
       <ThemeProvider value={{ theme: activeTheme }}>
         <Router>
           <Route path="/upload" component={Upload} />
+          <Route
+            path="/preview/:deckId?"
+            exact
+            component={PreviewEditDeck}
+          />
           <Route
             path="/deck-preview/:sectionId?/:cardId?"
             exact

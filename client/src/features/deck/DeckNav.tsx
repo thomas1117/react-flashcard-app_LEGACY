@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDeck } from './deckSlice'
 import { useSettings } from '../settings/settingsSlice'
+// import { MdFlipToBack } from 'react-icons/md'
 interface P {
-  keyboardDisabled?: boolean
+  keyboardDisabled?: boolean,
+  editable?: boolean,
 }
 export default function DeckNav(props: P) {
   const {
@@ -17,7 +19,10 @@ export default function DeckNav(props: P) {
     sectionIds,
     activeCardIds,
     setSection,
+    addSection,
+    addCard,
     setCard,
+    addDeckTitle,
     cycleSection,
     manageSide,
   } = useDeck()
@@ -25,6 +30,10 @@ export default function DeckNav(props: P) {
     cardTimeFront,
     cardTimeBack,
   } = useSettings()
+
+  const [newDeckTitle, setNewDeckTitle] = useState('')
+  const [newSectionTitle, setNewSectionTitle] = useState('')
+  const [newCardTitle, setNewCardTitle] = useState('')
 
   useEffect(() => {
     function handleKeyPress(e: KeyboardEvent) {
@@ -101,10 +110,35 @@ export default function DeckNav(props: P) {
     setCard,
     cycleSection
   ])
+  function  handleDeckSubmit(e) {
+    e.preventDefault()
+    addDeckTitle(newDeckTitle)
+  }
+  function  handleSubmit(e) {
+    e.preventDefault()
+    addSection(newSectionTitle)
+    setNewSectionTitle('')
+  }
+  function handleCardAdd(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    addCard(newCardTitle)
+    setNewCardTitle('')
+  }
   return (
     <nav className="Nav">
-      <div className="Nav-children">
+      <div className="Nav-children DeckNav-children">
         {/* <h2 className="Nav-title">Decks</h2> */}
+        {props.editable && 
+        <form onSubmit={handleDeckSubmit}>
+          <input 
+            style={{zIndex: 1, position: 'relative'}}
+            value={newDeckTitle}
+            placeholder="DeckTitle"
+            onChange={(e) => setNewDeckTitle(e.target.value)}/>
+        </form>
+        }
+
         <ul className="Nav-deck">
           {sections.map((section, sectionIndex) => {
             const isActive = activeSection.id === section.id;
@@ -164,18 +198,42 @@ export default function DeckNav(props: P) {
                                 activeCard.id == card.id ? 'active' : ''
                               }
                             >
-                              {card.meta}
+                              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <span>{card.meta}</span>
+                                {/* <MdFlipToBack /> */}
+                              </div>
+                              
                             </li>
                           )
                         }
                       )}
                     </ul>
                   )}
+                  {/* activeSectionIndex == sectionIndex || !activeSection.id && */}
+                  {props.editable && isActive &&
+                    <form onSubmit={(e) => handleCardAdd(e)}>
+                      <input 
+                      style={{zIndex: 1, position: 'relative', marginLeft: '1rem'}}
+                      value={newCardTitle}
+                      onChange={(e) => setNewCardTitle(e.target.value)}
+                      placeholder="New Card Title"
+                      />
+                    </form>
+                  }
                 </div>
               </li>
             )
           })}
         </ul>
+        {props.editable && 
+        <form onSubmit={handleSubmit}>
+          <input 
+            style={{zIndex: 1, position: 'relative'}}
+            value={newSectionTitle}
+            placeholder="New Section Title"
+            onChange={(e) => setNewSectionTitle(e.target.value)}/>
+        </form>
+        }
       </div>
     </nav>
   )

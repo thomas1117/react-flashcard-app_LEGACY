@@ -1,24 +1,25 @@
 export interface Section {
-  id: number
+  id: string
   title: string
   cards: Card[]
 }
 
 export interface Deck {
-  id: number
+  id: string
   title: string
 }
 
 interface SectionMap {
-  [id: number]: Section
+  [id: string]: Section
 }
 
 interface CardMap {
-  [id: number]: Card
+  [id: string]: Card
 }
 
 export interface DeckState {
-  deckId: number | string
+  deckId: string
+  deckTitle: string
   decks: Deck[]
   sectionMap: SectionMap
   cardMap: CardMap
@@ -27,15 +28,15 @@ export interface DeckState {
   activeSection: Section
   activeCard: Card
   sections: Section[]
-  sectionIds: number[]
-  activeCardIds: number[]
+  sectionIds: string[]
+  activeCardIds: string[]
   cyclingSection: boolean
 }
 
 export interface DeckIds {
-  cardId: number
-  sectionId: number
-  deckId: number | string
+  cardId: string
+  sectionId: string
+  deckId: string
 }
 
 export interface DeckMeta extends DeckIds {
@@ -43,7 +44,7 @@ export interface DeckMeta extends DeckIds {
 }
 
 export type Card = {
-  id: number
+  id: string
   front: string
   back: string
   side: string

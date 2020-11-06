@@ -1,3 +1,5 @@
+$setting-input-focus: #1b88bb;
+
 .App.dark-mode .Nav {
   border-right: 1px solid #000;
 }
@@ -8,6 +10,32 @@
 
 .App.dark-mode .Nav-deck-item p.active {
   border-bottom: 1px solid var(--off-white);
+}
+
+.App.dark-mode {
+  & form input {
+    color: #fff;
+    &:focus {
+      color: #fff;
+    }
+  }
+}
+
+.DeckNav-children form input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #d7d7d7;
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  position: relative;
+  background: transparent;
+  &:focus {
+    border-bottom: 1px solid $setting-input-focus;
+  }
+  ::placeholder {
+    color: #d7d7d7;
+  }
 }
 
 .Nav {

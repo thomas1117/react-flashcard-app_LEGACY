@@ -25,3 +25,5 @@ yarn-error.log*
 db.sqlite
 
 .vscode
+
+notes.md
