@@ -42,7 +42,7 @@ export default function CodeEditor(props: any) {
             name="blah2"
             onChange={handleCodeChange}
             fontSize={14}
-            showPrintMargin={true}
+            showPrintMargin={false}
             showGutter={true}
             highlightActiveLine={true}
             value={internalCode}
