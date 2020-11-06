@@ -25,7 +25,6 @@ function Upload() {
     e.preventDefault()
     const result = await axios.post('/api/deck', {title: 'test', sections})
     const id = result.data.id
-    console.log(id)
   }
 
   async function readXML(file) {
