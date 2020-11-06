@@ -26,7 +26,7 @@ const FileUploader = props => {
   }
   return (
     <>
-      <Button onClick={handleClick}>{props.children}</Button>
+      <Button type="button" onClick={handleClick}>{props.children}</Button>
       <input
         type="file"
         ref={hiddenFileInput}
