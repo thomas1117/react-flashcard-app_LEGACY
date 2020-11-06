@@ -15,6 +15,7 @@ export default (props: any) => {
       props.togglePreview()
     }
     function handleSelect(e) {
+      console.log(e)
       props.handleSelect(e.target.value)
     }
     return (
@@ -33,6 +34,7 @@ export default (props: any) => {
             {props.editable && props.side == 'back' &&
               <Select 
                 style={{margin: '1rem'}}
+                onChange={handleSelect}
                 options={[{label: 'markdown', value: 'markdown'}, {label: 'js', value: 'javascript'}]}
               />
             }
