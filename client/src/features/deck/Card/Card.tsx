@@ -35,11 +35,11 @@ const CardItem = (props: any) => {
   return (
     activeCard.id ?
       <Card className={'Card-deck-card'} onClick={!props.editable ? manageSide : () => {}}>
-      <CardArrows 
+        {!props.editable && <CardArrows 
         activeCardIndex={activeCardIndex}
         atSectionEnd={atSectionEnd}
         setCard={setCard}
-      />
+      />}
       <CardHeader 
         title={activeSection.title}
         activeCardIndex={activeCardIndex}
