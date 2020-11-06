@@ -121,7 +121,7 @@ export default function DeckNav(props: P) {
   }
   return (
     <nav className="Nav">
-      <div className="Nav-children">
+      <div className="Nav-children DeckNav-children">
         {/* <h2 className="Nav-title">Decks</h2> */}
         <ul className="Nav-deck">
           {sections.map((section, sectionIndex) => {
@@ -192,7 +192,12 @@ export default function DeckNav(props: P) {
                   {/* activeSectionIndex == sectionIndex || !activeSection.id && */}
                   {props.editable && isActive &&
                     <form onSubmit={(e) => handleCardAdd(e)}>
-                      <input style={{zIndex: 1, position: 'relative', marginLeft: '1rem'}} value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)}/>
+                      <input 
+                      style={{zIndex: 1, position: 'relative', marginLeft: '1rem'}}
+                      value={newCardTitle}
+                      onChange={(e) => setNewCardTitle(e.target.value)}
+                      placeholder="New Card Title"
+                      />
                     </form>
                   }
                 </div>
@@ -203,9 +208,9 @@ export default function DeckNav(props: P) {
         {props.editable && 
         <form onSubmit={handleSubmit}>
           <input 
-            placeholder="New Section"
             style={{zIndex: 1, position: 'relative'}}
             value={newSectionTitle}
+            placeholder="New Section Title"
             onChange={(e) => setNewSectionTitle(e.target.value)}/>
         </form>
         }
