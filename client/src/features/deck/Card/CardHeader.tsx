@@ -15,7 +15,6 @@ export default (props: any) => {
       props.togglePreview()
     }
     function handleSelect(e) {
-      console.log(e)
       props.handleSelect(e.target.value)
     }
     return (
