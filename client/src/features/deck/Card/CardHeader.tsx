@@ -39,7 +39,7 @@ export default (props: any) => {
             }
           </div>
       </div>
-    <FaCopy className="Card-copy" onClick={(e) => copyToClipboard(e)} />
+    {!props.editable &&  <FaCopy className="Card-copy" onClick={(e) => copyToClipboard(e)} />}
     <span className="Card-number">{props.activeCardIndex + 1}</span>
     </>
     )
