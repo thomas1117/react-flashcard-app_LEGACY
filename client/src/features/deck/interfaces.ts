@@ -40,6 +40,7 @@ export interface DeckIds {
 }
 
 export interface DeckMeta extends DeckIds {
+  deckTitle?: string
   sections: Section[]
 }
 

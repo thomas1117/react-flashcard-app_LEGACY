@@ -13,6 +13,7 @@ import { readXMLFile, xmlToJSON } from '../../../utils/xml'
 
 function Upload() {
   const {
+    deckTitle,
     sections,
     setDeck,
   } = useDeck()
@@ -23,9 +24,8 @@ function Upload() {
   const togglePreview = () => setPreview(!preview)
   async function handleSubmit(e: any) {
     e.preventDefault()
-    const result = await axios.post('/api/deck', {title: 'test', sections})
+    const result = await axios.post('/api/deck', {title: deckTitle, sections})
     const id = result.data.id
-    console.log(id)
   }
 
   async function readXML(file) {
@@ -69,22 +69,25 @@ function Upload() {
     <Page loaded={true}>
       <div>
         <div className="deck-builder">
-          <div className="deck-builder-nav">
-            <div>
-              <Link to="/decks/js">Js Deck</Link>
-              <FileUpload handleFile={readXML} name="xml"><BsUpload /></FileUpload>
-              <Button onClick={handleClear}><BsFillTrashFill/></Button>
-              <Button type="click" onClick={handleSubmit}><BsCursorFill /></Button>
-            </div>
-            <Button onClick={togglePreview}>
-              {preview ? 'Edit Raw' : 'preview'}
-            </Button>
-          </div>
           <div className="deck-builder-columns">
             <div
               className="deck-builder-columns-form"
               style={{ width: preview ? '1px' : '50%' }}
             >
+              <div className="deck-builder-nav">
+                <div style={{display: 'flex', justifyContent: 'space-between', flexGrow: 1}}>
+                  <Link to="/decks/js">Js Deck</Link>
+                  <div>
+                    <div style={{display: 'flex'}}>
+                      <div style={{marginRight: '1rem'}}>
+                        <FileUpload handleFile={readXML} name="xml"><BsUpload /></FileUpload>
+                      </div>
+                      <Button type="button" style={{margin: '0 1rem 0 0'}} onClick={handleClear}><BsFillTrashFill/></Button>
+                      <Button type="button" style={{margin: '0 1rem 0 0'}} onClick={handleSubmit}><BsCursorFill /></Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <CodeEditor
                 invalidState={invalidState}
                 incomingCode={incomingCode}
@@ -94,8 +97,11 @@ function Upload() {
             </div>
             <div
               className="deck-builder-columns-preview"
-              style={{ width: preview ? '100%' : '50%' }}
+              style={{ width: preview ? '100%' : '50%', position: 'relative' }}
             >
+                              <Button type="button" style={{position: 'absolute', right: 0, zIndex: 2}} onClick={togglePreview}>
+                  {preview ? 'Edit Raw' : 'preview'}
+                </Button>
               <DeckNav keyboardDisabled={true} />
               <div
                 style={{

@@ -1,5 +1,6 @@
 import parser from 'fast-xml-parser'
 import UUID from './id'
+import { normalize } from './indent'
 
 function safelyEncodeXML(m) {
     return encodeURIComponent(m)
@@ -106,11 +107,11 @@ export function xmlToJSON(code) {
                         // replace is here due to new line characters...
                         return {
                             id: UUID(),
-                            front: decodeXML(i.front).replace(/^\s+|\s+$/g, ''),
-                            back: decodeXML(i.back).replace(/^\s+|\s+$/g, ''),
-                            meta: decodeXML(i.meta).replace(/^\s+|\s+$/g, ''),
+                            front: normalize(decodeXML(i.front)),
+                            back: normalize(decodeXML(i.back)),
+                            meta: normalize(decodeXML(i.meta)),
                             language: i.attr && i.attr.language || x.attr.language || 'js'
-                            }
+                        }
                     })
                 }
             })

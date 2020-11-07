@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { BsUpload } from 'react-icons/bs'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import Page from '../../../ui/Page'
 import Card from '../Card/Card'
@@ -52,8 +53,9 @@ function PreviewEditDeck(props: any) {
         <div className="Dash-Nav-container">
           <DeckNav editable={true} keyboardDisabled={true} />
         </div>
-        <h2 style={{margin: '1rem'}}>
+        <h2 style={{margin: '1rem', display: 'flex'}}>
           {deckTitle}
+          {deckTitle && activeSection && activeSection.cards && activeSection.cards.length > 0 && <BsUpload style={{ marginLeft: '1rem'}}/>}
         </h2>
         <div className="Dash-Card-container">
           <div className="Dash-Card-container-inner">
