@@ -9,7 +9,7 @@ export default function Login() {
     const [password, setPassword] = useState('')
     function handleSubmit(e) {
         e.preventDefault()
-        request.post('/login', {email, password}).then(r => {
+        request.login(email, password).then(r => {
             history.push('/decks/js')
         })
     }

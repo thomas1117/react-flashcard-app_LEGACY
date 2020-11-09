@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
-import { Deck, Decks, Upload, PreviewEditDeck, Login, Signup } from './features/deck/routes'
+import { Deck, Decks, Upload, PreviewEditDeck, Login, Signup, UserDecks } from './features/deck/routes'
 import { ThemeProvider } from './ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
 import 'antd/dist/antd.css';
@@ -43,6 +43,7 @@ function App() {
               component={Deck}
             />
             <Route path="/decks" exact component={Decks} />
+            <Route path="/decks/users/:userId" exact component={UserDecks} />
             <Route path="/decks/:deckId/:sectionId?/:cardId?" component={Deck} />
             <AuthRoute path="/auth-test">
               <h2>test auth route</h2>

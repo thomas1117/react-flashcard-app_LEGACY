@@ -60,9 +60,9 @@ class Request {
 }
 
 export class AuthService {
-    static login = (username, password) => {
+    static login = (email, password) => {
         const userToLogin = {
-            username: username,
+            email: email,
             password: password
         }
         return api.post('/login', userToLogin)
@@ -72,9 +72,9 @@ export class AuthService {
         })
     }
 
-    static signup = (username, password) => {
+    static signup = (email, password) => {
         const userToRegister = {
-            username: username,
+            email: email,
             password: password
         }
         return api.post('/registration', userToRegister)
@@ -95,8 +95,13 @@ export class AuthService {
 }
 
 const api = new Request()
-api.login = AuthService.login
-api.signup = AuthService.signup
-api.logout = AuthService.logout
+// api.login = AuthService.login
+// api.signup = AuthService.signup
+// api.logout = AuthService.logout
 
-export default api
+export default {
+    ...api,
+    login: AuthService.login,
+    signup: AuthService.signup,
+    logout: AuthService.logout
+}
