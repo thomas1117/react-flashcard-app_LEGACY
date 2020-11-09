@@ -32,13 +32,11 @@ router.get('/decks/:id', async (req, res) => {
 })
 
 router.get(`/decks/users/:userId`, attachUser, async (req, res) => {
-  const user = await User.findAll({where: {id: req.user.id}})
-  // const decks = await db.UserDeck.findAll({where: {userId: req.user.id}})
-  // const decks = await Deck.findAll({
-  //   where: {userId: req.params.userId},
-  // })
-  // console.log(decks)
-  res.json(user)
+  const user = await User.findOne({
+    where: { id: req.user.id }
+  })
+  const decks = await user.getDecks()
+  res.json(decks)
 })
 
 /*
