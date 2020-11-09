@@ -1,1 +1,32 @@
-GET http://localhost:3001/api/decks/2
+GET http://localhost:3001/api/decks/1
+
+###
+
+POST http://localhost:3001/api/registration
+content-type: application/json
+
+{
+    "email": "testing@example.com",
+    "password": "test"
+}
+
+###
+
+POST http://localhost:3001/api/login
+content-type: application/json
+
+{
+    "email": "testing@example.com",
+    "password": "test"
+}
+
+###
+
+GET http://localhost:3001/api/test
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0aW5nQGV4YW1wbGUuY29tIiwiaWF0IjoxNjA0ODk0MzUxfQ.a-4tZqNQbOv9pTPBQdzwHS_8687OWmVyAX-xYSwS3Lc
+
+{
+    "email": "testing@example.com",
+    "password": "test"
+}

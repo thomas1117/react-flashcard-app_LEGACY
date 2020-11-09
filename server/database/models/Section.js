@@ -1,20 +1,26 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../connection')
-const { Card } = require('./Card')
-const { Deck } = require('./Deck')
-
-class Section extends Model {}
-
-Section.init({
-    // id: {
-    //     primaryKey: true,
-    //     type: DataTypes.UUIDV1
-    // },
-    title: {
-        type: DataTypes.STRING
-    },
-}, {sequelize})
-
-Section.hasMany(Card, {as: 'cards', foreignKey: 'sectionId'})
-// Section.belongsToMany(Deck, { through: 'SectionDecks'})
-module.exports = { Section }
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Section extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      this.belongsTo(models.Deck, {as: 'deck', foreignKey: 'deckId'})
+      this.hasMany(models.Card, {as: 'cards', foreignKey: 'sectionId'})
+    }
+  };
+  Section.init({
+    title: DataTypes.STRING,
+    deckId: DataTypes.INTEGER
+  }, {
+    sequelize,
+    modelName: 'Section',
+  });
+  return Section;
+};
