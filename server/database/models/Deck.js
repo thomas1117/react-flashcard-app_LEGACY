@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       //  foreign key relates to itself here
       this.belongsToMany(models.User, {through: 'UsersDecks', foreignKey: 'deckId'})
-      this.hasMany(models.Section, {as: 'sections', foreignKey: 'sectionId'})
+      this.hasMany(models.Section, {as: 'sections', foreignKey: 'deckId'})
     }
   };
   Deck.init({
