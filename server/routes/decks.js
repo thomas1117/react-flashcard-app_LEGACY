@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const { xmlToJSON } = require('../../file-parser/xml')
 const xmlparser = require('express-xml-bodyparser')
-const { Deck, Section, Card } = require('../database/models')
-
+const db = require('../database/models')
+const { Deck, Card, Section } = db
 router.get('/decks', async (req, res) => {
   const decks = await Deck.findAll()
   res.send(decks)
@@ -115,7 +115,6 @@ router.post('/deck', async (req, res) => {
 })
 
 router.post('/xml', async function (req, res, next) {
-  console.log(req.body)
   res.json({ message: 'xml created successfully' })
   // xmlToJSON(req.body.xml, async (resp) => {
   //   console.log(resp)

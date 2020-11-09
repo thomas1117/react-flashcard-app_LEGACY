@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const Sequelize = require('sequelize')
 // console.log(process.env)
 function dbConfig(prod) {
@@ -10,10 +12,11 @@ function dbConfig(prod) {
     if (o.dialect === 'postgres') {
         delete o.storage
         o.dialectOptions = {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false // <<<<<<< YOU NEED THIS
-            }
+            // todo move back most likely on prod...
+            // ssl: {
+            //     require: true,
+            //     rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+            // }
         }
     }
     return o
