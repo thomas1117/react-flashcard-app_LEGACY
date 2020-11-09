@@ -5,6 +5,7 @@ import JS_SEED_DATA from '../../seed/js/dynamic-seed'
 import { RootState } from '../../app/store'
 import { DeckState, DeckIds, DeckMeta } from './interfaces'
 import UUID from '../../utils/id';
+import request from '../../utils/request'
 
 // strip away legacy class definition...
 // TODO: remove es6 model classes in favor of interface object casting or some shit like that...
@@ -177,7 +178,7 @@ function getTheDeck(params: DeckIds) {
     if (deckId === 'js') {
       dispatch(setTheDeck({ deckId, cardId, sectionId, sections: SECTIONS, deckTitle: 'js' }))
     } else {
-      const res = await axios.get(`/api/decks/${deckId}`)
+      const res = await request.get(`/decks/${deckId}`)
       dispatch(
         setTheDeck({ deckId, cardId, sectionId, sections: res.data.sections, deckTitle: res.data.title })
       )
@@ -187,7 +188,14 @@ function getTheDeck(params: DeckIds) {
 
 function getTheDecks() {
   return async (dispatch: any) => {
-    const res = await axios.get(`/api/decks`)
+    const res = await request.get(`/decks`)
+    dispatch(setTheDecks(res.data))
+  }
+}
+
+function getTheUserDecks(id: string) {
+  return async (dispatch: any) => {
+    const res = await request.get(`/decks/users/` + id)
     dispatch(setTheDecks(res.data))
   }
 }
@@ -213,6 +221,7 @@ export const useDeck = () => {
   const methodsToExpose = {
     getDeck: (params: DeckIds) => dispatch(getTheDeck(params)),
     getDecks: () => dispatch(getTheDecks()),
+    getUserDecks: (id: string) => dispatch(getTheUserDecks(id)),
     setSection: (id: string) => dispatch(setTheSection(id)),
     setCard: (id: string) => dispatch(setTheCard(id)),
     manageSide: () => dispatch(manageCardSide()),
