@@ -11,5 +11,5 @@ export default function Button({type, onClick, children, ...restProps}) {
         margin: (restProps.style && restProps.style.margin) || 0,
         position: restProps.style && restProps.style.position || 'static'
     }
-    return <button type={type || 'button'} {...restProps} style={styles} onClick={onClick}>{children}</button>
+    return <button type={type || 'button'} {...restProps} style={styles} onClick={onClick ? onClick : () => {}}>{children}</button>
 }

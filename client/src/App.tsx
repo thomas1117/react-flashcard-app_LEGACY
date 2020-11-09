@@ -1,9 +1,11 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Deck, Decks, Upload, PreviewEditDeck } from './features/deck/routes'
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import { Deck, Decks, Upload, PreviewEditDeck, Login, Signup } from './features/deck/routes'
 import { ThemeProvider } from './ThemeContext'
 import { ThemeProvider as ChakraTheme, theme } from '@chakra-ui/core'
+import 'antd/dist/antd.css';
 import { useSettings } from './features/settings/settingsSlice'
+import AuthRoute from './features/auth/AuthRoute'
 
 const customTheme = {
   ...theme,
@@ -23,19 +25,29 @@ function App() {
     <ChakraTheme theme={customTheme}>
       <ThemeProvider value={{ theme: activeTheme }}>
         <Router>
-          <Route path="/upload" component={Upload} />
-          <Route
-            path="/preview/:deckId?"
-            exact
-            component={PreviewEditDeck}
-          />
-          <Route
-            path="/deck-preview/:sectionId?/:cardId?"
-            exact
-            component={Deck}
-          />
-          <Route path="/decks" exact component={Decks} />
-          <Route path="/decks/:deckId/:sectionId?/:cardId?" component={Deck} />
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/login" />
+            </Route>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/upload" component={Upload} />
+            <Route
+              path="/preview/:deckId?"
+              exact
+              component={PreviewEditDeck}
+            />
+            <Route
+              path="/deck-preview/:sectionId?/:cardId?"
+              exact
+              component={Deck}
+            />
+            <Route path="/decks" exact component={Decks} />
+            <Route path="/decks/:deckId/:sectionId?/:cardId?" component={Deck} />
+            <AuthRoute path="/auth-test">
+              <h2>test auth route</h2>
+            </AuthRoute>
+          </Switch>
         </Router>
       </ThemeProvider>
     </ChakraTheme>
