@@ -4,7 +4,6 @@ import { useAuth } from './auth'
 
 export default (props) => {
     const { isAuthenticated } = useAuth()
-    console.log(props)
     if (!isAuthenticated) {
         return <Redirect to="login"/>
         }
