@@ -32,6 +32,12 @@ module.exports = {
               }], {})
         }
     }
+    await queryInterface.bulkInsert('UsersDecks', [{
+      userId: 1,
+      deckId: deck[0].id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }], {})
   },
 
   down: async (queryInterface, Sequelize) => {
