@@ -10,7 +10,7 @@ export default () => {
   const { toggleTheme } = useSettings()
   useEffect(() => {
     getDecks()
-  }, [getDecks])
+  }, [])
   return (
     <Page loaded={true} padding="20">
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>

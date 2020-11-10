@@ -4,6 +4,7 @@ import { useDeck } from '../deckSlice'
 import { useSettings } from '../../settings/settingsSlice'
 import Page from '../../../ui/Page'
 import Switch from '../../../ui/Switch'
+import Card from '../../../ui/Card'
 
 export default function UserDecks () {
   const params: any = useParams()
@@ -26,16 +27,28 @@ export default function UserDecks () {
             js
           </div>
         </li>
-        <h2 className="decks-page-header">Dynamic</h2>
-        {decks.map((deck) => (
-          <li key={`deck-item-${deck.id}`} className="decks-page-item Card">
-            <div>
-              <Link to={`/decks/${deck.id}`}></Link>
-              {deck.title}
-            </div>
-          </li>
-        ))}
       </ul>
+      <h2>Your Decks</h2>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
+        gridGap: '20px'
+      }}>
+      {decks.map((deck) => (
+          <Card to={`/decks/${deck.id}`}>
+            <div style={{padding: '20px'}}>
+            {/* <Link to={`/decks/${deck.id}`}></Link> */}
+            {deck.title}
+            </div>
+          </Card>
+          // <div key={`deck-item-${deck.id}`} className="decks-page-item Card" style={{padding: '20px'}}>
+          //   <div>
+          //     <Link to={`/decks/${deck.id}`}></Link>
+          //     {deck.title}
+          //   </div>
+          // </div>
+        ))}
+      </div>
     </Page>
   )
 }
