@@ -47,11 +47,14 @@ $setting-input-focus: #1b88bb;
 }
 
 .SettingsNav {
-  position: relative;
+  position: absolute;
+  width: 83%;
+  right: 0;
   z-index: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  padding: 2rem;
   li {
     display: flex;
     align-items: center;
@@ -63,11 +66,8 @@ $setting-input-focus: #1b88bb;
       text-decoration: underline;
     }
   }
-
-  &-toggle {
-    @media screen and (max-width: 768px) {
-      display: none;
-    }
+  @media screen and (max-width: 768px) {
+    display: none;
   }
 
   .theme-toggler {

@@ -14,6 +14,7 @@ function Deck(props: any) {
   const {
     activeSection,
     activeCard,
+    deckTitle,
     getDeck,
     manageSide
   } = useDeck()
@@ -43,19 +44,22 @@ function Deck(props: any) {
         `/decks/${params.deckId}/${activeSection.id}/${activeCard.id}${back}`
       )
     }
-  }, [])
+  }, [params.deckId, activeCard.id])
 
   return (
     <Page loaded={!loading}>
-      <NavSettings />
+      {/* <NavSettings /> */}
 
       <div className="Dash">
         <div className="Dash-Nav-container">
           <DeckNav />
         </div>
-        <div className="Dash-Card-container">
-          <div className="Dash-Card-container-inner">
-            <Card />
+        <div style={{flexGrow: 1}}>
+          <NavSettings />
+          <div className="Dash-Card-container">
+            <div className="Dash-Card-container-inner">
+              <Card />
+            </div>
           </div>
         </div>
       </div>

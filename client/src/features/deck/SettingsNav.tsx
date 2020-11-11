@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 
 export default function SettingsNav(props: {
   deckId: any
+  deckTitle: any
   onChange: any
   frontTime: any
   backTime: any
@@ -28,6 +29,7 @@ export default function SettingsNav(props: {
   }
   return (
     <nav className="SettingsNav">
+      <h2>{props.deckTitle}</h2>
       <ul>
         <li>
           <Link to="/decks" style={{ marginRight: '20px' }}>

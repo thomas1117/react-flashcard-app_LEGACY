@@ -6,6 +6,7 @@ import { useSettings } from '../settings/settingsSlice'
 
 export default function NavSettings(props: any) {
   const {
+    deckTitle,
     sections,
     activeSectionIndex,
     setSection,
@@ -26,6 +27,7 @@ const {
       <div className="Dash-Nav-desktop">
         <SettingsNav
           deckId={props.deckId}
+          deckTitle={deckTitle}
           frontTime={cardTimeFront}
           backTime={cardTimeBack}
           onChange={() => toggleTheme()}
@@ -49,6 +51,7 @@ const {
         </ul>
         <SettingsNav
           deckId={props.deckId}
+          deckTitle={deckTitle}
           frontTime={cardTimeFront}
           backTime={cardTimeBack}
           onChange={() => toggleTheme()}
