@@ -14,7 +14,7 @@ export default function CodeEditor(props: any) {
     useEffect(() => {
         setInternalCode(incomingCode)
         init(incomingCode)
-    }, [setInternalCode, init])
+    }, [setInternalCode, init, incomingCode])
     function handleCodeChange(code) {
         setInternalCode(code)
         onCodeChange(code)
