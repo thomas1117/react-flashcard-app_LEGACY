@@ -37,16 +37,9 @@ export default function UserDecks () {
       {decks.map((deck) => (
           <Card to={`/decks/${deck.id}`}>
             <div style={{padding: '20px'}}>
-            {/* <Link to={`/decks/${deck.id}`}></Link> */}
             {deck.title}
             </div>
           </Card>
-          // <div key={`deck-item-${deck.id}`} className="decks-page-item Card" style={{padding: '20px'}}>
-          //   <div>
-          //     <Link to={`/decks/${deck.id}`}></Link>
-          //     {deck.title}
-          //   </div>
-          // </div>
         ))}
       </div>
     </Page>

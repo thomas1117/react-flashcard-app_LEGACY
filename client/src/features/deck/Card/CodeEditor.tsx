@@ -7,16 +7,17 @@ import 'ace-builds/src-noconflict/theme-monokai'
 
 export default function CodeEditor(props: any) {
     const [internalCode, setInternalCode] = useState('')
+    const { incomingCode, onCodeChange, init } = props
     useEffect(() => {
-        setInternalCode(props.incomingCode)
-    }, [props.incomingCode])
+        setInternalCode(incomingCode)
+    }, [incomingCode, setInternalCode])
     useEffect(() => {
-        setInternalCode(props.incomingCode)
-        props.init(props.incomingCode)
-    }, [])
+        setInternalCode(incomingCode)
+        init(incomingCode)
+    }, [setInternalCode, init])
     function handleCodeChange(code) {
         setInternalCode(code)
-        props.onCodeChange(code)
+        onCodeChange(code)
     }
     return (
         <div style={{width: '100%', height: '100%'}}>

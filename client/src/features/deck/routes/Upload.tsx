@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BsUpload, BsFillTrashFill, BsCursorFill } from 'react-icons/bs'
-import axios from 'axios'
+
 import Card from '../Card/Card'
 import DeckNav from '../DeckNav/DeckNav'
 import Page from '../../../ui/Page'
@@ -12,8 +12,8 @@ import { readXMLFile, xmlToJSON } from '../../../utils/xml'
 
 function Upload() {
   const {
-    deckTitle,
-    sections,
+    // deckTitle,
+    // sections,
     setDeck,
   } = useDeck()
 
@@ -23,7 +23,7 @@ function Upload() {
   const togglePreview = () => setPreview(!preview)
   async function handleSubmit(e: any) {
     e.preventDefault()
-    const result = await axios.post('/api/deck', {title: deckTitle, sections})
+    // const result = await axios.post('/api/deck', {title: deckTitle, sections})
     // const id = result.data.id
   }
 

@@ -26,7 +26,7 @@ function PreviewEditDeck(props: any) {
 
   useEffect(() => {
     const { cardId, deckId, sectionId } = params
-    const jsDeck = deckId === 'js'
+    // const jsDeck = deckId === 'js'
     if (deckId) {
         getDeck({ deckId, sectionId, cardId })
     }
