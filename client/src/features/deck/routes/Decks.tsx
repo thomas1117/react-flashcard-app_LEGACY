@@ -4,13 +4,14 @@ import { useDeck } from '../deckSlice'
 import { useSettings } from '../../settings/settingsSlice'
 import Page from '../../../ui/Page'
 import Switch from '../../../ui/Switch'
+import Card from '../../../ui/Card'
 
 export default () => {
   const { getDecks, decks } = useDeck()
   const { toggleTheme } = useSettings()
   useEffect(() => {
     getDecks()
-  }, [])
+  }, [getDecks])
   return (
     <Page loaded={true} padding="20">
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
@@ -26,15 +27,21 @@ export default () => {
           </div>
         </li>
         <h2 className="decks-page-header">Dynamic</h2>
-        {decks.map((deck) => (
-          <li key={`deck-item-${deck.id}`} className="decks-page-item Card">
-            <div>
+      </ul>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
+        gridGap: '20px'
+      }}>
+      {decks.map((deck) => (
+        <Card to={`/decks/${deck.id}`}>
+          <div style={{padding: '20px'}}>
               <Link to={`/decks/${deck.id}`}></Link>
               {deck.title}
             </div>
-          </li>
+        </Card>
         ))}
-      </ul>
+      </div>
     </Page>
   )
 }

@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import Editor from 'react-simple-code-editor'
-// import { highlight, languages } from 'prismjs/components/prism-core'
-// import 'prismjs/components/prism-clike'
-// import 'prismjs/components/prism-javascript'
-import parser from 'fast-xml-parser'
 import AceEditor from 'react-ace'
 
 import 'ace-builds/src-noconflict/mode-html'

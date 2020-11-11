@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { BsUpload, BsFillTrashFill, BsCursorFill } from 'react-icons/bs'
 import axios from 'axios'
 import Card from '../Card/Card'
-import DeckNav from '../DeckNav'
+import DeckNav from '../DeckNav/DeckNav'
 import Page from '../../../ui/Page'
 import {Button, Link, FileUpload} from '../../../ui'
 // import { Link } from 'react-router-dom'
@@ -25,7 +24,7 @@ function Upload() {
   async function handleSubmit(e: any) {
     e.preventDefault()
     const result = await axios.post('/api/deck', {title: deckTitle, sections})
-    const id = result.data.id
+    // const id = result.data.id
   }
 
   async function readXML(file) {

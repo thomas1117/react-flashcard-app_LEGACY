@@ -1,5 +1,6 @@
 import React from 'react'
 // {children}, ...restProps: any
+/* eslint-disable */
 export default function Button({type, onClick, children, ...restProps}) {
     const style = restProps.style || {}
     const styles = {
@@ -8,8 +9,8 @@ export default function Button({type, onClick, children, ...restProps}) {
         color: '#fff',
         border: 'none',
         borderRadius: '3px',
-        margin: (restProps.style && restProps.style.margin) || 0,
-        position: restProps.style && restProps.style.position || 'static'
+        margin: (style && style.margin) || 0,
+        position: style && style.position || 'static'
     }
     return <button type={type || 'button'} {...restProps} style={styles} onClick={onClick ? onClick : () => {}}>{children}</button>
 }

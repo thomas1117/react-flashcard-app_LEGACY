@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
-import { Link } from '../../../ui'
 import Page from '../../../ui/Page'
 import Card from '../Card/Card'
-import DeckNav from '../DeckNav'
+import DeckNav from '../DeckNav/DeckNav'
 import { useDeck } from '../deckSlice'
 import NavSettings from '../NavSettings'
 
@@ -44,7 +43,7 @@ function Deck(props: any) {
         `/decks/${params.deckId}/${activeSection.id}/${activeCard.id}${back}`
       )
     }
-  }, [activeSection.id, activeCard.id])
+  }, [])
 
   return (
     <Page loaded={!loading}>

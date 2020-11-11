@@ -2,6 +2,8 @@ import parser from 'fast-xml-parser'
 import UUID from './id'
 import { normalize } from './indent'
 
+/* eslint-disable */
+
 function safelyEncodeXML(m) {
     return encodeURIComponent(m)
   }
@@ -11,6 +13,7 @@ return decodeURIComponent(m)
 }
 
 function escapeInvalidXML(text) {
+    // eslint no-useless-escape
     const regex = /(?<=\<back\>)[\s\S]*?(?=\<\/back\>)/g
     const parsed = String(text).replace(regex, safelyEncodeXML)
     const regex2 = /(?<=\<front\>)[\s\S]*?(?=\<\/front\>)/g
