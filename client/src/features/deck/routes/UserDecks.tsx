@@ -10,9 +10,10 @@ export default function UserDecks () {
   const params: any = useParams()
   const { getUserDecks, decks } = useDeck()
   const { toggleTheme } = useSettings()
+  const userId = params.userId
   useEffect(() => {
-    getUserDecks(params.userId)
-  }, [params.userId])
+    getUserDecks(userId)
+  }, [])
   return (
     <Page loaded={true} padding="20">
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
