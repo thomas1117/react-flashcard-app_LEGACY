@@ -3,7 +3,7 @@ import { BsUpload } from 'react-icons/bs'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import Page from '../../../ui/Page'
 import Card from '../Card/Card'
-import DeckNav from '../DeckNav'
+import DeckNav from '../DeckNav/DeckNav'
 import { useDeck } from '../deckSlice'
 import NavSettings from '../NavSettings'
 
@@ -26,7 +26,7 @@ function PreviewEditDeck(props: any) {
 
   useEffect(() => {
     const { cardId, deckId, sectionId } = params
-    const jsDeck = deckId === 'js'
+    // const jsDeck = deckId === 'js'
     if (deckId) {
         getDeck({ deckId, sectionId, cardId })
     }
@@ -37,7 +37,7 @@ function PreviewEditDeck(props: any) {
   }, [])
 
   useEffect(() => {
-    const back = activeCard.side === 'back' || location.search.includes('?back') ? '?back=true' : ''
+    // const back = activeCard.side === 'back' || location.search.includes('?back') ? '?back=true' : ''
     // if (activeSection.id && activeCard.id) {
     //   history.push(
     //     `/preview/${params.deckId}/${activeSection.id}/${activeCard.id}${back}`

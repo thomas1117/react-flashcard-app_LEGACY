@@ -4,6 +4,7 @@ import { useDeck } from '../deckSlice'
 import { useSettings } from '../../settings/settingsSlice'
 import Page from '../../../ui/Page'
 import Switch from '../../../ui/Switch'
+import Card from '../../../ui/Card'
 
 export default () => {
   const { getDecks, decks } = useDeck()
@@ -17,24 +18,34 @@ export default () => {
         <Link to="upload">Uploads</Link>
         <Switch onChange={() => toggleTheme()} />
       </div>
-      <ul className="decks-page">
-        <h2 className="decks-page-header">Static</h2>
-        <li className="decks-page-item Card">
-          <div>
-            <Link to={`/decks/js`}></Link>
-            js
-          </div>
-        </li>
-        <h2 className="decks-page-header">Dynamic</h2>
-        {decks.map((deck) => (
-          <li key={`deck-item-${deck.id}`} className="decks-page-item Card">
-            <div>
+      <h2 className="decks-page-header">Example Decks</h2>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
+        gridGap: '20px',
+        marginBottom: '20px'
+      }}>
+        <Card to={`/decks/js`}>
+          <div style={{padding: '20px'}}>
+              js
+            </div>
+        </Card>
+      </div>
+      <h2 className="decks-page-header">Available Decks</h2>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
+        gridGap: '20px'
+      }}>
+      {decks.map((deck) => (
+        <Card to={`/decks/${deck.id}`}>
+          <div style={{padding: '20px'}}>
               <Link to={`/decks/${deck.id}`}></Link>
               {deck.title}
             </div>
-          </li>
+        </Card>
         ))}
-      </ul>
+      </div>
     </Page>
   )
 }

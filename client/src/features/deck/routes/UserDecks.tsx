@@ -10,13 +10,18 @@ export default function UserDecks () {
   const params: any = useParams()
   const { getUserDecks, decks } = useDeck()
   const { toggleTheme } = useSettings()
+  const userId = params.userId
   useEffect(() => {
-    getUserDecks(params.userId)
-  }, [params.userId])
+    getUserDecks(userId)
+  }, [])
   return (
     <Page loaded={true} padding="20">
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-        <Link to="upload">Uploads</Link>
+        <div>
+          <Link to="/upload">Uploads</Link>
+          <span> | </span>
+          <Link to="/decks">Available decks</Link>
+        </div>
         <Switch onChange={() => toggleTheme()} />
       </div>
       <ul className="decks-page">
@@ -37,16 +42,9 @@ export default function UserDecks () {
       {decks.map((deck) => (
           <Card to={`/decks/${deck.id}`}>
             <div style={{padding: '20px'}}>
-            {/* <Link to={`/decks/${deck.id}`}></Link> */}
             {deck.title}
             </div>
           </Card>
-          // <div key={`deck-item-${deck.id}`} className="decks-page-item Card" style={{padding: '20px'}}>
-          //   <div>
-          //     <Link to={`/decks/${deck.id}`}></Link>
-          //     {deck.title}
-          //   </div>
-          // </div>
         ))}
       </div>
     </Page>

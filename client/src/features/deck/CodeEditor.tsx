@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import Editor from 'react-simple-code-editor'
-// import { highlight, languages } from 'prismjs/components/prism-core'
-// import 'prismjs/components/prism-clike'
-// import 'prismjs/components/prism-javascript'
-import parser from 'fast-xml-parser'
 import AceEditor from 'react-ace'
 
 import 'ace-builds/src-noconflict/mode-html'
@@ -26,17 +21,18 @@ const start = `<deck title="js">
 `
 
 export default function CodeEditor(props: any) {
+    const { incomingCode, init, onCodeChange } = props
     const [internalCode, setInternalCode] = useState('')
     useEffect(() => {
-        setInternalCode(props.incomingCode)
-    }, [props.incomingCode])
+        setInternalCode(incomingCode)
+    }, [incomingCode])
     useEffect(() => {
         setInternalCode(start)
-        props.init(start)
+        init(start)
     }, [])
     function handleCodeChange(code) {
         setInternalCode(code)
-        props.onCodeChange(code)
+        onCodeChange(code)
     }
     return (
         <div style={{width: '100%', height: '100%'}}>

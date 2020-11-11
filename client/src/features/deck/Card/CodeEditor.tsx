@@ -4,35 +4,20 @@ import 'ace-builds/src-noconflict/mode-html'
 import 'ace-builds/src-noconflict/mode-javascript'
 import 'ace-builds/src-noconflict/mode-markdown'
 import 'ace-builds/src-noconflict/theme-monokai'
- 
-
-const start = `<deck title="js">
-    <section title="variables" language="markdown">
-        <card>
-            <front>
-            ## card start
-            </front>
-            <back>
-            # yo!
-            </back>
-            <meta>this is an example</meta>
-        </card>
-    </section>
-</deck>
-`
 
 export default function CodeEditor(props: any) {
     const [internalCode, setInternalCode] = useState('')
+    const { incomingCode, onCodeChange, init } = props
     useEffect(() => {
-        setInternalCode(props.incomingCode)
-    }, [props.incomingCode])
+        setInternalCode(incomingCode)
+    }, [incomingCode])
     useEffect(() => {
-        setInternalCode(props.incomingCode)
-        props.init(props.incomingCode)
+        setInternalCode(incomingCode)
+        init(incomingCode)
     }, [])
     function handleCodeChange(code) {
         setInternalCode(code)
-        props.onCodeChange(code)
+        onCodeChange(code)
     }
     return (
         <div style={{width: '100%', height: '100%'}}>

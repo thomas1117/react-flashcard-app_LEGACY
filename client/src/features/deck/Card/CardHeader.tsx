@@ -29,8 +29,8 @@ export default (props: any) => {
               checked={checked}
               onChange={handleChecked}
             />}
-            {props.editable && <span style={{marginRight: '1rem'}} onClick={props.flip}>{props.side == 'front' ? 'go to back' : 'go to front'}</span>}
-            {props.editable && props.side == 'back' &&
+            {props.editable && <span style={{marginRight: '1rem'}} onClick={props.flip}>{props.side === 'front' ? 'go to back' : 'go to front'}</span>}
+            {props.editable && props.side === 'back' &&
               <Select 
                 style={{margin: '1rem'}}
                 onChange={handleSelect}

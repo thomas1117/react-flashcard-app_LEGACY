@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction, current } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
 import JS_SEED_DATA from '../../seed/js/dynamic-seed'
 import { RootState } from '../../app/store'
 import { DeckState, DeckIds, DeckMeta } from './interfaces'
@@ -49,16 +48,7 @@ export const deckSlice = createSlice({
       const newSection = {
         id: sectionId,
         title: action.payload,
-        cards: [
-          // {
-          //   id: UUID(),
-          //   side: 'front',
-          //   meta: 'start',
-          //   front: '# front side',
-          //   back: '## back side',
-          //   language: 'markdown',
-          // }
-        ]
+        cards: []
       }
       state.sections.push(newSection)
       state.sectionMap[sectionId] = newSection
@@ -66,10 +56,10 @@ export const deckSlice = createSlice({
       state.activeCardIndex = 0
       // state.activeCard = state.activeSection.cards[0]
     },
-    activeCardFront: (state, action: PayloadAction<string>) => {
+    setActiveCardFront: (state, action: PayloadAction<string>) => {
       state.activeCard.front = action.payload
     },
-    activeCardBack: (state, action: PayloadAction<string>) => {
+    setActiveCardBack: (state, action: PayloadAction<string>) => {
       state.activeCard.back = action.payload
     },
     activeCardLanguage: (state, action: PayloadAction<string>) => {
@@ -100,7 +90,7 @@ export const deckSlice = createSlice({
         state.activeCard = state.activeSection.cards[0]
         state.activeCardIds = state.activeSection.cards.map(c => c.id)
       }
-      const index = state.sections.findIndex(c => c.id == action.payload)
+      const index = state.sections.findIndex(c => c.id === action.payload)
       state.activeSectionIndex = index > - 1 ? index : 0
       if (state.cyclingSection) {
         state.cyclingSection = false
@@ -108,7 +98,7 @@ export const deckSlice = createSlice({
     },
     setTheCard: (state, action: PayloadAction<string>) => {
       state.activeCard = state.cardMap[action.payload]
-      const index = state.activeSection.cards.findIndex(c => c.id == action.payload)
+      const index = state.activeSection.cards.findIndex(c => c.id === action.payload)
       state.activeCardIndex = index > - 1 ? index : 0
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
@@ -129,7 +119,7 @@ export const deckSlice = createSlice({
       state.activeSection = state.sectionMap[sectionId] || state.sections[0]
       state.sectionIds = state.sections.map(x => x.id)
       state.activeCardIds = state.activeSection.cards.map(x => x.id)
-      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id == id)
+      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id === id)
       const indexOrZero = (index: number) => index === -1 ? 0 : index
       const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
       const sectionIndex = itemIndexOrZero(state.sections, sectionId)
@@ -167,8 +157,8 @@ const {
   createSection,
   createCard,
   setDeckTitle,
-  activeCardFront,
-  activeCardBack,
+  setActiveCardFront,
+  setActiveCardBack,
   activeCardLanguage
 } = deckSlice.actions
 
@@ -229,8 +219,8 @@ export const useDeck = () => {
     setDeck: (deck) => dispatch(setTheDeck(deck)),
     addSection: (title: string) => dispatch(createSection(title)),
     addCard: (title: string) => dispatch(createCard(title)),
-    setActiveCardFront: (code: string) => dispatch(activeCardFront(code)),
-    setActiveCardBack: (code: string) => dispatch(activeCardBack(code)),
+    setActiveCardFront: (code: string) => dispatch(setActiveCardFront(code)),
+    setActiveCardBack: (code: string) => dispatch(setActiveCardBack(code)),
     setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang)),
     addDeckTitle: (title: string) => dispatch(setDeckTitle(title))
   }

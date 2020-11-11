@@ -11,15 +11,15 @@
 .Dash {
   display: flex;
   height: 100%;
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     height: auto;
   }
 
   &-Nav-desktop {
-    position: absolute;
-    padding: 1rem;
-    width: 100%;
-    @media(max-width: 768px) {
+    // position: absolute;
+    // padding: 1rem;
+    // width: 100%;
+    @media (max-width: 768px) {
       display: none;
     }
   }
@@ -32,14 +32,14 @@
     justify-content: space-between;
     align-items: center;
     color: var(--off-white);
-    padding: 1rem .5rem 1rem 1rem;
+    padding: 1rem 0.5rem 1rem 1rem;
     @media screen and (max-width: 768px) {
       display: flex;
     }
 
     &-left {
       display: flex;
-      width: 80%;
+      width: 90vw;
       overflow-x: auto;
       z-index: 2;
     }
@@ -53,7 +53,7 @@
     }
   }
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     &-Nav-container {
       display: none;
     }
@@ -68,11 +68,11 @@
     justify-content: center;
     position: relative;
   }
-  
+
   &-Card-container-inner {
     position: relative;
     width: 80%;
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
       width: 95%;
       padding-top: 2rem;
     }

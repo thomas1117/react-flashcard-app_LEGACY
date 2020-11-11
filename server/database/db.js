@@ -8,6 +8,7 @@ function dbConfig(prod) {
         dialect: process.env.DIALECT,
         storage: 'db.sqlite',
         port: 5432,
+        logging: false
     }
     if (o.dialect === 'postgres') {
         delete o.storage

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { BsUpload, BsFillTrashFill, BsCursorFill } from 'react-icons/bs'
-import axios from 'axios'
+import { BsUpload, BsFillTrashFill, BsCursorFill, BsEyeFill } from 'react-icons/bs'
+
 import Card from '../Card/Card'
-import DeckNav from '../DeckNav'
+import DeckNav from '../DeckNav/DeckNav'
 import Page from '../../../ui/Page'
 import {Button, Link, FileUpload} from '../../../ui'
 // import { Link } from 'react-router-dom'
@@ -13,8 +12,8 @@ import { readXMLFile, xmlToJSON } from '../../../utils/xml'
 
 function Upload() {
   const {
-    deckTitle,
-    sections,
+    // deckTitle,
+    // sections,
     setDeck,
   } = useDeck()
 
@@ -24,8 +23,8 @@ function Upload() {
   const togglePreview = () => setPreview(!preview)
   async function handleSubmit(e: any) {
     e.preventDefault()
-    const result = await axios.post('/api/deck', {title: deckTitle, sections})
-    const id = result.data.id
+    // const result = await axios.post('/api/deck', {title: deckTitle, sections})
+    // const id = result.data.id
   }
 
   async function readXML(file) {
@@ -72,11 +71,13 @@ function Upload() {
           <div className="deck-builder-columns">
             <div
               className="deck-builder-columns-form"
-              style={{ width: preview ? '1px' : '50%' }}
+              style={{ width: preview ? '1px' : '100%' }}
             >
-              <div className="deck-builder-nav">
+              <div className="deck-builder-nav" style={{position: 'relative'}}>
                 <div style={{display: 'flex', justifyContent: 'space-between', flexGrow: 1}}>
-                  <Link to="/decks/js">Js Deck</Link>
+                  <div>
+                    <Link to="/decks/users/1">Your decks</Link>
+                  </div>
                   <div>
                     <div style={{display: 'flex'}}>
                       <div style={{marginRight: '1rem'}}>
@@ -97,23 +98,25 @@ function Upload() {
             </div>
             <div
               className="deck-builder-columns-preview"
-              style={{ width: preview ? '100%' : '50%', position: 'relative' }}
+              style={{ width: preview ? '100%' : '100%', position: 'relative' }}
             >
-                              <Button type="button" style={{position: 'absolute', right: 0, zIndex: 2}} onClick={togglePreview}>
-                  {preview ? 'Edit Raw' : 'preview'}
-                </Button>
-              <DeckNav keyboardDisabled={true} />
-              <div
-                style={{
-                  margin: '2rem',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
+            <Button type="button" style={{position: 'absolute', right: 0, zIndex: 2}} onClick={togglePreview}>
+              {preview ? 'Edit Raw' : <BsEyeFill />}
+            </Button>
+            <DeckNav keyboardDisabled={true} />
+            <div
+              style={{
+                margin: '2rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%'
+              }}
+            >
+              <div style={{width: preview ? '50%' : '100%'}}>
                 <Card />
               </div>
+            </div>
             </div>
           </div>
         </div>
