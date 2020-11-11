@@ -29,7 +29,7 @@ export default function CodeEditor(props: any) {
     useEffect(() => {
         setInternalCode(start)
         init(start)
-    }, [init])
+    }, [])
     function handleCodeChange(code) {
         setInternalCode(code)
         onCodeChange(code)

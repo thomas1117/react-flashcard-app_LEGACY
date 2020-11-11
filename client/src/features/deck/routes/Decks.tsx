@@ -18,16 +18,20 @@ export default () => {
         <Link to="upload">Uploads</Link>
         <Switch onChange={() => toggleTheme()} />
       </div>
-      <ul className="decks-page">
-        <h2 className="decks-page-header">Static</h2>
-        <li className="decks-page-item Card">
-          <div>
-            <Link to={`/decks/js`}></Link>
-            js
-          </div>
-        </li>
-        <h2 className="decks-page-header">Dynamic</h2>
-      </ul>
+      <h2 className="decks-page-header">Example Decks</h2>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
+        gridGap: '20px',
+        marginBottom: '20px'
+      }}>
+        <Card to={`/decks/js`}>
+          <div style={{padding: '20px'}}>
+              js
+            </div>
+        </Card>
+      </div>
+      <h2 className="decks-page-header">Available Decks</h2>
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr 1fr',

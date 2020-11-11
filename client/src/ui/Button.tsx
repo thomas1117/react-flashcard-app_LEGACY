@@ -10,7 +10,9 @@ export default function Button({type, onClick, children, ...restProps}) {
         border: 'none',
         borderRadius: '3px',
         margin: (style && style.margin) || 0,
-        position: style && style.position || 'static'
+        position: style && style.position || 'static',
+        zIndex: style && style.zIndex,
+        right: style && style.right
     }
     return <button type={type || 'button'} {...restProps} style={styles} onClick={onClick ? onClick : () => {}}>{children}</button>
 }

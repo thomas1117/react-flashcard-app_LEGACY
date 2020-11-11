@@ -17,7 +17,11 @@ export default function UserDecks () {
   return (
     <Page loaded={true} padding="20">
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-        <Link to="upload">Uploads</Link>
+        <div>
+          <Link to="/upload">Uploads</Link>
+          <span> | </span>
+          <Link to="/decks">Available decks</Link>
+        </div>
         <Switch onChange={() => toggleTheme()} />
       </div>
       <ul className="decks-page">

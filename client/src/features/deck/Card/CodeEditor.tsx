@@ -10,11 +10,11 @@ export default function CodeEditor(props: any) {
     const { incomingCode, onCodeChange, init } = props
     useEffect(() => {
         setInternalCode(incomingCode)
-    }, [incomingCode, setInternalCode])
+    }, [incomingCode])
     useEffect(() => {
         setInternalCode(incomingCode)
         init(incomingCode)
-    }, [setInternalCode, init, incomingCode])
+    }, [])
     function handleCodeChange(code) {
         setInternalCode(code)
         onCodeChange(code)
