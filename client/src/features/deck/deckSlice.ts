@@ -196,6 +196,7 @@ export const useDeck = () => {
   const stateToExpose = {
     deckId: deckState.deckId,
     decks: deckState.decks,
+    deckState: deckState,
     atDeckEnd: deckState.activeSectionIndex === deckState.sections.length - 1,
     cyclingSection: deckState.cyclingSection,
     sections: deckState.sections,

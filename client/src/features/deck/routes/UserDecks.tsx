@@ -24,15 +24,6 @@ export default function UserDecks () {
         </div>
         <Switch onChange={() => toggleTheme()} />
       </div>
-      <ul className="decks-page">
-        <h2 className="decks-page-header">Static</h2>
-        <li className="decks-page-item Card">
-          <div>
-            <Link to={`/decks/js`}></Link>
-            js
-          </div>
-        </li>
-      </ul>
       <h2>Your Decks</h2>
       <div style={{
         display: 'grid',

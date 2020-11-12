@@ -53,10 +53,6 @@ function PreviewEditDeck(props: any) {
         <div className="Dash-Nav-container">
           <DeckNav editable={true} keyboardDisabled={true} />
         </div>
-        <h2 style={{margin: '1rem', display: 'flex'}}>
-          {deckTitle}
-          {deckTitle && activeSection && activeSection.cards && activeSection.cards.length > 0 && <BsUpload style={{ marginLeft: '1rem'}}/>}
-        </h2>
         <div className="Dash-Card-container">
           <div className="Dash-Card-container-inner">
             <Card editable={true} />

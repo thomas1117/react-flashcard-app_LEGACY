@@ -11,6 +11,7 @@ interface P {
 }
 export default function DeckNav(props: P) {
   const {
+    deckState,
     activeSection,
     activeSectionIndex,
     activeCardIndex,
@@ -76,6 +77,12 @@ export default function DeckNav(props: P) {
     activeCardIds,
     sectionIds
   ])
+
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      localStorage.setItem('PREVIEW_DECK_STATE', JSON.stringify(deckState))
+    }
+  }, [])
 
   useEffect(() => {
     let interval: any = null
