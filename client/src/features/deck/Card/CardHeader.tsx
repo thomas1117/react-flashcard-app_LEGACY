@@ -34,6 +34,7 @@ export default (props: any) => {
               <Select 
                 style={{margin: '1rem'}}
                 onChange={handleSelect}
+                value={props.language}
                 options={[{label: 'markdown', value: 'markdown'}, {label: 'js', value: 'javascript'}]}
               />
             }

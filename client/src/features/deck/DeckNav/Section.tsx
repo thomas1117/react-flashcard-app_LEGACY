@@ -12,6 +12,7 @@ export function Section({ section, sectionIndex, isActive, active, editable}) {
         setSection,
         setSectionTitle,
         cycleSection,
+        deleteSection,
       } = useDeck()
     return (
         <li
@@ -24,7 +25,7 @@ export function Section({ section, sectionIndex, isActive, active, editable}) {
                 'Nav-deck-item-inner d-flex space-between ' + active
                 }
             >
-                {editable && <TitleInput onDelete={() => console.log(section.id)} title={section.title} onChange={(e) => setSectionTitle(e.target.value)} />}
+                {editable && <TitleInput onDelete={() => deleteSection(section)} title={section.title} onChange={(e) => setSectionTitle(e.target.value)} />}
                 {!editable && <span>{section.title}</span>}
                 {!editable &&
                 <PausePlay

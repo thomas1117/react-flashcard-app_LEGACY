@@ -154,6 +154,17 @@ router.patch('/deck/:id', async (req, res) => {
   res.json({deck: deck})
 })
 
+router.delete('/deck/section/:id', async (req, res) => {
+  console.log(req.params.id)
+  await Section.destroy({where: {id: req.params.id}})
+  res.json({message: 'section deleted'})
+})
+
+router.delete('/deck/card/:id', async (req, res) => {
+  await Card.destroy({where: {id: req.params.id}})
+  res.json({message: 'card deleted'})
+})
+
 router.post('/xml', async function (req, res, next) {
   res.json({ message: 'xml created successfully' })
   // xmlToJSON(req.body.xml, async (resp) => {

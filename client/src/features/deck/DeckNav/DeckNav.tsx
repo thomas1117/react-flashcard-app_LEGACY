@@ -121,7 +121,7 @@ export default function DeckNav(props: P) {
     <nav className="Nav">
       <div className="Nav-children DeckNav-children">
         {/* <h2 className="Nav-title">Decks</h2> */}
-        {props.editable && <DeckTitle />}
+        {props.editable && <DeckTitle deckTitle={deckState.deckTitle} />}
 
         <ul className="Nav-deck">
           {sections.map((section, sectionIndex) => {

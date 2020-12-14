@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDeck } from '../deckSlice'
 
-export default function DeckTitle() {
+export default function DeckTitle({deckTitle}) {
     const { addDeckTitle } = useDeck()
     const [newDeckTitle, setNewDeckTitle] = useState('')
     function handleDeckSubmit(e) {
         e.preventDefault()
         addDeckTitle(newDeckTitle)
     }
+    useEffect(() => {
+        setNewDeckTitle(deckTitle)
+    }, [deckTitle])
     return (
     <form onSubmit={handleDeckSubmit}>
         <input 

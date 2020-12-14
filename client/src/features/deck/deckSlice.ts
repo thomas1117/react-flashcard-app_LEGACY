@@ -65,6 +65,19 @@ export const deckSlice = createSlice({
       state.diff.section[sectionId] = newSection
       // state.activeCard = state.activeSection.cards[0]
     },
+    deleteTheSection: (state, action) => {
+      delete state.sectionMap[action.payload.uiId]
+      state.sections = state.sections.filter(x => x.uiId !== action.payload.uiId)
+      state.activeSection = state.sections[0] || []
+    },
+    deleteTheCard: (state, action) => {
+      delete state.cardMap[action.payload.uiId]
+      state.sections = state.sections.map(section => {
+        return {...section, cards: section.cards.filter(card => card.uiId !== action.payload.uiId)}
+      })
+      state.activeSection = {...state.activeSection, cards: state.activeSection.cards.filter(x => x.uiId !== action.payload.uiId)}
+
+    },
     setActiveCardFront: (state, action: PayloadAction<string>) => {
       state.activeCard.front = action.payload
       state.cardMap[state.activeCard.uiId] = state.activeCard
@@ -251,11 +264,13 @@ const {
   manageCardSide,
   setSectionCycle,
   createSection,
+  deleteTheSection,
   createCard,
+  deleteTheCard,
   setDeckTitle,
   setActiveCardFront,
   setActiveCardBack,
-  activeCardLanguage
+  activeCardLanguage,
 } = deckSlice.actions
 
 function getTheDeck(params: DeckIds) {
@@ -295,6 +310,28 @@ function saveTheDeck(id: string, title: string, sections: Section[], diff: any) 
   }
 }
 
+function deleteSection(section) {
+  return async (dispatch: any) => {
+    if (section.id) {
+      return await request.delete('/deck/section/' + section.id).then(r => {
+        dispatch(deleteTheSection(section))
+      })
+    }
+    dispatch(deleteTheSection(section))
+  }
+}
+
+function deleteCard(card) {
+  return async (dispatch: any) => {
+    if (card.id) {
+      return await request.delete('/deck/card/' + card.id).then(r => {
+        dispatch(deleteTheCard(card))
+      })
+    }
+    dispatch(deleteTheCard(card))
+  }
+}
+
 export const useDeck = () => {
   const dispatch = useDispatch()
   const deckState = useSelector((app: RootState) => app.deck)
@@ -331,7 +368,9 @@ export const useDeck = () => {
     setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang)),
     setSectionTitle: (title: string) => dispatch(setSectionTitle(title)),
     addDeckTitle: (title: string) => dispatch(setDeckTitle(title)),
-    saveDeck: () => dispatch(saveTheDeck(deckState.deckId, deckState.deckTitle, deckState.sections, deckState.diff))
+    saveDeck: () => dispatch(saveTheDeck(deckState.deckId, deckState.deckTitle, deckState.sections, deckState.diff)),
+    deleteSection: (section) => dispatch(deleteSection(section)),
+    deleteCard: (card) => dispatch(deleteCard(card))
   }
   return {
     ...stateToExpose,

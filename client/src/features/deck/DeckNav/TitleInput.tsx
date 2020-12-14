@@ -7,7 +7,7 @@ export default function TitleInput({title, onChange, onDelete}) {
         setTheTitle(title)
     }, [title])
     return (
-        <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
+        <div onClick={(e) => e.stopPropagation()} style={{display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
             <input style={{background: 'transparent', border: 'none', outline: 'none'}} value={sectionTitle.trim()} onChange={onChange} />
             <BsTrash2Fill onClick={onDelete}/>
         </div>

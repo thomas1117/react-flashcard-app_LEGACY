@@ -46,6 +46,7 @@ const CardItem = (props: any) => {
         editable={props.editable}
         meta={meta}
         side={side}
+        language={language}
         togglePreview={() => setPreviewMode(!previewMode)}
         handleSelect={setActiveCardLanguage}
         flip={manageSide}
