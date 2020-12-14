@@ -11,7 +11,8 @@ export default function SettingsNav(props: {
   onChange: any
   frontTime: any
   backTime: any
-  updateSettings: any
+  updateSettings: any,
+  saveDeck?: any
 }) {
   const downloadDeck = () => {
     axios({
@@ -29,6 +30,7 @@ export default function SettingsNav(props: {
   }
   return (
     <nav className="SettingsNav">
+      {/* <a onClick={props.saveDeck}>save</a> */}
       <h2>{props.deckTitle}</h2>
       <ul>
         <li>

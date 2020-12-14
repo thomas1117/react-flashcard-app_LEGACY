@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
 import JS_SEED_DATA from '../../seed/js/dynamic-seed'
 import { RootState } from '../../app/store'
-import { DeckState, DeckIds, DeckMeta } from './interfaces'
+import { DeckState, DeckIds, DeckMeta, Section } from './interfaces'
 import UUID from '../../utils/id';
 import request from '../../utils/request'
 
@@ -58,9 +58,25 @@ export const deckSlice = createSlice({
     },
     setActiveCardFront: (state, action: PayloadAction<string>) => {
       state.activeCard.front = action.payload
+      state.cardMap[state.activeCard.id] = state.activeCard
+      state.activeSection = {...state.activeSection, cards: state.activeSection.cards.map(item => {
+        if (item.id === state.activeCard.id) {
+          return state.activeCard
+        } else {
+          return item
+        }
+      })}
     },
     setActiveCardBack: (state, action: PayloadAction<string>) => {
       state.activeCard.back = action.payload
+      state.cardMap[state.activeCard.id] = state.activeCard
+      state.activeSection = {...state.activeSection, cards: state.activeSection.cards.map(item => {
+        if (item.id === state.activeCard.id) {
+          return state.activeCard
+        } else {
+          return item
+        }
+      })}
     },
     activeCardLanguage: (state, action: PayloadAction<string>) => {
       state.activeCard.language = action.payload
@@ -79,6 +95,12 @@ export const deckSlice = createSlice({
       state.sectionMap[state.activeSection.id].cards.push(newCard)
       state.cardMap[cardId] = newCard
       state.activeCard = newCard
+      state.sections = state.sections.map(section => {
+        if (section.id == state.activeSection.id) {
+          return state.activeSection
+        }
+        return section
+      })
     },
     setDeckTitle: (state, action: PayloadAction<string>) => {
       state.deckTitle = action.payload
@@ -96,10 +118,44 @@ export const deckSlice = createSlice({
         state.cyclingSection = false
       }
     },
+    setSectionTitle: (state, action: PayloadAction<string>) => {
+      state.activeSection.title = action.payload
+      state.sectionMap[state.activeSection.id] = state.activeSection
+      state.sections = state.sections.map(item => {
+        if (state.activeSection.id === item.id) {
+          return state.activeSection
+        }
+        return item
+      })
+    },
     setTheCard: (state, action: PayloadAction<string>) => {
       state.activeCard = state.cardMap[action.payload]
       const index = state.activeSection.cards.findIndex(c => c.id === action.payload)
       state.activeCardIndex = index > - 1 ? index : 0
+    },
+    setTheCardTitle: (state, action: PayloadAction<string>) => {
+      state.activeSection = {
+        ...state.activeSection,
+        cards: state.activeSection.cards.map(item => {
+          if (state.activeCard.id == item.id) {
+            return {...item, meta: action.payload}
+          }
+          return item
+        })
+      }
+      state.sections = state.sections.map(section => {
+        if (section.id === state.activeSection.id) {
+          return state.activeSection
+        }
+        return section
+      })
+      state.sectionMap[state.activeSection.id].cards = state.sectionMap[state.activeSection.id].cards.map(item => {
+        if (state.activeCard.id == item.id) {
+          return {...item, meta: action.payload}
+        }
+        return item
+      })
+      state.cardMap[state.activeCard.id] = {...state.activeCard, meta: action.payload}
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, deckTitle, sections } = action.payload
@@ -149,7 +205,9 @@ export const deckSlice = createSlice({
 
 const {
   setTheSection,
+  setSectionTitle,
   setTheCard,
+  setTheCardTitle,
   setTheDeck,
   setTheDecks,
   manageCardSide,
@@ -190,6 +248,12 @@ function getTheUserDecks(id: string) {
   }
 }
 
+function saveTheDeck(title: string, sections: Section[]) {
+  return async (dispatch: any) => {
+    await request.post('/deck', {title, sections})
+  }
+}
+
 export const useDeck = () => {
   const dispatch = useDispatch()
   const deckState = useSelector((app: RootState) => app.deck)
@@ -215,6 +279,7 @@ export const useDeck = () => {
     getUserDecks: (id: string) => dispatch(getTheUserDecks(id)),
     setSection: (id: string) => dispatch(setTheSection(id)),
     setCard: (id: string) => dispatch(setTheCard(id)),
+    setCardTitle: (id: string) => dispatch(setTheCardTitle(id)),
     manageSide: () => dispatch(manageCardSide()),
     cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
     setDeck: (deck) => dispatch(setTheDeck(deck)),
@@ -223,7 +288,9 @@ export const useDeck = () => {
     setActiveCardFront: (code: string) => dispatch(setActiveCardFront(code)),
     setActiveCardBack: (code: string) => dispatch(setActiveCardBack(code)),
     setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang)),
-    addDeckTitle: (title: string) => dispatch(setDeckTitle(title))
+    setSectionTitle: (title: string) => dispatch(setSectionTitle(title)),
+    addDeckTitle: (title: string) => dispatch(setDeckTitle(title)),
+    saveDeck: () => dispatch(saveTheDeck(deckState.deckTitle, deckState.sections))
   }
   return {
     ...stateToExpose,

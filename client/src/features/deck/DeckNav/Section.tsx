@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDeck } from '../deckSlice'
 import ActiveCardSection from './ActiveCardSection'
+import TitleInput from './TitleInput'
 import CardAdd from './CardAdd'
 import PausePlay from './PausePlay'
 
@@ -9,6 +10,7 @@ export function Section({ section, sectionIndex, isActive, active, editable}) {
         activeSection,
         cyclingSection,
         setSection,
+        setSectionTitle,
         cycleSection,
       } = useDeck()
     return (
@@ -22,7 +24,8 @@ export function Section({ section, sectionIndex, isActive, active, editable}) {
                 'Nav-deck-item-inner d-flex space-between ' + active
                 }
             >
-                <span>{section.title}</span>
+                {editable && <TitleInput title={section.title} onChange={(e) => setSectionTitle(e.target.value)} />}
+                {!editable && <span>{section.title}</span>}
                 <PausePlay
                 cyclingSection={cyclingSection}
                 isActive={isActive}
@@ -33,7 +36,7 @@ export function Section({ section, sectionIndex, isActive, active, editable}) {
                 />
             </p>
             <div>
-                {isActive && <ActiveCardSection />}
+                {isActive && <ActiveCardSection editable={editable} />}
                 {/* activeSectionIndex == sectionIndex || !activeSection.id && */}
                 {editable && isActive && <CardAdd />}
             </div>

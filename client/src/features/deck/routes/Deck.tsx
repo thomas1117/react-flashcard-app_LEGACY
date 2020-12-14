@@ -52,7 +52,7 @@ function Deck(props: any) {
 
       <div className="Dash">
         <div className="Dash-Nav-container">
-          <DeckNav />
+          <DeckNav editable={false} />
         </div>
         <div style={{flexGrow: 1}}>
           <NavSettings />

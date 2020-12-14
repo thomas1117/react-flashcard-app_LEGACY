@@ -1,8 +1,10 @@
 import React from 'react'
 import { useDeck } from '../deckSlice'
+import TitleInput from './TitleInput'
 
-export default function ActiveCardSection() {
-    const { activeSection, activeCard, setCard } = useDeck()
+export default function ActiveCardSection(props) {
+    const { activeSection, activeCard, setCard, setCardTitle } = useDeck()
+    const editable = props.editable
     return  (
         <ul
             onClick={(e) => e.stopPropagation()}
@@ -19,7 +21,8 @@ export default function ActiveCardSection() {
                     }
                 >
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <span>{card.meta}</span>
+                        {editable && <TitleInput title={card.meta} onChange={(e) => setCardTitle(e.target.value)} />}
+                        {!editable && <span>{card.meta}</span>}
                     {/* <MdFlipToBack /> */}
                     </div>
                     

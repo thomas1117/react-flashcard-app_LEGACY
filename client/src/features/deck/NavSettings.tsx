@@ -10,6 +10,7 @@ export default function NavSettings(props: any) {
     sections,
     activeSectionIndex,
     setSection,
+    saveDeck
   } = useDeck()
 const {
   cardTimeFront,
@@ -32,6 +33,7 @@ const {
           backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
+          saveDeck={saveDeck}
         />
       </div>
       <div className="Dash-Nav-mobile">
