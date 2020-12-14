@@ -310,6 +310,12 @@ function saveTheDeck(id: string, title: string, sections: Section[], diff: any) 
   }
 }
 
+function deleteTheDeck(id: string) {
+  return async (dispatch: any) => {
+    return await request.delete('/deck/' + id)
+  }
+}
+
 function deleteSection(section) {
   return async (dispatch: any) => {
     if (section.id) {
@@ -369,6 +375,7 @@ export const useDeck = () => {
     setSectionTitle: (title: string) => dispatch(setSectionTitle(title)),
     addDeckTitle: (title: string) => dispatch(setDeckTitle(title)),
     saveDeck: () => dispatch(saveTheDeck(deckState.deckId, deckState.deckTitle, deckState.sections, deckState.diff)),
+    deleteDeck: () => dispatch(deleteTheDeck(deckState.deckId)),
     deleteSection: (section) => dispatch(deleteSection(section)),
     deleteCard: (card) => dispatch(deleteCard(card))
   }

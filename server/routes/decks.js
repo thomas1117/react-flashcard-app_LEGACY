@@ -154,6 +154,11 @@ router.patch('/deck/:id', async (req, res) => {
   res.json({deck: deck})
 })
 
+router.delete('/deck/:id', async (req, res) => {
+  await Deck.destroy({where: {id: req.params.id}})
+  res.json({message: 'deck deleted'})
+})
+
 router.delete('/deck/section/:id', async (req, res) => {
   console.log(req.params.id)
   await Section.destroy({where: {id: req.params.id}})

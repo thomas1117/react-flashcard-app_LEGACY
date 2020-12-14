@@ -13,6 +13,8 @@ export default function SettingsNav(props: {
   backTime: any
   updateSettings: any,
   saveDeck?: any
+  editable: any,
+  deleteDeck?: any
 }) {
   const downloadDeck = () => {
     axios({
@@ -30,7 +32,12 @@ export default function SettingsNav(props: {
   }
   return (
     <nav className="SettingsNav">
-      <h2>{props.deckTitle} {props.deckTitle && '|'} {props.deckTitle && <a onClick={props.saveDeck}>save</a>}</h2>
+      <h2>
+        {props.deckTitle} {props.deckTitle && '| '}
+        {props.deckTitle && <a onClick={props.saveDeck}>save</a>}
+        {/* props.editable */}
+        {true && <a onClick={props.deleteDeck}> | delete</a>}
+      </h2>
       <ul>
         <li>
           <Link to="/decks" style={{ marginRight: '20px' }}>
