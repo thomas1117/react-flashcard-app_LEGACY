@@ -30,8 +30,7 @@ export default function SettingsNav(props: {
   }
   return (
     <nav className="SettingsNav">
-      {/* <a onClick={props.saveDeck}>save</a> */}
-      <h2>{props.deckTitle}</h2>
+      <h2>{props.deckTitle} {props.deckTitle && '|'} {props.deckTitle && <a onClick={props.saveDeck}>save</a>}</h2>
       <ul>
         <li>
           <Link to="/decks" style={{ marginRight: '20px' }}>

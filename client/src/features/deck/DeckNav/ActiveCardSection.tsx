@@ -15,13 +15,13 @@ export default function ActiveCardSection(props) {
                 return (
                 <li
                     key={cardIndex}
-                    onClick={(e) => setCard(card.id)}
+                    onClick={(e) => setCard(card.uiId)}
                     className={
                     activeCard.id === card.id ? 'active' : ''
                     }
                 >
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                        {editable && <TitleInput title={card.meta} onChange={(e) => setCardTitle(e.target.value)} />}
+                        {editable && <TitleInput onDelete={() => console.log(card.id)} title={card.meta} onChange={(e) => setCardTitle(e.target.value)} />}
                         {!editable && <span>{card.meta}</span>}
                     {/* <MdFlipToBack /> */}
                     </div>

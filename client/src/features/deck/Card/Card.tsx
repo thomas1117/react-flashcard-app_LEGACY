@@ -33,7 +33,7 @@ const CardItem = (props: any) => {
   }, [props.editable])
   // render the card if it exists...
   return (
-    activeCard.id ?
+    activeCard.uiId ?
       <Card className={'Card-deck-card'} onClick={!props.editable ? manageSide : () => {}}>
         {!props.editable && <CardArrows 
         activeCardIndex={activeCardIndex}

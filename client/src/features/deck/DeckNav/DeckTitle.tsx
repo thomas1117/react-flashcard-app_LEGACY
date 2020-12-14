@@ -13,7 +13,7 @@ export default function DeckTitle() {
         <input 
             style={{zIndex: 1, position: 'relative'}}
             value={newDeckTitle}
-            placeholder="DeckTitle"
+            placeholder="Your deck title"
             onChange={(e) => setNewDeckTitle(e.target.value)}
         />
     </form>

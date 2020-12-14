@@ -17,15 +17,16 @@ export function Section({ section, sectionIndex, isActive, active, editable}) {
         <li
         className="Nav-section-item"
         key={sectionIndex}
-        onClick={() => setSection(section.id)}
+        onClick={() => setSection(section.uiId)}
         >
             <p
                 className={
                 'Nav-deck-item-inner d-flex space-between ' + active
                 }
             >
-                {editable && <TitleInput title={section.title} onChange={(e) => setSectionTitle(e.target.value)} />}
+                {editable && <TitleInput onDelete={() => console.log(section.id)} title={section.title} onChange={(e) => setSectionTitle(e.target.value)} />}
                 {!editable && <span>{section.title}</span>}
+                {!editable &&
                 <PausePlay
                 cyclingSection={cyclingSection}
                 isActive={isActive}
@@ -33,7 +34,7 @@ export function Section({ section, sectionIndex, isActive, active, editable}) {
                 section={section}
                 setSection={setSection}
                 activeSection={activeSection}
-                />
+                />}
             </p>
             <div>
                 {isActive && <ActiveCardSection editable={editable} />}

@@ -22,11 +22,13 @@ const initialState: DeckState = {
   activeCardIndex: 0,
   activeSection: {
     id: '',
+    uiId: '',
     title: '',
     cards: []
   },
   activeCard: {
     id: '',
+    uiId: '',
     side: 'front',
     meta: '',
     front: '',
@@ -37,6 +39,11 @@ const initialState: DeckState = {
   sectionIds: [],
   activeCardIds: [],
   cyclingSection: false,
+  diff: {
+    deck: {},
+    section: {},
+    card: {}
+  }
 }
 
 export const deckSlice = createSlice({
@@ -46,7 +53,8 @@ export const deckSlice = createSlice({
     createSection: (state, action) => {
       const sectionId = UUID()
       const newSection = {
-        id: sectionId,
+        id: '',
+        uiId: sectionId,
         title: action.payload,
         cards: []
       }
@@ -54,56 +62,77 @@ export const deckSlice = createSlice({
       state.sectionMap[sectionId] = newSection
       state.activeSection = state.sectionMap[sectionId]
       state.activeCardIndex = 0
+      state.diff.section[sectionId] = newSection
       // state.activeCard = state.activeSection.cards[0]
     },
     setActiveCardFront: (state, action: PayloadAction<string>) => {
       state.activeCard.front = action.payload
-      state.cardMap[state.activeCard.id] = state.activeCard
+      state.cardMap[state.activeCard.uiId] = state.activeCard
       state.activeSection = {...state.activeSection, cards: state.activeSection.cards.map(item => {
-        if (item.id === state.activeCard.id) {
+        if (item.id === state.activeCard.uiId) {
           return state.activeCard
         } else {
           return item
         }
       })}
+      state.diff.card[state.activeCard.uiId] = {
+        ...state.activeCard,
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
+      }
     },
     setActiveCardBack: (state, action: PayloadAction<string>) => {
       state.activeCard.back = action.payload
-      state.cardMap[state.activeCard.id] = state.activeCard
+      state.cardMap[state.activeCard.uiId] = state.activeCard
       state.activeSection = {...state.activeSection, cards: state.activeSection.cards.map(item => {
-        if (item.id === state.activeCard.id) {
+        if (item.id === state.activeCard.uiId) {
           return state.activeCard
         } else {
           return item
         }
       })}
+      state.diff.card[state.activeCard.uiId] = {
+        ...state.activeCard,
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
+      }
     },
     activeCardLanguage: (state, action: PayloadAction<string>) => {
       state.activeCard.language = action.payload
+      state.diff.card[state.activeCard.uiId] = {
+        ...state.activeCard,
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
+      }
     },
     createCard: (state,action) => {
       const cardId = UUID()
       const newCard = {
-        id: cardId,
+        id: '',
+        uiId: cardId,
         side: 'front',
         meta: action.payload,
         front: '# front side',
         back: '## back side',
         language: 'markdown',
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
       }
       state.activeSection.cards.push(newCard)
-      state.sectionMap[state.activeSection.id].cards.push(newCard)
+      state.sectionMap[state.activeSection.uiId].cards.push(newCard)
       state.cardMap[cardId] = newCard
       state.activeCard = newCard
       state.sections = state.sections.map(section => {
-        if (section.id == state.activeSection.id) {
+        if (section.uiId == state.activeSection.uiId) {
           return state.activeSection
         }
         return section
       })
+      state.diff.card[cardId] = newCard
     },
     setDeckTitle: (state, action: PayloadAction<string>) => {
       state.deckTitle = action.payload
+      state.diff.deck.title = action.payload
     },
     setTheSection: (state, action: PayloadAction<string>) => {
       state.activeSection = state.sectionMap[action.payload]
@@ -120,9 +149,10 @@ export const deckSlice = createSlice({
     },
     setSectionTitle: (state, action: PayloadAction<string>) => {
       state.activeSection.title = action.payload
-      state.sectionMap[state.activeSection.id] = state.activeSection
+      state.diff.section[state.activeSection.uiId] = state.activeSection
+      state.sectionMap[state.activeSection.uiId] = state.activeSection
       state.sections = state.sections.map(item => {
-        if (state.activeSection.id === item.id) {
+        if (state.activeSection.uiId === item.uiId) {
           return state.activeSection
         }
         return item
@@ -137,45 +167,53 @@ export const deckSlice = createSlice({
       state.activeSection = {
         ...state.activeSection,
         cards: state.activeSection.cards.map(item => {
-          if (state.activeCard.id == item.id) {
+          if (state.activeCard.uiId == item.uiId) {
             return {...item, meta: action.payload}
           }
           return item
         })
       }
       state.sections = state.sections.map(section => {
-        if (section.id === state.activeSection.id) {
+        if (section.uiId === state.activeSection.uiId) {
           return state.activeSection
         }
         return section
       })
-      state.sectionMap[state.activeSection.id].cards = state.sectionMap[state.activeSection.id].cards.map(item => {
-        if (state.activeCard.id == item.id) {
+      state.sectionMap[state.activeSection.uiId].cards = state.sectionMap[state.activeSection.uiId].cards.map(item => {
+        if (state.activeCard.uiId == item.uiId) {
           return {...item, meta: action.payload}
         }
         return item
       })
-      state.cardMap[state.activeCard.id] = {...state.activeCard, meta: action.payload}
+      state.cardMap[state.activeCard.uiId] = {...state.activeCard, meta: action.payload}
+      state.diff.card[state.activeCard.uiId] = {...state.activeCard, meta: action.payload}
     },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, deckTitle, sections } = action.payload
       state.deckId = deckId
       state.sections = sections
+      state.sections = state.sections.map(section => (
+        {
+          ...section,
+          uiId: UUID(),
+          cards: section.cards.map(card => ({...card, uiId: UUID()}))
+        }
+      ))
       state.sectionMap = state.sections.reduce((map: any, obj) => {
-        map[obj.id] = obj
+        map[obj.uiId] = obj
         return map
       }, {})
       state.cardMap = state.sections.reduce((map: any, obj) => {
         obj.cards.forEach(card => {
-          map[card.id] = card
+          map[card.uiId] = card
         })
         return map
       }, {})
       state.deckTitle = deckTitle || state.deckId
-      state.activeSection = state.sectionMap[sectionId] || state.sections[0]
-      state.sectionIds = state.sections.map(x => x.id)
-      state.activeCardIds = state.activeSection.cards.map(x => x.id)
-      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id === id)
+      state.activeSection = state.sectionMap[sectionId] || state.sections[0] || {cards: []}
+      state.sectionIds = state.sections.map(x => x.uiId)
+      state.activeCardIds = state.activeSection.cards.map(x => x.uiId)
+      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.uiId === id)
       const indexOrZero = (index: number) => index === -1 ? 0 : index
       const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
       const sectionIndex = itemIndexOrZero(state.sections, sectionId)
@@ -248,9 +286,12 @@ function getTheUserDecks(id: string) {
   }
 }
 
-function saveTheDeck(title: string, sections: Section[]) {
+function saveTheDeck(id: string, title: string, sections: Section[], diff: any) {
   return async (dispatch: any) => {
-    await request.post('/deck', {title, sections})
+    if (!id) {
+      return await request.post('/deck', {title, sections})
+    }
+    return await request.patch('/deck/' + id, diff)
   }
 }
 
@@ -290,7 +331,7 @@ export const useDeck = () => {
     setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang)),
     setSectionTitle: (title: string) => dispatch(setSectionTitle(title)),
     addDeckTitle: (title: string) => dispatch(setDeckTitle(title)),
-    saveDeck: () => dispatch(saveTheDeck(deckState.deckTitle, deckState.sections))
+    saveDeck: () => dispatch(saveTheDeck(deckState.deckId, deckState.deckTitle, deckState.sections, deckState.diff))
   }
   return {
     ...stateToExpose,

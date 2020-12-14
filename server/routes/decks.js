@@ -124,6 +124,36 @@ router.post('/deck', async (req, res) => {
   res.json({ message: 'deck created successfully', data: { id: deck.id, title, sections } })
 })
 
+router.patch('/deck/:id', async (req, res) => {
+  const { card, section } = req.body
+  const deckTitle = req.body.deck.title || null
+  const deckId = req.params.id
+  const deck = await Deck.findByPk(deckId)
+  if (deckTitle) {
+    deck.title = deckTitle
+    await deck.save()
+  }
+  for (let key in card) {
+    if (card[key].id) {
+      const c = await Card.findByPk(card[key].id)
+      c.update(card[key])
+      await c.save()
+    } else {
+      await Card.create(card[key]) 
+    }
+  }
+  for (let key in section) {
+    if (section[key].id) {
+      const s = await Section.findByPk(section[key].id)
+      s.update(section[key])
+      await s.save()
+    } else {
+      await Section.create({...section[key], deckId: deckId})
+    }
+  }
+  res.json({deck: deck})
+})
+
 router.post('/xml', async function (req, res, next) {
   res.json({ message: 'xml created successfully' })
   // xmlToJSON(req.body.xml, async (resp) => {

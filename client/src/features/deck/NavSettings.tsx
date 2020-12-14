@@ -58,6 +58,7 @@ const {
           backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
+          saveDeck={saveDeck}
         />
       </div>
     </>
