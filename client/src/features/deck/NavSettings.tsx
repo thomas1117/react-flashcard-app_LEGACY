@@ -29,7 +29,6 @@ export default function NavSettings(props: any) {
   async function handleDelete(id) {
     await deleteDeck()
     history.push('/decks')
-
   }
   return (
     <>

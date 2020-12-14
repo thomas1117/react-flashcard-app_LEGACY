@@ -13,7 +13,7 @@ const manageCards = (deck: any) => {
 }
 const SECTIONS = JS_SEED_DATA.sections.map(manageCards)
 const initialState: DeckState = {
-  deckId: 'js',
+  deckId: '',
   deckTitle: '',
   decks: [],
   sectionMap: {},
@@ -301,8 +301,8 @@ function getTheUserDecks(id: string) {
   }
 }
 
-function saveTheDeck(id: string, title: string, sections: Section[], diff: any) {
-  return async (dispatch: any) => {
+function saveTheDeck(id: string, title: string, sections: Section[], diff: any): any {
+  return async () => {
     if (!id) {
       return await request.post('/deck', {title, sections})
     }

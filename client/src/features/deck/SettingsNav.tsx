@@ -1,9 +1,40 @@
 import React  from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import Switch from '../../ui/Switch'
 import Settings from './Settings'
 import { BsDownload } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import { useDeck } from './deckSlice'
+
+function Actions(props) {
+  const location = useLocation()
+  const history = useHistory()
+  const {
+    saveDeck,
+  } = useDeck()
+  async function handleSave() {
+    const r = await saveDeck()
+    history.push('/decks/' + r.data.data.id)
+  }
+  return (
+    <h2>
+      {props.deckTitle}
+      {
+        location.pathname.includes('edit') ?
+        <>
+        {props.deckTitle && '| '}
+        {props.deckTitle && <a onClick={props.saveDeck}>save</a>}
+        {true && <a onClick={props.deleteDeck}> | delete</a>} 
+        </> :
+        null
+      }
+      {
+        location.pathname.includes('preview') && props.deckTitle && <a onClick={handleSave}> | save</a>
+      }
+    </h2>
+  )
+}
 
 export default function SettingsNav(props: {
   deckId: any
@@ -32,12 +63,11 @@ export default function SettingsNav(props: {
   }
   return (
     <nav className="SettingsNav">
-      <h2>
-        {props.deckTitle} {props.deckTitle && '| '}
-        {props.deckTitle && <a onClick={props.saveDeck}>save</a>}
-        {/* props.editable */}
-        {true && <a onClick={props.deleteDeck}> | delete</a>}
-      </h2>
+      <Actions 
+        deckTitle={props.deckTitle}
+        saveDeck={props.saveDeck}
+        deleteDeck={props.deleteDeck} 
+      />
       <ul>
         <li>
           <Link to="/decks" style={{ marginRight: '20px' }}>
