@@ -5,7 +5,7 @@ const xmlparser = require('express-xml-bodyparser')
 const db = require('../database/models')
 const attachUser = require('../middleware/attachUser')
 const { Deck, Card, Section, User, UsersDecks } = db
-console.log(db.UserDeck)
+
 router.get('/decks', async (req, res) => {
   const decks = await Deck.findAll()
   res.send(decks)
@@ -26,6 +26,10 @@ router.get('/decks/:id', async (req, res) => {
           },
         ],
       },
+      {
+        model: User,
+        as: 'Users',
+      }
     ],
   })
   res.send(deck)
