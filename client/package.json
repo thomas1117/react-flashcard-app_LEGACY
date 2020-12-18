@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
+    "@craco/craco": "^6.0.0",
     "@emotion/core": "^10.0.34",
     "@emotion/styled": "^10.0.27",
     "@reduxjs/toolkit": "^1.4.0",

@@ -5,7 +5,7 @@ const xmlparser = require('express-xml-bodyparser')
 const db = require('../database/models')
 const attachUser = require('../middleware/attachUser')
 const { Deck, Card, Section, User, UsersDecks } = db
-console.log(db.UserDeck)
+
 router.get('/decks', async (req, res) => {
   const decks = await Deck.findAll()
   res.send(decks)
@@ -26,6 +26,10 @@ router.get('/decks/:id', async (req, res) => {
           },
         ],
       },
+      {
+        model: User,
+        as: 'Users',
+      }
     ],
   })
   res.send(deck)
@@ -122,6 +126,52 @@ router.post('/deck', async (req, res) => {
     }
   }
   res.json({ message: 'deck created successfully', data: { id: deck.id, title, sections } })
+})
+
+router.patch('/deck/:id', async (req, res) => {
+  const { card, section } = req.body
+  const deckTitle = req.body.deck.title || null
+  const deckId = req.params.id
+  const deck = await Deck.findByPk(deckId)
+  if (deckTitle) {
+    deck.title = deckTitle
+    await deck.save()
+  }
+  for (let key in card) {
+    if (card[key].id) {
+      const c = await Card.findByPk(card[key].id)
+      c.update(card[key])
+      await c.save()
+    } else {
+      await Card.create(card[key]) 
+    }
+  }
+  for (let key in section) {
+    if (section[key].id) {
+      const s = await Section.findByPk(section[key].id)
+      s.update(section[key])
+      await s.save()
+    } else {
+      await Section.create({...section[key], deckId: deckId})
+    }
+  }
+  res.json({deck: deck})
+})
+
+router.delete('/deck/:id', async (req, res) => {
+  await Deck.destroy({where: {id: req.params.id}})
+  res.json({message: 'deck deleted'})
+})
+
+router.delete('/deck/section/:id', async (req, res) => {
+  console.log(req.params.id)
+  await Section.destroy({where: {id: req.params.id}})
+  res.json({message: 'section deleted'})
+})
+
+router.delete('/deck/card/:id', async (req, res) => {
+  await Card.destroy({where: {id: req.params.id}})
+  res.json({message: 'card deleted'})
 })
 
 router.post('/xml', async function (req, res, next) {

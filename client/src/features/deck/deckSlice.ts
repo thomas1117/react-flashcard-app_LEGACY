@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux'
 import JS_SEED_DATA from '../../seed/js/dynamic-seed'
 import { RootState } from '../../app/store'
-import { DeckState, DeckIds, DeckMeta } from './interfaces'
+import { DeckState, DeckIds, DeckMeta, Section } from './interfaces'
 import UUID from '../../utils/id';
 import request from '../../utils/request'
 
@@ -13,7 +13,7 @@ const manageCards = (deck: any) => {
 }
 const SECTIONS = JS_SEED_DATA.sections.map(manageCards)
 const initialState: DeckState = {
-  deckId: 'js',
+  deckId: '',
   deckTitle: '',
   decks: [],
   sectionMap: {},
@@ -22,11 +22,13 @@ const initialState: DeckState = {
   activeCardIndex: 0,
   activeSection: {
     id: '',
+    uiId: '',
     title: '',
     cards: []
   },
   activeCard: {
     id: '',
+    uiId: '',
     side: 'front',
     meta: '',
     front: '',
@@ -37,6 +39,11 @@ const initialState: DeckState = {
   sectionIds: [],
   activeCardIds: [],
   cyclingSection: false,
+  diff: {
+    deck: {},
+    section: {},
+    card: {}
+  }
 }
 
 export const deckSlice = createSlice({
@@ -46,7 +53,8 @@ export const deckSlice = createSlice({
     createSection: (state, action) => {
       const sectionId = UUID()
       const newSection = {
-        id: sectionId,
+        id: '',
+        uiId: sectionId,
         title: action.payload,
         cards: []
       }
@@ -54,34 +62,90 @@ export const deckSlice = createSlice({
       state.sectionMap[sectionId] = newSection
       state.activeSection = state.sectionMap[sectionId]
       state.activeCardIndex = 0
+      state.diff.section[sectionId] = newSection
       // state.activeCard = state.activeSection.cards[0]
+    },
+    deleteTheSection: (state, action) => {
+      delete state.sectionMap[action.payload.uiId]
+      state.sections = state.sections.filter(x => x.uiId !== action.payload.uiId)
+      state.activeSection = state.sections[0] || []
+    },
+    deleteTheCard: (state, action) => {
+      delete state.cardMap[action.payload.uiId]
+      state.sections = state.sections.map(section => {
+        return {...section, cards: section.cards.filter(card => card.uiId !== action.payload.uiId)}
+      })
+      state.activeSection = {...state.activeSection, cards: state.activeSection.cards.filter(x => x.uiId !== action.payload.uiId)}
+
     },
     setActiveCardFront: (state, action: PayloadAction<string>) => {
       state.activeCard.front = action.payload
+      state.cardMap[state.activeCard.uiId] = state.activeCard
+      state.activeSection = {...state.activeSection, cards: state.activeSection.cards.map(item => {
+        if (item.id === state.activeCard.uiId) {
+          return state.activeCard
+        } else {
+          return item
+        }
+      })}
+      state.diff.card[state.activeCard.uiId] = {
+        ...state.activeCard,
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
+      }
     },
     setActiveCardBack: (state, action: PayloadAction<string>) => {
       state.activeCard.back = action.payload
+      state.cardMap[state.activeCard.uiId] = state.activeCard
+      state.activeSection = {...state.activeSection, cards: state.activeSection.cards.map(item => {
+        if (item.id === state.activeCard.uiId) {
+          return state.activeCard
+        } else {
+          return item
+        }
+      })}
+      state.diff.card[state.activeCard.uiId] = {
+        ...state.activeCard,
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
+      }
     },
     activeCardLanguage: (state, action: PayloadAction<string>) => {
       state.activeCard.language = action.payload
+      state.diff.card[state.activeCard.uiId] = {
+        ...state.activeCard,
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
+      }
     },
     createCard: (state,action) => {
       const cardId = UUID()
       const newCard = {
-        id: cardId,
+        id: '',
+        uiId: cardId,
         side: 'front',
         meta: action.payload,
         front: '# front side',
         back: '## back side',
         language: 'markdown',
+        sectionId: state.activeSection.id,
+        sectionUiId: state.activeSection.uiId
       }
       state.activeSection.cards.push(newCard)
-      state.sectionMap[state.activeSection.id].cards.push(newCard)
+      state.sectionMap[state.activeSection.uiId].cards.push(newCard)
       state.cardMap[cardId] = newCard
       state.activeCard = newCard
+      state.sections = state.sections.map(section => {
+        if (section.uiId == state.activeSection.uiId) {
+          return state.activeSection
+        }
+        return section
+      })
+      state.diff.card[cardId] = newCard
     },
     setDeckTitle: (state, action: PayloadAction<string>) => {
       state.deckTitle = action.payload
+      state.diff.deck.title = action.payload
     },
     setTheSection: (state, action: PayloadAction<string>) => {
       state.activeSection = state.sectionMap[action.payload]
@@ -96,30 +160,73 @@ export const deckSlice = createSlice({
         state.cyclingSection = false
       }
     },
+    setSectionTitle: (state, action: PayloadAction<string>) => {
+      state.activeSection.title = action.payload
+      state.diff.section[state.activeSection.uiId] = state.activeSection
+      state.sectionMap[state.activeSection.uiId] = state.activeSection
+      state.sections = state.sections.map(item => {
+        if (state.activeSection.uiId === item.uiId) {
+          return state.activeSection
+        }
+        return item
+      })
+    },
     setTheCard: (state, action: PayloadAction<string>) => {
       state.activeCard = state.cardMap[action.payload]
       const index = state.activeSection.cards.findIndex(c => c.id === action.payload)
       state.activeCardIndex = index > - 1 ? index : 0
     },
+    setTheCardTitle: (state, action: PayloadAction<string>) => {
+      state.activeSection = {
+        ...state.activeSection,
+        cards: state.activeSection.cards.map(item => {
+          if (state.activeCard.uiId == item.uiId) {
+            return {...item, meta: action.payload}
+          }
+          return item
+        })
+      }
+      state.sections = state.sections.map(section => {
+        if (section.uiId === state.activeSection.uiId) {
+          return state.activeSection
+        }
+        return section
+      })
+      state.sectionMap[state.activeSection.uiId].cards = state.sectionMap[state.activeSection.uiId].cards.map(item => {
+        if (state.activeCard.uiId == item.uiId) {
+          return {...item, meta: action.payload}
+        }
+        return item
+      })
+      state.cardMap[state.activeCard.uiId] = {...state.activeCard, meta: action.payload}
+      state.diff.card[state.activeCard.uiId] = {...state.activeCard, meta: action.payload}
+    },
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, deckTitle, sections } = action.payload
       state.deckId = deckId
       state.sections = sections
+      state.sections = state.sections.map(section => (
+        {
+          ...section,
+          uiId: UUID(),
+          cards: section.cards.map(card => ({...card, uiId: UUID()}))
+        }
+      ))
       state.sectionMap = state.sections.reduce((map: any, obj) => {
-        map[obj.id] = obj
+        map[obj.uiId] = obj
         return map
       }, {})
       state.cardMap = state.sections.reduce((map: any, obj) => {
         obj.cards.forEach(card => {
-          map[card.id] = card
+          map[card.uiId] = card
         })
         return map
       }, {})
       state.deckTitle = deckTitle || state.deckId
-      state.activeSection = state.sectionMap[sectionId] || state.sections[0]
-      state.sectionIds = state.sections.map(x => x.id)
-      state.activeCardIds = state.activeSection.cards.map(x => x.id)
-      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.id === id)
+      state.activeSection = state.sectionMap[sectionId] || state.sections[0] || {cards: []}
+      state.sectionIds = state.sections.map(x => x.uiId)
+      state.activeCardIds = state.activeSection.cards.map(x => x.uiId)
+      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.uiId === id)
       const indexOrZero = (index: number) => index === -1 ? 0 : index
       const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
       const sectionIndex = itemIndexOrZero(state.sections, sectionId)
@@ -149,17 +256,21 @@ export const deckSlice = createSlice({
 
 const {
   setTheSection,
+  setSectionTitle,
   setTheCard,
+  setTheCardTitle,
   setTheDeck,
   setTheDecks,
   manageCardSide,
   setSectionCycle,
   createSection,
+  deleteTheSection,
   createCard,
+  deleteTheCard,
   setDeckTitle,
   setActiveCardFront,
   setActiveCardBack,
-  activeCardLanguage
+  activeCardLanguage,
 } = deckSlice.actions
 
 function getTheDeck(params: DeckIds) {
@@ -190,6 +301,43 @@ function getTheUserDecks(id: string) {
   }
 }
 
+function saveTheDeck(id: string, title: string, sections: Section[], diff: any): any {
+  return async () => {
+    if (!id) {
+      return await request.post('/deck', {title, sections})
+    }
+    return await request.patch('/deck/' + id, diff)
+  }
+}
+
+function deleteTheDeck(id: string) {
+  return async (dispatch: any) => {
+    return await request.delete('/deck/' + id)
+  }
+}
+
+function deleteSection(section) {
+  return async (dispatch: any) => {
+    if (section.id) {
+      return await request.delete('/deck/section/' + section.id).then(r => {
+        dispatch(deleteTheSection(section))
+      })
+    }
+    dispatch(deleteTheSection(section))
+  }
+}
+
+function deleteCard(card) {
+  return async (dispatch: any) => {
+    if (card.id) {
+      return await request.delete('/deck/card/' + card.id).then(r => {
+        dispatch(deleteTheCard(card))
+      })
+    }
+    dispatch(deleteTheCard(card))
+  }
+}
+
 export const useDeck = () => {
   const dispatch = useDispatch()
   const deckState = useSelector((app: RootState) => app.deck)
@@ -215,6 +363,7 @@ export const useDeck = () => {
     getUserDecks: (id: string) => dispatch(getTheUserDecks(id)),
     setSection: (id: string) => dispatch(setTheSection(id)),
     setCard: (id: string) => dispatch(setTheCard(id)),
+    setCardTitle: (id: string) => dispatch(setTheCardTitle(id)),
     manageSide: () => dispatch(manageCardSide()),
     cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
     setDeck: (deck) => dispatch(setTheDeck(deck)),
@@ -223,7 +372,12 @@ export const useDeck = () => {
     setActiveCardFront: (code: string) => dispatch(setActiveCardFront(code)),
     setActiveCardBack: (code: string) => dispatch(setActiveCardBack(code)),
     setActiveCardLanguage: (lang: string) => dispatch(activeCardLanguage(lang)),
-    addDeckTitle: (title: string) => dispatch(setDeckTitle(title))
+    setSectionTitle: (title: string) => dispatch(setSectionTitle(title)),
+    addDeckTitle: (title: string) => dispatch(setDeckTitle(title)),
+    saveDeck: () => dispatch(saveTheDeck(deckState.deckId, deckState.deckTitle, deckState.sections, deckState.diff)),
+    deleteDeck: () => dispatch(deleteTheDeck(deckState.deckId)),
+    deleteSection: (section) => dispatch(deleteSection(section)),
+    deleteCard: (card) => dispatch(deleteCard(card))
   }
   return {
     ...stateToExpose,

@@ -44,6 +44,7 @@ function App() {
             />
             <Route path="/decks" exact component={Decks} />
             <Route path="/decks/users/:userId" exact component={UserDecks} />
+            <Route path="/decks/:deckId/edit" component={PreviewEditDeck} />
             <Route path="/decks/:deckId/:sectionId?/:cardId?" component={Deck} />
             <AuthRoute path="/auth-test">
               <h2>test auth route</h2>

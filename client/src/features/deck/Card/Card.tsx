@@ -33,7 +33,7 @@ const CardItem = (props: any) => {
   }, [props.editable])
   // render the card if it exists...
   return (
-    activeCard.id ?
+    activeCard.uiId ?
       <Card className={'Card-deck-card'} onClick={!props.editable ? manageSide : () => {}}>
         {!props.editable && <CardArrows 
         activeCardIndex={activeCardIndex}
@@ -46,6 +46,7 @@ const CardItem = (props: any) => {
         editable={props.editable}
         meta={meta}
         side={side}
+        language={language}
         togglePreview={() => setPreviewMode(!previewMode)}
         handleSelect={setActiveCardLanguage}
         flip={manageSide}

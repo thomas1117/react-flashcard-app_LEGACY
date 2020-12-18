@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import SettingsNav from './SettingsNav'
 import { useDeck } from './deckSlice'
 import { CardSetting } from '../settings/interfaces'
@@ -10,28 +11,38 @@ export default function NavSettings(props: any) {
     sections,
     activeSectionIndex,
     setSection,
+    saveDeck,
+    deleteDeck
   } = useDeck()
-const {
-  cardTimeFront,
-  cardTimeBack,
-  updateSettings,
-  toggleTheme,
-} = useSettings()
+  const history = useHistory()
+  const {
+    cardTimeFront,
+    cardTimeBack,
+    updateSettings,
+    toggleTheme,
+  } = useSettings()
 
   function manageSettingsCache(settings: CardSetting) {
     updateSettings(settings)
     localStorage.setItem('CARD_SETTINGS', JSON.stringify(settings))
+  }
+  async function handleDelete(id) {
+    await deleteDeck()
+    history.push('/decks')
   }
   return (
     <>
       <div className="Dash-Nav-desktop">
         <SettingsNav
           deckId={props.deckId}
+          editable={props.editable}
           deckTitle={deckTitle}
           frontTime={cardTimeFront}
           backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
+          saveDeck={saveDeck}
+          deleteDeck={handleDelete}
         />
       </div>
       <div className="Dash-Nav-mobile">
@@ -51,11 +62,14 @@ const {
         </ul>
         <SettingsNav
           deckId={props.deckId}
+          editable={props.editable}
           deckTitle={deckTitle}
           frontTime={cardTimeFront}
           backTime={cardTimeBack}
           onChange={() => toggleTheme()}
           updateSettings={manageSettingsCache}
+          saveDeck={saveDeck}
+          deleteDeck={deleteDeck}
         />
       </div>
     </>

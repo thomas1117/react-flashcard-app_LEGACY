@@ -1,5 +1,6 @@
 export interface Section {
   id: string
+  uiId: string
   title: string
   cards: Card[]
 }
@@ -30,7 +31,8 @@ export interface DeckState {
   sections: Section[]
   sectionIds: string[]
   activeCardIds: string[]
-  cyclingSection: boolean
+  cyclingSection: boolean,
+  diff: any
 }
 
 export interface DeckIds {
@@ -46,6 +48,7 @@ export interface DeckMeta extends DeckIds {
 
 export type Card = {
   id: string
+  uiId: string
   front: string
   back: string
   side: string
