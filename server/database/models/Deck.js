@@ -2,6 +2,10 @@
 const {
   Model
 } = require('sequelize');
+const db = require('./index')
+const deckService = require('../../services/deck')
+
+const { Deck, Card, Section, User } = db
 module.exports = (sequelize, DataTypes) => {
   class Deck extends Model {
     /**
