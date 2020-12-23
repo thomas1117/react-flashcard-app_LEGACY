@@ -5,13 +5,16 @@ const deckService = require('../services/deck')
 
 class DeckController {
     static async fetchDecks(req, res, next) {
-        const decks = await deckService.getAllDecks()
-        res.send(decks)
+        try {
+            const decks = await deckService.getAllDecks()
+            res.send(decks)
+        } catch {
+            res.json({message: 'user not found'})
+        }
     }
     
-    // https://sequelize.org/master/manual/eager-loading.html
     static async fetchDeckById(req, res, next) {
-        const deck = await deckService.getFullDeck(req.params.id)
+        const deck = await deckService.byId(req.params.id)
         res.send(deck)
     }
     static async fetchDeckByUserId(req, res) {
@@ -48,7 +51,7 @@ class DeckController {
     }
 
     static async exportDeck(req, res) {
-        const deck = await deckService.getFullDeck(req.params.id)
+        const deck = await deckService.getFullDeckById(req.params.id)
         const file = deckService.convertToXML(deck)
         res.setHeader('Content-type', 'text/xml')
         res.setHeader('Content-disposition', 'attachment; filename=file.xml')

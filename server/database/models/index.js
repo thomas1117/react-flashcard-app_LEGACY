@@ -10,7 +10,9 @@ const db = {};
 
 let sequelize;
 if (env) {
-  sequelize = new Sequelize(config);
+  // sequelize = new Sequelize(config);
+  // TODO: possibly change this line back to above line
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }

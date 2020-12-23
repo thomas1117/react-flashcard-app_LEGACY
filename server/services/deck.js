@@ -27,7 +27,8 @@ class DeckService {
         return decks
     }
 
-    static async getFullDeck(id) {
+    // https://sequelize.org/master/manual/eager-loading.html
+    static async getFullDeckById(id) {
         const deck = await Deck.findOne({
             where: { id: id },
             include: [
@@ -52,7 +53,7 @@ class DeckService {
 
     static async getDecksByUserId(userId) {
         const user = await User.findOne({
-            where: { userId }
+            where: { id: userId }
         })
         const decks = await user.getDecks()
         return decks
