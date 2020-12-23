@@ -51,35 +51,38 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 ### export deck by id
 GET http://localhost:3001/api/decks/exports/16
 
-### update deck by id (broken)
+### update deck by id
 PATCH http://localhost:3001/api/deck/28
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0aW5nQGV4YW1wbGUuY29tIiwiaWF0IjoxNjA0ODk0MzUxfQ.a-4tZqNQbOv9pTPBQdzwHS_8687OWmVyAX-xYSwS3Lc
 
 {
     "deck": {
-        "title": "deck test 1"
+        "title": "deck TEST"
     },
     "card": {
         "89": {
-            "front": "card 1 test",
-            "meta": "card example test"
+            "id": "89",
+            "front": "card 1 TEST",
+            "meta": "card example TEST"
         }
     },
     "section": {
-        "38": "section 1 update"
+        "38": {
+            "id": "38",
+            "title": "section 1 TEST"
+        }
     }
 }
 
 ### get deck with id 28
-
 GET http://localhost:3001/api/decks/28
 
 ### delete deck by id
 DELETE http://localhost:3001/api/deck/20
 
 ### delete section by id
-DELETE http://localhost:3001/api/deck/section/1
+DELETE http://localhost:3001/api/deck/section/40
 
 ### test endpoint below
 GET http://localhost:3001/api/test

@@ -120,20 +120,20 @@ class DeckService {
         }
         for (let key in card) {
             if (card[key].id) {
-            const c = await Card.findByPk(card[key].id)
-            c.update(card[key])
-            await c.save()
+                const c = await Card.findByPk(card[key].id)
+                c.update(card[key])
+                await c.save()
             } else {
-            await Card.create(card[key]) 
+                await Card.create(card[key]) 
             }
         }
         for (let key in section) {
             if (section[key].id) {
-            const s = await Section.findByPk(section[key].id)
-            s.update(section[key])
-            await s.save()
+                const s = await Section.findByPk(section[key].id)
+                s.update(section[key])
+                await s.save()
             } else {
-            await Section.create({...section[key], deckId: deckId})
+                await Section.create({...section[key], deckId: deckId})
             }
         }
         return deck
@@ -145,7 +145,7 @@ class DeckService {
     }
 
     static async deleteSectionById(sectionId) {
-        const section = Section.destroy({where: {id: sectionId}})
+        const section = await Section.destroy({where: {id: sectionId}})
         return section
     }
 
