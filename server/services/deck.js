@@ -49,13 +49,15 @@ class DeckService {
         })
         return deck
     }
+
     static async getDecksByUserId(userId) {
         const user = await User.findOne({
-            where: { id: req.user.id }
+            where: { userId }
         })
         const decks = await user.getDecks()
         return decks
     }
+
     static convertToXML(deck) {
         const file = `
         <deck title="${deck.title}">
@@ -78,34 +80,39 @@ class DeckService {
             `
         return file
     }
+
     static async createDeck(deckDTO) {
         const { title, sections } = deckDTO
         const deck = await Deck.create({
             title,
         })
+        const deckSections = []
         for (let section of sections) {
+            const sectionItem = {deckId: deck.id, title: null, cards: []}
             const { title } = section
             const s = await Section.create({
-            title,
-            deckId: deck.id,
+                title,
+                deckId: deck.id,
             })
-
+            sectionItem.title = s.title
             for (let card of section.cards) {
-            const { front, back, meta, language } = card
-            await Card.create({
-                front,
-                back,
-                meta,
-                language,
-                sectionId: s.id,
-            })
+                const { front, back, meta, language } = card
+                const c = await Card.create({
+                    front,
+                    back,
+                    meta,
+                    language,
+                    sectionId: s.id,
+                })
+                sectionItem.cards.push(c)
             }
+            deckSections.push(sectionItem)
         }
+        return {id: deck.id, sections: deckSections}
     }
 
     static async updateDeck(deckDto) {
-        const { deckId, card, section } = deckDto
-        const deckTitle = req.body.deck.title || null
+        const { deckId, deckTitle, card, section } = deckDto
         const deck = await Deck.findByPk(deckId)
         if (deckTitle) {
             deck.title = deckTitle
@@ -132,12 +139,12 @@ class DeckService {
         return deck
     }
 
-    static async deleteDeck(deckId) {
+    static async deleteDeckById(deckId) {
         const deck = await Deck.destroy({where: {id: deckId}})
         return deck
     }
 
-    static async deleteSection(sectionId) {
+    static async deleteSectionById(sectionId) {
         const section = Section.destroy({where: {id: sectionId}})
         return section
     }

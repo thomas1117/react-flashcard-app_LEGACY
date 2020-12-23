@@ -1,11 +1,11 @@
-const db = require('../database/models')
+// const db = require('../database/models')
 const deckService = require('../services/deck')
 
-const { Deck } = db
+// const { Deck } = db
 
 class DeckController {
     static async fetchDecks(req, res, next) {
-        const decks = await Deck.findAll()
+        const decks = await deckService.getAllDecks()
         res.send(decks)
     }
     
@@ -21,19 +21,15 @@ class DeckController {
 
     static async createDeck(req, res) {
         const { title, sections } = req.body
-        const deckDto = {
-            title,
-            sections
-        }
-        const deck = await deckService.createDeck(deckDto)
-        res.json({ message: 'deck created successfully', deck: { id: deck.id, deckDto}})
+        const deck = await deckService.createDeck({title, sections})
+        res.json({ message: 'deck created successfully', deck})
     }
 
     static async updateDeck(req, res) {
-        const deckId = req.params.id
-        const {card, section} = req.body
-        const deck = await deckService.updateDeck({deckId, card, section})
-        res.json({deck: deck})
+        const deckId = Number(req.params.id)
+        const {deck, card, section} = req.body
+        await deckService.updateDeck({deckId, deckTitle: deck?.title, card, section})
+        res.json({id: deckId, message:' deck updated'})
     }
 
     static async deleteDeckById(req, res) {
