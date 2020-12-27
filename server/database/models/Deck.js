@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 const {
   Model
-} = require('sequelize');
+} = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Deck extends Model {
     /**
@@ -14,12 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsToMany(models.User, {through: 'UsersDecks', foreignKey: 'deckId'})
       this.hasMany(models.Section, {as: 'sections', foreignKey: 'deckId'})
     }
-  };
+  }
   Deck.init({
     title: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Deck',
-  });
-  return Deck;
-};
+  })
+  return Deck
+}
