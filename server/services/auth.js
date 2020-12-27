@@ -7,7 +7,7 @@ const { createSalt } = require('../database/utils/auth')
 class AuthService {
     static async createUser(email, password) {
         const user = await User.findOne({where: {email}})
-        if (user.email) {
+        if (user) {
             return null
         }
         const salt = createSalt()
@@ -27,7 +27,7 @@ class AuthService {
         }
         const hashedPassword = sha512(password + user.salt)
         if (user.password === hashedPassword) {
-            return jwt.sign({id: user.id, email: user.email}, process.env.SECRET)
+            return {token: jwt.sign({id: user.id, email: user.email}, process.env.SECRET)}
         } else {
             return null
         }
