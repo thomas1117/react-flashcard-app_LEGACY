@@ -5,18 +5,15 @@ const DeckService = require('../services/deck')
 
 class DeckController {
     static async fetchDecks(req, res, next) {
-        try {
-            const decks = await DeckService.getAllDecks()
-            res.send(decks)
-        } catch {
-            res.json({message: 'user not found'})
-        }
+        const decks = await DeckService.getAllDecks()
+        res.send(decks)
     }
     
     static async fetchDeckById(req, res, next) {
         const deck = await DeckService.getFullDeckById(req.params.id)
         res.send(deck)
     }
+    
     static async fetchDeckByUserId(req, res) {
         const decks = await DeckService.getDecksByUserId(req.user.id)
         res.json(decks)
