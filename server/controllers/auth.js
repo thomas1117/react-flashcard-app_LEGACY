@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
-const authService = require('../services/auth')
+const AuthService = require('../services/auth')
 
 class AuthController {
     static async registerUser(req, res) {
-        const newUser = await authService.createUser(req.body.email, req.body.password)
+        const newUser = await AuthService.createUser(req.body.email, req.body.password)
         if (!newUser) {
             res.status(400).json({message: 'user already exists'})
         }
@@ -12,7 +12,7 @@ class AuthController {
     }
 
     static async loginUser(req, res) {
-        const token = await authService.loginUser(req.body.email, req.body.password)
+        const token = await AuthService.loginUser(req.body.email, req.body.password)
         if (!token) {
             res.status(400).json({message: 'invalid user or password'})
         }
