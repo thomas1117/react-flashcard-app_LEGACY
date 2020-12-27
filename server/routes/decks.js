@@ -1,7 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const { xmlToJSON } = require('../../file-parser/xml')
-const xmlparser = require('express-xml-bodyparser')
 const attachUser = require('../middleware/attachUser')
 const DeckController = require('../controllers/deck')
 

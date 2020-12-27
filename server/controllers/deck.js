@@ -14,7 +14,7 @@ class DeckController {
     }
     
     static async fetchDeckById(req, res, next) {
-        const deck = await deckService.byId(req.params.id)
+        const deck = await deckService.getFullDeckById(req.params.id)
         res.send(deck)
     }
     static async fetchDeckByUserId(req, res) {

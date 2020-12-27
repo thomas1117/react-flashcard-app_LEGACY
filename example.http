@@ -93,3 +93,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
     "email": "testing@example.com",
     "password": "test"
 }
+
+### register user
+
+POST http://localhost:3001/api/registration
+content-type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "test"
+}
+
+### login user
+
+POST http://localhost:3001/api/login
+content-type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "test"
+}
