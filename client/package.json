@@ -19,7 +19,7 @@
     "@types/react-router-dom": "^5.1.6",
     "ace-builds": "^1.4.12",
     "antd": "^4.8.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "copy-to-clipboard": "^3.3.1",
     "emotion-theming": "^10.0.27",
     "fast-xml-parser": "^3.17.4",
