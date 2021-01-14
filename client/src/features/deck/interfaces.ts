@@ -18,12 +18,17 @@ interface CardMap {
   [id: string]: Card
 }
 
+interface SectionCardMap {
+  [id: string]: Card[]
+}
+
 export interface DeckState {
   deckId: string
   deckTitle: string
   decks: Deck[]
   sectionMap: SectionMap
-  cardMap: CardMap
+  cardMap: CardMap,
+  sectionCardMap: any,
   activeSectionIndex: number
   activeCardIndex: number
   activeSection: Section

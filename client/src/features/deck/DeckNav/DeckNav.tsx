@@ -116,7 +116,7 @@ export default function DeckNav(props: P) {
     cycleSection,
     activeSection.cards
   ])
-
+  console.log('a', sections)
   return (
     <nav className="Nav">
       <div className="Nav-children DeckNav-children">

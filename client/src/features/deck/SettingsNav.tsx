@@ -15,7 +15,7 @@ function Actions(props) {
   } = useDeck()
   async function handleSave() {
     const r = await saveDeck()
-    history.push('/decks/' + r.data.data.id)
+    history.push('/decks/' + r.data.deck.id + '/edit')
   }
   return (
     <h2>

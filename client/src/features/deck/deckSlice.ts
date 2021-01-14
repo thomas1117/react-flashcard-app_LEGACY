@@ -18,6 +18,7 @@ const initialState: DeckState = {
   decks: [],
   sectionMap: {},
   cardMap: {},
+  sectionCardMap: {},
   activeSectionIndex: 0,
   activeCardIndex: 0,
   activeSection: {
@@ -204,40 +205,82 @@ export const deckSlice = createSlice({
     setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, deckTitle, sections } = action.payload
       state.deckId = deckId
-      state.sections = sections
-      state.sections = state.sections.map(section => (
-        {
+      const mappedSections = sections.map(section => {
+        const uiId = UUID()
+        return {
           ...section,
-          uiId: UUID(),
-          cards: section.cards.map(card => ({...card, uiId: UUID()}))
+          uiId,
+          cards: section.cards.map(card => ({...card, uiId: UUID(), sectionId: uiId}))
         }
-      ))
-      state.sectionMap = state.sections.reduce((map: any, obj) => {
+      })
+      state.sectionMap = mappedSections.reduce((map: any, obj) => {
         map[obj.uiId] = obj
         return map
       }, {})
-      state.cardMap = state.sections.reduce((map: any, obj) => {
+      state.cardMap = mappedSections.reduce((map: any, obj) => {
         obj.cards.forEach(card => {
           map[card.uiId] = card
         })
         return map
       }, {})
-      state.deckTitle = deckTitle || state.deckId
-      state.activeSection = state.sectionMap[sectionId] || state.sections[0] || {cards: []}
-      state.sectionIds = state.sections.map(x => x.uiId)
-      state.activeCardIds = state.activeSection.cards.map(x => x.uiId)
-      const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.uiId === id)
-      const indexOrZero = (index: number) => index === -1 ? 0 : index
-      const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
-      const sectionIndex = itemIndexOrZero(state.sections, sectionId)
-      const potentialCardList = state.activeSection?.cards
-      const cardIndex = itemIndexOrZero(potentialCardList, cardId)
-      state.activeSectionIndex = sectionIndex
-      state.activeCardIndex = cardIndex
-      const newCard = potentialCardList[cardIndex]
-      // TODO: probably should look into some default ts obj cast on this or something...
-      state.activeCard = { ...newCard, side: 'front' }
-      // make sections easily accessible
+      state.sectionCardMap = mappedSections.reduce((map: any, obj) => {
+        obj.cards.forEach(card => {
+
+        })
+        return map
+      })
+      state.sectionIds = mappedSections.map(x => x.uiId)
+      for (const secId in state.sectionMap) {
+        const currObj = state.sectionMap[secId]
+        if (currObj.id == sectionId) {
+          state.activeSection = currObj
+          for (const card of state.activeSection.cards) {
+            if (card.id == cardId) {
+              state.activeCard = card
+            }
+          }
+        }
+      }
+
+      // state.activeSection = state.sectionMap[sectionId] || state.sections[0] || {cards: []}
+      // state.activeCardIds = state.activeSection.cards.map(x => x.uiId)
+
+
+      // state.deckId = deckId
+      // state.sections = sections
+      // state.sections = state.sections.map(section => (
+      //   {
+      //     ...section,
+      //     uiId: UUID(),
+      //     cards: section.cards.map(card => ({...card, uiId: UUID()}))
+      //   }
+      // ))
+      // state.sectionMap = state.sections.reduce((map: any, obj) => {
+      //   map[obj.uiId] = obj
+      //   return map
+      // }, {})
+      // state.cardMap = state.sections.reduce((map: any, obj) => {
+      //   obj.cards.forEach(card => {
+      //     map[card.uiId] = card
+      //   })
+      //   return map
+      // }, {})
+      // state.deckTitle = deckTitle || state.deckId
+      // state.activeSection = state.sectionMap[sectionId] || state.sections[0] || {cards: []}
+      // state.sectionIds = state.sections.map(x => x.uiId)
+      // state.activeCardIds = state.activeSection.cards.map(x => x.uiId)
+      // const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.uiId === id)
+      // const indexOrZero = (index: number) => index === -1 ? 0 : index
+      // const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
+      // const sectionIndex = itemIndexOrZero(state.sections, sectionId)
+      // const potentialCardList = state.activeSection?.cards
+      // const cardIndex = itemIndexOrZero(potentialCardList, cardId)
+      // state.activeSectionIndex = sectionIndex
+      // state.activeCardIndex = cardIndex
+      // const newCard = potentialCardList[cardIndex]
+      // // TODO: probably should look into some default ts obj cast on this or something...
+      // state.activeCard = { ...newCard, side: 'front' }
+      // // make sections easily accessible
     },
     setTheDecks: (state, action) => {
       state.decks = action.payload
@@ -341,13 +384,14 @@ function deleteCard(card) {
 export const useDeck = () => {
   const dispatch = useDispatch()
   const deckState = useSelector((app: RootState) => app.deck)
+  console.log(deckState)
   const stateToExpose = {
     deckId: deckState.deckId,
     decks: deckState.decks,
     deckState: deckState,
     atDeckEnd: deckState.activeSectionIndex === deckState.sections.length - 1,
     cyclingSection: deckState.cyclingSection,
-    sections: deckState.sections,
+    sections: deckState.sectionIds.map(x => deckState.sectionMap[x]), // deckState.sections,
     activeSection: deckState.activeSection,
     activeSectionIndex: deckState.activeSectionIndex,
     atSectionEnd: deckState.activeCardIndex === deckState.activeSection?.cards?.length - 1,

@@ -21,7 +21,7 @@ export default function ActiveCardSection(props) {
                     }
                 >
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                        {editable && <TitleInput onDelete={() => deleteCard(card)} title={card.meta} onChange={(e) => setCardTitle(e.target.value)} />}
+                        {editable && <TitleInput onFocus={(e) => setCard(card.uiId)} onDelete={() => deleteCard(card)} title={card.meta} onChange={(e) => setCardTitle(e.target.value)} />}
                         {!editable && <span>{card.meta}</span>}
                     {/* <MdFlipToBack /> */}
                     </div>
