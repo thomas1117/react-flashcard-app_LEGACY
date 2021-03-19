@@ -28,6 +28,9 @@ function Deck(props: any) {
     const jsDeck = deckId === 'js'
     if (jsDeck) {
       getDeck({ deckId, sectionId, cardId })
+      .then(r => {
+        console.log(r)
+      })
     } else {
       getDeck({ deckId, sectionId, cardId })
     }

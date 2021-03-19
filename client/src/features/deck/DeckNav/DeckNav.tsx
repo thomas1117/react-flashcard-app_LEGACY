@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDeck } from '../deckSlice'
+import { useSection } from '../sectionSlice'
 import { useSettings } from '../../settings/settingsSlice'
 import SectionAdd from './SectionAdd'
 import DeckTitle from './DeckTitle'
@@ -16,7 +17,7 @@ export default function DeckNav(props: P) {
     activeSectionIndex,
     activeCardIndex,
     activeCard,
-    sections,
+    // sections,
     cyclingSection,
     atSectionEnd,
     atDeckEnd,
@@ -27,6 +28,7 @@ export default function DeckNav(props: P) {
     cycleSection,
     manageSide,
   } = useDeck()
+  const { sections } = useSection()
   const {
     cardTimeFront,
     cardTimeBack,
@@ -97,7 +99,7 @@ export default function DeckNav(props: P) {
             setCard(activeSection.cards[0].id)
             return
           }
-          setCard(activeSection.cards[activeCardIndex + 1].id)
+          setCard(activeCardIds[activeCardIndex + 1])
         }
       }, (activeCard.side === 'front' ? cardTimeFront : cardTimeBack) * 1000)
     } else {
@@ -116,7 +118,6 @@ export default function DeckNav(props: P) {
     cycleSection,
     activeSection.cards
   ])
-  console.log('a', sections)
   return (
     <nav className="Nav">
       <div className="Nav-children DeckNav-children">

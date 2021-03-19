@@ -148,15 +148,13 @@ export const deckSlice = createSlice({
       state.deckTitle = action.payload
       state.diff.deck.title = action.payload
     },
-    setTheSection: (state, action: PayloadAction<string>) => {
+    setSection: (state, action: PayloadAction<string>) => {
       state.activeSection = state.sectionMap[action.payload]
-      state.activeCardIndex = 0
       if (state.activeSection.cards.length) {
         state.activeCard = state.activeSection.cards[0]
-        state.activeCardIds = state.activeSection.cards.map(c => c.id)
+        state.activeCardIds = state.activeSection.cards.map(c => c.uiId)
       }
-      const index = state.sections.findIndex(c => c.id === action.payload)
-      state.activeSectionIndex = index > - 1 ? index : 0
+      state.activeCardIndex = 0
       if (state.cyclingSection) {
         state.cyclingSection = false
       }
@@ -172,12 +170,16 @@ export const deckSlice = createSlice({
         return item
       })
     },
-    setTheCard: (state, action: PayloadAction<string>) => {
-      state.activeCard = state.cardMap[action.payload]
-      const index = state.activeSection.cards.findIndex(c => c.id === action.payload)
+    setCard: (state, action: PayloadAction<string>) => {
+      for (let card of state.activeSection.cards) {
+        if (card.uiId == action.payload) {
+          state.activeCard = card
+        }
+      }
+      const index = state.activeSection.cards.findIndex(c => c.uiId == action.payload)
       state.activeCardIndex = index > - 1 ? index : 0
     },
-    setTheCardTitle: (state, action: PayloadAction<string>) => {
+    setCardTitle: (state, action: PayloadAction<string>) => {
       state.activeSection = {
         ...state.activeSection,
         cards: state.activeSection.cards.map(item => {
@@ -202,7 +204,7 @@ export const deckSlice = createSlice({
       state.cardMap[state.activeCard.uiId] = {...state.activeCard, meta: action.payload}
       state.diff.card[state.activeCard.uiId] = {...state.activeCard, meta: action.payload}
     },
-    setTheDeck: (state, action: PayloadAction<DeckMeta>) => {
+    setDeck: (state, action: PayloadAction<DeckMeta>) => {
       const { cardId, sectionId, deckId, deckTitle, sections } = action.payload
       state.deckId = deckId
       const mappedSections = sections.map(section => {
@@ -234,6 +236,7 @@ export const deckSlice = createSlice({
         const currObj = state.sectionMap[secId]
         if (currObj.id == sectionId) {
           state.activeSection = currObj
+          state.activeCardIds = currObj.cards.map(x => x.uiId)
           for (const card of state.activeSection.cards) {
             if (card.id == cardId) {
               state.activeCard = card
@@ -241,48 +244,9 @@ export const deckSlice = createSlice({
           }
         }
       }
-
-      // state.activeSection = state.sectionMap[sectionId] || state.sections[0] || {cards: []}
-      // state.activeCardIds = state.activeSection.cards.map(x => x.uiId)
-
-
-      // state.deckId = deckId
-      // state.sections = sections
-      // state.sections = state.sections.map(section => (
-      //   {
-      //     ...section,
-      //     uiId: UUID(),
-      //     cards: section.cards.map(card => ({...card, uiId: UUID()}))
-      //   }
-      // ))
-      // state.sectionMap = state.sections.reduce((map: any, obj) => {
-      //   map[obj.uiId] = obj
-      //   return map
-      // }, {})
-      // state.cardMap = state.sections.reduce((map: any, obj) => {
-      //   obj.cards.forEach(card => {
-      //     map[card.uiId] = card
-      //   })
-      //   return map
-      // }, {})
-      // state.deckTitle = deckTitle || state.deckId
-      // state.activeSection = state.sectionMap[sectionId] || state.sections[0] || {cards: []}
-      // state.sectionIds = state.sections.map(x => x.uiId)
-      // state.activeCardIds = state.activeSection.cards.map(x => x.uiId)
-      // const findItemInList = (list: any, id: any) => list?.findIndex((x: any) => x.uiId === id)
-      // const indexOrZero = (index: number) => index === -1 ? 0 : index
-      // const itemIndexOrZero = (list: any, id: any) => indexOrZero(findItemInList(list, id))
-      // const sectionIndex = itemIndexOrZero(state.sections, sectionId)
-      // const potentialCardList = state.activeSection?.cards
-      // const cardIndex = itemIndexOrZero(potentialCardList, cardId)
-      // state.activeSectionIndex = sectionIndex
-      // state.activeCardIndex = cardIndex
-      // const newCard = potentialCardList[cardIndex]
-      // // TODO: probably should look into some default ts obj cast on this or something...
-      // state.activeCard = { ...newCard, side: 'front' }
-      // // make sections easily accessible
+      state.deckTitle = deckTitle || state.deckId
     },
-    setTheDecks: (state, action) => {
+    setDecks: (state, action) => {
       state.decks = action.payload
     },
     manageCardSide: (state) => {
@@ -298,12 +262,12 @@ export const deckSlice = createSlice({
 })
 
 const {
-  setTheSection,
+  setSection,
   setSectionTitle,
-  setTheCard,
-  setTheCardTitle,
-  setTheDeck,
-  setTheDecks,
+  setCard,
+  setCardTitle,
+  setDeck,
+  setDecks,
   manageCardSide,
   setSectionCycle,
   createSection,
@@ -320,11 +284,11 @@ function getTheDeck(params: DeckIds) {
   const { deckId, cardId, sectionId } = params
   return async (dispatch: any) => {
     if (deckId === 'js') {
-      dispatch(setTheDeck({ deckId, cardId, sectionId, sections: SECTIONS, deckTitle: 'js' }))
+      return dispatch(setDeck({ deckId, cardId, sectionId, sections: SECTIONS, deckTitle: 'js' }))
     } else {
       const res = await request.get(`/decks/${deckId}`)
-      dispatch(
-        setTheDeck({ deckId, cardId, sectionId, sections: res.data.sections, deckTitle: res.data.title })
+      return dispatch(
+        setDeck({ deckId, cardId, sectionId, sections: res.data.sections, deckTitle: res.data.title })
       )
     }
   }
@@ -333,14 +297,14 @@ function getTheDeck(params: DeckIds) {
 function getTheDecks() {
   return async (dispatch: any) => {
     const res = await request.get(`/decks`)
-    dispatch(setTheDecks(res.data))
+    dispatch(setDecks(res.data))
   }
 }
 
 function getTheUserDecks(id: string) {
   return async (dispatch: any) => {
     const res = await request.get(`/decks/users/` + id)
-    dispatch(setTheDecks(res.data))
+    dispatch(setDecks(res.data))
   }
 }
 
@@ -384,7 +348,6 @@ function deleteCard(card) {
 export const useDeck = () => {
   const dispatch = useDispatch()
   const deckState = useSelector((app: RootState) => app.deck)
-  console.log(deckState)
   const stateToExpose = {
     deckId: deckState.deckId,
     decks: deckState.decks,
@@ -405,12 +368,12 @@ export const useDeck = () => {
     getDeck: (params: DeckIds) => dispatch(getTheDeck(params)),
     getDecks: () => dispatch(getTheDecks()),
     getUserDecks: (id: string) => dispatch(getTheUserDecks(id)),
-    setSection: (id: string) => dispatch(setTheSection(id)),
-    setCard: (id: string) => dispatch(setTheCard(id)),
-    setCardTitle: (id: string) => dispatch(setTheCardTitle(id)),
+    setSection: (id: string) => dispatch(setSection(id)),
+    setCard: (id: string) => dispatch(setCard(id)),
+    setCardTitle: (id: string) => dispatch(setCardTitle(id)),
     manageSide: () => dispatch(manageCardSide()),
     cycleSection: (bool: boolean) => dispatch(setSectionCycle(bool)),
-    setDeck: (deck) => dispatch(setTheDeck(deck)),
+    setDeck: (deck) => dispatch(setDeck(deck)),
     addSection: (title: string) => dispatch(createSection(title)),
     addCard: (title: string) => dispatch(createCard(title)),
     setActiveCardFront: (code: string) => dispatch(setActiveCardFront(code)),
